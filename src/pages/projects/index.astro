@@ -1,0 +1,44 @@
+---
+import Layout from '@components/Layout.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { profile } from '@data/profile';
+import { projects } from '@data/projects';
+---
+
+<Layout
+  title="Case Studies | Shailesh Dudala"
+  description="Applied AI, healthcare AI, document AI, LLM steering, and agentic-system case studies by Shailesh Dudala."
+  canonicalPath="/projects/"
+>
+  <section class="section intro">
+    <div class="container">
+      <p class="section-kicker">Case studies</p>
+      <h1>Portfolio systems, built as public-safe technical proof.</h1>
+      <p class="section-copy">{profile.privacyNote}</p>
+    </div>
+  </section>
+  <section class="section cards">
+    <div class="container card-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    max-width: 930px;
+    margin: 0 0 18px;
+    font-size: clamp(2.8rem, 6vw, 5.2rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .cards {
+    padding-top: 20px;
+  }
+</style>
+

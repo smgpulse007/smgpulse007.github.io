@@ -1,0 +1,73 @@
+---
+import type { Project } from '@data/projects';
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+---
+
+<article class="project-card panel">
+  <img src={project.image} alt="" loading="lazy" />
+  <div class="project-body">
+    <h3>{project.title}</h3>
+    <p>{project.summary}</p>
+    <div class="stack" aria-label={`${project.title} stack`}>
+      {project.techStack.slice(0, 6).map((item) => <span class="chip">{item}</span>)}
+    </div>
+    <div class="button-row">
+      <a class="button" href={project.caseStudyUrl}>Case Study</a>
+      <a class="button secondary" href={project.githubUrl}>GitHub</a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 100%;
+    border-radius: 8px;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #07111f;
+    border-bottom: 1px solid rgba(159, 180, 209, 0.14);
+  }
+
+  .project-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.18rem;
+    line-height: 1.2;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .button-row {
+    margin-top: 2px;
+  }
+</style>
+

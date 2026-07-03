@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="FreshTrack OCR extraction API">
+  <rect width="640" height="360" rx="24" fill="#07111f"/>
+  <rect x="76" y="72" width="170" height="216" rx="18" fill="#0d1b2e" stroke="#36d7e8" stroke-width="3"/>
+  <path d="M116 124h90M116 162h74M116 200h100M116 238h58" stroke="#9fb4d1" stroke-width="8" stroke-linecap="round"/>
+  <rect x="386" y="82" width="180" height="196" rx="18" fill="#10243c" stroke="#5ee08d" stroke-width="3"/>
+  <g fill="#2dd4bf">
+    <circle cx="420" cy="132" r="10"/>
+    <circle cx="420" cy="178" r="10"/>
+    <circle cx="420" cy="224" r="10"/>
+  </g>
+  <g stroke="#9fb4d1" stroke-width="7" stroke-linecap="round">
+    <path d="M448 132h74M448 178h84M448 224h62"/>
+  </g>
+  <path d="M285 180h76" stroke="#5ee08d" stroke-width="7" stroke-linecap="round"/>
+  <path d="M346 154l28 26-28 26" fill="none" stroke="#5ee08d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+

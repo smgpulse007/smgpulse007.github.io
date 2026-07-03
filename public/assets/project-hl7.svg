@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="HL7 AI challenge event platform">
+  <rect width="640" height="360" rx="24" fill="#07111f"/>
+  <circle cx="320" cy="180" r="70" fill="#0d1b2e" stroke="#2dd4bf" stroke-width="3"/>
+  <g fill="#10243c" stroke="#36d7e8" stroke-width="2">
+    <rect x="54" y="70" width="120" height="66" rx="14"/>
+    <rect x="466" y="70" width="120" height="66" rx="14"/>
+    <rect x="54" y="224" width="120" height="66" rx="14"/>
+    <rect x="466" y="224" width="120" height="66" rx="14"/>
+  </g>
+  <g stroke="#5ee08d" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M174 103l86 48M466 103l-86 48M174 257l86-48M466 257l-86-48"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-size="18" fill="#ffffff" font-weight="700" text-anchor="middle">
+    <text x="114" y="109">HL7 v2</text>
+    <text x="526" y="109">FHIR R4</text>
+    <text x="114" y="263">CDS</text>
+    <text x="526" y="263">HEDIS</text>
+    <text x="320" y="174">Event</text>
+    <text x="320" y="200">Intelligence</text>
+  </g>
+</svg>
+

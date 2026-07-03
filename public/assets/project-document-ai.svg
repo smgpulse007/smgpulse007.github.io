@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Local document AI extraction">
+  <rect width="640" height="360" rx="24" fill="#07111f"/>
+  <rect x="74" y="58" width="170" height="244" rx="18" fill="#0d1b2e" stroke="#36d7e8" stroke-width="3"/>
+  <path d="M112 116h94M112 154h94M112 192h70M112 230h96" stroke="#9fb4d1" stroke-width="8" stroke-linecap="round"/>
+  <rect x="360" y="92" width="200" height="176" rx="18" fill="#10243c" stroke="#2dd4bf" stroke-width="3"/>
+  <path d="M302 180h58" stroke="#5ee08d" stroke-width="7" stroke-linecap="round"/>
+  <path d="M344 154l28 26-28 26" fill="none" stroke="#5ee08d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-family="Inter, Arial, sans-serif" fill="#ffffff" font-weight="700">
+    <text x="398" y="148" font-size="20">Local LLM</text>
+    <text x="398" y="188" font-size="20">RAG chunks</text>
+    <text x="398" y="228" font-size="20">JSON output</text>
+  </g>
+</svg>
+

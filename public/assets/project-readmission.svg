@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Readmission risk API diagram">
+  <rect width="640" height="360" rx="24" fill="#07111f"/>
+  <g fill="#0d1b2e" stroke="#36d7e8" stroke-width="2">
+    <rect x="48" y="70" width="130" height="70" rx="14"/>
+    <rect x="255" y="70" width="130" height="70" rx="14"/>
+    <rect x="462" y="70" width="130" height="70" rx="14"/>
+    <rect x="152" y="220" width="130" height="70" rx="14"/>
+    <rect x="358" y="220" width="130" height="70" rx="14"/>
+  </g>
+  <g stroke="#5ee08d" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M178 105h77M385 105h77M113 140l104 80M527 140l-103 80M282 255h76"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-size="18" fill="#ffffff" font-weight="700">
+    <text x="82" y="112">FHIR</text>
+    <text x="280" y="112">Features</text>
+    <text x="500" y="112">API</text>
+    <text x="184" y="262">Model</text>
+    <text x="388" y="262">Explain</text>
+  </g>
+</svg>
+

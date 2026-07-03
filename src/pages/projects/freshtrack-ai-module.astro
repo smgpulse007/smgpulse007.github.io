@@ -1,0 +1,10 @@
+---
+import CaseStudyLayout from '@components/CaseStudyLayout.astro';
+import { getProject } from '@data/projects';
+
+const project = getProject('freshtrack-ai-module');
+if (!project) throw new Error('Missing project data');
+---
+
+<CaseStudyLayout project={project} />
+

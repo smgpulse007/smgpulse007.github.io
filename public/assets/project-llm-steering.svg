@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="LLM steering lab">
+  <rect width="640" height="360" rx="24" fill="#07111f"/>
+  <g stroke="#1e3656" stroke-width="2">
+    <path d="M100 280C170 80 260 80 320 180s150 100 220-80" fill="none"/>
+    <path d="M100 220c72-80 144-82 216-4s144 76 224-8" fill="none"/>
+  </g>
+  <g fill="#0d1b2e" stroke="#36d7e8" stroke-width="2">
+    <circle cx="150" cy="212" r="22"/>
+    <circle cx="244" cy="154" r="22"/>
+    <circle cx="338" cy="188" r="22"/>
+    <circle cx="432" cy="148" r="22"/>
+    <circle cx="520" cy="112" r="22"/>
+  </g>
+  <path d="M250 250h140" stroke="#5ee08d" stroke-width="8" stroke-linecap="round"/>
+  <path d="M372 228l42 26-42 26" fill="none" stroke="#5ee08d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="82" y="72" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">Activation steering</text>
+  <text x="82" y="310" fill="#9fb4d1" font-family="Inter, Arial, sans-serif" font-size="18">Local experiments, vectors, hooks, and evaluation.</text>
+</svg>
+

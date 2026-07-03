@@ -1,0 +1,67 @@
+---
+import { profile } from '@data/profile';
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>{profile.name}</strong>
+      <p>{profile.privacyNote}</p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <a href="/">Home</a>
+      <a href="/projects/">Case Studies</a>
+      <a href={profile.github}>GitHub</a>
+      <a href={profile.linkedin}>LinkedIn</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid rgba(159, 180, 209, 0.14);
+    padding: 36px 0;
+    background: rgba(7, 17, 31, 0.8);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: start;
+  }
+
+  p {
+    max-width: 760px;
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: flex-end;
+  }
+
+  nav a {
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  nav a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 720px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    nav {
+      justify-content: flex-start;
+    }
+  }
+</style>
+

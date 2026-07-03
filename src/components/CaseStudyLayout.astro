@@ -1,0 +1,165 @@
+---
+import Layout from './Layout.astro';
+import type { Project } from '@data/projects';
+import { profile } from '@data/profile';
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+const title = `${project.title} | Shailesh Dudala`;
+const description = `${project.summary} Case study by Shailesh Dudala.`;
+---
+
+<Layout title={title} description={description} canonicalPath={project.caseStudyUrl} image={project.image}>
+  <section class="case-hero">
+    <div class="container case-grid">
+      <div>
+        <p class="section-kicker">Case study</p>
+        <h1>{project.title}</h1>
+        <p class="section-copy">{project.summary}</p>
+        <div class="button-row">
+          <a class="button" href={project.githubUrl}>GitHub Repository</a>
+          <a class="button secondary" href="/projects/">All Case Studies</a>
+        </div>
+      </div>
+      <img class="case-image panel" src={project.image} alt="" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container case-content">
+      <article class="panel text-panel">
+        <h2>Problem</h2>
+        <p>{project.problem}</p>
+      </article>
+      <article class="panel text-panel">
+        <h2>System Overview</h2>
+        <p>{project.systemOverview}</p>
+      </article>
+      <article class="panel text-panel">
+        <h2>Architecture</h2>
+        <p>{project.architecture}</p>
+      </article>
+      <article class="panel text-panel">
+        <h2>What I Built</h2>
+        <ul>
+          {project.whatIBuilt.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="panel text-panel">
+        <h2>Tech Stack</h2>
+        <div class="chip-list">
+          {project.techStack.map((item) => <span class="chip">{item}</span>)}
+        </div>
+      </article>
+      <article class="panel text-panel">
+        <h2>Validation / Evaluation / Reliability</h2>
+        <ul>
+          {project.validation.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="panel text-panel">
+        <h2>What This Demonstrates</h2>
+        <ul>
+          {project.demonstrates.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="panel text-panel">
+        <h2>Privacy / Safety Note</h2>
+        <p>{project.safetyNote}</p>
+        <p class="muted">{profile.privacyNote}</p>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .case-hero {
+    padding: 68px 0 38px;
+  }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
+    gap: 28px;
+    align-items: center;
+  }
+
+  h1 {
+    max-width: 820px;
+    margin: 0 0 18px;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .button-row {
+    margin-top: 26px;
+  }
+
+  .case-image {
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .case-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .text-panel {
+    border-radius: 8px;
+    padding: 24px;
+  }
+
+  .text-panel h2 {
+    margin: 0 0 12px;
+    color: var(--cyan);
+    font-size: 1.15rem;
+  }
+
+  .text-panel p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .text-panel p + p {
+    margin-top: 12px;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--muted);
+  }
+
+  li + li {
+    margin-top: 8px;
+  }
+
+  .chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .muted {
+    color: #7f96b4;
+  }
+
+  @media (max-width: 850px) {
+    .case-grid,
+    .case-content {
+      grid-template-columns: 1fr;
+    }
+
+    .case-image {
+      order: -1;
+    }
+  }
+</style>
+

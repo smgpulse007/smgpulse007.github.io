@@ -5,9 +5,10 @@ import type { Project } from '@data/projects';
 type Props = {
   project: Project;
   thesis?: string;
+  coreProof?: string;
 };
 
-const { project, thesis } = Astro.props;
+const { project, thesis, coreProof } = Astro.props;
 ---
 
 <section class="case-hero">
@@ -20,12 +21,13 @@ const { project, thesis } = Astro.props;
         <span>{project.domain}</span>
         <RepoMaturityBadge maturity={project.maturity} note={project.statusNote} />
       </div>
+      {coreProof && <p class="core-proof">Core proof artifact: {coreProof}</p>}
       <div class="button-row">
         <a class="button" href={project.githubUrl}>GitHub Repository</a>
         <a class="button secondary" href="/projects/">All Case Studies</a>
       </div>
     </div>
-    <div class="case-image glass-card">
+    <div class="case-image">
       <img src={project.image} alt="" />
     </div>
   </div>
@@ -75,8 +77,23 @@ const { project, thesis } = Astro.props;
     margin-top: 28px;
   }
 
+  .core-proof {
+    max-width: 760px;
+    margin: 18px 0 0;
+    border-left: 3px solid var(--amber);
+    padding-left: 12px;
+    color: #eef6ff;
+    font-size: 0.95rem;
+    font-weight: 850;
+  }
+
   .case-image {
+    border: 1px solid rgba(191, 203, 220, 0.14);
+    border-radius: 8px;
     padding: 12px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+      rgba(7, 13, 23, 0.92);
   }
 
   img {

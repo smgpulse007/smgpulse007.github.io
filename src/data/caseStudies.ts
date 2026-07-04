@@ -17,7 +17,7 @@ export type CaseStudyDetail = {
   proofStrip: Array<{ label: string; value: string }>;
   walkthrough: Array<{ title: string; body: string }>;
   decisions: Array<{ title: string; body: string }>;
-  interviewProof: string[];
+  validationNotes: string[];
   artifacts: Artifact[];
 };
 
@@ -49,16 +49,16 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'API-first presentation', body: 'FastAPI endpoints make the model usable by downstream services and easy to verify with examples.' },
       { title: 'Transparent model stand-in', body: 'A deterministic scorer keeps the portfolio demo portable while preserving the feature contract a governed model would consume.' },
     ],
-    interviewProof: [
-      'Can discuss standards-aware healthcare ML packaging beyond notebooks.',
-      'Can explain feature contracts and model-card boundaries for regulated domains.',
-      'Can separate public demo proof from real clinical validation requirements.',
+    validationNotes: [
+      'Synthetic-only data keeps the FHIR contract visible without exposing PHI or employer workflows.',
+      'The feature contract, response shape, tests, and model-card notes make the demo inspectable.',
+      'Real clinical deployment would require validation, monitoring, governance, and workflow review beyond this public artifact.',
     ],
     artifacts: [
       {
         title: 'Sample high-risk API response',
         type: 'json',
-        src: '/assets/case-studies/readmission/sample-response.json',
+        src: '/assets/case-studies/readmission/api-responses/sample-response.json',
         code: `{
   "model_version": "readmission-risk-demo-v0.1.0",
   "readmission_risk_probability": 0.98,
@@ -104,15 +104,15 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Standards before models', body: 'HL7/FHIR/SMART/CDS choices keep the AI layer anchored to existing healthcare interoperability patterns.' },
       { title: 'Challenge-safe framing', body: 'The portfolio shows architecture and synthetic/sample behavior without publishing sensitive implementation details.' },
     ],
-    interviewProof: [
-      'Can reason about healthcare interoperability beyond a single API endpoint.',
-      'Can explain how standards, event queues, risk scoring, and provider workflow fit together.',
-      'Can translate challenge artifacts into public-safe technical evidence.',
+    validationNotes: [
+      'Architecture diagrams and Docker service boundaries make the platform shape reviewable.',
+      'HL7, FHIR, SMART, and CDS are treated as workflow constraints before any AI layer is promoted.',
+      'Challenge and sample-data boundaries stay explicit; this is not represented as a production clinical platform.',
     ],
     artifacts: [
-      { title: 'High-level architecture', type: 'image', src: '/assets/case-studies/hl7/architecture-high-level.png', alt: 'HL7 AI Challenge high-level architecture diagram' },
-      { title: 'Service-level architecture', type: 'image', src: '/assets/case-studies/hl7/architecture-low-level.png', alt: 'HL7 AI Challenge low-level architecture diagram' },
-      { title: 'Data-flow swimlane', type: 'image', src: '/assets/case-studies/hl7/data-flow-swimlane.png', alt: 'HL7 AI Challenge data-flow swimlane diagram' },
+      { title: 'High-level architecture', type: 'image', src: '/assets/case-studies/hl7/diagrams/architecture-high-level.png', alt: 'HL7 AI Challenge high-level architecture diagram' },
+      { title: 'Service-level architecture', type: 'image', src: '/assets/case-studies/hl7/diagrams/architecture-low-level.png', alt: 'HL7 AI Challenge low-level architecture diagram' },
+      { title: 'Data-flow swimlane', type: 'image', src: '/assets/case-studies/hl7/diagrams/data-flow-swimlane.png', alt: 'HL7 AI Challenge data-flow swimlane diagram' },
     ],
   },
   'llm-steering': {
@@ -142,16 +142,16 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Explain limitations visibly', body: 'Unsupported models and unvalidated routes are shown rather than hidden behind optimistic controls.' },
       { title: 'Research-to-product bridge', body: 'The project makes the math, hook sites, prompts, and outputs visible in one loop.' },
     ],
-    interviewProof: [
-      'Can explain why prompting is not the only control surface for LLM behavior.',
-      'Can discuss hidden-state access, vector extraction, and hook-stage tradeoffs.',
-      'Can productize research workflows without overclaiming model-safety guarantees.',
+    validationNotes: [
+      'Workbench artifacts expose prompt pairs, vector extraction, hook choices, and baseline comparisons.',
+      'Unsupported routes and model-specific fragility are visible rather than hidden behind optimistic controls.',
+      'The lab demonstrates research tooling and does not claim a production model-safety guarantee.',
     ],
     artifacts: [
-      { title: 'Workbench UI overview', type: 'gif', src: '/assets/case-studies/llm-steering/workbench-ui-overview.gif', alt: 'Animated LLM steering workbench UI overview' },
-      { title: 'Activation steering workflow', type: 'svg', src: '/assets/case-studies/llm-steering/activation-steering-flow.svg', alt: 'Activation steering workflow diagram' },
-      { title: 'Pre/post hook locations', type: 'svg', src: '/assets/case-studies/llm-steering/pre-post-hooking.svg', alt: 'Pre and post activation hook diagram' },
-      { title: 'Pre-vs-post comparison demo', type: 'gif', src: '/assets/case-studies/llm-steering/pre-vs-post-demo.gif', alt: 'Pre vs post activation steering comparison demo' },
+      { title: 'Workbench UI overview', type: 'gif', src: '/assets/case-studies/llm-steering/screenshots/workbench-ui-overview.gif', alt: 'Animated LLM steering workbench UI overview' },
+      { title: 'Activation steering workflow', type: 'svg', src: '/assets/case-studies/llm-steering/diagrams/activation-steering-flow.svg', alt: 'Activation steering workflow diagram' },
+      { title: 'Pre/post hook locations', type: 'svg', src: '/assets/case-studies/llm-steering/diagrams/pre-post-hooking.svg', alt: 'Pre and post activation hook diagram' },
+      { title: 'Pre-vs-post comparison demo', type: 'gif', src: '/assets/case-studies/llm-steering/screenshots/pre-vs-post-demo.gif', alt: 'Pre vs post activation steering comparison demo' },
     ],
   },
   'agentic-alpha-engine': {
@@ -181,22 +181,22 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Separate memory responsibilities', body: 'Postgres, Redis, Qdrant, MinIO, and OpenSearch make state and retrieval responsibilities explicit.' },
       { title: 'Keep it local-first', body: 'Docker and Ollama keep the stack inspectable and reproducible on a developer machine.' },
     ],
-    interviewProof: [
-      'Can design agentic systems with state, tools, storage, and verification.',
-      'Can discuss why retrieval/storage layers are not interchangeable.',
-      'Can frame quant/finance systems responsibly while showing serious engineering depth.',
+    validationNotes: [
+      'Planner, tools, memory, verification, and reports are separated so failure points can be inspected.',
+      'Storage layers have distinct responsibilities instead of being presented as interchangeable infrastructure.',
+      'Finance-like examples are framed as architecture evidence, not trading automation or investment advice.',
     ],
     artifacts: [
-      { title: 'AlphaQuant UI demo', type: 'gif', src: '/assets/case-studies/alphaquant/ui-demo.gif', alt: 'AlphaQuant UI demo GIF' },
-      { title: 'Terminal setup demo', type: 'gif', src: '/assets/case-studies/alphaquant/terminal-demo.gif', alt: 'AlphaQuant terminal setup demo GIF' },
-      { title: 'Workbench screenshot', type: 'image', src: '/assets/case-studies/alphaquant/ui-screenshot.png', alt: 'AlphaQuant UI screenshot' },
+      { title: 'AlphaQuant UI demo', type: 'gif', src: '/assets/case-studies/alphaquant/screenshots/ui-demo.gif', alt: 'AlphaQuant UI demo GIF' },
+      { title: 'Terminal setup demo', type: 'gif', src: '/assets/case-studies/alphaquant/screenshots/terminal-demo.gif', alt: 'AlphaQuant terminal setup demo GIF' },
+      { title: 'Workbench screenshot', type: 'image', src: '/assets/case-studies/alphaquant/screenshots/ui-screenshot.png', alt: 'AlphaQuant UI screenshot' },
     ],
   },
   'nfl-sports-forecasting': {
     slug: 'nfl-sports-forecasting',
     thesis: 'Historical sports forecasting lab that emphasizes baselines, calibration, ensembles, and backtesting discipline.',
     systemType: 'Forecasting and backtesting pipeline',
-    primaryUsers: 'Data scientists, forecasting reviewers, model-risk interviewers',
+    primaryUsers: 'Data scientists, forecasting reviewers, model-risk reviewers',
     artifactMaturity: 'Archived historical experiment',
     atAGlance: [
       { label: 'Dataset', value: '6,991 games, 1999-2024 cited in README' },
@@ -219,10 +219,10 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Keep the original domain honest', body: 'The site uses sports forecasting externally and preserves responsible-use language.' },
       { title: 'Show the table', body: 'The model comparison table is more credible than another generic AI card.' },
     ],
-    interviewProof: [
-      'Can discuss baselines, calibration, Brier score, and backtesting.',
-      'Can handle sensitive domains without promotional framing.',
-      'Can compare statistical and ML models with evidence rather than hype.',
+    validationNotes: [
+      'The project foregrounds baselines, calibration, Brier score, and historical backtesting rather than only accuracy.',
+      'Archive status and non-betting boundaries are explicit.',
+      'Reported tables are historical analytics evidence, not forward-looking wagering claims.',
     ],
     artifacts: [
       {
@@ -233,7 +233,7 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       {
         title: 'Backtesting evidence',
         type: 'json',
-        src: '/assets/case-studies/nfl/backtest-2024.json',
+        src: '/assets/case-studies/nfl/tables/backtest-2024.json',
         code: `{
   "season": 2024,
   "training_data": "1999-2023",
@@ -274,13 +274,13 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Local/service variants', body: 'Docker variants and optional LLM paths keep the system adaptable to different runtime constraints.' },
       { title: 'Transferable pattern', body: 'The same OCR-to-JSON discipline transfers to regulated document extraction workflows.' },
     ],
-    interviewProof: [
-      'Can reason about OCR failure modes and structured extraction.',
-      'Can design API contracts for noisy document intelligence.',
-      'Can combine deterministic parsing and optional LLM assistance responsibly.',
+    validationNotes: [
+      'Confidence fields and cleanup logic make noisy OCR output reviewable.',
+      'Optional LLM assistance is treated as parsing support, not automatic truth.',
+      'Sensitive receipts, payment data, and API keys are out of scope for public artifacts.',
     ],
     artifacts: [
-      { title: 'Sample receipt artifact', type: 'image', src: '/assets/case-studies/freshtrack/sample-receipt.jpg', alt: 'Sample receipt image used for OCR tests' },
+      { title: 'Sample receipt artifact', type: 'image', src: '/assets/case-studies/freshtrack/screenshots/sample-receipt.jpg', alt: 'Sample receipt image used for OCR tests' },
       {
         title: 'LLM-enhanced output shape',
         type: 'json',
@@ -322,10 +322,10 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Workflow controls over magic', body: 'The value is the parse/chunk/prompt/review loop, not a claim that the model is always correct.' },
       { title: 'Portable prototype', body: 'Streamlit and Ollama keep the workflow easy to run locally.' },
     ],
-    interviewProof: [
-      'Can design local/private document AI workflows.',
-      'Can explain chunking and prompt assembly tradeoffs.',
-      'Can keep human review in regulated extraction systems.',
+    validationNotes: [
+      'The local path keeps PDF parsing, chunking, prompt assembly, and model calls close to the analyst workflow.',
+      'Human review stays part of the output boundary.',
+      'Private documents should never be committed or routed through uncontrolled services.',
     ],
     artifacts: [
       { title: 'Local inference boundary', type: 'panel', body: 'PDFs stay in the local workflow: parse -> chunk -> prompt -> Ollama -> review UI. This is the architectural point of the repo.' },
@@ -358,10 +358,10 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Template discipline', body: 'Jinja prompt templates keep the prompt layer explicit.' },
       { title: 'Secondary placement', body: 'The project is useful as RAG breadth, not as the strongest flagship system.' },
     ],
-    interviewProof: [
-      'Can discuss RAG workflow decomposition.',
-      'Can explain prompt templating and retrieval boundaries.',
-      'Can position cloud and local document AI patterns side by side.',
+    validationNotes: [
+      'Public-content retrieval, Jinja templates, Prompt Flow nodes, and answer review are separated.',
+      'The demo is useful as cloud RAG workflow evidence, not as a private knowledge-base deployment.',
+      'Source grounding and review remain required before relying on generated answers.',
     ],
     artifacts: [
       { title: 'Prompt-flow graph', type: 'panel', body: 'Public content -> retriever -> Prompt Flow -> Jinja template -> LLM call -> grounded answer artifact -> review.' },

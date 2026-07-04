@@ -22,7 +22,7 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
 ---
 
 <Layout title={title} description={description} canonicalPath={project.caseStudyUrl ?? '/projects/'} image={project.image}>
-  <CaseStudyHero project={project} thesis={detail?.thesis} />
+  <CaseStudyHero project={project} thesis={detail?.thesis} coreProof={detail?.proofStrip?.[0]?.value} />
 
   {detail ? (
     <>
@@ -39,15 +39,15 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
       </section>
 
       <section class="section compact">
-        <div class="container two-column-grid">
-          <article class="text-block proof-panel glass-card">
-            <p class="section-kicker">Problem / Stakes</p>
+        <div class="container narrative-grid">
+          <article class="narrative-panel">
+            <p class="section-kicker">System problem</p>
             <h2>Why this system exists.</h2>
             <p>{project.problem}</p>
           </article>
-          <article class="text-block proof-panel glass-card">
-            <p class="section-kicker">What I Built</p>
-            <h2>Public-safe implementation surface.</h2>
+          <article class="narrative-panel">
+            <p class="section-kicker">Implementation surface</p>
+            <h2>What was built.</h2>
             <ul>
               {project.whatIBuilt.map((item) => <li>{item}</li>)}
             </ul>
@@ -60,7 +60,7 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
           <div class="container">
             <SectionHeader
               kicker="Architecture"
-              title="A system map shaped for this project."
+              title="A custom system map for the project."
               copy={project.architectureSummary}
             />
             <ArchitectureDiagram variant={project.architectureVariant} />
@@ -71,12 +71,12 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
       <section class="section compact">
         <div class="container">
           <SectionHeader
-            kicker="System walkthrough"
-            title="How the system moves from input to reviewable output."
+            kicker="How it works"
+            title="Input, transformation, model or agent logic, and reviewable output."
           />
           <div class="walkthrough-grid">
             {detail.walkthrough.map((step, index) => (
-              <article class="walk-card glass-card">
+              <article class="walk-card">
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <h3>{step.title}</h3>
                 <p>{step.body}</p>
@@ -87,30 +87,11 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
       </section>
 
       <section class="section compact">
-        <div class="container two-column-grid">
-          <article class="text-block proof-panel glass-card">
-            <p class="section-kicker">Model / Agent / Extraction Design</p>
-            <h2>The technical core.</h2>
-            <ul>
-              {project.modelDesign.map((item) => <li>{item}</li>)}
-            </ul>
-          </article>
-          <article class="text-block proof-panel glass-card">
-            <p class="section-kicker">Validation / Reliability / MLOps</p>
-            <h2>How the system is made reviewable.</h2>
-            <ul>
-              {[...project.validation, ...project.deployment].map((item) => <li>{item}</li>)}
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="section compact">
         <div class="container">
           <SectionHeader
-            kicker="Evidence gallery"
-            title="Artifacts from the source repo, not generic portfolio filler."
-            copy="Screenshots, GIFs, diagrams, JSON responses, model tables, and proof panels make the implementation concrete."
+            kicker="Evidence"
+            title="Screenshots, responses, diagrams, tests, and model tables from the source repos."
+            copy="Artifacts are included only where the public repo has enough context to show them safely."
           />
           <ArtifactGallery artifacts={detail.artifacts} />
         </div>
@@ -123,19 +104,34 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
       </section>
 
       <section class="section compact">
-        <div class="container">
-          <DecisionGrid title="What This Proves in an Interview" items={detail.interviewProof} />
+        <div class="container narrative-grid">
+          <article class="narrative-panel">
+            <p class="section-kicker">Validation / reliability</p>
+            <h2>How the system is made reviewable.</h2>
+            <ul>
+              {[...project.validation, ...project.deployment].map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+          <article class="narrative-panel">
+            <p class="section-kicker">Limits / responsible use</p>
+            <h2>{project.safetyNote}</h2>
+            <ul>
+              {detail.validationNotes.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
         </div>
       </section>
 
       <section class="section compact">
-        <div class="container responsible glass-card">
-          <p class="section-kicker">Responsible-use boundary</p>
-          <h2>{project.safetyNote}</h2>
-          <p>{profile.privacyNote}</p>
+        <div class="container repo-cta">
+          <div>
+            <p class="section-kicker">Repository</p>
+            <h2>Open the source repo and inspect the implementation boundary.</h2>
+            <p>{profile.privacyNote}</p>
+          </div>
           <div class="button-row">
             <a class="button" href={project.githubUrl}>Open GitHub Repo</a>
-            <a class="button secondary" href="/systems/">Explore All Systems</a>
+            <a class="button secondary" href="/projects/">All Case Studies</a>
           </div>
         </div>
       </section>
@@ -143,7 +139,7 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
   ) : (
     <section class="section compact">
       <div class="container">
-        <article class="text-block glass-card fallback">
+        <article class="narrative-panel fallback">
           <h2>System Overview</h2>
           <p>{project.systemOverview}</p>
         </article>
@@ -153,6 +149,52 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
 </Layout>
 
 <style>
+  .narrative-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .narrative-panel,
+  .walk-card,
+  .repo-cta {
+    border: 1px solid rgba(191, 203, 220, 0.14);
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+      rgba(7, 13, 23, 0.92);
+  }
+
+  .narrative-panel {
+    padding: 24px;
+  }
+
+  .narrative-panel h2,
+  .repo-cta h2 {
+    margin: 0 0 12px;
+    color: var(--text-strong);
+    font-size: clamp(1.35rem, 2.1vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .narrative-panel p,
+  .walk-card p,
+  .repo-cta p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .narrative-panel ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--muted);
+  }
+
+  .narrative-panel li + li {
+    margin-top: 8px;
+  }
+
   .walkthrough-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -179,34 +221,12 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
     letter-spacing: 0;
   }
 
-  .walk-card p,
-  .responsible p {
-    margin: 0;
-    color: var(--muted);
-  }
-
-  .responsible {
+  .repo-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
     padding: 26px;
-  }
-
-  .proof-panel {
-    padding: 24px;
-  }
-
-  .proof-panel h2 {
-    font-size: clamp(1.35rem, 2.1vw, 2rem);
-  }
-
-  .responsible h2 {
-    margin: 0 0 12px;
-    color: var(--text-strong);
-    font-size: clamp(1.35rem, 2vw, 2rem);
-    line-height: 1.15;
-    letter-spacing: 0;
-  }
-
-  .responsible .button-row {
-    margin-top: 22px;
   }
 
   .fallback {
@@ -219,7 +239,12 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
     }
   }
 
-  @media (max-width: 680px) {
+  @media (max-width: 820px) {
+    .narrative-grid,
+    .repo-cta {
+      grid-template-columns: 1fr;
+    }
+
     .walkthrough-grid {
       grid-template-columns: 1fr;
     }

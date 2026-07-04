@@ -1,159 +1,101 @@
 ---
 import Layout from '@components/Layout.astro';
 import Hero from '@components/Hero.astro';
-import EvidenceStrip from '@components/home/EvidenceStrip.astro';
-import FeaturedSystemsShowcase from '@components/home/FeaturedSystemsShowcase.astro';
-import QuantSpotlight from '@components/home/QuantSpotlight.astro';
-import DomainNavigator from '@components/home/DomainNavigator.astro';
-import SkillCluster from '@components/SkillCluster.astro';
 import SectionHeader from '@components/SectionHeader.astro';
-import ProjectFilterTabs from '@components/ProjectFilterTabs.astro';
-import ArchitectureDiagram from '@components/ArchitectureDiagram.astro';
-import MetricTicker from '@components/visual/MetricTicker';
-import { profile, impactMetrics } from '@data/profile';
-import { projects } from '@data/projects';
-import { recognition } from '@data/recognition';
-import { skillClusters } from '@data/skills';
+import CredentialImpactStrip from '@components/home/CredentialImpactStrip.astro';
+import InteractiveDomainExplorer from '@components/home/InteractiveDomainExplorer';
+import FeaturedSystemsShowroom from '@components/home/FeaturedSystemsShowroom';
+import { profile } from '@data/profile';
 ---
 
 <Layout title={profile.seoTitle} description={profile.seoDescription} canonicalPath="/">
   <Hero />
 
-  <section class="section compact">
-    <div class="container">
-      <SectionHeader kicker="Selected outcomes" title="Production AI delivery, translated into public-safe evidence." copy={profile.impactNote} />
-      <MetricTicker metrics={impactMetrics} />
-    </div>
-  </section>
+  <CredentialImpactStrip />
 
-  <section class="section">
+  <section class="section domain-section">
     <div class="container">
       <SectionHeader
-        kicker="Domain navigator"
-        title="Healthcare and insurance AI lead the story; agentic systems, document AI, forecasting, and MLOps show the operating range."
-        copy="Each domain is tied to case-study evidence, public-safe artifacts, architecture maps, and responsible-use boundaries."
+        kicker="Domain modules"
+        title="One control surface for regulated AI systems, not a wall of project cards."
+        copy="The portfolio is organized around system domains: healthcare standards, claims/document workflows, agentic orchestration, forecasting, and MLOps proof."
       />
-      <DomainNavigator />
+      <InteractiveDomainExplorer client:load />
     </div>
   </section>
 
-  <section class="section featured">
+  <section class="section showroom-section">
     <div class="container">
       <SectionHeader
         kicker="Featured systems showroom"
-        title="Ranked systems, real artifacts, and interview-ready proof."
-        copy="Healthcare remains the professional anchor. Agentic AI, document intelligence, quant research, forecasting, and MLOps show the range without flattening every project into the same card."
+        title="Lead system, supporting systems, and proof artifacts by domain."
+        copy="Each tab keeps the scan path tight: one primary case study, two adjacent systems, and three artifacts that make the implementation concrete."
       />
-      <FeaturedSystemsShowcase />
+      <FeaturedSystemsShowroom client:load />
     </div>
   </section>
 
-  <EvidenceStrip />
-
-  <section class="section compact">
-    <div class="container">
-      <SectionHeader
-        kicker="Quant & forecasting"
-        title="Forecasting systems are shown as model-risk and evidence systems."
-        copy="AlphaQuant demonstrates agentic research infrastructure. The NFL lab demonstrates baseline discipline, calibration, ensembles, and historical backtesting."
-      />
-      <QuantSpotlight />
-    </div>
-  </section>
-
-  <section class="section compact">
-    <div class="container">
-      <SectionHeader
-        kicker="Architecture wall"
-        title="Different systems get different maps."
-        copy="Healthcare APIs, model-internals tooling, and agentic research stacks need different visual explanations. The case studies use custom diagrams instead of one generic horizontal flowchart."
-      />
-      <div class="architecture-wall">
-        <ArchitectureDiagram variant="readmission" />
-        <ArchitectureDiagram variant="llm-steering" />
-        <ArchitectureDiagram variant="alphaquant" />
+  <section class="section compact final-cta">
+    <div class="container cta-grid">
+      <div>
+        <p class="section-kicker">Archive routes</p>
+        <h2>Long libraries live below the fold of the site, not below the fold of the homepage.</h2>
       </div>
-    </div>
-  </section>
-
-  <section class="section compact">
-    <div class="container">
-      <SectionHeader kicker="Research archive" title="Filtered view across the full public project library." copy="Foundation projects are curated as healthcare analytics, RAG, forecasting, visualization, GPU planning, and scientific ML evidence without confusing them with flagship systems." />
-      <ProjectFilterTabs projects={projects} compact />
-    </div>
-  </section>
-
-  <section class="section compact">
-    <div class="container">
-      <SectionHeader kicker="Capability map" title="Applied AI stack across healthcare workflows, LLM systems, forecasting, and infrastructure." />
-      <div class="skill-grid">
-        {skillClusters.map((cluster) => <SkillCluster title={cluster.title} skills={cluster.skills} />)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section compact">
-    <div class="container">
-      <SectionHeader kicker="Recognition" title="Healthcare AI challenge recognition and public proof points." />
-      <div class="recognition-grid">
-        {recognition.map((item) => (
-          <article class="recognition-card glass-card">
-            <h3>{item.title}</h3>
-            <p>{item.detail}</p>
-          </article>
-        ))}
+      <div class="cta-actions">
+        <a class="button" href="/projects/">Open Case Studies</a>
+        <a class="button secondary" href="/systems/">Systems Index</a>
+        <a class="button secondary" href="/research-archive/">Research Archive</a>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .pillar-grid,
-  .skill-grid,
-  .recognition-grid {
+  .domain-section {
+    padding-top: 76px;
+  }
+
+  .showroom-section {
+    padding-top: 34px;
+  }
+
+  .final-cta {
+    border-top: 1px solid rgba(191, 203, 220, 0.12);
+    background:
+      linear-gradient(90deg, rgba(88, 220, 230, 0.055), transparent 42%, rgba(240, 160, 189, 0.045)),
+      rgba(5, 9, 15, 0.82);
+  }
+
+  .cta-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
   }
 
-  .project-grid,
-  .skill-grid,
-  .recognition-grid {
-    margin-top: 30px;
-  }
-
-  .recognition-card {
-    padding: 24px;
-  }
-
-  .recognition-card h3 {
-    margin: 0 0 10px;
+  .cta-grid h2 {
+    max-width: 900px;
+    margin: 0;
     color: var(--text-strong);
-    font-size: 1.1rem;
+    font-size: clamp(1.7rem, 3.3vw, 3.2rem);
+    line-height: 1.05;
     letter-spacing: 0;
   }
 
-  .recognition-card p {
-    margin: 0;
-    color: var(--muted);
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
   }
 
-  @media (max-width: 1080px) {
-    .skill-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 780px) {
-    .pillar-grid,
-    .skill-grid,
-    .recognition-grid {
+  @media (max-width: 860px) {
+    .cta-grid {
       grid-template-columns: 1fr;
     }
-  }
 
-  .architecture-wall {
-    display: grid;
-    gap: 18px;
+    .cta-actions {
+      justify-content: flex-start;
+    }
   }
 </style>

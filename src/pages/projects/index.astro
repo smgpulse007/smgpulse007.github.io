@@ -1,31 +1,75 @@
 ---
 import Layout from '@components/Layout.astro';
-import ProjectCard from '@components/ProjectCard.astro';
 import SectionHeader from '@components/SectionHeader.astro';
+import RepoMaturityBadge from '@components/RepoMaturityBadge.astro';
 import { profile } from '@data/profile';
-import { caseStudyProjects } from '@data/projects';
+import { caseStudyGroups } from '@data/caseStudyGroups';
+import { getProject, type Project } from '@data/projects';
+
+function projectFor(slug: string): Project | undefined {
+  return getProject(slug);
+}
 ---
 
 <Layout
   title={`Case Studies | ${profile.name}`}
-  description="Substantive applied AI, healthcare AI, document AI, LLM steering, quant research, and sports forecasting case studies by Shailesh Dudala."
+  description="Domain-grouped applied AI, healthcare AI, document AI, LLM steering, quant research, and forecasting case studies by Shailesh Dudala."
   canonicalPath="/projects/"
 >
   <section class="section intro">
     <div class="container">
       <p class="section-kicker">Case studies</p>
-      <h1>Public-safe engineering case studies with rendered architecture, workflow controls, validation, and responsible-use notes.</h1>
-      <p class="section-copy">The broader project library lives under Systems; this page focuses on projects with enough public detail to discuss architecture and tradeoffs.</p>
+      <h1>Applied AI systems grouped by domain, maturity, and proof artifacts.</h1>
+      <p class="section-copy">The index prioritizes lead systems and supporting evidence. Archive projects stay visible without competing with flagship case studies.</p>
     </div>
   </section>
-  <section class="section cards">
-    <div class="container card-grid">
-      {caseStudyProjects.map((project) => <ProjectCard project={project} />)}
+
+  <section class="section groups">
+    <div class="container case-groups">
+      {caseStudyGroups.map((group) => {
+        const lead = projectFor(group.leadSlug);
+        const supporting = group.supportingSlugs.map(projectFor).filter(Boolean) as Project[];
+        if (!lead) return null;
+        return (
+          <section class="case-group" aria-labelledby={`group-${group.leadSlug}`}>
+            <div class="group-copy">
+              <p class="section-kicker">{group.title}</p>
+              <h2 id={`group-${group.leadSlug}`}>{group.thesis}</h2>
+              <div class="proof-list" aria-label={`${group.title} proof artifacts`}>
+                {group.proofArtifacts.map((artifact) => <span>{artifact}</span>)}
+              </div>
+            </div>
+
+            <article class="lead-case">
+              <div>
+                <span>Lead case study</span>
+                <h3>{lead.title}</h3>
+                <p>{lead.summary}</p>
+                <RepoMaturityBadge maturity={lead.maturity} note={lead.statusNote} />
+              </div>
+              <a class="case-link" href={lead.caseStudyUrl ?? lead.githubUrl}>
+                {lead.caseStudyUrl ? 'Open case study' : 'Open evidence'}
+              </a>
+            </article>
+
+            <div class="supporting-list" aria-label={`${group.title} supporting systems`}>
+              {supporting.map((project) => (
+                <a href={project.caseStudyUrl ?? project.githubUrl}>
+                  <span>{project.domain}</span>
+                  <strong>{project.shortTitle}</strong>
+                  <p>{project.statusNote}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        );
+      })}
     </div>
   </section>
+
   <section class="section compact">
     <div class="container">
-      <SectionHeader kicker="Safety" title="Public-safe by design." copy={profile.privacyNote} />
+      <SectionHeader kicker="Privacy boundary" title="Public-safe by design." copy={profile.privacyNote} />
     </div>
   </section>
 </Layout>
@@ -39,12 +83,137 @@ import { caseStudyProjects } from '@data/projects';
     max-width: 1040px;
     margin: 0;
     color: var(--text-strong);
-    font-size: clamp(2.65rem, 5.8vw, 5rem);
+    font-size: clamp(2.65rem, 5.6vw, 5.1rem);
     line-height: 1;
     letter-spacing: 0;
   }
 
-  .cards {
-    padding-top: 20px;
+  .groups {
+    padding-top: 22px;
+  }
+
+  .case-groups {
+    display: grid;
+    gap: 18px;
+  }
+
+  .case-group {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.48fr) minmax(0, 0.72fr) minmax(220px, 0.4fr);
+    gap: 16px;
+    border: 1px solid rgba(191, 203, 220, 0.14);
+    border-radius: 8px;
+    padding: 16px;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+      rgba(7, 13, 23, 0.9);
+    background-size: 30px 30px, 30px 30px, auto;
+  }
+
+  .group-copy,
+  .lead-case,
+  .supporting-list a {
+    border: 1px solid rgba(191, 203, 220, 0.12);
+    border-radius: 8px;
+    background: rgba(3, 8, 15, 0.74);
+  }
+
+  .group-copy,
+  .lead-case {
+    padding: 18px;
+  }
+
+  .group-copy h2 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(1.35rem, 2.2vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+
+  .proof-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .proof-list span {
+    border: 1px solid rgba(141, 232, 180, 0.18);
+    border-radius: 999px;
+    padding: 6px 9px;
+    background: rgba(141, 232, 180, 0.055);
+    color: #e3ffed;
+    font-size: 0.74rem;
+    font-weight: 850;
+  }
+
+  .lead-case {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 18px;
+  }
+
+  .lead-case span,
+  .supporting-list span {
+    color: var(--amber);
+    font-size: 0.72rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .lead-case h3 {
+    margin: 9px 0 10px;
+    color: var(--text-strong);
+    font-size: clamp(1.55rem, 2.9vw, 2.65rem);
+    line-height: 1.04;
+    letter-spacing: 0;
+  }
+
+  .lead-case p,
+  .supporting-list p {
+    margin: 0 0 14px;
+    color: var(--muted);
+  }
+
+  .case-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 40px;
+    border: 1px solid rgba(88, 220, 230, 0.38);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #f8fbff;
+    background: rgba(88, 220, 230, 0.095);
+    font-weight: 900;
+  }
+
+  .supporting-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .supporting-list a {
+    display: grid;
+    gap: 6px;
+    min-height: 128px;
+    padding: 14px;
+  }
+
+  .supporting-list strong {
+    color: var(--text-strong);
+    font-size: 1rem;
+    line-height: 1.15;
+  }
+
+  @media (max-width: 1080px) {
+    .case-group {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

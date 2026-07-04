@@ -346,9 +346,9 @@ export const projects: Project[] = [
     maturity: 'experiment',
     tier: 'library',
     featured: false,
-    statusNote: 'Older toy-dataset healthcare ML project',
+    statusNote: 'Archive toy-dataset healthcare ML project',
     summary: 'Length-of-stay regression work using a Microsoft toy hospital dataset, Azure Notebooks, and baseline regression methods.',
-    problem: 'LOS modeling is useful healthcare ML foundation work, but this older repo is not positioned as production proof.',
+    problem: 'LOS modeling is useful healthcare ML foundation work, and this archive repo is intentionally not positioned as production proof.',
     systemOverview: 'Compares regression approaches for LOS prediction over a toy dataset.',
     architectureSummary: 'Toy hospital dataset -> preprocessing -> regression models -> evaluation notebook -> LOS analysis.',
     workflow: ['Prepare toy LOS data.', 'Train baseline regressors.', 'Compare outputs in notebooks.'],
@@ -497,7 +497,7 @@ export const projects: Project[] = [
     tier: 'archive',
     featured: false,
     statusNote: 'Low-priority foundations/archive',
-    summary: 'Older machine-learning templates repository kept as foundations/archive material rather than current flagship work.',
+    summary: 'Machine-learning templates repository kept as foundations/archive material rather than current flagship work.',
     problem: 'Template collections are useful foundations but not system-depth proof.',
     systemOverview: 'Reusable examples around preprocessing, model selection, hyperparameter tuning, evaluation, and visualization.',
     architectureSummary: 'Template categories -> reusable scripts -> project starter patterns.',
@@ -530,4 +530,3 @@ export const excludedRepos = [
 export function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);
 }
-

@@ -1,0 +1,178 @@
+---
+const domains = [
+  {
+    title: 'Healthcare & Insurance AI',
+    thesis: 'Standards-aware AI systems for payer, provider, quality, claims, and care-management workflows.',
+    chips: ['FHIR/HL7', 'claims automation', 'HEDIS', 'readmission', 'FWA', 'quality programs'],
+    links: [
+      { label: 'Readmission API', href: '/projects/hospital-readmission-fhir-ml-api/' },
+      { label: 'HL7 Platform', href: '/projects/hl7-ai-challenge/' },
+      { label: 'Experience', href: '/experience/' },
+    ],
+    visual: ['HL7 ADT', 'FHIR R4', 'Risk API'],
+  },
+  {
+    title: 'Agentic AI & LLMOps',
+    thesis: 'Tool-using workflows with state, validation gates, local inference, and observable handoffs.',
+    chips: ['LangGraph patterns', 'tool calls', 'state graphs', 'LangSmith', 'regression tests', 'observability'],
+    links: [
+      { label: 'LLM Steering', href: '/projects/llm-steering/' },
+      { label: 'AlphaQuant', href: '/projects/agentic-alpha-engine/' },
+    ],
+    visual: ['plan', 'tool', 'verify'],
+  },
+  {
+    title: 'Document AI & Structured Extraction',
+    thesis: 'OCR, RAG, schema validation, local LLM extraction, confidence scoring, and human review.',
+    chips: ['OCR', 'RAG', 'PDF parsing', 'schema JSON', 'review UX', 'local models'],
+    links: [
+      { label: 'Local Document AI', href: '/projects/local-document-ai-extraction/' },
+      { label: 'FreshTrack', href: '/projects/freshtrack-ai-module/' },
+      { label: 'ChatWithWiki', href: '/projects/chatwithwiki-azureml/' },
+    ],
+    visual: ['PDF', 'chunks', 'JSON'],
+  },
+  {
+    title: 'Quant, Forecasting & Research Systems',
+    thesis: 'Research infrastructure and forecasting labs framed around evidence, calibration, and backtesting.',
+    chips: ['AlphaQuant', 'Elo', 'XGBoost', 'Brier score', 'backtesting', 'calibration'],
+    links: [
+      { label: 'Quant Page', href: '/quant-forecasting/' },
+      { label: 'NFL Lab', href: '/projects/nfl-sports-forecasting/' },
+    ],
+    visual: ['signals', 'models', 'Brier'],
+  },
+  {
+    title: 'MLOps & Infrastructure',
+    thesis: 'FastAPI services, Dockerized stacks, CI checks, deployment hygiene, and reproducible system boundaries.',
+    chips: ['FastAPI', 'Docker', 'Kubernetes', 'MLflow', 'Azure', 'CI/CD', 'monitoring'],
+    links: [
+      { label: 'Systems', href: '/systems/' },
+      { label: 'Case Studies', href: '/projects/' },
+    ],
+    visual: ['API', 'CI', 'deploy'],
+  },
+];
+---
+
+<div class="domain-grid" aria-label="Applied AI domain navigator">
+  {domains.map((domain, index) => (
+    <article class:list={['domain-card', 'glass-card', index === 0 && 'lead']}>
+      <div>
+        <p class="section-kicker">Domain {String(index + 1).padStart(2, '0')}</p>
+        <h3>{domain.title}</h3>
+        <p>{domain.thesis}</p>
+      </div>
+      <div class="domain-visual" aria-hidden="true">
+        {domain.visual.map((item) => <span>{item}</span>)}
+      </div>
+      <div class="domain-chips">
+        {domain.chips.map((chip) => <span class="chip">{chip}</span>)}
+      </div>
+      <div class="domain-links">
+        {domain.links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .domain-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .domain-card {
+    grid-column: span 2;
+    display: grid;
+    gap: 18px;
+    min-height: 100%;
+    padding: 22px;
+  }
+
+  .domain-card.lead {
+    grid-column: span 4;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.62fr);
+    align-items: start;
+  }
+
+  .domain-card h3 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(1.34rem, 2.4vw, 2.4rem);
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .domain-card p:not(.section-kicker) {
+    margin: 12px 0 0;
+    color: var(--muted);
+  }
+
+  .domain-visual {
+    display: grid;
+    gap: 8px;
+    align-content: center;
+    min-height: 142px;
+    border: 1px solid rgba(180, 202, 232, 0.14);
+    border-radius: 8px;
+    padding: 12px;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+      rgba(2, 6, 12, 0.34);
+    background-size: 24px 24px;
+  }
+
+  .domain-visual span {
+    border: 1px solid rgba(88, 220, 230, 0.2);
+    border-radius: 8px;
+    padding: 9px 10px;
+    background: rgba(88, 220, 230, 0.07);
+    color: #e4fbff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
+  .domain-chips,
+  .domain-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .domain-links {
+    margin-top: auto;
+  }
+
+  .domain-links a {
+    color: var(--cyan);
+    font-size: 0.84rem;
+    font-weight: 900;
+  }
+
+  .domain-links a:hover {
+    color: var(--text-strong);
+  }
+
+  @media (max-width: 1040px) {
+    .domain-card,
+    .domain-card.lead {
+      grid-column: span 3;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .domain-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .domain-card,
+    .domain-card.lead {
+      grid-column: auto;
+    }
+  }
+</style>

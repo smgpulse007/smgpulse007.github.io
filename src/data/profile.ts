@@ -76,6 +76,6 @@ export const experienceTimeline = [
     period: 'Research and foundations',
     title: 'Forecasting, visualization, GPU planning, and ML templates',
     detail:
-      'Older public projects show the base layer behind current systems work: model comparison, regression, RAG prototypes, activation visualization, infrastructure planning, and reusable ML patterns.',
+      'Earlier public projects show the base layer behind current systems work: model comparison, regression, RAG prototypes, activation visualization, infrastructure planning, and reusable ML patterns.',
   },
 ];

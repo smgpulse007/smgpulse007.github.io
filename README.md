@@ -19,8 +19,10 @@ The site presents public-safe applied AI systems across:
 - `/systems/` - filterable project library
 - `/projects/` - substantive case studies
 - `/quant-forecasting/` - quant, finance, and sports forecasting breadth
-- `/data-science-lab/` - older experiments, research notes, and archive-tier work
-- `/experience/` - public-safe experience story
+- `/professional-systems/` - sanitized professional system architecture cards
+- `/research-archive/` - research notes and archive-tier data science foundations
+- `/data-science-lab/` - compatibility route for the research archive
+- `/experience/` - public-safe experience story and career timeline
 
 ## Local Development
 

@@ -38,6 +38,23 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
         </div>
       </section>
 
+      <section class="section compact">
+        <div class="container two-column-grid">
+          <article class="text-block proof-panel glass-card">
+            <p class="section-kicker">Problem / Stakes</p>
+            <h2>Why this system exists.</h2>
+            <p>{project.problem}</p>
+          </article>
+          <article class="text-block proof-panel glass-card">
+            <p class="section-kicker">What I Built</p>
+            <h2>Public-safe implementation surface.</h2>
+            <ul>
+              {project.whatIBuilt.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        </div>
+      </section>
+
       {project.architectureVariant && (
         <section class="section compact">
           <div class="container">
@@ -66,6 +83,25 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="container two-column-grid">
+          <article class="text-block proof-panel glass-card">
+            <p class="section-kicker">Model / Agent / Extraction Design</p>
+            <h2>The technical core.</h2>
+            <ul>
+              {project.modelDesign.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+          <article class="text-block proof-panel glass-card">
+            <p class="section-kicker">Validation / Reliability / MLOps</p>
+            <h2>How the system is made reviewable.</h2>
+            <ul>
+              {[...project.validation, ...project.deployment].map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
         </div>
       </section>
 
@@ -151,6 +187,14 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
 
   .responsible {
     padding: 26px;
+  }
+
+  .proof-panel {
+    padding: 24px;
+  }
+
+  .proof-panel h2 {
+    font-size: clamp(1.35rem, 2.1vw, 2rem);
   }
 
   .responsible h2 {

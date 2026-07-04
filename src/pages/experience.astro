@@ -3,6 +3,7 @@ import Layout from '@components/Layout.astro';
 import Timeline from '@components/Timeline.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import MetricCard from '@components/MetricCard.astro';
+import ProfessionalSystemsGrid from '@components/ProfessionalSystemsGrid.astro';
 import { profile, experienceTimeline, impactMetrics } from '@data/profile';
 import { recognition } from '@data/recognition';
 ---
@@ -14,9 +15,20 @@ import { recognition } from '@data/recognition';
 >
   <section class="section intro">
     <div class="container">
-      <p class="section-kicker">Experience</p>
-      <h1>Production applied AI story, described at the right level of public detail.</h1>
-      <p class="section-copy">This connects the public portfolio to regulated delivery patterns: healthcare and insurance workflows, document review, quality programs, MLOps, and responsible AI boundaries.</p>
+      <p class="section-kicker">Professional Systems & Experience</p>
+      <h1>Production AI systems in regulated environments, described at the right public-safe level.</h1>
+      <p class="section-copy">Sanitized architecture summaries across insurance claims, healthcare quality, RAG/OCR, FHIR/HL7, predictive analytics, FWA, and MLOps. No employer-confidential data or private implementation details are exposed.</p>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader
+        kicker="Sanitized professional systems"
+        title="Enterprise AI systems I can discuss architecturally without exposing private data."
+        copy="These cards connect resume outcomes to reusable system patterns: ingestion, validation, exception routing, observability, human review, deployment, and responsible AI boundaries."
+      />
+      <ProfessionalSystemsGrid />
     </div>
   </section>
 

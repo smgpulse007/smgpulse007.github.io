@@ -21,16 +21,16 @@
       "brier_score": 0.1986
     }
   },
-  "betting_performance": {
+  "historical_threshold_simulation": {
     "min_edge_2pct": {
-      "total_bets": 92,
-      "wins": 55,
-      "losses": 37,
-      "win_rate": 0.598,
-      "total_staked": 17823,
-      "total_pnl": 1372,
-      "roi": 0.077,
-      "final_bankroll": 11372
+      "qualified_games": 92,
+      "correct": 55,
+      "incorrect": 37,
+      "hit_rate": 0.598,
+      "simulated_units": 178.23,
+      "simulated_net_units": 13.72,
+      "return_rate": 0.077,
+      "final_index": 113.72
     }
   },
   "super_bowl": {

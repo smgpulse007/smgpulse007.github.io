@@ -1,0 +1,128 @@
+---
+import { professionalSystems } from '@data/professionalSystems';
+---
+
+<div class="professional-grid">
+  {professionalSystems.map((system, index) => (
+    <article class:list={['professional-card', 'glass-card', index === 0 && 'lead']}>
+      <p class="section-kicker">Sanitized system {String(index + 1).padStart(2, '0')}</p>
+      <h3>{system.title}</h3>
+      <p>{system.thesis}</p>
+
+      <div class="architecture-rail" aria-label={`${system.title} architecture`}>
+        {system.architecture.map((step) => <span>{step}</span>)}
+      </div>
+
+      <div class="professional-stack">
+        {system.stack.map((item) => <span class="chip amber">{item}</span>)}
+      </div>
+
+      <div class="outcome-note">
+        <strong>Public-safe outcome</strong>
+        <span>{system.outcome}</span>
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .professional-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .professional-card {
+    display: grid;
+    gap: 18px;
+    min-height: 100%;
+    padding: 22px;
+  }
+
+  .professional-card.lead {
+    grid-column: span 2;
+  }
+
+  .professional-card h3 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(1.28rem, 2vw, 2rem);
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .professional-card p:not(.section-kicker) {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .architecture-rail {
+    display: grid;
+    gap: 8px;
+    border: 1px solid rgba(180, 202, 232, 0.12);
+    border-radius: 8px;
+    padding: 12px;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      rgba(2, 6, 12, 0.34);
+    background-size: 24px 24px;
+  }
+
+  .architecture-rail span {
+    border-left: 2px solid rgba(88, 220, 230, 0.56);
+    padding: 7px 10px;
+    background: rgba(88, 220, 230, 0.055);
+    color: #dffbff;
+    font-size: 0.82rem;
+    font-weight: 850;
+  }
+
+  .professional-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .outcome-note {
+    display: grid;
+    gap: 6px;
+    margin-top: auto;
+    border: 1px solid rgba(134, 239, 172, 0.18);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(134, 239, 172, 0.055);
+  }
+
+  .outcome-note strong {
+    color: var(--green);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .outcome-note span {
+    color: #e9fff0;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 980px) {
+    .professional-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .professional-card.lead {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .professional-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .professional-card.lead {
+      grid-column: auto;
+    }
+  }
+</style>

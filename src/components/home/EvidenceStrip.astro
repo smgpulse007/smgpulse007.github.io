@@ -1,28 +1,95 @@
 ---
 const artifacts = [
   {
+    kind: 'image',
     kicker: 'LLM Steering',
     title: 'Workbench UI from the local activation-steering lab',
     body:
       'Actual repo artifact showing the FastAPI + React workbench used to inspect steering runs, hook choices, and baseline comparisons.',
     src: '/assets/case-studies/llm-steering/workbench-ui-overview.gif',
     alt: 'Animated LLM steering workbench UI overview',
+    href: '/projects/llm-steering/',
+    lead: true,
   },
   {
+    kind: 'image',
     kicker: 'AlphaQuant',
-    title: 'Agentic research workbench screenshot',
+    title: 'Agentic research workbench screenshot and UI demo',
     body:
       'Actual repo screenshot from the local-first agentic market-intelligence stack with API, UI, storage, retrieval, and verification layers.',
     src: '/assets/case-studies/alphaquant/ui-screenshot.png',
     alt: 'AlphaQuant UI screenshot',
+    href: '/projects/agentic-alpha-engine/',
   },
   {
+    kind: 'code',
+    kicker: 'Readmission API',
+    title: 'FHIR scoring response contract',
+    body: 'Synthetic FastAPI response showing the public-safe model interface: score, risk band, and reviewable contributing factors.',
+    code: `{
+  "readmission_risk_probability": 0.98,
+  "risk_band": "high",
+  "top_features": [
+    "prior_admissions_180d",
+    "comorbidity_count",
+    "abnormal_labs"
+  ]
+}`,
+    href: '/projects/hospital-readmission-fhir-ml-api/',
+  },
+  {
+    kind: 'image',
     kicker: 'HL7 AI Challenge',
     title: 'Event-driven healthcare platform architecture',
     body:
       'Challenge architecture evidence for HL7/FHIR transformation, risk services, care orchestration, workflow surfaces, and audit flow.',
     src: '/assets/case-studies/hl7/architecture-high-level.png',
     alt: 'HL7 AI Challenge high-level architecture diagram',
+    href: '/projects/hl7-ai-challenge/',
+  },
+  {
+    kind: 'table',
+    kicker: 'NFL Forecasting',
+    title: '2024 model comparison',
+    body: 'Historical forecasting evidence framed around probability quality, not wagering. Ensemble had the best 2024 Brier score in the audited README.',
+    href: '/projects/nfl-sports-forecasting/',
+    rows: [
+      ['Elo', '68.4%', '0.2088'],
+      ['XGBoost', '69.5%', '0.2013'],
+      ['Logistic', '70.2%', '0.2010'],
+      ['Ensemble', '69.8%', '0.1986'],
+    ],
+  },
+  {
+    kind: 'code',
+    kicker: 'Document AI',
+    title: 'OCR extraction output shape',
+    body: 'FreshTrack and local document AI projects show extraction as structured JSON with confidence and review boundaries.',
+    code: `{
+  "items": [
+    { "name": "Bread", "confidence": "high" },
+    { "name": "Coffee", "confidence": "high" }
+  ],
+  "review_required": false
+}`,
+    href: '/projects/freshtrack-ai-module/',
+  },
+  {
+    kind: 'panel',
+    kicker: 'MLOps Proof',
+    title: 'Buildable system surfaces',
+    body: 'The flagship set is backed by Dockerfiles, compose files, FastAPI apps, pytest paths, model cards, and public-safe sample payloads.',
+    href: '/systems/',
+    signals: ['Docker / compose', 'FastAPI contracts', 'pytest evidence', 'model-card notes'],
+  },
+  {
+    kind: 'image',
+    kicker: 'FreshTrack OCR',
+    title: 'Receipt artifact for extraction tests',
+    body: 'Sample image artifact used to demonstrate OCR-to-JSON parsing without private payment or customer data.',
+    src: '/assets/case-studies/freshtrack/sample-receipt.jpg',
+    alt: 'Sample receipt image used for OCR tests',
+    href: '/projects/freshtrack-ai-module/',
   },
 ];
 ---
@@ -31,21 +98,46 @@ const artifacts = [
   <div class="container">
     <div class="evidence-header">
       <p class="section-kicker">Repo evidence</p>
-      <h2>Real artifacts from the systems, not decorative placeholders.</h2>
+      <h2>Evidence, not just project names.</h2>
       <p>
-        The redesign pulls screenshots, GIFs, diagrams, JSON responses, and model tables from the public repositories so the
-        portfolio reads like engineering proof.
+        Screenshots, GIFs, diagrams, API responses, model tables, and build surfaces from public repositories make the
+        portfolio read like engineering proof instead of a list of names.
       </p>
     </div>
 
     <div class="evidence-grid">
       {artifacts.map((artifact, index) => (
-        <article class:list={['evidence-card', 'glass-card', index === 0 && 'lead']}>
-          <img src={artifact.src} alt={artifact.alt} loading={index === 0 ? 'eager' : 'lazy'} />
+        <article class:list={['evidence-card', 'glass-card', artifact.lead && 'lead', artifact.kind]}>
+          {artifact.kind === 'image' && artifact.src && (
+            <img src={artifact.src} alt={artifact.alt} loading={index === 0 ? 'eager' : 'lazy'} />
+          )}
+          {artifact.kind === 'code' && (
+            <pre><code>{artifact.code}</code></pre>
+          )}
+          {artifact.kind === 'table' && (
+            <div class="mini-table" role="table" aria-label={artifact.title}>
+              <div role="row">
+                <span role="columnheader">Model</span>
+                <span role="columnheader">Accuracy</span>
+                <span role="columnheader">Brier</span>
+              </div>
+              {artifact.rows?.map((row) => (
+                <div role="row">
+                  {row.map((cell) => <span role="cell">{cell}</span>)}
+                </div>
+              ))}
+            </div>
+          )}
+          {artifact.kind === 'panel' && (
+            <div class="signal-panel" aria-label={artifact.title}>
+              {artifact.signals?.map((signal) => <span>{signal}</span>)}
+            </div>
+          )}
           <div>
             <span>{artifact.kicker}</span>
             <h3>{artifact.title}</h3>
             <p>{artifact.body}</p>
+            <a href={artifact.href}>Open case study</a>
           </div>
         </article>
       ))}
@@ -80,7 +172,7 @@ const artifacts = [
 
   .evidence-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.95fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 18px;
   }
 
@@ -92,6 +184,7 @@ const artifacts = [
   }
 
   .evidence-card.lead {
+    grid-column: span 2;
     grid-row: span 2;
   }
 
@@ -107,6 +200,76 @@ const artifacts = [
 
   .evidence-card.lead img {
     aspect-ratio: 16 / 11;
+  }
+
+  pre,
+  .mini-table,
+  .signal-panel {
+    min-height: 210px;
+    margin: 0;
+    border: 1px solid rgba(180, 202, 232, 0.14);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.34);
+    overflow: hidden;
+  }
+
+  pre {
+    padding: 16px;
+    color: #dffbff;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  .mini-table {
+    display: grid;
+    align-content: start;
+    gap: 1px;
+    background: rgba(180, 202, 232, 0.12);
+  }
+
+  .mini-table div {
+    display: grid;
+    grid-template-columns: 1.1fr 0.8fr 0.8fr;
+    gap: 1px;
+    padding: 0;
+  }
+
+  .mini-table span {
+    min-height: 42px;
+    padding: 10px;
+    background: rgba(9, 15, 29, 0.94);
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .mini-table div:first-child span {
+    color: var(--cyan);
+    font-size: 0.7rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .signal-panel {
+    display: grid;
+    gap: 8px;
+    align-content: center;
+    padding: 14px;
+  }
+
+  .signal-panel span {
+    border: 1px solid rgba(134, 239, 172, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    background: rgba(134, 239, 172, 0.065);
+    color: #eafff1;
+    font-size: 0.86rem;
+    font-weight: 900;
   }
 
   .evidence-card div {
@@ -134,12 +297,27 @@ const artifacts = [
     color: var(--muted);
   }
 
-  @media (max-width: 900px) {
+  .evidence-card a {
+    display: inline-flex;
+    margin-top: 12px;
+    color: var(--cyan);
+    font-size: 0.84rem;
+    font-weight: 900;
+  }
+
+  @media (max-width: 1120px) {
+    .evidence-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
     .evidence-grid {
       grid-template-columns: 1fr;
     }
 
     .evidence-card.lead {
+      grid-column: auto;
       grid-row: auto;
     }
   }

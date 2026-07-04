@@ -1,0 +1,46 @@
+---
+import Layout from '@components/Layout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import ProfessionalSystemsGrid from '@components/ProfessionalSystemsGrid.astro';
+import { profile } from '@data/profile';
+---
+
+<Layout
+  title={`Professional Systems | ${profile.name}`}
+  description="Sanitized professional AI system architecture summaries across insurance claims, healthcare quality, RAG/OCR, predictive analytics, FWA, and MLOps."
+  canonicalPath="/professional-systems/"
+>
+  <section class="section intro">
+    <div class="container">
+      <p class="section-kicker">Professional Systems</p>
+      <h1>Sanitized architecture summaries for regulated applied AI delivery.</h1>
+      <p class="section-copy">Claims automation, HEDIS evidence extraction, on-prem RAG/OCR, utilization models, FWA analytics, and healthcare analytics platform work are described as reusable public-safe system patterns.</p>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader
+        kicker="Public-safe system cards"
+        title="Architecture-level proof without private data."
+        copy={profile.privacyNote}
+      />
+      <ProfessionalSystemsGrid />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    max-width: 1060px;
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(2.6rem, 5.6vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 import { profile } from '@data/profile';
-import AnimatedHeroConsole from './visual/AnimatedHeroConsole';
+import AnimatedHeroFileStack from './visual/AnimatedHeroFileStack';
 ---
 
 <section class="hero">
@@ -9,14 +9,15 @@ import AnimatedHeroConsole from './visual/AnimatedHeroConsole';
       <p class="eyebrow">Applied AI systems portfolio</p>
       <h1>{profile.name}</h1>
       <h2>{profile.role}</h2>
-      <p class="lede">I build production AI systems across regulated healthcare, insurance, document intelligence, agentic workflows, forecasting, and MLOps.</p>
+      <p class="lede">I build production AI systems for healthcare, insurance, document intelligence, forecasting, agentic workflows, and LLMOps.</p>
+      <p class="hero-proof">7K-case backlog cleared | 90% review-time reduction | $3M P4P impact | HL7 AI Challenge Winner</p>
       <div class="button-row">
         <a class="button secondary" href="/systems/">Explore Systems</a>
         <a class="button" href="/projects/">View Case Studies</a>
-        <a class="button secondary" href="/quant-forecasting/">Quant & Forecasting</a>
+        <a class="button secondary" href={profile.github}>GitHub</a>
       </div>
     </div>
-    <AnimatedHeroConsole client:load />
+    <AnimatedHeroFileStack client:load />
   </div>
 </section>
 
@@ -59,9 +60,19 @@ import AnimatedHeroConsole from './visual/AnimatedHeroConsole';
 
   .lede {
     max-width: 720px;
-    margin: 22px 0 30px;
+    margin: 22px 0 0;
     color: #d8e6f7;
     font-size: clamp(1.06rem, 2vw, 1.28rem);
+  }
+
+  .hero-proof {
+    max-width: 760px;
+    margin: 18px 0 30px;
+    border-left: 3px solid var(--cyan);
+    padding-left: 14px;
+    color: #e9f8ff;
+    font-size: 0.98rem;
+    font-weight: 850;
   }
 
   @media (max-width: 940px) {

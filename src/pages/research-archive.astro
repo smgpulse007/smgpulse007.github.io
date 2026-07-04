@@ -1,0 +1,89 @@
+---
+import Layout from '@components/Layout.astro';
+import ProjectFilterTabs from '@components/ProjectFilterTabs.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import { profile } from '@data/profile';
+import { getProject, type Project } from '@data/projects';
+
+const archiveSlugs = [
+  'chatwithwiki-azureml',
+  'azure-los-prediction',
+  'rag-implementation-hedis-ssd',
+  'hedis-dashboard',
+  'medication-recommendation',
+  'hnsc-viz',
+  'gpu-analysis',
+  'ml-templates',
+];
+
+const archiveProjects = archiveSlugs.map((slug) => getProject(slug)).filter((project): project is Project => Boolean(project));
+---
+
+<Layout
+  title={`Research Archive | ${profile.name}`}
+  description="Research Archive and Data Science Foundations across healthcare analytics, RAG, forecasting, visualization, GPU planning, and scientific ML by Shailesh Dudala."
+  canonicalPath="/research-archive/"
+>
+  <section class="section intro">
+    <div class="container">
+      <p class="section-kicker">Research Archive & Data Science Foundations</p>
+      <h1>Selected experiments that show the foundation behind current production AI systems work.</h1>
+      <p class="section-copy">Archive-tier research notes and earlier systems are preserved for technical breadth across healthcare analytics, forecasting, visualization, GPU planning, biomedical informatics, and scientific ML.</p>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container archive-note glass-card">
+      <p class="section-kicker">Curation principle</p>
+      <h2>Foundation work is valuable when its maturity is labeled clearly.</h2>
+      <p>These projects are included for research breadth and technical lineage. They are not positioned as flagship production systems.</p>
+    </div>
+  </section>
+
+  <section class="section cards">
+    <div class="container">
+      <ProjectFilterTabs projects={archiveProjects} compact />
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Safety" title="Archive projects stay conservative." copy="Medication recommendation remains non-clinical. Forecasting projects remain historical analytics. Public examples do not include PHI, PII, secrets, or employer-confidential data." />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    max-width: 1060px;
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(2.55rem, 5.6vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .cards {
+    padding-top: 20px;
+  }
+
+  .archive-note {
+    padding: 26px;
+  }
+
+  .archive-note h2 {
+    margin: 0 0 10px;
+    color: var(--text-strong);
+    font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+    letter-spacing: 0;
+  }
+
+  .archive-note p:last-child {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

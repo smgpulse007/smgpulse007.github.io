@@ -43,30 +43,30 @@
     "14": 0.57,
     "15": 0.67
   },
-  "betting_performance": {
+  "historical_threshold_simulation": {
     "min_edge_1pct": {
-      "bets": 100,
-      "wins": 50,
-      "win_rate": 0.5,
-      "roi": -0.044
+      "qualified_games": 100,
+      "correct": 50,
+      "hit_rate": 0.5,
+      "return_rate": -0.044
     },
     "min_edge_2pct": {
-      "bets": 69,
-      "wins": 38,
-      "win_rate": 0.551,
-      "roi": -0.014
+      "qualified_games": 69,
+      "correct": 38,
+      "hit_rate": 0.551,
+      "return_rate": -0.014
     },
     "min_edge_3pct": {
-      "bets": 43,
-      "wins": 24,
-      "win_rate": 0.558,
-      "roi": -0.023
+      "qualified_games": 43,
+      "correct": 24,
+      "hit_rate": 0.558,
+      "return_rate": -0.023
     },
     "min_edge_5pct": {
-      "bets": 14,
-      "wins": 6,
-      "win_rate": 0.429,
-      "roi": -0.192
+      "qualified_games": 14,
+      "correct": 6,
+      "hit_rate": 0.429,
+      "return_rate": -0.192
     }
   }
 }

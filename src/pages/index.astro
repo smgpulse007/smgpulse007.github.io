@@ -4,13 +4,13 @@ import Hero from '@components/Hero.astro';
 import EvidenceStrip from '@components/home/EvidenceStrip.astro';
 import FeaturedSystemsShowcase from '@components/home/FeaturedSystemsShowcase.astro';
 import QuantSpotlight from '@components/home/QuantSpotlight.astro';
+import DomainNavigator from '@components/home/DomainNavigator.astro';
 import SkillCluster from '@components/SkillCluster.astro';
 import SectionHeader from '@components/SectionHeader.astro';
-import CapabilityPillar from '@components/CapabilityPillar.astro';
 import ProjectFilterTabs from '@components/ProjectFilterTabs.astro';
 import ArchitectureDiagram from '@components/ArchitectureDiagram.astro';
 import MetricTicker from '@components/visual/MetricTicker';
-import { profile, impactMetrics, portfolioPillars } from '@data/profile';
+import { profile, impactMetrics } from '@data/profile';
 import { projects } from '@data/projects';
 import { recognition } from '@data/recognition';
 import { skillClusters } from '@data/skills';
@@ -18,25 +18,22 @@ import { skillClusters } from '@data/skills';
 
 <Layout title={profile.seoTitle} description={profile.seoDescription} canonicalPath="/">
   <Hero />
-  <EvidenceStrip />
-
-  <section class="section">
-    <div class="container">
-      <SectionHeader
-        kicker="Positioning"
-        title="Healthcare and insurance AI lead the story; agentic systems, quant research, forecasting, and MLOps show the range."
-        copy="The portfolio is organized as public-safe proof of system design: contracts, workflow controls, model boundaries, deployment patterns, diagrams, and responsible-use notes."
-      />
-      <div class="pillar-grid">
-        {portfolioPillars.map((pillar, index) => <CapabilityPillar pillar={pillar} index={index} />)}
-      </div>
-    </div>
-  </section>
 
   <section class="section compact">
     <div class="container">
       <SectionHeader kicker="Selected outcomes" title="Production AI delivery, translated into public-safe evidence." copy={profile.impactNote} />
-      <MetricTicker metrics={impactMetrics} client:visible />
+      <MetricTicker metrics={impactMetrics} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        kicker="Domain navigator"
+        title="Healthcare and insurance AI lead the story; agentic systems, document AI, forecasting, and MLOps show the operating range."
+        copy="Each domain is tied to case-study evidence, public-safe artifacts, architecture maps, and responsible-use boundaries."
+      />
+      <DomainNavigator />
     </div>
   </section>
 
@@ -50,6 +47,8 @@ import { skillClusters } from '@data/skills';
       <FeaturedSystemsShowcase />
     </div>
   </section>
+
+  <EvidenceStrip />
 
   <section class="section compact">
     <div class="container">

@@ -26,7 +26,7 @@ function parseMetric(value: string) {
 export default function AnimatedMetricStrip({ metrics }: Props) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(prefersReducedMotion ? 1 : 0);
   const parsed = useMemo(() => metrics.map((metric) => parseMetric(metric.value)), [metrics]);
 
@@ -74,7 +74,7 @@ export default function AnimatedMetricStrip({ metrics }: Props) {
           <motion.article
             key={metric.label}
             className="metric-card"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+            initial={false}
             animate={visible && !prefersReducedMotion ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.36, delay: index * 0.055, ease: 'easeOut' }}
           >

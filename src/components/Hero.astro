@@ -1,19 +1,24 @@
 ---
 import { profile } from '@data/profile';
 import ArtifactStackHero from './visual/ArtifactStackHero';
+
+const resumeMailto = `mailto:${profile.email}?subject=${encodeURIComponent('Resume request - Shailesh Dudala')}&body=${encodeURIComponent(
+  'Hi Shailesh,\n\nI would like to request your current resume.\n\nThanks,'
+)}`;
 ---
 
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-copy">
       <p class="eyebrow">{profile.name}</p>
-      <h1>Production AI systems for healthcare, insurance, and agentic workflows.</h1>
+      <h1>Production-grade AI systems across regulated workflows, local models, forecasting, and MLOps.</h1>
       <h2>{profile.role}</h2>
       <p class="lede">{profile.positioning}</p>
-      <p class="hero-proof">FHIR/HL7 | LangGraph | RAG/OCR | FastAPI | Azure | MLflow | XGBoost | LLMOps</p>
+      <p class="hero-proof">Healthcare + insurance | hackathon wins | local LLM labs | LangGraph/RAG/OCR | FastAPI/Azure/MLflow | XGBoost/backtesting</p>
       <div class="button-row">
         <a class="button" href="/projects/">View Case Studies</a>
         <a class="button secondary" href="/systems/">Explore Systems</a>
+        <a class="button secondary resume-button" href={resumeMailto}>Request Resume</a>
         <a class="button secondary" href={profile.github}>GitHub</a>
       </div>
     </div>
@@ -64,7 +69,8 @@ import ArtifactStackHero from './visual/ArtifactStackHero';
     max-width: 720px;
     margin: 22px 0 0;
     color: #d8e6f7;
-    font-size: clamp(1.06rem, 2vw, 1.28rem);
+    font-size: clamp(1.04rem, 1.82vw, 1.2rem);
+    line-height: 1.55;
   }
 
   .hero-proof {
@@ -78,6 +84,12 @@ import ArtifactStackHero from './visual/ArtifactStackHero';
     font-size: 0.98rem;
     font-weight: 850;
     line-height: 1.45;
+  }
+
+  .resume-button {
+    border-color: rgba(241, 189, 92, 0.36);
+    background: linear-gradient(135deg, rgba(241, 189, 92, 0.16), rgba(255, 255, 255, 0.055));
+    color: #fff0bf;
   }
 
   @media (max-width: 1080px) {

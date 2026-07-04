@@ -1,5 +1,8 @@
 export const professionalSystems = [
   {
+    domain: 'Claims automation',
+    accent: '#8de8b4',
+    metric: '90% review-time reduction pattern',
     title: 'Claims Document Automation / Autonomous Adjudication Support',
     thesis:
       'LangGraph-style orchestration for document understanding, structured extraction, validation gates, exception routing, and downstream claims-system handoffs.',
@@ -8,6 +11,9 @@ export const professionalSystems = [
     outcome: 'Claims review acceleration and safer automation boundaries without exposing employer data.',
   },
   {
+    domain: 'Healthcare quality',
+    accent: '#58dce6',
+    metric: '20% automated closure lift',
     title: 'HEDIS Evidence Extraction Pipeline',
     thesis:
       'Quality-measure evidence workflow over HL7 MDM/ORU-style documents, base64 PDFs, OCR, rule validation, human review, and closure tracking.',
@@ -16,6 +22,9 @@ export const professionalSystems = [
     outcome: 'Automated closure improvement while preserving reviewer accountability.',
   },
   {
+    domain: 'Private document AI',
+    accent: '#b9a7ff',
+    metric: '7K backlog clearance pattern',
     title: 'On-Prem RAG/OCR Compliance Review Microservice',
     thesis:
       'Private inference workflow for regulated document review using local SLMs, retrieval, OCR, containerized services, and analyst-facing review surfaces.',
@@ -24,6 +33,9 @@ export const professionalSystems = [
     outcome: 'Review-time reduction and backlog clearance without moving private documents into public demos.',
   },
   {
+    domain: 'Predictive healthcare',
+    accent: '#f1bd5c',
+    metric: 'Utilization prioritization',
     title: 'Readmission / LOS / ED Utilization Predictive Models',
     thesis:
       'Healthcare predictive modeling across claims, ADT events, demographics, diagnoses, medications, SDoH, risk scores, and operational features.',
@@ -32,6 +44,9 @@ export const professionalSystems = [
     outcome: 'Care-management prioritization, utilization insight, and governed model delivery patterns.',
   },
   {
+    domain: 'FWA analytics',
+    accent: '#f0a0bd',
+    metric: '18% waste reduction',
     title: 'FWA Transportation Anomaly Detection',
     thesis:
       'Fraud, waste, and abuse analytics over multi-leg trips, utilization anomalies, geospatial validation, and proactive review workflows.',
@@ -40,6 +55,9 @@ export const professionalSystems = [
     outcome: 'Waste reduction through targeted, explainable review signals.',
   },
   {
+    domain: 'Healthcare analytics product',
+    accent: '#cbd5e1',
+    metric: '$500K new revenue / $3M P4P impact',
     title: 'Healthcare Analytics Platform / Health Index',
     thesis:
       '0-to-1 healthcare analytics platform work using composite risk scoring, care gaps, SDoH features, quality analytics, and embedded delivery.',

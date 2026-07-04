@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import {
   Activity,
@@ -107,9 +107,19 @@ const toneClasses: Record<ArtifactCard['tone'], string> = {
 
 export default function ArtifactStackHero() {
   const prefersReducedMotion = useReducedMotion();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(2);
   const active = artifacts[activeIndex];
   const ActiveIcon = active.icon;
+
+  useEffect(() => {
+    if (prefersReducedMotion) return undefined;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % artifacts.length);
+    }, 3600);
+
+    return () => window.clearInterval(timer);
+  }, [prefersReducedMotion]);
 
   return (
     <section className="artifact-hero" aria-label="Animated portfolio systems stack">

@@ -2,127 +2,235 @@
 import { professionalSystems } from '@data/professionalSystems';
 ---
 
-<div class="professional-grid">
+<div class="systems-atlas">
   {professionalSystems.map((system, index) => (
-    <article class:list={['professional-card', 'glass-card', index === 0 && 'lead']}>
-      <p class="section-kicker">Sanitized system {String(index + 1).padStart(2, '0')}</p>
-      <h3>{system.title}</h3>
-      <p>{system.thesis}</p>
+    <article class:list={['atlas-row', index % 2 === 1 && 'alternate']} style={`--system-accent: ${system.accent}`}>
+      <div class="atlas-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
 
-      <div class="architecture-rail" aria-label={`${system.title} architecture`}>
-        {system.architecture.map((step) => <span>{step}</span>)}
+      <div class="atlas-copy">
+        <span class="atlas-domain">{system.domain}</span>
+        <h3>{system.title}</h3>
+        <p>{system.thesis}</p>
+        <div class="atlas-outcome">
+          <strong>{system.metric}</strong>
+          <span>{system.outcome}</span>
+        </div>
       </div>
 
-      <div class="professional-stack">
-        {system.stack.map((item) => <span class="chip amber">{item}</span>)}
-      </div>
+      <div class="atlas-system" aria-label={`${system.title} system shape`}>
+        <div class="atlas-flow">
+          {system.architecture.map((step) => <span>{step}</span>)}
+        </div>
 
-      <div class="outcome-note">
-        <strong>Public-safe outcome</strong>
-        <span>{system.outcome}</span>
+        <div class="atlas-stack" aria-label={`${system.title} stack`}>
+          {system.stack.map((item) => <span>{item}</span>)}
+        </div>
       </div>
     </article>
   ))}
 </div>
 
 <style>
-  .professional-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .professional-card {
+  .systems-atlas {
     display: grid;
     gap: 18px;
-    min-height: 100%;
-    padding: 22px;
   }
 
-  .professional-card.lead {
-    grid-column: span 2;
+  .atlas-row {
+    --system-accent: #58dce6;
+    position: relative;
+    display: grid;
+    grid-template-columns: 70px minmax(280px, 0.72fr) minmax(0, 1.28fr);
+    gap: 22px;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(191, 203, 220, 0.15);
+    border-left: 4px solid var(--system-accent);
+    border-radius: 26px;
+    padding: 24px;
+    background:
+      radial-gradient(circle at 9% 0%, color-mix(in srgb, var(--system-accent) 17%, transparent), transparent 20rem),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.076), rgba(255, 255, 255, 0.022) 58%, rgba(255, 255, 255, 0.045)),
+      rgba(7, 13, 23, 0.93);
+    box-shadow: 0 24px 78px rgba(0, 0, 0, 0.28);
   }
 
-  .professional-card h3 {
+  .atlas-row.alternate {
+    grid-template-columns: 70px minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  }
+
+  .atlas-row::after {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    content: '';
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--system-accent) 10%, transparent), transparent 36%),
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: auto, 34px 34px, 34px 34px;
+    opacity: 0.62;
+  }
+
+  .atlas-row > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .atlas-number {
+    display: grid;
+    place-items: center;
+    align-self: start;
+    width: 54px;
+    height: 54px;
+    border: 1px solid color-mix(in srgb, var(--system-accent) 45%, rgba(255, 255, 255, 0.1));
+    border-radius: 999px;
+    background: rgba(2, 6, 12, 0.78);
+    color: var(--system-accent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.86rem;
+    font-weight: 950;
+    box-shadow: 0 0 34px color-mix(in srgb, var(--system-accent) 16%, transparent);
+  }
+
+  .atlas-copy {
+    display: grid;
+    gap: 13px;
+    align-content: center;
+  }
+
+  .atlas-domain {
+    color: var(--system-accent);
+    font-size: 0.74rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .atlas-copy h3 {
     margin: 0;
     color: var(--text-strong);
-    font-size: clamp(1.28rem, 2vw, 2rem);
-    line-height: 1.12;
+    font-size: clamp(1.48rem, 2.8vw, 2.7rem);
+    line-height: 1.02;
     letter-spacing: 0;
   }
 
-  .professional-card p:not(.section-kicker) {
+  .atlas-copy p {
+    max-width: 760px;
     margin: 0;
-    color: var(--muted);
+    color: #b8c7da;
+    font-size: 1rem;
+    line-height: 1.55;
   }
 
-  .architecture-rail {
+  .atlas-outcome {
     display: grid;
+    gap: 6px;
+    border: 1px solid color-mix(in srgb, var(--system-accent) 25%, rgba(255, 255, 255, 0.1));
+    border-radius: 16px;
+    padding: 13px 14px;
+    background: color-mix(in srgb, var(--system-accent) 8%, rgba(255, 255, 255, 0.035));
+  }
+
+  .atlas-outcome strong {
+    color: var(--system-accent);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .atlas-outcome span {
+    color: #eef7ff;
+    font-size: 0.92rem;
+    line-height: 1.38;
+  }
+
+  .atlas-system {
+    display: grid;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .atlas-flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
     border: 1px solid rgba(180, 202, 232, 0.12);
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: 20px;
+    padding: 13px;
     background:
       linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-      rgba(2, 6, 12, 0.34);
-    background-size: 24px 24px;
+      rgba(2, 6, 12, 0.38);
+    background-size: 26px 26px;
   }
 
-  .architecture-rail span {
-    border-left: 2px solid rgba(88, 220, 230, 0.56);
-    padding: 7px 10px;
-    background: rgba(88, 220, 230, 0.055);
-    color: #dffbff;
-    font-size: 0.82rem;
-    font-weight: 850;
+  .atlas-flow span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    border: 1px solid rgba(191, 203, 220, 0.12);
+    border-radius: 14px;
+    padding: 9px 10px;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--system-accent) 10%, transparent), transparent),
+      rgba(255, 255, 255, 0.045);
+    color: #e4f3ff;
+    font-size: 0.8rem;
+    font-weight: 860;
+    line-height: 1.18;
   }
 
-  .professional-stack {
+  .atlas-stack {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
   }
 
-  .outcome-note {
-    display: grid;
-    gap: 6px;
-    margin-top: auto;
-    border: 1px solid rgba(134, 239, 172, 0.18);
-    border-radius: 8px;
-    padding: 12px;
-    background: rgba(134, 239, 172, 0.055);
+  .atlas-stack span {
+    border: 1px solid color-mix(in srgb, var(--system-accent) 30%, rgba(255, 255, 255, 0.1));
+    border-radius: 999px;
+    padding: 5px 10px;
+    background: color-mix(in srgb, var(--system-accent) 9%, transparent);
+    color: #f5fbff;
+    font-size: 0.76rem;
+    font-weight: 900;
+    line-height: 1.15;
   }
 
-  .outcome-note strong {
-    color: var(--green);
-    font-size: 0.74rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .outcome-note span {
-    color: #e9fff0;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 980px) {
-    .professional-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (max-width: 1120px) {
+    .atlas-row,
+    .atlas-row.alternate {
+      grid-template-columns: 54px minmax(0, 1fr);
     }
 
-    .professional-card.lead {
-      grid-column: span 2;
+    .atlas-system {
+      grid-column: 2;
     }
   }
 
-  @media (max-width: 680px) {
-    .professional-grid {
+  @media (max-width: 720px) {
+    .atlas-row,
+    .atlas-row.alternate {
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 14px;
+      border-radius: 22px;
+      padding: 16px;
+    }
+
+    .atlas-number {
+      width: 36px;
+      height: 36px;
+      font-size: 0.72rem;
+    }
+
+    .atlas-system {
+      grid-column: 1 / -1;
+    }
+
+    .atlas-flow {
       grid-template-columns: 1fr;
-    }
-
-    .professional-card.lead {
-      grid-column: auto;
     }
   }
 </style>

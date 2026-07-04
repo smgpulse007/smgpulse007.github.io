@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   Activity,
   ArrowUpRight,
@@ -115,8 +115,6 @@ const systems: DomainSystem[] = [
 ];
 
 export default function DomainSystemsList() {
-  const prefersReducedMotion = useReducedMotion();
-
   return (
     <section className="domain-systems-list" aria-label="Applied AI domains and systems">
       <div className="domain-sequence">
@@ -130,9 +128,7 @@ export default function DomainSystemsList() {
               href={system.href}
               className="domain-system-row"
               style={style}
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 38 }}
-              whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.28 }}
+              initial={false}
               transition={{ duration: 0.5, delay: index * 0.08, ease: 'easeOut' }}
             >
               <span className="domain-row-index">{system.index}</span>
@@ -165,9 +161,7 @@ export default function DomainSystemsList() {
                   {system.flow.map((step, stepIndex) => (
                     <motion.span
                       key={step}
-                      initial={prefersReducedMotion ? false : { opacity: 0.7, x: -8 }}
-                      whileInView={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
-                      viewport={{ once: true, amount: 0.65 }}
+                      initial={false}
                       transition={{ duration: 0.32, delay: index * 0.08 + stepIndex * 0.075, ease: 'easeOut' }}
                     >
                       {step}

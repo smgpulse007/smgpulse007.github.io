@@ -1,10 +1,11 @@
 export const profile = {
   name: 'Shailesh Dudala',
   role: 'Senior Applied AI / ML Engineer',
+  email: 'shaileshdudala@icloud.com',
   positioning:
-    'I build production AI systems across regulated healthcare, insurance, document intelligence, agentic workflows, forecasting, and MLOps.',
+    'I turn professional delivery, hackathon wins, local model experiments, and research prototypes into production-aware AI systems across healthcare, insurance, document intelligence, forecasting, agentic workflows, and MLOps.',
   description:
-    'Portfolio of Shailesh Dudala, Senior Applied AI / ML Engineer building healthcare AI, insurance AI, agentic AI, document AI, FHIR/HL7 systems, quant research, sports forecasting, MLOps, and LLMOps infrastructure.',
+    'Portfolio of Shailesh Dudala, Senior Applied AI / ML Engineer building cross-domain AI systems across healthcare, insurance, document AI, agentic workflows, local model labs, FHIR/HL7 systems, quant research, sports forecasting, MLOps, and LLMOps infrastructure.',
   seoTitle: 'Shailesh Dudala | Applied AI, Agentic AI, Healthcare ML & Quant Systems',
   seoDescription:
     'Senior Applied AI / ML Engineer portfolio covering healthcare AI, insurance AI, agentic AI, document AI, FHIR/HL7 interoperability, quant research, sports forecasting, MLOps, and LLMOps systems.',
@@ -12,7 +13,7 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/ssdudala/',
   site: 'https://smgpulse007.github.io/',
   impactNote:
-    'Selected outcomes from healthcare, insurance, and applied AI delivery. Public repositories are synthetic, sanitized, historical, or research/demo implementations only.',
+    'Selected outcomes from healthcare, insurance, hackathon builds, local model labs, and applied AI delivery. Public repositories are synthetic, sanitized, historical, or research/demo implementations only.',
   privacyNote:
     'All public examples are synthetic, sanitized, historical, or research/demo implementations. No PHI, PII, employer-confidential data, proprietary claims data, private keys, production credentials, or sensitive datasets are included.',
 };

@@ -1,0 +1,56 @@
+---
+import type { ProjectMaturity } from '@data/projects';
+
+type Props = {
+  maturity: ProjectMaturity;
+  note?: string;
+};
+
+const { maturity, note } = Astro.props;
+const className = maturity.replace(/\s+/g, '-');
+---
+
+<span class:list={['maturity-badge', className]} title={note}>{maturity}</span>
+
+<style>
+  .maturity-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border: 1px solid rgba(180, 202, 232, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.055);
+    color: #dbe7f7;
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+
+  .flagship {
+    border-color: rgba(88, 220, 230, 0.42);
+    background: rgba(88, 220, 230, 0.11);
+    color: #dffbff;
+  }
+
+  .polished-demo {
+    border-color: rgba(134, 239, 172, 0.34);
+    background: rgba(134, 239, 172, 0.1);
+    color: #e1ffec;
+  }
+
+  .archived-experiment,
+  .foundations {
+    border-color: rgba(247, 200, 106, 0.32);
+    background: rgba(247, 200, 106, 0.1);
+    color: #fff0bf;
+  }
+
+  .research-note,
+  .experiment {
+    border-color: rgba(196, 181, 253, 0.34);
+    background: rgba(196, 181, 253, 0.1);
+    color: #ede7ff;
+  }
+</style>

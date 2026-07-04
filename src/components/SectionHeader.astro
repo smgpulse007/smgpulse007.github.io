@@ -1,0 +1,28 @@
+---
+type Props = {
+  kicker: string;
+  title: string;
+  copy?: string;
+  align?: 'left' | 'center';
+};
+
+const { kicker, title, copy, align = 'left' } = Astro.props;
+---
+
+<header class:list={['section-header', align]}>
+  <p class="section-kicker">{kicker}</p>
+  <h2 class="section-title">{title}</h2>
+  {copy && <p class="section-copy">{copy}</p>}
+</header>
+
+<style>
+  .section-header {
+    margin-bottom: 30px;
+  }
+
+  .section-header.center {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+</style>

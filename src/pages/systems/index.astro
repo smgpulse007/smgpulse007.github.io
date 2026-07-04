@@ -1,0 +1,88 @@
+---
+import Layout from '@components/Layout.astro';
+import ProjectFilterTabs from '@components/ProjectFilterTabs.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import { profile } from '@data/profile';
+import { projects, excludedRepos } from '@data/projects';
+---
+
+<Layout
+  title={`Systems Library | ${profile.name}`}
+  description="Filterable systems and project library spanning healthcare AI, insurance AI, agentic AI, document AI, quant finance, sports forecasting, MLOps, and data science."
+  canonicalPath="/systems/"
+>
+  <section class="section intro">
+    <div class="container">
+      <p class="section-kicker">Systems library</p>
+      <h1>Tiered public project library across healthcare, agents, document AI, forecasting, infrastructure, and research.</h1>
+      <p class="section-copy">Flagship systems are prominent, experiments are labeled as experiments, and archive/foundation repos are kept in proportion.</p>
+    </div>
+  </section>
+
+  <section class="section cards">
+    <div class="container">
+      <ProjectFilterTabs projects={projects} />
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Quality control" title="Repos excluded from the visible project grid." copy="This pass only surfaces repos that can be framed responsibly from public metadata or README content." />
+      <div class="excluded-grid">
+        {excludedRepos.map((repo) => (
+          <article class="glass-card excluded-card">
+            <h2>{repo.name}</h2>
+            <p>{repo.reason}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    max-width: 1060px;
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(2.6rem, 5.6vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .cards {
+    padding-top: 20px;
+  }
+
+  .excluded-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .excluded-card {
+    padding: 22px;
+  }
+
+  .excluded-card h2 {
+    margin: 0 0 8px;
+    color: var(--text-strong);
+    font-size: 1.1rem;
+    letter-spacing: 0;
+  }
+
+  .excluded-card p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 720px) {
+    .excluded-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -7,42 +7,30 @@ type Props = {
 const { title, skills } = Astro.props;
 ---
 
-<article class="skill panel">
+<article class="skill-cluster glass-card">
   <h3>{title}</h3>
-  <ul>
-    {skills.map((skill) => <li>{skill}</li>)}
-  </ul>
+  <div class="skill-list">
+    {skills.map((skill) => <span class="chip">{skill}</span>)}
+  </div>
 </article>
 
 <style>
-  .skill {
-    border-radius: 8px;
-    padding: 22px;
+  .skill-cluster {
+    min-height: 100%;
+    padding: 20px;
   }
 
   h3 {
-    margin: 0 0 14px;
-    color: var(--cyan);
-    font-size: 1.08rem;
+    margin: 0 0 16px;
+    color: var(--text-strong);
+    font-size: 1.05rem;
+    line-height: 1.18;
+    letter-spacing: 0;
   }
 
-  ul {
+  .skill-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  li {
-    padding: 5px 9px;
-    border: 1px solid rgba(159, 180, 209, 0.18);
-    border-radius: 8px;
-    color: var(--muted);
-    background: rgba(159, 180, 209, 0.06);
-    font-size: 0.9rem;
-    font-weight: 700;
   }
 </style>
-

@@ -10,7 +10,11 @@ import { profile } from '@data/profile';
     </div>
     <nav aria-label="Footer navigation">
       <a href="/">Home</a>
+      <a href="/systems/">Systems</a>
       <a href="/projects/">Case Studies</a>
+      <a href="/quant-forecasting/">Quant</a>
+      <a href="/data-science-lab/">Lab</a>
+      <a href="/experience/">Experience</a>
       <a href={profile.github}>GitHub</a>
       <a href={profile.linkedin}>LinkedIn</a>
     </nav>
@@ -19,9 +23,9 @@ import { profile } from '@data/profile';
 
 <style>
   .site-footer {
-    border-top: 1px solid rgba(159, 180, 209, 0.14);
-    padding: 36px 0;
-    background: rgba(7, 17, 31, 0.8);
+    border-top: 1px solid rgba(180, 202, 232, 0.14);
+    padding: 38px 0;
+    background: rgba(5, 7, 12, 0.82);
   }
 
   .footer-grid {
@@ -29,6 +33,10 @@ import { profile } from '@data/profile';
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 24px;
     align-items: start;
+  }
+
+  strong {
+    color: var(--text-strong);
   }
 
   p {
@@ -41,20 +49,16 @@ import { profile } from '@data/profile';
   nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 12px;
     justify-content: flex-end;
   }
 
   nav a {
     color: var(--muted);
-    font-weight: 800;
+    font-weight: 850;
   }
 
-  nav a:hover {
-    color: var(--text);
-  }
-
-  @media (max-width: 720px) {
+  @media (max-width: 760px) {
     .footer-grid {
       grid-template-columns: 1fr;
     }
@@ -64,4 +68,3 @@ import { profile } from '@data/profile';
     }
   }
 </style>
-

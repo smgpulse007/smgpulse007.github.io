@@ -1,0 +1,89 @@
+---
+import Layout from '@components/Layout.astro';
+import ProjectFilterTabs from '@components/ProjectFilterTabs.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import { profile } from '@data/profile';
+import { getProject, type Project } from '@data/projects';
+
+const labSlugs = [
+  'chatwithwiki-azureml',
+  'azure-los-prediction',
+  'rag-implementation-hedis-ssd',
+  'hedis-dashboard',
+  'medication-recommendation',
+  'hnsc-viz',
+  'gpu-analysis',
+  'ml-templates',
+];
+
+const labProjects = labSlugs.map((slug) => getProject(slug)).filter((project): project is Project => Boolean(project));
+---
+
+<Layout
+  title={`Data Science Lab | ${profile.name}`}
+  description="Older and experimental data science, RAG, healthcare ML, visualization, GPU planning, and ML foundation projects by Shailesh Dudala."
+  canonicalPath="/data-science-lab/"
+>
+  <section class="section intro">
+    <div class="container">
+      <p class="section-kicker">Data Science Lab</p>
+      <h1>Older experiments, research notes, and foundations kept useful without pretending they are flagship systems.</h1>
+      <p class="section-copy">This page separates experimental healthcare LLM work, HEDIS/RAG concepts, visualization notes, GPU planning, and ML templates from the strongest case studies.</p>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container lab-note glass-card">
+      <p class="section-kicker">Quality control</p>
+      <h2>Tiering is part of the signal.</h2>
+      <p>Some repos are valuable as evidence of foundations or thinking, not as current production-grade work. Medication recommendation content is explicitly non-clinical.</p>
+    </div>
+  </section>
+
+  <section class="section cards">
+    <div class="container">
+      <ProjectFilterTabs projects={labProjects} compact />
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Safety" title="No clinical or sensitive-data claims are made for lab projects." copy="The lab is public-safe and deliberately conservative: toy data, concept repos, local demos, research notes, and archive/foundation material only." />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    max-width: 1060px;
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(2.55rem, 5.6vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .cards {
+    padding-top: 20px;
+  }
+
+  .lab-note {
+    padding: 26px;
+  }
+
+  .lab-note h2 {
+    margin: 0 0 10px;
+    color: var(--text-strong);
+    font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+    letter-spacing: 0;
+  }
+
+  .lab-note p:last-child {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

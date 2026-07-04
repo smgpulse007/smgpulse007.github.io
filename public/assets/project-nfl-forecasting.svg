@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">NFL Sports Forecasting and Backtesting Lab</title>
+  <desc id="desc">Technical diagram card showing historical games, feature engineering, Elo, machine learning models, calibration, and backtesting.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#05070c"/><stop offset=".55" stop-color="#111827"/><stop offset="1" stop-color="#172032"/></linearGradient>
+    <linearGradient id="accent" x1="0" x2="1"><stop offset="0" stop-color="#58dce6"/><stop offset=".55" stop-color="#86efac"/><stop offset="1" stop-color="#f7c86a"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <path d="M0 110H1200M0 225H1200M0 340H1200M0 455H1200M0 570H1200M150 0V675M300 0V675M450 0V675M600 0V675M750 0V675M900 0V675M1050 0V675" stroke="#ffffff" stroke-opacity=".04"/>
+  <rect x="80" y="82" width="1040" height="510" rx="18" fill="#ffffff" fill-opacity=".055" stroke="#b4cae8" stroke-opacity=".22"/>
+  <text x="120" y="150" fill="#f5f8ff" font-family="Inter,Segoe UI,sans-serif" font-size="42" font-weight="800">Sports Forecasting &amp; Backtesting Lab</text>
+  <text x="120" y="194" fill="#a7b5c9" font-family="Inter,Segoe UI,sans-serif" font-size="22">Elo baseline + XGBoost + logistic regression + ensemble calibration</text>
+  <g fill="none" stroke="url(#accent)" stroke-width="4"><path d="M145 455 C260 335 340 395 455 285 S670 260 785 198 S950 205 1065 145"/><path d="M145 510 C270 470 385 492 500 430 S725 405 840 345 S985 318 1065 260" stroke-opacity=".48"/></g>
+  <g font-family="Inter,Segoe UI,sans-serif" font-size="18" font-weight="700">
+    <rect x="125" y="260" width="175" height="76" rx="12" fill="#58dce6" fill-opacity=".12" stroke="#58dce6" stroke-opacity=".4"/><text x="146" y="306" fill="#e9fdff">Historical games</text>
+    <rect x="338" y="232" width="175" height="76" rx="12" fill="#86efac" fill-opacity=".11" stroke="#86efac" stroke-opacity=".38"/><text x="370" y="278" fill="#edfff4">Feature builder</text>
+    <rect x="551" y="298" width="175" height="76" rx="12" fill="#f7c86a" fill-opacity=".12" stroke="#f7c86a" stroke-opacity=".42"/><text x="592" y="344" fill="#fff4cc">Model stack</text>
+    <rect x="764" y="250" width="175" height="76" rx="12" fill="#58dce6" fill-opacity=".12" stroke="#58dce6" stroke-opacity=".4"/><text x="804" y="296" fill="#e9fdff">Calibration</text>
+    <rect x="977" y="335" width="98" height="76" rx="12" fill="#ffffff" fill-opacity=".075" stroke="#b4cae8" stroke-opacity=".32"/><text x="1002" y="381" fill="#f5f8ff">Backtest</text>
+  </g>
+</svg>

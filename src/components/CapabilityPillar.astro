@@ -1,0 +1,63 @@
+---
+type Pillar = {
+  title: string;
+  summary: string;
+  capabilities: string[];
+};
+
+type Props = {
+  pillar: Pillar;
+  index: number;
+};
+
+const { pillar, index } = Astro.props;
+const displayIndex = String(index + 1).padStart(2, '0');
+---
+
+<article class="pillar glass-card">
+  <div class="pillar-index">{displayIndex}</div>
+  <h3>{pillar.title}</h3>
+  <p>{pillar.summary}</p>
+  <div class="capabilities">
+    {pillar.capabilities.map((item) => <span class="chip">{item}</span>)}
+  </div>
+</article>
+
+<style>
+  .pillar {
+    min-height: 100%;
+    padding: 24px;
+  }
+
+  .pillar-index {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(88, 220, 230, 0.34);
+    border-radius: 8px;
+    background: rgba(88, 220, 230, 0.09);
+    color: var(--cyan);
+    font-weight: 950;
+  }
+
+  h3 {
+    margin: 22px 0 12px;
+    color: var(--text-strong);
+    font-size: 1.24rem;
+    line-height: 1.18;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+  }
+</style>

@@ -1,23 +1,40 @@
 ---
+import RepoMaturityBadge from './RepoMaturityBadge.astro';
 import type { Project } from '@data/projects';
 
 type Props = {
   project: Project;
+  compact?: boolean;
 };
 
-const { project } = Astro.props;
+const { project, compact = false } = Astro.props;
+const categories = project.categories.join('|');
 ---
 
-<article class="project-card panel">
+<article
+  class:list={['project-card', 'glass-card', compact && 'compact']}
+  data-project-card
+  data-categories={categories}
+  data-tier={project.tier}
+>
   <img src={project.image} alt="" loading="lazy" />
   <div class="project-body">
+    <div class="project-meta">
+      <span>{project.domain}</span>
+      <RepoMaturityBadge maturity={project.maturity} note={project.statusNote} />
+    </div>
     <h3>{project.title}</h3>
     <p>{project.summary}</p>
+    {!compact && (
+      <div class="category-row" aria-label={`${project.title} categories`}>
+        {project.categories.slice(0, 3).map((item) => <span class="chip">{item}</span>)}
+      </div>
+    )}
     <div class="stack" aria-label={`${project.title} stack`}>
-      {project.techStack.slice(0, 6).map((item) => <span class="chip">{item}</span>)}
+      {project.techStack.slice(0, compact ? 4 : 6).map((item) => <span class="chip amber">{item}</span>)}
     </div>
     <div class="button-row">
-      <a class="button" href={project.caseStudyUrl}>Case Study</a>
+      {project.caseStudyUrl && <a class="button" href={project.caseStudyUrl}>Case Study</a>}
       <a class="button secondary" href={project.githubUrl}>GitHub</a>
     </div>
   </div>
@@ -27,31 +44,49 @@ const { project } = Astro.props;
   .project-card {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     min-height: 100%;
-    border-radius: 8px;
+    transition: transform var(--duration) ease, border-color var(--duration) ease, box-shadow var(--duration) ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(88, 220, 230, 0.38);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
   }
 
   img {
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    background: #07111f;
-    border-bottom: 1px solid rgba(159, 180, 209, 0.14);
+    background: #05070c;
+    border-bottom: 1px solid var(--line);
   }
 
   .project-body {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 16px;
+    gap: 15px;
     padding: 20px;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted-2);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
   }
 
   h3 {
     margin: 0;
-    font-size: 1.18rem;
-    line-height: 1.2;
+    color: var(--text-strong);
+    font-size: clamp(1.08rem, 1.5vw, 1.28rem);
+    line-height: 1.22;
+    letter-spacing: 0;
   }
 
   p {
@@ -59,15 +94,20 @@ const { project } = Astro.props;
     color: var(--muted);
   }
 
+  .category-row,
   .stack {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+  }
+
+  .stack {
     margin-top: auto;
   }
 
-  .button-row {
-    margin-top: 2px;
+  @media (max-width: 560px) {
+    .project-meta {
+      flex-direction: column;
+    }
   }
 </style>
-

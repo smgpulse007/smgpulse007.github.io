@@ -4,58 +4,87 @@ import Hero from '@components/Hero.astro';
 import MetricCard from '@components/MetricCard.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import SkillCluster from '@components/SkillCluster.astro';
-import { profile, impactMetrics } from '@data/profile';
-import { projects } from '@data/projects';
+import SectionHeader from '@components/SectionHeader.astro';
+import CapabilityPillar from '@components/CapabilityPillar.astro';
+import ProjectFilterTabs from '@components/ProjectFilterTabs.astro';
+import ArchitectureDiagram from '@components/ArchitectureDiagram.astro';
+import { profile, impactMetrics, portfolioPillars } from '@data/profile';
+import { featuredProjects, projects } from '@data/projects';
 import { recognition } from '@data/recognition';
 import { skillClusters } from '@data/skills';
 ---
 
-<Layout
-  title="Shailesh Dudala | Applied AI & Agentic AI Engineer"
-  description={profile.description}
-  canonicalPath="/"
->
+<Layout title={profile.seoTitle} description={profile.seoDescription} canonicalPath="/">
   <Hero />
 
   <section class="section">
     <div class="container">
-      <p class="section-kicker">Selected outcomes</p>
-      <h2 class="section-title">Production AI delivery, translated into public-safe proof.</h2>
-      <p class="section-copy">{profile.impactNote}</p>
+      <SectionHeader
+        kicker="Positioning"
+        title="Healthcare and insurance AI lead the story; agentic systems, quant research, forecasting, and MLOps show the range."
+        copy="The portfolio is organized as public-safe proof of system design: contracts, workflow controls, model boundaries, deployment patterns, diagrams, and responsible-use notes."
+      />
+      <div class="pillar-grid">
+        {portfolioPillars.map((pillar, index) => <CapabilityPillar pillar={pillar} index={index} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Selected outcomes" title="Production AI delivery, translated into public-safe evidence." copy={profile.impactNote} />
       <div class="metrics-grid">
-        {impactMetrics.map((metric) => <MetricCard value={metric.value} label={metric.label} />)}
+        {impactMetrics.map((metric) => <MetricCard value={metric.value} label={metric.label} detail={metric.detail} />)}
       </div>
     </div>
   </section>
 
   <section class="section featured">
     <div class="container">
-      <p class="section-kicker">Featured systems</p>
-      <h2 class="section-title">Six public demos that map to serious applied AI systems.</h2>
-      <p class="section-copy">Each case study links to a sanitized repository and focuses on system shape: APIs, data contracts, orchestration, validation, and public-safe implementation boundaries.</p>
+      <SectionHeader
+        kicker="Featured systems"
+        title="Eight systems across healthcare AI, LLMOps, document intelligence, quant research, and sports forecasting."
+        copy="The top tier favors projects with real system shape, explicit stack choices, public-safe boundaries, and enough architecture to discuss in an engineering interview."
+      />
       <div class="card-grid project-grid">
-        {projects.map((project) => <ProjectCard project={project} />)}
+        {featuredProjects.map((project) => <ProjectCard project={project} />)}
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section compact">
     <div class="container">
-      <p class="section-kicker">Capability map</p>
-      <h2 class="section-title">Applied AI stack across workflow, model, document, and healthcare systems.</h2>
+      <SectionHeader
+        kicker="System flow"
+        title="Architecture thinking is part of the portfolio, not an afterthought."
+        copy="Each major case study includes a rendered system diagram. This example shows the agentic market-intelligence stack."
+      />
+      <ArchitectureDiagram variant="alphaquant" />
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Portfolio library" title="Filtered view across the full public project library." copy="Older and weaker repos are tiered honestly as experiments, research notes, or archive/foundation work." />
+      <ProjectFilterTabs projects={projects} compact />
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Capability map" title="Applied AI stack across healthcare workflows, LLM systems, forecasting, and infrastructure." />
       <div class="skill-grid">
         {skillClusters.map((cluster) => <SkillCluster title={cluster.title} skills={cluster.skills} />)}
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section compact">
     <div class="container">
-      <p class="section-kicker">Recognition</p>
-      <h2 class="section-title">Healthcare AI challenge recognition.</h2>
+      <SectionHeader kicker="Recognition" title="Healthcare AI challenge recognition and public proof points." />
       <div class="recognition-grid">
         {recognition.map((item) => (
-          <article class="recognition-card panel">
+          <article class="recognition-card glass-card">
             <h3>{item.title}</h3>
             <p>{item.detail}</p>
           </article>
@@ -66,11 +95,18 @@ import { skillClusters } from '@data/skills';
 </Layout>
 
 <style>
+  .pillar-grid,
+  .skill-grid,
+  .recognition-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 14px;
-    margin-top: 28px;
   }
 
   .project-grid,
@@ -79,26 +115,15 @@ import { skillClusters } from '@data/skills';
     margin-top: 30px;
   }
 
-  .skill-grid {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .recognition-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-
   .recognition-card {
-    border-radius: 8px;
     padding: 24px;
   }
 
   .recognition-card h3 {
     margin: 0 0 10px;
+    color: var(--text-strong);
     font-size: 1.1rem;
+    letter-spacing: 0;
   }
 
   .recognition-card p {
@@ -116,7 +141,8 @@ import { skillClusters } from '@data/skills';
     }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 780px) {
+    .pillar-grid,
     .metrics-grid,
     .skill-grid,
     .recognition-grid {
@@ -124,4 +150,3 @@ import { skillClusters } from '@data/skills';
     }
   }
 </style>
-

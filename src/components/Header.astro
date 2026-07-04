@@ -1,5 +1,16 @@
 ---
 import { profile } from '@data/profile';
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Systems', href: '/systems/' },
+  { label: 'Case Studies', href: '/projects/' },
+  { label: 'Quant & Forecasting', href: '/quant-forecasting/' },
+  { label: 'Data Science Lab', href: '/data-science-lab/' },
+  { label: 'Experience', href: '/experience/' },
+  { label: 'GitHub', href: profile.github },
+  { label: 'LinkedIn', href: profile.linkedin },
+];
 ---
 
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -10,9 +21,7 @@ import { profile } from '@data/profile';
       <span>{profile.name}</span>
     </a>
     <div class="nav-links">
-      <a href="/projects/">Projects</a>
-      <a href={profile.github}>GitHub</a>
-      <a href={profile.linkedin}>LinkedIn</a>
+      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
     </div>
   </nav>
 </header>
@@ -22,12 +31,12 @@ import { profile } from '@data/profile';
     position: absolute;
     left: -999px;
     top: 12px;
-    z-index: 10;
+    z-index: 30;
     padding: 10px 14px;
     border-radius: 8px;
     background: var(--cyan);
     color: #03101b;
-    font-weight: 800;
+    font-weight: 900;
   }
 
   .skip-link:focus {
@@ -38,9 +47,9 @@ import { profile } from '@data/profile';
     position: sticky;
     top: 0;
     z-index: 20;
-    border-bottom: 1px solid rgba(159, 180, 209, 0.14);
-    background: rgba(7, 17, 31, 0.88);
-    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(180, 202, 232, 0.14);
+    background: rgba(5, 7, 12, 0.78);
+    backdrop-filter: blur(20px);
   }
 
   .nav {
@@ -55,11 +64,13 @@ import { profile } from '@data/profile';
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 14px;
   }
 
   .brand {
-    font-weight: 900;
+    flex: 0 0 auto;
+    gap: 12px;
+    color: var(--text-strong);
+    font-weight: 950;
   }
 
   .brand-mark {
@@ -67,35 +78,43 @@ import { profile } from '@data/profile';
     place-items: center;
     width: 38px;
     height: 38px;
-    border: 1px solid rgba(54, 215, 232, 0.38);
+    border: 1px solid rgba(88, 220, 230, 0.42);
     border-radius: 8px;
     color: var(--cyan);
-    background: rgba(54, 215, 232, 0.1);
+    background: rgba(88, 220, 230, 0.09);
     font-size: 0.82rem;
   }
 
+  .nav-links {
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
   .nav-links a {
+    border-radius: 8px;
+    padding: 8px 9px;
     color: var(--muted);
-    font-size: 0.94rem;
-    font-weight: 800;
+    font-size: 0.84rem;
+    font-weight: 850;
+    white-space: nowrap;
   }
 
   .nav-links a:hover {
-    color: var(--text);
+    background: rgba(255, 255, 255, 0.055);
+    color: var(--text-strong);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 980px) {
     .nav {
       align-items: flex-start;
       flex-direction: column;
-      justify-content: center;
-      padding: 14px 0;
+      padding: 12px 0;
     }
 
     .nav-links {
       width: 100%;
-      justify-content: space-between;
+      justify-content: flex-start;
+      flex-wrap: wrap;
     }
   }
 </style>
-

@@ -1,22 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Shailesh Dudala Applied AI portfolio">
-  <rect width="1200" height="630" fill="#07111f"/>
-  <path d="M0 530h1200v100H0z" fill="#0d1b2e"/>
-  <g stroke="#1e3656" stroke-width="1">
-    <path d="M80 0v630M220 0v630M360 0v630M500 0v630M640 0v630M780 0v630M920 0v630M1060 0v630"/>
-    <path d="M0 90h1200M0 190h1200M0 290h1200M0 390h1200M0 490h1200"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Shailesh Dudala Applied AI Portfolio</title>
+  <desc id="desc">Portfolio preview for healthcare AI, agentic AI, document intelligence, quant systems, sports forecasting, MLOps, and LLMOps.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#05070c"/><stop offset=".52" stop-color="#0f172a"/><stop offset="1" stop-color="#182033"/></linearGradient>
+    <linearGradient id="accent" x1="0" x2="1"><stop offset="0" stop-color="#58dce6"/><stop offset=".55" stop-color="#86efac"/><stop offset="1" stop-color="#f7c86a"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <path d="M0 105H1200M0 210H1200M0 315H1200M0 420H1200M0 525H1200M150 0V630M300 0V630M450 0V630M600 0V630M750 0V630M900 0V630M1050 0V630" stroke="#ffffff" stroke-opacity=".045"/>
+  <rect x="76" y="70" width="1048" height="490" rx="20" fill="#ffffff" fill-opacity=".055" stroke="#b4cae8" stroke-opacity=".24"/>
+  <text x="120" y="162" fill="#58dce6" font-family="Inter,Segoe UI,sans-serif" font-size="22" font-weight="900" letter-spacing="5">APPLIED AI SYSTEMS PORTFOLIO</text>
+  <text x="120" y="250" fill="#f5f8ff" font-family="Inter,Segoe UI,sans-serif" font-size="66" font-weight="900">Shailesh Dudala</text>
+  <text x="120" y="312" fill="#d8e6f7" font-family="Inter,Segoe UI,sans-serif" font-size="31" font-weight="700">Healthcare ML, Agentic AI, Document Intelligence, Quant Systems</text>
+  <g font-family="Inter,Segoe UI,sans-serif" font-size="20" font-weight="800">
+    <rect x="120" y="388" width="220" height="64" rx="12" fill="#58dce6" fill-opacity=".12" stroke="#58dce6" stroke-opacity=".42"/><text x="154" y="428" fill="#e9fdff">FHIR / HL7 AI</text>
+    <rect x="372" y="388" width="220" height="64" rx="12" fill="#86efac" fill-opacity=".11" stroke="#86efac" stroke-opacity=".38"/><text x="408" y="428" fill="#edfff4">LLMOps + RAG</text>
+    <rect x="624" y="388" width="220" height="64" rx="12" fill="#f7c86a" fill-opacity=".12" stroke="#f7c86a" stroke-opacity=".42"/><text x="658" y="428" fill="#fff4cc">Quant Forecasting</text>
+    <rect x="876" y="388" width="180" height="64" rx="12" fill="#ffffff" fill-opacity=".075" stroke="#b4cae8" stroke-opacity=".32"/><text x="914" y="428" fill="#f5f8ff">MLOps</text>
   </g>
-  <circle cx="1000" cy="150" r="92" fill="#10243c" stroke="#36d7e8" stroke-width="3"/>
-  <path d="M946 150h108M1000 96v108M966 116l68 68M1034 116l-68 68" stroke="#36d7e8" stroke-width="5" stroke-linecap="round"/>
-  <text x="90" y="190" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="700">Shailesh Dudala</text>
-  <text x="92" y="250" fill="#36d7e8" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="600">Senior Applied AI / Agentic AI Engineer</text>
-  <text x="92" y="330" fill="#c8d7ec" font-family="Inter, Arial, sans-serif" font-size="30">Healthcare AI, document intelligence, FHIR/HL7, claims automation, and LLMOps.</text>
-  <g fill="#0d1b2e" stroke="#2dd4bf" stroke-width="2">
-    <rect x="90" y="420" width="210" height="72" rx="14"/>
-    <rect x="325" y="420" width="250" height="72" rx="14"/>
-    <rect x="600" y="420" width="210" height="72" rx="14"/>
-  </g>
-  <text x="120" y="464" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="24">Agentic AI</text>
-  <text x="355" y="464" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="24">Document AI</text>
-  <text x="630" y="464" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="24">LLMOps</text>
+  <path d="M120 502H1056" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
 </svg>
-

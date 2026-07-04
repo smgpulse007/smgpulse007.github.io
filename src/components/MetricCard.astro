@@ -2,35 +2,43 @@
 type Props = {
   value: string;
   label: string;
+  detail?: string;
 };
 
-const { value, label } = Astro.props;
+const { value, label, detail } = Astro.props;
 ---
 
-<article class="metric panel">
+<article class="metric glass-card">
   <strong>{value}</strong>
   <span>{label}</span>
+  {detail && <p>{detail}</p>}
 </article>
 
 <style>
   .metric {
-    min-height: 112px;
+    min-height: 132px;
     padding: 20px;
-    border-radius: 8px;
   }
 
   strong {
     display: block;
     color: var(--green);
-    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-size: clamp(2rem, 4vw, 3.15rem);
     line-height: 1;
+    letter-spacing: 0;
   }
 
   span {
     display: block;
     margin-top: 10px;
-    color: var(--muted);
-    font-weight: 800;
+    color: var(--text-strong);
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: var(--muted-2);
+    font-size: 0.88rem;
   }
 </style>
-

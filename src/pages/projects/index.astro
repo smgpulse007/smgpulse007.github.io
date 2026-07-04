@@ -1,25 +1,31 @@
 ---
 import Layout from '@components/Layout.astro';
 import ProjectCard from '@components/ProjectCard.astro';
+import SectionHeader from '@components/SectionHeader.astro';
 import { profile } from '@data/profile';
-import { projects } from '@data/projects';
+import { caseStudyProjects } from '@data/projects';
 ---
 
 <Layout
-  title="Case Studies | Shailesh Dudala"
-  description="Applied AI, healthcare AI, document AI, LLM steering, and agentic-system case studies by Shailesh Dudala."
+  title={`Case Studies | ${profile.name}`}
+  description="Substantive applied AI, healthcare AI, document AI, LLM steering, quant research, and sports forecasting case studies by Shailesh Dudala."
   canonicalPath="/projects/"
 >
   <section class="section intro">
     <div class="container">
       <p class="section-kicker">Case studies</p>
-      <h1>Portfolio systems, built as public-safe technical proof.</h1>
-      <p class="section-copy">{profile.privacyNote}</p>
+      <h1>Public-safe engineering case studies with rendered architecture, workflow controls, validation, and responsible-use notes.</h1>
+      <p class="section-copy">The broader project library lives under Systems; this page focuses on projects with enough public detail to discuss architecture and tradeoffs.</p>
     </div>
   </section>
   <section class="section cards">
     <div class="container card-grid">
-      {projects.map((project) => <ProjectCard project={project} />)}
+      {caseStudyProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Safety" title="Public-safe by design." copy={profile.privacyNote} />
     </div>
   </section>
 </Layout>
@@ -30,9 +36,10 @@ import { projects } from '@data/projects';
   }
 
   h1 {
-    max-width: 930px;
-    margin: 0 0 18px;
-    font-size: clamp(2.8rem, 6vw, 5.2rem);
+    max-width: 1040px;
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(2.65rem, 5.8vw, 5rem);
     line-height: 1;
     letter-spacing: 0;
   }
@@ -41,4 +48,3 @@ import { projects } from '@data/projects';
     padding-top: 20px;
   }
 </style>
-

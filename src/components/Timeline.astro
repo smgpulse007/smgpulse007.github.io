@@ -1,0 +1,55 @@
+---
+type TimelineItem = {
+  period: string;
+  title: string;
+  detail: string;
+};
+
+type Props = {
+  items: TimelineItem[];
+};
+
+const { items } = Astro.props;
+---
+
+<div class="timeline">
+  {items.map((item) => (
+    <article class="timeline-item glass-card">
+      <p class="period">{item.period}</p>
+      <h3>{item.title}</h3>
+      <p>{item.detail}</p>
+    </article>
+  ))}
+</div>
+
+<style>
+  .timeline {
+    display: grid;
+    gap: 16px;
+  }
+
+  .timeline-item {
+    padding: 22px 24px 22px 30px;
+  }
+
+  .period {
+    margin: 0 0 8px;
+    color: var(--cyan);
+    font-size: 0.8rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    color: var(--text-strong);
+    font-size: 1.18rem;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

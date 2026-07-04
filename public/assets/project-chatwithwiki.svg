@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">ChatWithWiki AzureML RAG Demo</title>
+  <desc id="desc">Technical card showing public wiki content, retrieval, prompt flow, Jinja templates, LLM calls, and answer review.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#05070c"/><stop offset=".55" stop-color="#0f172a"/><stop offset="1" stop-color="#182033"/></linearGradient>
+    <linearGradient id="line" x1="0" x2="1"><stop offset="0" stop-color="#58dce6"/><stop offset=".5" stop-color="#c4b5fd"/><stop offset="1" stop-color="#f7c86a"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect x="78" y="76" width="1044" height="520" rx="18" fill="#ffffff" fill-opacity=".055" stroke="#b4cae8" stroke-opacity=".22"/>
+  <text x="120" y="150" fill="#f5f8ff" font-family="Inter,Segoe UI,sans-serif" font-size="44" font-weight="800">ChatWithWiki AzureML RAG</text>
+  <text x="120" y="196" fill="#a7b5c9" font-family="Inter,Segoe UI,sans-serif" font-size="22">Prompt Flow graph with retrieval, templates, and grounded answer review</text>
+  <g stroke="url(#line)" stroke-width="4" fill="none" stroke-linecap="round"><path d="M230 344H970"/></g>
+  <g font-family="Inter,Segoe UI,sans-serif" font-size="18" font-weight="800" text-anchor="middle">
+    <rect x="135" y="296" width="150" height="96" rx="14" fill="#58dce6" fill-opacity=".12" stroke="#58dce6" stroke-opacity=".4"/><text x="210" y="337" fill="#e9fdff">Public</text><text x="210" y="363" fill="#e9fdff">Content</text>
+    <rect x="315" y="296" width="150" height="96" rx="14" fill="#c4b5fd" fill-opacity=".12" stroke="#c4b5fd" stroke-opacity=".4"/><text x="390" y="337" fill="#f0eaff">Retriever</text><text x="390" y="363" fill="#f0eaff">Context</text>
+    <rect x="495" y="296" width="150" height="96" rx="14" fill="#86efac" fill-opacity=".11" stroke="#86efac" stroke-opacity=".38"/><text x="570" y="337" fill="#edfff4">Prompt</text><text x="570" y="363" fill="#edfff4">Flow</text>
+    <rect x="675" y="296" width="150" height="96" rx="14" fill="#f7c86a" fill-opacity=".12" stroke="#f7c86a" stroke-opacity=".42"/><text x="750" y="337" fill="#fff4cc">Jinja</text><text x="750" y="363" fill="#fff4cc">Template</text>
+    <rect x="855" y="296" width="150" height="96" rx="14" fill="#ffffff" fill-opacity=".075" stroke="#b4cae8" stroke-opacity=".32"/><text x="930" y="337" fill="#f5f8ff">Grounded</text><text x="930" y="363" fill="#f5f8ff">Answer</text>
+  </g>
+</svg>

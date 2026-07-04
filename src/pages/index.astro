@@ -1,21 +1,24 @@
 ---
 import Layout from '@components/Layout.astro';
 import Hero from '@components/Hero.astro';
-import MetricCard from '@components/MetricCard.astro';
-import ProjectCard from '@components/ProjectCard.astro';
+import EvidenceStrip from '@components/home/EvidenceStrip.astro';
+import FeaturedSystemsShowcase from '@components/home/FeaturedSystemsShowcase.astro';
+import QuantSpotlight from '@components/home/QuantSpotlight.astro';
 import SkillCluster from '@components/SkillCluster.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import CapabilityPillar from '@components/CapabilityPillar.astro';
 import ProjectFilterTabs from '@components/ProjectFilterTabs.astro';
 import ArchitectureDiagram from '@components/ArchitectureDiagram.astro';
+import MetricTicker from '@components/visual/MetricTicker';
 import { profile, impactMetrics, portfolioPillars } from '@data/profile';
-import { featuredProjects, projects } from '@data/projects';
+import { projects } from '@data/projects';
 import { recognition } from '@data/recognition';
 import { skillClusters } from '@data/skills';
 ---
 
 <Layout title={profile.seoTitle} description={profile.seoDescription} canonicalPath="/">
   <Hero />
+  <EvidenceStrip />
 
   <section class="section">
     <div class="container">
@@ -33,39 +36,50 @@ import { skillClusters } from '@data/skills';
   <section class="section compact">
     <div class="container">
       <SectionHeader kicker="Selected outcomes" title="Production AI delivery, translated into public-safe evidence." copy={profile.impactNote} />
-      <div class="metrics-grid">
-        {impactMetrics.map((metric) => <MetricCard value={metric.value} label={metric.label} detail={metric.detail} />)}
-      </div>
+      <MetricTicker metrics={impactMetrics} client:visible />
     </div>
   </section>
 
   <section class="section featured">
     <div class="container">
       <SectionHeader
-        kicker="Featured systems"
-        title="Eight systems across healthcare AI, LLMOps, document intelligence, quant research, and sports forecasting."
-        copy="The top tier favors projects with real system shape, explicit stack choices, public-safe boundaries, and enough architecture to discuss in an engineering interview."
+        kicker="Featured systems showroom"
+        title="Ranked systems, real artifacts, and interview-ready proof."
+        copy="Healthcare remains the professional anchor. Agentic AI, document intelligence, quant research, forecasting, and MLOps show the range without flattening every project into the same card."
       />
-      <div class="card-grid project-grid">
-        {featuredProjects.map((project) => <ProjectCard project={project} />)}
-      </div>
+      <FeaturedSystemsShowcase />
     </div>
   </section>
 
   <section class="section compact">
     <div class="container">
       <SectionHeader
-        kicker="System flow"
-        title="Architecture thinking is part of the portfolio, not an afterthought."
-        copy="Each major case study includes a rendered system diagram. This example shows the agentic market-intelligence stack."
+        kicker="Quant & forecasting"
+        title="Forecasting systems are shown as model-risk and evidence systems."
+        copy="AlphaQuant demonstrates agentic research infrastructure. The NFL lab demonstrates baseline discipline, calibration, ensembles, and historical backtesting."
       />
-      <ArchitectureDiagram variant="alphaquant" />
+      <QuantSpotlight />
     </div>
   </section>
 
   <section class="section compact">
     <div class="container">
-      <SectionHeader kicker="Portfolio library" title="Filtered view across the full public project library." copy="Older and weaker repos are tiered honestly as experiments, research notes, or archive/foundation work." />
+      <SectionHeader
+        kicker="Architecture wall"
+        title="Different systems get different maps."
+        copy="Healthcare APIs, model-internals tooling, and agentic research stacks need different visual explanations. The case studies use custom diagrams instead of one generic horizontal flowchart."
+      />
+      <div class="architecture-wall">
+        <ArchitectureDiagram variant="readmission" />
+        <ArchitectureDiagram variant="llm-steering" />
+        <ArchitectureDiagram variant="alphaquant" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <SectionHeader kicker="Research archive" title="Filtered view across the full public project library." copy="Foundation projects are curated as healthcare analytics, RAG, forecasting, visualization, GPU planning, and scientific ML evidence without confusing them with flagship systems." />
       <ProjectFilterTabs projects={projects} compact />
     </div>
   </section>
@@ -103,12 +117,6 @@ import { skillClusters } from '@data/skills';
     gap: 18px;
   }
 
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 14px;
-  }
-
   .project-grid,
   .skill-grid,
   .recognition-grid {
@@ -132,10 +140,6 @@ import { skillClusters } from '@data/skills';
   }
 
   @media (max-width: 1080px) {
-    .metrics-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
     .skill-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -143,10 +147,14 @@ import { skillClusters } from '@data/skills';
 
   @media (max-width: 780px) {
     .pillar-grid,
-    .metrics-grid,
     .skill-grid,
     .recognition-grid {
       grid-template-columns: 1fr;
     }
+  }
+
+  .architecture-wall {
+    display: grid;
+    gap: 18px;
   }
 </style>

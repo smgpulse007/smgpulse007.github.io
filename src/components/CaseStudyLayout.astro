@@ -2,154 +2,181 @@
 import Layout from './Layout.astro';
 import CaseStudyHero from './CaseStudyHero.astro';
 import ArchitectureDiagram from './ArchitectureDiagram.astro';
-import MetricCard from './MetricCard.astro';
 import SectionHeader from './SectionHeader.astro';
+import AtAGlance from './case-study/AtAGlance.astro';
+import ArtifactGallery from './case-study/ArtifactGallery.astro';
+import ProofStrip from './case-study/ProofStrip.astro';
+import DecisionGrid from './case-study/DecisionGrid.astro';
 import type { Project } from '@data/projects';
 import { profile } from '@data/profile';
+import { getCaseStudyDetail } from '@data/caseStudies';
 
 type Props = {
   project: Project;
 };
 
 const { project } = Astro.props;
+const detail = getCaseStudyDetail(project.slug);
 const title = `${project.title} | Shailesh Dudala`;
-const description = `${project.summary} Case study by Shailesh Dudala.`;
+const description = `${detail?.thesis ?? project.summary} Case study by Shailesh Dudala.`;
 ---
 
 <Layout title={title} description={description} canonicalPath={project.caseStudyUrl ?? '/projects/'} image={project.image}>
-  <CaseStudyHero project={project} />
+  <CaseStudyHero project={project} thesis={detail?.thesis} />
 
-  {project.metrics && (
-    <section class="section compact">
-      <div class="container metrics-grid">
-        {project.metrics.map((metric) => <MetricCard value={metric.value} label={metric.label} />)}
-      </div>
-    </section>
-  )}
+  {detail ? (
+    <>
+      <section class="section compact">
+        <div class="container">
+          <AtAGlance detail={detail} />
+        </div>
+      </section>
 
-  <section class="section compact">
-    <div class="container case-layout">
-      <article class="text-block glass-card">
-        <p class="section-kicker">Problem context</p>
-        <h2>Why this system exists</h2>
-        <p>{project.problem}</p>
-      </article>
-      <article class="text-block glass-card">
-        <p class="section-kicker">System overview</p>
-        <h2>What the public demo proves</h2>
-        <p>{project.systemOverview}</p>
-      </article>
-    </div>
-  </section>
+      <section class="section compact">
+        <div class="container">
+          <ProofStrip items={detail.proofStrip} />
+        </div>
+      </section>
 
-  {project.architectureVariant && (
+      {project.architectureVariant && (
+        <section class="section compact">
+          <div class="container">
+            <SectionHeader
+              kicker="Architecture"
+              title="A system map shaped for this project."
+              copy={project.architectureSummary}
+            />
+            <ArchitectureDiagram variant={project.architectureVariant} />
+          </div>
+        </section>
+      )}
+
+      <section class="section compact">
+        <div class="container">
+          <SectionHeader
+            kicker="System walkthrough"
+            title="How the system moves from input to reviewable output."
+          />
+          <div class="walkthrough-grid">
+            {detail.walkthrough.map((step, index) => (
+              <article class="walk-card glass-card">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="container">
+          <SectionHeader
+            kicker="Evidence gallery"
+            title="Artifacts from the source repo, not generic portfolio filler."
+            copy="Screenshots, GIFs, diagrams, JSON responses, model tables, and proof panels make the implementation concrete."
+          />
+          <ArtifactGallery artifacts={detail.artifacts} />
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="container">
+          <DecisionGrid title="Engineering Decisions" items={detail.decisions} />
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="container">
+          <DecisionGrid title="What This Proves in an Interview" items={detail.interviewProof} />
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="container responsible glass-card">
+          <p class="section-kicker">Responsible-use boundary</p>
+          <h2>{project.safetyNote}</h2>
+          <p>{profile.privacyNote}</p>
+          <div class="button-row">
+            <a class="button" href={project.githubUrl}>Open GitHub Repo</a>
+            <a class="button secondary" href="/systems/">Explore All Systems</a>
+          </div>
+        </div>
+      </section>
+    </>
+  ) : (
     <section class="section compact">
       <div class="container">
-        <SectionHeader kicker="Architecture" title="Rendered system flow, not a placeholder." copy={project.architectureSummary} />
-        <ArchitectureDiagram variant={project.architectureVariant} />
+        <article class="text-block glass-card fallback">
+          <h2>System Overview</h2>
+          <p>{project.systemOverview}</p>
+        </article>
       </div>
     </section>
   )}
-
-  <section class="section compact">
-    <div class="container case-layout">
-      <article class="text-block glass-card">
-        <h2>Data Flow / Workflow</h2>
-        <ul>{project.workflow.map((item) => <li>{item}</li>)}</ul>
-      </article>
-      <article class="text-block glass-card">
-        <h2>Model or Agent Design</h2>
-        <ul>{project.modelDesign.map((item) => <li>{item}</li>)}</ul>
-      </article>
-      <article class="text-block glass-card">
-        <h2>What I Built</h2>
-        <ul>{project.whatIBuilt.map((item) => <li>{item}</li>)}</ul>
-      </article>
-      <article class="text-block glass-card">
-        <h2>Validation / Reliability / Evaluation</h2>
-        <ul>{project.validation.map((item) => <li>{item}</li>)}</ul>
-      </article>
-      <article class="text-block glass-card">
-        <h2>MLOps / Deployment / Observability</h2>
-        <ul>{project.deployment.map((item) => <li>{item}</li>)}</ul>
-      </article>
-      <article class="text-block glass-card">
-        <h2>Tech Stack</h2>
-        <div class="chip-list">{project.techStack.map((item) => <span class="chip">{item}</span>)}</div>
-      </article>
-      <article class="text-block glass-card">
-        <h2>Privacy / Safety / Responsible Use</h2>
-        <p>{project.safetyNote}</p>
-        <p class="fine-print">{profile.privacyNote}</p>
-      </article>
-      <article class="text-block glass-card">
-        <h2>What This Demonstrates to an Employer</h2>
-        <ul>{project.employerValue.map((item) => <li>{item}</li>)}</ul>
-      </article>
-    </div>
-  </section>
-
-  <section class="section compact">
-    <div class="container next-panel glass-card">
-      <div>
-        <p class="section-kicker">Repository and next step</p>
-        <h2>{project.title}</h2>
-        <p>{project.statusNote}</p>
-      </div>
-      <div class="button-row">
-        <a class="button" href={project.githubUrl}>Open GitHub Repo</a>
-        <a class="button secondary" href="/systems/">Explore All Systems</a>
-      </div>
-    </div>
-  </section>
 </Layout>
 
 <style>
-  .metrics-grid,
-  .case-layout {
+  .walkthrough-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
   }
 
-  .metrics-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .walk-card {
+    min-height: 100%;
+    padding: 20px;
   }
 
-  .text-block {
-    padding: 24px;
+  .walk-card span {
+    color: var(--amber);
+    font-size: 0.76rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
   }
 
-  .chip-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .next-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 24px;
-    align-items: center;
-    padding: 26px;
-  }
-
-  .next-panel h2 {
-    margin: 0 0 8px;
+  .walk-card h3 {
+    margin: 12px 0 8px;
     color: var(--text-strong);
-    font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+    font-size: 1.08rem;
+    line-height: 1.2;
     letter-spacing: 0;
   }
 
-  .next-panel p {
+  .walk-card p,
+  .responsible p {
     margin: 0;
     color: var(--muted);
   }
 
-  @media (max-width: 840px) {
-    .metrics-grid,
-    .case-layout,
-    .next-panel {
+  .responsible {
+    padding: 26px;
+  }
+
+  .responsible h2 {
+    margin: 0 0 12px;
+    color: var(--text-strong);
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .responsible .button-row {
+    margin-top: 22px;
+  }
+
+  .fallback {
+    padding: 24px;
+  }
+
+  @media (max-width: 1040px) {
+    .walkthrough-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 680px) {
+    .walkthrough-grid {
       grid-template-columns: 1fr;
     }
   }

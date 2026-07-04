@@ -1,0 +1,246 @@
+{
+  "resourceType": "Bundle",
+  "id": "synthetic-high-risk-bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "synthetic-patient-003",
+        "birthDate": "1940-01-30",
+        "gender": "female"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-high-index",
+        "status": "finished",
+        "class": {
+          "code": "IMP",
+          "display": "inpatient"
+        },
+        "period": {
+          "start": "2025-12-18T07:15:00Z",
+          "end": "2025-12-27T16:00:00Z"
+        },
+        "hospitalization": {
+          "dischargeDisposition": {
+            "text": "Home health services"
+          }
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-high-prior-1",
+        "status": "finished",
+        "class": {
+          "code": "IMP",
+          "display": "inpatient"
+        },
+        "period": {
+          "start": "2025-10-10T12:00:00Z",
+          "end": "2025-10-14T13:00:00Z"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-high-prior-2",
+        "status": "finished",
+        "class": {
+          "code": "IMP",
+          "display": "inpatient"
+        },
+        "period": {
+          "start": "2025-08-01T05:25:00Z",
+          "end": "2025-08-06T10:10:00Z"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-high-prior-3",
+        "status": "finished",
+        "class": {
+          "code": "IMP",
+          "display": "inpatient"
+        },
+        "period": {
+          "start": "2025-07-15T09:15:00Z",
+          "end": "2025-07-19T14:40:00Z"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-high-ed",
+        "status": "finished",
+        "class": {
+          "code": "EMER",
+          "display": "emergency"
+        },
+        "period": {
+          "start": "2025-11-03T20:00:00Z",
+          "end": "2025-11-04T01:15:00Z"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-high-001",
+        "code": {
+          "text": "Congestive heart failure"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-high-002",
+        "code": {
+          "text": "Type 2 diabetes mellitus"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-high-003",
+        "code": {
+          "text": "Chronic kidney disease"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-high-004",
+        "code": {
+          "text": "Chronic obstructive pulmonary disease"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-high-005",
+        "code": {
+          "text": "Depression"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond-high-006",
+        "code": {
+          "text": "Atrial fibrillation"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-high-001",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Furosemide"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-high-002",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Insulin glargine"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-high-003",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Apixaban"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-high-004",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Lisinopril"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-high-creatinine",
+        "code": {
+          "text": "Creatinine"
+        },
+        "valueQuantity": {
+          "value": 1.9,
+          "unit": "mg/dL"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-high-hemoglobin",
+        "code": {
+          "text": "Hemoglobin"
+        },
+        "valueQuantity": {
+          "value": 9.8,
+          "unit": "g/dL"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-high-sodium",
+        "code": {
+          "text": "Sodium"
+        },
+        "valueQuantity": {
+          "value": 132,
+          "unit": "mmol/L"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "proc-high-001",
+        "code": {
+          "text": "Cardiac telemetry monitoring"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "proc-high-002",
+        "code": {
+          "text": "Physical therapy evaluation"
+        }
+      }
+    }
+  ]
+}

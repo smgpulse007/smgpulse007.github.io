@@ -9,10 +9,15 @@
     "preview": "astro preview --host 127.0.0.1"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.1",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.0.6",
     "autoprefixer": "^10.4.22",
+    "lucide-react": "^1.23.0",
+    "motion": "^12.42.2",
     "postcss": "^8.5.6",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "tailwindcss": "^3.4.17"
   }
 }

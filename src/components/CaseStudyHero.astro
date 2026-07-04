@@ -4,9 +4,10 @@ import type { Project } from '@data/projects';
 
 type Props = {
   project: Project;
+  thesis?: string;
 };
 
-const { project } = Astro.props;
+const { project, thesis } = Astro.props;
 ---
 
 <section class="case-hero">
@@ -14,7 +15,7 @@ const { project } = Astro.props;
     <div class="case-copy">
       <p class="section-kicker">Case study</p>
       <h1>{project.title}</h1>
-      <p class="lede">{project.summary}</p>
+      <p class="lede">{thesis ?? project.summary}</p>
       <div class="hero-meta">
         <span>{project.domain}</span>
         <RepoMaturityBadge maturity={project.maturity} note={project.statusNote} />

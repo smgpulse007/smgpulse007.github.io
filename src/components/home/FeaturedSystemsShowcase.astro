@@ -1,0 +1,278 @@
+---
+import { getProject, type Project } from '@data/projects';
+
+const lead = getProject('hospital-readmission-fhir-ml-api') as Project;
+const primary = ['hl7-ai-challenge', 'llm-steering']
+  .map((slug) => getProject(slug))
+  .filter((project): project is Project => Boolean(project));
+const compact = ['agentic-alpha-engine', 'nfl-sports-forecasting', 'freshtrack-ai-module', 'local-document-ai-extraction']
+  .map((slug) => getProject(slug))
+  .filter((project): project is Project => Boolean(project));
+
+const apiResponsePreview = `{
+  "risk_band": "high",
+  "readmission_risk_probability": 0.98,
+  "top_features": [
+    "prior_admissions_180d",
+    "comorbidity_count",
+    "abnormal_labs"
+  ]
+}`;
+---
+
+<section class="showcase" aria-label="Featured systems showroom">
+  <article class="showcase-lead glass-card">
+    <div class="lead-copy">
+      <p class="section-kicker">Flagship healthcare system</p>
+      <h3>{lead.title}</h3>
+      <p>{lead.summary}</p>
+      <div class="lead-proof">
+        {lead.metrics?.map((metric) => (
+          <span><strong>{metric.value}</strong>{metric.label}</span>
+        ))}
+      </div>
+      <div class="button-row">
+        <a class="button" href={lead.caseStudyUrl}>Read Case Study</a>
+        <a class="button secondary" href={lead.githubUrl}>GitHub</a>
+      </div>
+    </div>
+
+    <div class="api-panel" aria-label="Readmission API response preview">
+      <div class="api-panel-header">
+        <span>POST /score/fhir-bundle</span>
+        <strong>risk response</strong>
+      </div>
+      <pre><code>{apiResponsePreview}</code></pre>
+      <div class="feature-matrix">
+        <span>FHIR intake</span>
+        <span>Feature contract</span>
+        <span>Explainability</span>
+        <span>Docker + tests</span>
+      </div>
+    </div>
+  </article>
+
+  <div class="primary-grid">
+    {primary.map((project) => (
+      <article class="system-card glass-card">
+        <p class="section-kicker">{project.domain}</p>
+        <h3>{project.title}</h3>
+        <p>{project.summary}</p>
+        <div class="mini-stack">
+          {project.techStack.slice(0, 5).map((item) => <span class="chip">{item}</span>)}
+        </div>
+        <div class="button-row">
+          <a class="button" href={project.caseStudyUrl}>Case Study</a>
+          <a class="button secondary" href={project.githubUrl}>GitHub</a>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="compact-rail">
+    {compact.map((project) => (
+      <a class="rail-item glass-card" href={project.caseStudyUrl}>
+        <span>{project.domain}</span>
+        <strong>{project.shortTitle}</strong>
+        <p>{project.statusNote}</p>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .showcase {
+    display: grid;
+    gap: 18px;
+  }
+
+  .showcase-lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.88fr);
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .lead-copy,
+  .system-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--text-strong);
+    line-height: 1.04;
+    letter-spacing: 0;
+  }
+
+  .showcase-lead h3 {
+    max-width: 680px;
+    font-size: clamp(2rem, 4.1vw, 4rem);
+  }
+
+  .lead-copy > p:not(.section-kicker),
+  .system-card > p:not(.section-kicker) {
+    margin: 15px 0 0;
+    color: var(--muted);
+  }
+
+  .lead-proof {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    margin: 26px 0;
+  }
+
+  .lead-proof span {
+    min-height: 88px;
+    border: 1px solid rgba(180, 202, 232, 0.16);
+    border-radius: 8px;
+    padding: 13px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .lead-proof strong {
+    display: block;
+    color: var(--green);
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+
+  .api-panel {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    border: 1px solid rgba(88, 220, 230, 0.18);
+    border-radius: 8px;
+    padding: 14px;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      rgba(2, 6, 12, 0.78);
+    background-size: 28px 28px, 28px 28px, auto;
+  }
+
+  .api-panel-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted-2);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.78rem;
+  }
+
+  .api-panel-header strong {
+    color: var(--cyan);
+    text-transform: uppercase;
+  }
+
+  pre {
+    overflow-x: auto;
+    margin: 0;
+    border: 1px solid rgba(180, 202, 232, 0.14);
+    border-radius: 8px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.34);
+    color: #dffbff;
+    font-size: 0.86rem;
+    line-height: 1.58;
+  }
+
+  .feature-matrix,
+  .mini-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .feature-matrix span {
+    border: 1px solid rgba(134, 239, 172, 0.2);
+    border-radius: 999px;
+    padding: 7px 10px;
+    background: rgba(134, 239, 172, 0.065);
+    color: #e8ffef;
+    font-size: 0.78rem;
+    font-weight: 850;
+  }
+
+  .primary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .system-card {
+    min-height: 100%;
+    padding: 22px;
+  }
+
+  .system-card h3 {
+    font-size: clamp(1.45rem, 2.4vw, 2.3rem);
+  }
+
+  .mini-stack {
+    margin: 22px 0;
+  }
+
+  .compact-rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .rail-item {
+    display: grid;
+    gap: 7px;
+    min-height: 154px;
+    padding: 18px;
+    transition: transform var(--duration) ease, border-color var(--duration) ease;
+  }
+
+  .rail-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(247, 200, 106, 0.4);
+  }
+
+  .rail-item span {
+    color: var(--amber);
+    font-size: 0.72rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .rail-item strong {
+    color: var(--text-strong);
+    font-size: 1.08rem;
+    line-height: 1.16;
+  }
+
+  .rail-item p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 980px) {
+    .showcase-lead,
+    .primary-grid,
+    .compact-rail {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .showcase-lead {
+      padding: 18px;
+    }
+
+    .lead-proof {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

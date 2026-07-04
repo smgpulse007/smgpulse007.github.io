@@ -1,0 +1,34 @@
+{
+  "patient_id": "synthetic-patient-003",
+  "model_version": "readmission-risk-demo-v0.1.0",
+  "readmission_risk_probability": 0.98,
+  "risk_band": "high",
+  "top_features": [
+    {
+      "feature": "prior_admissions_180d",
+      "value": 3,
+      "direction": "increases_risk"
+    },
+    {
+      "feature": "comorbidity_count",
+      "value": 6,
+      "direction": "increases_risk"
+    },
+    {
+      "feature": "age",
+      "value": 86,
+      "direction": "increases_risk"
+    },
+    {
+      "feature": "abnormal_lab_count",
+      "value": 3,
+      "direction": "increases_risk"
+    },
+    {
+      "feature": "index_length_of_stay_days",
+      "value": 9.36,
+      "direction": "increases_risk"
+    }
+  ],
+  "data_notice": "Synthetic portfolio demo only. No PHI/PII. Not for clinical use."
+}

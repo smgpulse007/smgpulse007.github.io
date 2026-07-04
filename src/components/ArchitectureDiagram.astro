@@ -1,15 +1,17 @@
 ---
 import type { DiagramVariant } from '@data/projects';
 
-type DiagramStep = {
-  title: string;
-  detail: string;
+type Zone = {
+  label: string;
+  tone: 'cyan' | 'green' | 'amber' | 'violet';
+  nodes: string[];
 };
 
 type Diagram = {
   title: string;
   description: string;
-  steps: DiagramStep[];
+  zones: Zone[];
+  footer: string[];
 };
 
 type Props = {
@@ -20,164 +22,121 @@ const { variant } = Astro.props;
 
 const diagrams: Record<DiagramVariant, Diagram> = {
   readmission: {
-    title: 'Hospital Readmission FHIR ML API architecture',
-    description: 'Synthetic FHIR resources flow through validation, parsing, feature extraction, scoring, explanations, and FastAPI responses.',
-    steps: [
-      { title: 'Synthetic FHIR Bundle', detail: 'Patient, encounter, condition, medication, observation, procedure' },
-      { title: 'Schema Validation', detail: 'Typed request contracts and required-resource checks' },
-      { title: 'FHIR Parser', detail: 'Normalize resources into model-ready records' },
-      { title: 'Feature Builder', detail: 'Utilization, comorbidity, labs, discharge context' },
-      { title: 'Risk Scorer', detail: 'Probability, band, and contribution signals' },
-      { title: 'Explanation API', detail: 'Top factors and model-card metadata' },
-      { title: 'FastAPI Response', detail: 'Single and batch scoring outputs' },
+    title: 'Layered FHIR risk-scoring API',
+    description: 'A standards-aware API path that keeps data contracts, feature extraction, scoring, explanations, and validation separate.',
+    zones: [
+      { label: 'FHIR Contract', tone: 'cyan', nodes: ['Synthetic bundle', 'FastAPI schema', 'resource validation'] },
+      { label: 'Feature Layer', tone: 'green', nodes: ['FHIR parser', 'feature builder', 'risk matrix'] },
+      { label: 'Model Layer', tone: 'violet', nodes: ['scorer', 'feature contributions', 'risk band'] },
+      { label: 'Proof Layer', tone: 'amber', nodes: ['sample response', 'model card', 'pytest + Docker'] },
     ],
+    footer: ['No PHI', 'Synthetic examples', 'Explainable output', 'CI-ready service'],
   },
   hl7: {
-    title: 'HL7 AI Challenge Platform architecture',
-    description: 'HL7-style events become FHIR resources, quality signals, risk intelligence, CDS-style actions, and dashboard/audit outputs.',
-    steps: [
-      { title: 'HL7-style Events', detail: 'ADT, ORU, MDM-inspired sample flows' },
-      { title: 'Event Gateway', detail: 'RabbitMQ-backed routing' },
-      { title: 'FHIR Mapper', detail: 'R4-aligned resource transformation' },
-      { title: 'Quality Intelligence', detail: 'Care gaps, HEDIS, measure context' },
-      { title: 'Risk Services', detail: 'Prediction and prioritization signals' },
-      { title: 'CDS / SMART Layer', detail: 'Workflow-aware action surface' },
-      { title: 'Dashboard + Audit', detail: 'Review and traceability' },
+    title: 'Event-driven HL7/FHIR quality platform',
+    description: 'A microservices architecture where HL7 events, FHIR mapping, risk services, SMART/CDS, and dashboards are independent reviewable layers.',
+    zones: [
+      { label: 'Event Sources', tone: 'cyan', nodes: ['HL7 ADT', 'HL7 ORU', 'HL7 MDM'] },
+      { label: 'Message Bus', tone: 'amber', nodes: ['RabbitMQ', 'event routing', 'async workers'] },
+      { label: 'AI Services', tone: 'violet', nodes: ['HL7 processing', 'risk prediction', 'care orchestration'] },
+      { label: 'Workflow', tone: 'green', nodes: ['FHIR R4 resources', 'SMART app', 'CDS Hooks', 'dashboard'] },
     ],
+    footer: ['PostgreSQL', 'Redis', 'Docker', 'Challenge evidence package'],
   },
   'llm-steering': {
-    title: 'LLM Steering Lab architecture',
-    description: 'Prompt pairs create steering vectors that are applied through model hooks and inspected in a FastAPI/React workbench.',
-    steps: [
-      { title: 'Prompt Pairs', detail: 'Contrastive behavior examples' },
-      { title: 'Vector Extraction', detail: 'ActAdd-style representation delta' },
-      { title: 'Model Registry', detail: 'Supported runtimes and limits' },
-      { title: 'Activation Hook', detail: 'Apply steering during inference' },
-      { title: 'Baseline Compare', detail: 'Steered vs unsteered outputs' },
-      { title: 'FastAPI Workbench', detail: 'Runs, controls, and evidence' },
-      { title: 'React UI', detail: 'Reviewable comparisons' },
+    title: 'Activation steering workbench',
+    description: 'A model-internals diagram that exposes prompt pairs, vector extraction, hook placement, comparison runs, and workbench review.',
+    zones: [
+      { label: 'Experiment Design', tone: 'cyan', nodes: ['positive prompt', 'negative prompt', 'behavior preset'] },
+      { label: 'Representation Work', tone: 'violet', nodes: ['hidden states', 'steering vector', 'layer + coefficient'] },
+      { label: 'Intervention Site', tone: 'amber', nodes: ['pre-hook', 'post-hook', 'residual stream'] },
+      { label: 'Workbench', tone: 'green', nodes: ['FastAPI', 'React UI', 'baseline vs steered'] },
     ],
+    footer: ['ActAdd baseline', 'Hugging Face + PyTorch', 'local model access', 'limitations visible'],
   },
   'document-ai': {
-    title: 'Local Document AI Extraction architecture',
-    description: 'PDFs are parsed locally, chunked, prompted through Ollama/LangChain, and reviewed in a Streamlit interface.',
-    steps: [
-      { title: 'PDF Upload', detail: 'Sample or private local file input' },
-      { title: 'PDFPlumber Parse', detail: 'Text extraction without remote upload' },
-      { title: 'Chunking', detail: 'Windowed context for prompts' },
-      { title: 'Prompt Assembly', detail: 'Analyst criteria plus context' },
-      { title: 'Ollama / LangChain', detail: 'Local model invocation' },
-      { title: 'Structured Result', detail: 'Extraction answer and rationale' },
-      { title: 'Streamlit Review', detail: 'Human-readable surface' },
+    title: 'Local document intelligence boundary',
+    description: 'A privacy-oriented pipeline that keeps parsing, chunking, prompt assembly, local inference, and review inside the local workflow.',
+    zones: [
+      { label: 'Document Zone', tone: 'cyan', nodes: ['local PDF', 'PDFPlumber', 'text extraction'] },
+      { label: 'Context Zone', tone: 'green', nodes: ['chunking', 'criteria prompts', 'context windows'] },
+      { label: 'Inference Zone', tone: 'violet', nodes: ['LangChain', 'Ollama', 'local model'] },
+      { label: 'Review Zone', tone: 'amber', nodes: ['Streamlit UI', 'extracted answer', 'analyst review'] },
     ],
+    footer: ['Local-first', 'reviewable output', 'no committed private docs', 'regulated workflow pattern'],
   },
   alphaquant: {
-    title: 'Agentic Alpha / AlphaQuant architecture',
-    description: 'Public signals flow through ingestion, storage, agent planning, tool calls, verification, and structured report surfaces.',
-    steps: [
-      { title: 'Public Signals', detail: 'Market, macro, news, filings-style inputs' },
-      { title: 'Ingestion Adapters', detail: 'Explicit data boundaries' },
-      { title: 'Storage Fabric', detail: 'Postgres, Redis, Qdrant, MinIO, search' },
-      { title: 'Agent Planner', detail: 'Task graph, tool routing, state' },
-      { title: 'Tool Calls', detail: 'Retrieval, scoring, synthesis support' },
-      { title: 'Verification', detail: 'Rules, citations, consistency checks' },
-      { title: 'Report / API / UI', detail: 'Structured research artifacts' },
+    title: 'Agentic research stack with storage fabric',
+    description: 'A local-first agentic system with separate ingestion, memory, planning, verification, and Fusion report surfaces.',
+    zones: [
+      { label: 'Signal Ingestion', tone: 'cyan', nodes: ['market signals', 'macro context', 'public research'] },
+      { label: 'Storage Fabric', tone: 'green', nodes: ['Postgres', 'Redis', 'Qdrant', 'MinIO', 'OpenSearch'] },
+      { label: 'Agent Core', tone: 'violet', nodes: ['planner', 'tool calls', 'state graph', 'Ollama'] },
+      { label: 'Verification', tone: 'amber', nodes: ['rules', 'citations', 'Fusion report', 'API/UI'] },
     ],
+    footer: ['Docker-first', 'local-first', 'not financial advice', 'structured reports'],
   },
   nfl: {
-    title: 'NFL Sports Forecasting architecture',
-    description: 'Historical games and features feed Elo, ML models, ensembles, calibration, and historical backtesting outputs.',
-    steps: [
-      { title: 'Historical Games', detail: 'Seasons, teams, scores' },
-      { title: 'Feature Builder', detail: 'Team stats and schedule context' },
-      { title: 'Elo Baseline', detail: 'Interpretable reference model' },
-      { title: 'ML Models', detail: 'XGBoost and logistic regression' },
-      { title: 'Ensemble', detail: 'Probability blending' },
-      { title: 'Calibration', detail: 'Brier score and probability quality' },
-      { title: 'Backtesting', detail: 'Historical decisions and results' },
+    title: 'Forecasting and backtesting pipeline',
+    description: 'A model-evaluation architecture where baselines, supervised models, calibration, and historical backtests are visible.',
+    zones: [
+      { label: 'Historical Data', tone: 'cyan', nodes: ['1999-2024 games', 'team stats', 'schedule context'] },
+      { label: 'Baselines', tone: 'green', nodes: ['Elo ratings', 'home advantage', 'feature matrix'] },
+      { label: 'Model Stack', tone: 'violet', nodes: ['XGBoost', 'logistic regression', 'ensemble'] },
+      { label: 'Evaluation', tone: 'amber', nodes: ['Brier score', 'accuracy table', 'backtesting'] },
     ],
+    footer: ['Archived experiment', 'historical analytics', 'not betting advice', 'calibration discipline'],
   },
   freshtrack: {
-    title: 'FreshTrack AI Module architecture',
-    description: 'Receipt-like images move through OCR, parsing, optional LLM cleanup, confidence scoring, and structured JSON output.',
-    steps: [
-      { title: 'Image Upload', detail: 'Receipt or document image input' },
-      { title: 'Preprocessing', detail: 'Image cleanup for OCR' },
-      { title: 'Tesseract OCR', detail: 'Raw text extraction baseline' },
-      { title: 'Text Cleanup', detail: 'Remove totals and noise' },
-      { title: 'Optional LLM Parser', detail: 'False-positive reduction' },
-      { title: 'Confidence Scoring', detail: 'Item-level quality signals' },
-      { title: 'JSON API', detail: 'Frontend/database ready contract' },
+    title: 'OCR-to-JSON extraction API',
+    description: 'A document/vision API path where image cleanup, OCR, parsing, optional LLM filtering, confidence, and JSON output are distinct.',
+    zones: [
+      { label: 'Image Intake', tone: 'cyan', nodes: ['receipt image', 'preprocessing', 'upload API'] },
+      { label: 'OCR Layer', tone: 'green', nodes: ['Tesseract', 'raw text', 'noise cleanup'] },
+      { label: 'Parser Layer', tone: 'violet', nodes: ['domain matching', 'optional LLM', 'false-positive filter'] },
+      { label: 'Contract Layer', tone: 'amber', nodes: ['confidence', 'shelf-life lookup', 'JSON response'] },
     ],
+    footer: ['FastAPI docs', 'Docker variants', 'test receipt', 'frontend-ready contract'],
   },
   chatwithwiki: {
-    title: 'ChatWithWiki AzureML RAG architecture',
-    description: 'Public wiki-style content moves through retrieval, prompt-flow orchestration, Jinja templates, answer generation, and review.',
-    steps: [
-      { title: 'Public Content', detail: 'Wiki-style source material' },
-      { title: 'Retriever', detail: 'Relevant passage selection' },
-      { title: 'Prompt Flow', detail: 'Cloud workflow nodes' },
-      { title: 'Jinja Template', detail: 'Prompt construction' },
-      { title: 'LLM Call', detail: 'Grounded answer draft' },
-      { title: 'Answer Artifact', detail: 'Inspectable response' },
-      { title: 'Review Notes', detail: 'Grounding assessment' },
+    title: 'Azure ML Prompt Flow RAG graph',
+    description: 'A cloud RAG workflow that separates public content, retrieval, prompt templating, LLM generation, and answer review.',
+    zones: [
+      { label: 'Source', tone: 'cyan', nodes: ['public wiki content', 'question', 'retrieval target'] },
+      { label: 'Retrieval', tone: 'green', nodes: ['context passages', 'ranking', 'grounding'] },
+      { label: 'Prompt Flow', tone: 'violet', nodes: ['Jinja template', 'workflow nodes', 'LLM call'] },
+      { label: 'Review', tone: 'amber', nodes: ['answer artifact', 'source check', 'quality notes'] },
     ],
+    footer: ['Azure ML', 'Prompt Flow', 'RAG demo', 'public content only'],
   },
 };
 
 const diagram = diagrams[variant];
-const nodeWidth = 136;
-const nodeHeight = 92;
-const gap = 20;
-const startX = 30;
-const nodeY = 74;
-const viewWidth = startX * 2 + diagram.steps.length * nodeWidth + (diagram.steps.length - 1) * gap;
-const viewHeight = 240;
-const markerId = `arrow-${variant}`;
-const titleId = `${variant}-diagram-title`;
-const descId = `${variant}-diagram-desc`;
 ---
 
 <figure class="architecture glass-card">
   <figcaption>
-    <span>Rendered architecture</span>
+    <span>Custom architecture</span>
     <strong>{diagram.title}</strong>
   </figcaption>
-  <div class="diagram-scroll">
-    <svg viewBox={`0 0 ${viewWidth} ${viewHeight}`} role="img" aria-labelledby={`${titleId} ${descId}`} preserveAspectRatio="xMidYMid meet">
-      <title id={titleId}>{diagram.title}</title>
-      <desc id={descId}>{diagram.description}</desc>
-      <defs>
-        <linearGradient id={`line-${variant}`} x1="0%" x2="100%" y1="0%" y2="0%">
-          <stop offset="0%" stop-color="#58dce6" />
-          <stop offset="52%" stop-color="#86efac" />
-          <stop offset="100%" stop-color="#f7c86a" />
-        </linearGradient>
-        <marker id={markerId} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="#58dce6" />
-        </marker>
-      </defs>
-      <rect x="10" y="18" width={viewWidth - 20} height={viewHeight - 36} rx="8" fill="rgba(255,255,255,0.025)" stroke="rgba(180,202,232,0.12)" />
-      {diagram.steps.slice(0, -1).map((_, index) => {
-        const x1 = startX + index * (nodeWidth + gap) + nodeWidth;
-        const x2 = x1 + gap - 8;
-        const y = nodeY + nodeHeight / 2;
-        return <line x1={x1} y1={y} x2={x2} y2={y} stroke={`url(#line-${variant})`} stroke-width="2" marker-end={`url(#${markerId})`} />;
-      })}
-      {diagram.steps.map((step, index) => {
-        const x = startX + index * (nodeWidth + gap);
-        return (
-          <foreignObject x={x} y={nodeY} width={nodeWidth} height={nodeHeight}>
-            <div xmlns="http://www.w3.org/1999/xhtml" class="diagram-node">
-              <strong>{step.title}</strong>
-              <span>{step.detail}</span>
-            </div>
-          </foreignObject>
-        );
-      })}
+  <p class="description">{diagram.description}</p>
+  <div class="architecture-map" data-variant={variant}>
+    <svg class="architecture-lines" viewBox="0 0 1000 250" aria-hidden="true" preserveAspectRatio="none">
+      <path d="M90 70 C240 20 300 120 420 80 S650 80 770 45 S880 92 950 70" />
+      <path d="M90 175 C230 215 330 135 470 180 S710 185 930 145" />
     </svg>
+    {diagram.zones.map((zone) => (
+      <section class:list={['architecture-zone', zone.tone]}>
+        <h3>{zone.label}</h3>
+        <div>
+          {zone.nodes.map((node) => <span>{node}</span>)}
+        </div>
+      </section>
+    ))}
   </div>
-  <p>{diagram.description}</p>
+  <div class="architecture-footer">
+    {diagram.footer.map((item) => <span>{item}</span>)}
+  </div>
 </figure>
 
 <style>
@@ -192,7 +151,7 @@ const descId = `${variant}-diagram-desc`;
     align-items: baseline;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
 
   figcaption span {
@@ -208,48 +167,112 @@ const descId = `${variant}-diagram-desc`;
     font-size: 1rem;
   }
 
-  .diagram-scroll {
-    overflow-x: auto;
-    padding-bottom: 4px;
+  .description {
+    margin: 0 0 16px;
+    color: var(--muted);
   }
 
-  svg {
-    display: block;
-    min-width: 960px;
-    width: 100%;
-    height: auto;
-  }
-
-  .diagram-node {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    border: 1px solid rgba(88, 220, 230, 0.28);
+  .architecture-map {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    min-height: 300px;
+    border: 1px solid rgba(180, 202, 232, 0.12);
     border-radius: 8px;
-    padding: 10px;
-    background: rgba(9, 15, 28, 0.88);
-    color: #f7fbff;
+    padding: 18px;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      rgba(2, 6, 12, 0.38);
+    background-size: 28px 28px;
     overflow: hidden;
   }
 
-  .diagram-node strong {
-    display: block;
-    font-size: 0.8rem;
-    line-height: 1.15;
+  .architecture-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
 
-  .diagram-node span {
-    display: block;
-    margin-top: 5px;
-    color: #b8c8dc;
-    font-size: 0.68rem;
-    line-height: 1.18;
+  .architecture-lines path {
+    fill: none;
+    stroke: rgba(88, 220, 230, 0.26);
+    stroke-width: 2;
+    stroke-dasharray: 8 12;
   }
 
-  p {
-    margin: 12px 0 0;
-    color: var(--muted);
+  .architecture-zone {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 244px;
+    border: 1px solid rgba(180, 202, 232, 0.16);
+    border-radius: 8px;
+    padding: 16px;
+    background: rgba(9, 15, 28, 0.86);
+  }
+
+  .architecture-zone h3 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+
+  .architecture-zone div {
+    display: grid;
+    gap: 9px;
+    margin-top: 18px;
+  }
+
+  .architecture-zone span,
+  .architecture-footer span {
+    border: 1px solid rgba(180, 202, 232, 0.15);
+    border-radius: 8px;
+    padding: 9px 10px;
+    background: rgba(255, 255, 255, 0.045);
+    color: #dce8f7;
+    font-size: 0.86rem;
+    font-weight: 850;
+  }
+
+  .architecture-zone.cyan {
+    border-color: rgba(88, 220, 230, 0.32);
+  }
+
+  .architecture-zone.green {
+    border-color: rgba(134, 239, 172, 0.32);
+  }
+
+  .architecture-zone.amber {
+    border-color: rgba(247, 200, 106, 0.34);
+  }
+
+  .architecture-zone.violet {
+    border-color: rgba(196, 181, 253, 0.34);
+  }
+
+  .architecture-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  @media (max-width: 960px) {
+    .architecture-map {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .architecture-map {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

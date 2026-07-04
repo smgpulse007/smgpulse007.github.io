@@ -1,0 +1,188 @@
+---
+import { getProject, type Project } from '@data/projects';
+
+const alpha = getProject('agentic-alpha-engine') as Project;
+const nfl = getProject('nfl-sports-forecasting') as Project;
+
+const modelRows = [
+  { model: 'Elo baseline', accuracy: '68.4%', brier: '0.2088', role: 'Interpretable reference model' },
+  { model: 'XGBoost', accuracy: '69.5%', brier: '0.2013', role: 'Nonlinear feature model' },
+  { model: 'Logistic Regression', accuracy: '70.2%', brier: '0.2010', role: 'Calibrated statistical baseline' },
+  { model: 'Ensemble', accuracy: '69.8%', brier: '0.1986', role: 'Best 2024 probability quality' },
+];
+---
+
+<section class="quant-spotlight" aria-label="Quant and forecasting spotlight">
+  <div class="quant-panel glass-card">
+    <div class="quant-copy">
+      <p class="section-kicker">Quant & forecasting spotlight</p>
+      <h3>{alpha.shortTitle}</h3>
+      <p>{alpha.summary}</p>
+      <div class="signal-list">
+        <span>Public-signal ingestion</span>
+        <span>Storage fabric</span>
+        <span>Agent planner</span>
+        <span>Verification rules</span>
+        <span>Fusion report</span>
+      </div>
+      <div class="button-row">
+        <a class="button" href={alpha.caseStudyUrl}>AlphaQuant Case Study</a>
+        <a class="button secondary" href={alpha.githubUrl}>GitHub</a>
+      </div>
+    </div>
+    <img src="/assets/case-studies/alphaquant/ui-demo.gif" alt="AlphaQuant UI demo GIF" loading="lazy" />
+  </div>
+
+  <div class="forecast-panel glass-card">
+    <div>
+      <p class="section-kicker">Sports forecasting lab</p>
+      <h3>{nfl.shortTitle}</h3>
+      <p>{nfl.summary}</p>
+    </div>
+    <div class="model-table" role="table" aria-label="NFL forecasting model comparison">
+      <div class="table-row table-head" role="row">
+        <span role="columnheader">Model</span>
+        <span role="columnheader">Accuracy</span>
+        <span role="columnheader">Brier</span>
+        <span role="columnheader">Why it matters</span>
+      </div>
+      {modelRows.map((row) => (
+        <div class="table-row" role="row">
+          <span role="cell">{row.model}</span>
+          <span role="cell">{row.accuracy}</span>
+          <span role="cell">{row.brier}</span>
+          <span role="cell">{row.role}</span>
+        </div>
+      ))}
+    </div>
+    <p class="responsible-note">
+      Historical analytics only. Not investment advice, financial advice, gambling advice, betting advice, or a wagering product.
+    </p>
+  </div>
+</section>
+
+<style>
+  .quant-spotlight {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    gap: 18px;
+  }
+
+  .quant-panel,
+  .forecast-panel {
+    min-height: 100%;
+    padding: 22px;
+  }
+
+  .quant-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 18px;
+    align-items: center;
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: clamp(1.65rem, 3vw, 3rem);
+    line-height: 1.04;
+    letter-spacing: 0;
+  }
+
+  p {
+    color: var(--muted);
+  }
+
+  .quant-copy > p:not(.section-kicker),
+  .forecast-panel > div > p {
+    margin: 14px 0 0;
+  }
+
+  .quant-panel img {
+    display: block;
+    width: 100%;
+    border: 1px solid rgba(180, 202, 232, 0.16);
+    border-radius: 8px;
+    background: #05070c;
+  }
+
+  .signal-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 24px 0;
+  }
+
+  .signal-list span {
+    border: 1px solid rgba(196, 181, 253, 0.26);
+    border-radius: 999px;
+    padding: 7px 10px;
+    background: rgba(196, 181, 253, 0.08);
+    color: #efeaff;
+    font-size: 0.78rem;
+    font-weight: 850;
+  }
+
+  .forecast-panel {
+    display: grid;
+    gap: 18px;
+  }
+
+  .model-table {
+    display: grid;
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid rgba(180, 202, 232, 0.16);
+    border-radius: 8px;
+    background: rgba(180, 202, 232, 0.12);
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 1.05fr 0.62fr 0.62fr 1.42fr;
+    gap: 1px;
+    background: rgba(9, 15, 29, 0.94);
+  }
+
+  .table-row span {
+    padding: 10px;
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+
+  .table-row span:first-child {
+    color: var(--text-strong);
+    font-weight: 900;
+  }
+
+  .table-head span {
+    color: var(--cyan);
+    font-size: 0.72rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .responsible-note {
+    margin: 0;
+    color: var(--muted-2);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 1080px) {
+    .quant-spotlight,
+    .quant-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 660px) {
+    .table-row {
+      grid-template-columns: 1fr;
+    }
+
+    .table-row span {
+      padding: 8px 10px;
+    }
+  }
+</style>

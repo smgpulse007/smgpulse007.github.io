@@ -1,5 +1,6 @@
 ---
 import { profile } from '@data/profile';
+import AnimatedHeroConsole from './visual/AnimatedHeroConsole';
 ---
 
 <section class="hero">
@@ -8,21 +9,14 @@ import { profile } from '@data/profile';
       <p class="eyebrow">Applied AI systems portfolio</p>
       <h1>{profile.name}</h1>
       <h2>{profile.role}</h2>
-      <p class="lede">{profile.positioning}</p>
+      <p class="lede">I build production AI systems across regulated healthcare, insurance, document intelligence, agentic workflows, forecasting, and MLOps.</p>
       <div class="button-row">
-        <a class="button" href="/projects/">View Case Studies</a>
         <a class="button secondary" href="/systems/">Explore Systems</a>
+        <a class="button" href="/projects/">View Case Studies</a>
         <a class="button secondary" href="/quant-forecasting/">Quant & Forecasting</a>
       </div>
     </div>
-    <div class="hero-art glass-card">
-      <img src="/assets/hero-system-map.svg" alt="Applied AI system map showing healthcare interoperability, agentic AI, document AI, ML services, quant systems, and LLMOps." />
-      <div class="signal-row" aria-label="Portfolio focus areas">
-        <span>Healthcare AI</span>
-        <span>Agentic Systems</span>
-        <span>Quant Research</span>
-      </div>
-    </div>
+    <AnimatedHeroConsole client:load />
   </div>
 </section>
 
@@ -70,53 +64,15 @@ import { profile } from '@data/profile';
     font-size: clamp(1.06rem, 2vw, 1.28rem);
   }
 
-  .hero-art {
-    padding: 14px;
-  }
-
-  .hero-art img {
-    display: block;
-    width: 100%;
-    border-radius: 8px;
-  }
-
-  .signal-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 12px;
-  }
-
-  .signal-row span {
-    display: grid;
-    min-height: 42px;
-    place-items: center;
-    border: 1px solid rgba(180, 202, 232, 0.16);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--muted);
-    font-size: 0.82rem;
-    font-weight: 900;
-    text-align: center;
-  }
-
   @media (max-width: 940px) {
     .hero-grid {
       grid-template-columns: 1fr;
-    }
-
-    .hero-art {
-      order: -1;
     }
   }
 
   @media (max-width: 640px) {
     .hero {
       padding-top: 52px;
-    }
-
-    .signal-row {
-      grid-template-columns: 1fr;
     }
   }
 </style>

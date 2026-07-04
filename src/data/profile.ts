@@ -2,7 +2,7 @@ export const profile = {
   name: 'Shailesh Dudala',
   role: 'Senior Applied AI / ML Engineer',
   positioning:
-    'Production-grade agentic AI, document intelligence, healthcare and insurance ML, financial research systems, sports forecasting models, and MLOps/LLMOps infrastructure.',
+    'I build production AI systems across regulated healthcare, insurance, document intelligence, agentic workflows, forecasting, and MLOps.',
   description:
     'Portfolio of Shailesh Dudala, Senior Applied AI / ML Engineer building healthcare AI, insurance AI, agentic AI, document AI, FHIR/HL7 systems, quant research, sports forecasting, MLOps, and LLMOps infrastructure.',
   seoTitle: 'Shailesh Dudala | Applied AI, Agentic AI, Healthcare ML & Quant Systems',

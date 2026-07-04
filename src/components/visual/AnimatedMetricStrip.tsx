@@ -95,12 +95,16 @@ export default function AnimatedMetricStrip({ metrics }: Props) {
           grid-template-columns: repeat(6, minmax(0, 1fr));
           overflow: hidden;
           border: 1px solid rgba(191, 203, 220, 0.14);
-          border-radius: 24px;
-          background: rgba(191, 203, 220, 0.1);
-          box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+          border-radius: 26px;
+          background:
+            linear-gradient(90deg, rgba(241, 189, 92, 0.12), rgba(141, 232, 180, 0.08), rgba(88, 220, 230, 0.1)),
+            rgba(191, 203, 220, 0.1);
+          box-shadow: 0 28px 86px rgba(0, 0, 0, 0.3);
         }
 
         .metric-card {
+          position: relative;
+          overflow: hidden;
           min-height: 156px;
           padding: 20px;
           background:
@@ -109,13 +113,29 @@ export default function AnimatedMetricStrip({ metrics }: Props) {
             rgba(8, 13, 25, 0.94);
         }
 
+        .metric-card::before {
+          position: absolute;
+          inset: 0 0 auto;
+          height: 3px;
+          content: '';
+          background: var(--metric-accent, #8de8b4);
+          opacity: 0.82;
+        }
+
+        .metric-card:nth-child(1) { --metric-accent: #f1bd5c; }
+        .metric-card:nth-child(2) { --metric-accent: #8de8b4; }
+        .metric-card:nth-child(3) { --metric-accent: #58dce6; }
+        .metric-card:nth-child(4) { --metric-accent: #b9a7ff; }
+        .metric-card:nth-child(5) { --metric-accent: #f0a0bd; }
+        .metric-card:nth-child(6) { --metric-accent: #cbd5e1; }
+
         .metric-card + .metric-card {
           border-left: 1px solid rgba(191, 203, 220, 0.1);
         }
 
         .metric-card strong {
           display: block;
-          color: #8de8b4;
+          color: var(--metric-accent, #8de8b4);
           font-size: clamp(2rem, 3.2vw, 3.18rem);
           line-height: 1;
         }

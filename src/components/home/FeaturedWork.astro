@@ -14,9 +14,11 @@ const readmissionSnippet = `{
   ],
   "review_surface": "care_management"
 }`;
+
+const workflowSteps = ['FHIR bundle', 'Feature builder', 'Risk scorer', 'Review response'];
 ---
 
-<div class="featured-work">
+<div class="featured-work" aria-label="Featured case-study systems">
   <article class="flagship-card">
     <div class="flagship-copy">
       <p class="section-kicker">Flagship case study</p>
@@ -30,60 +32,106 @@ const readmissionSnippet = `{
         <a class="button secondary" href={lead.githubUrl}>GitHub</a>
       </div>
     </div>
-    <a class="flagship-visual image-frame" href={lead.caseStudyUrl} aria-label={`Open ${lead.title} case study`}>
+
+    <a class="flagship-visual" href={lead.caseStudyUrl} aria-label={`Open ${lead.title} case study`}>
+      <div class="visual-topline">
+        <span>FHIR ML service</span>
+        <strong>typed risk contract</strong>
+      </div>
       <pre aria-hidden="true"><code>{readmissionSnippet}</code></pre>
+      <div class="workflow-rail" aria-hidden="true">
+        {workflowSteps.map((step) => <span>{step}</span>)}
+      </div>
     </a>
   </article>
 
-  <div class="medium-grid">
+  <div class="supporting-grid">
     {medium.map((project, index) => (
-      <a class:list={['medium-card', index === 0 ? 'violet' : 'amber']} href={project.caseStudyUrl}>
-        <img src={index === 0 ? '/assets/case-studies/llm-steering/screenshots/workbench-ui-overview.gif' : '/assets/case-studies/alphaquant/screenshots/ui-screenshot.png'} alt="" loading="lazy" />
-        <div>
+      <a class:list={['support-card', index === 0 ? 'violet' : 'amber']} href={project.caseStudyUrl}>
+        <div class="support-visual">
+          <img
+            src={index === 0 ? '/assets/case-studies/llm-steering/screenshots/workbench-ui-overview.gif' : '/assets/case-studies/alphaquant/screenshots/ui-screenshot.png'}
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="support-copy">
           <span>{project.domain}</span>
           <h3>{project.title}</h3>
           <p>{project.problem}</p>
+          <strong>Open case study</strong>
         </div>
       </a>
     ))}
   </div>
 
-  <div class="small-grid">
+  <div class="evidence-row" aria-label="Supporting case studies">
     {small.map((project) => (
-      <article class="small-card">
-        <img src={project.image} alt="" loading="lazy" />
+      <a class="evidence-card" href={project.caseStudyUrl}>
+        <div class="evidence-thumb" aria-hidden="true">
+          <img src={project.image} alt="" loading="lazy" />
+        </div>
         <div>
           <span>{project.domain}</span>
           <h4>{project.shortTitle}</h4>
           <p>{project.problem}</p>
-          <div class="small-actions">
-            <a href={project.caseStudyUrl}>Case Study</a>
-            <a href={project.githubUrl}>GitHub</a>
-          </div>
         </div>
-      </article>
+      </a>
     ))}
   </div>
 </div>
 
 <style>
   .featured-work {
+    position: relative;
     display: grid;
-    gap: 16px;
+    gap: 18px;
+  }
+
+  .featured-work::before {
+    position: absolute;
+    inset: 40px auto 40px 34px;
+    width: 1px;
+    content: '';
+    background: linear-gradient(180deg, transparent, rgba(88, 220, 230, 0.42), rgba(241, 189, 92, 0.24), transparent);
+    opacity: 0.7;
+  }
+
+  .flagship-card,
+  .support-card,
+  .evidence-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(191, 203, 220, 0.14);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.068), rgba(255, 255, 255, 0.022)),
+      rgba(7, 13, 23, 0.92);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+    transition:
+      transform var(--duration) ease,
+      border-color var(--duration) ease,
+      box-shadow var(--duration) ease;
+  }
+
+  .flagship-card:hover,
+  .support-card:hover,
+  .evidence-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(88, 220, 230, 0.36);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.36);
   }
 
   .flagship-card {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.7fr);
-    gap: 20px;
-    border: 1px solid rgba(191, 203, 220, 0.14);
-    border-radius: 28px;
-    padding: 22px;
+    grid-template-columns: minmax(0, 0.86fr) minmax(420px, 0.72fr);
+    gap: 24px;
+    border-radius: 30px;
+    padding: 26px;
     background:
-      radial-gradient(circle at 15% 8%, rgba(88, 220, 230, 0.16), transparent 17rem),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.024)),
-      rgba(7, 13, 23, 0.92);
-    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.32);
+      radial-gradient(circle at 12% 10%, rgba(88, 220, 230, 0.18), transparent 18rem),
+      radial-gradient(circle at 88% 78%, rgba(241, 189, 92, 0.12), transparent 18rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.024)),
+      rgba(7, 13, 23, 0.94);
   }
 
   .flagship-copy {
@@ -93,22 +141,23 @@ const readmissionSnippet = `{
   }
 
   .flagship-copy h3,
-  .medium-card h3 {
+  .support-card h3 {
     margin: 0;
     color: var(--text-strong);
-    line-height: 1.05;
+    line-height: 1.03;
     letter-spacing: 0;
   }
 
   .flagship-copy h3 {
-    font-size: clamp(2rem, 4vw, 4rem);
+    max-width: 860px;
+    font-size: clamp(2.1rem, 4.6vw, 4.7rem);
   }
 
   .flagship-copy p,
-  .medium-card p,
-  .small-card p {
+  .support-card p,
+  .evidence-card p {
     margin: 0;
-    color: var(--muted);
+    color: var(--muted-copy);
   }
 
   .work-stack {
@@ -118,147 +167,260 @@ const readmissionSnippet = `{
   }
 
   .flagship-visual {
-    position: relative;
-    min-height: 360px;
+    display: grid;
+    gap: 14px;
+    min-height: 390px;
+    border: 1px solid rgba(88, 220, 230, 0.16);
+    border-radius: 24px;
     padding: 16px;
     background:
-      linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 22% 20%, rgba(88, 220, 230, 0.12), transparent 15rem),
       #050a12;
-    background-size: 28px 28px, 28px 28px, auto;
+    background-size: 30px 30px, 30px 30px, auto, auto;
   }
 
-  .flagship-visual img {
-    display: none;
+  .visual-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #98ebf2;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .visual-topline span {
+    color: #f8fbff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   .flagship-visual pre {
     overflow: auto;
-    height: 100%;
+    min-height: 250px;
     margin: 0;
-    border: 1px solid rgba(88, 220, 230, 0.2);
+    border: 1px solid rgba(88, 220, 230, 0.22);
     border-radius: 18px;
     padding: 22px;
-    background: rgba(2, 6, 12, 0.72);
+    background: rgba(2, 6, 12, 0.74);
     color: #dffbff;
-    font-size: clamp(0.86rem, 1vw, 1rem);
+    font-size: clamp(0.82rem, 1vw, 0.96rem);
     line-height: 1.7;
   }
 
-  .medium-grid,
-  .small-grid {
+  .workflow-rail {
     display: grid;
-    gap: 16px;
-  }
-
-  .medium-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .small-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
   }
 
-  .medium-card,
-  .small-card {
-    overflow: hidden;
-    border: 1px solid rgba(191, 203, 220, 0.14);
-    border-radius: 24px;
+  .workflow-rail span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    border: 1px solid rgba(191, 203, 220, 0.12);
+    border-radius: 14px;
+    padding: 9px 10px;
+    background: rgba(88, 220, 230, 0.07);
+    color: #e7fbff;
+    font-size: 0.78rem;
+    font-weight: 900;
+    line-height: 1.15;
+  }
+
+  .workflow-rail span:not(:last-child)::after {
+    position: absolute;
+    right: -9px;
+    width: 9px;
+    height: 1px;
+    content: '';
+    background: rgba(88, 220, 230, 0.62);
+  }
+
+  .supporting-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .support-card {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.45fr) minmax(0, 1fr);
+    min-height: 260px;
+    border-radius: 26px;
+  }
+
+  .support-card.violet {
+    --work-accent: var(--violet);
+  }
+
+  .support-card.amber {
+    --work-accent: var(--amber);
+  }
+
+  .support-visual {
+    display: grid;
+    place-items: center;
+    min-height: 260px;
+    border-right: 1px solid rgba(191, 203, 220, 0.12);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.02)),
-      rgba(7, 13, 23, 0.9);
-    transition:
-      transform var(--duration) ease,
-      border-color var(--duration) ease,
-      box-shadow var(--duration) ease;
+      radial-gradient(circle at 35% 25%, color-mix(in srgb, var(--work-accent) 16%, transparent), transparent 12rem),
+      rgba(2, 6, 12, 0.54);
   }
 
-  .medium-card:hover,
-  .small-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(88, 220, 230, 0.34);
-    box-shadow: 0 22px 64px rgba(0, 0, 0, 0.3);
-  }
-
-  .medium-card {
-    display: grid;
-    grid-template-columns: minmax(180px, 0.48fr) minmax(0, 1fr);
-  }
-
-  .medium-card img,
-  .small-card img {
-    width: 100%;
-    height: 100%;
-    min-height: 210px;
-    object-fit: cover;
+  .support-visual img {
+    display: block;
+    width: calc(100% - 28px);
+    max-height: 220px;
+    object-fit: contain;
+    border: 1px solid rgba(191, 203, 220, 0.12);
+    border-radius: 16px;
     background: #05070c;
+    box-shadow: 0 18px 52px rgba(0, 0, 0, 0.38);
   }
 
-  .medium-card div,
-  .small-card div {
+  .support-copy {
     display: grid;
-    gap: 10px;
-    padding: 18px;
+    align-content: center;
+    gap: 12px;
+    padding: 24px;
   }
 
-  .medium-card span,
-  .small-card span {
-    color: var(--amber);
+  .support-copy span,
+  .evidence-card span {
+    color: var(--work-accent, var(--cyan));
     font-size: 0.72rem;
     font-weight: 950;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  .medium-card.violet span {
-    color: var(--violet);
+  .support-card h3 {
+    font-size: clamp(1.45rem, 2.4vw, 2.25rem);
   }
 
-  .medium-card h3 {
-    font-size: clamp(1.35rem, 2vw, 2.1rem);
+  .support-copy strong {
+    color: var(--work-accent, var(--cyan));
+    font-size: 0.9rem;
+    font-weight: 950;
   }
 
-  .small-card h4 {
+  .evidence-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .evidence-card {
+    --work-accent: var(--cyan);
+    display: grid;
+    grid-template-rows: 150px minmax(0, 1fr);
+    min-height: 354px;
+    border-radius: 24px;
+  }
+
+  .evidence-card:nth-child(2) {
+    --work-accent: var(--green);
+  }
+
+  .evidence-card:nth-child(3) {
+    --work-accent: var(--amber);
+  }
+
+  .evidence-card:nth-child(4) {
+    --work-accent: var(--violet);
+  }
+
+  .evidence-thumb {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(191, 203, 220, 0.12);
+    background:
+      radial-gradient(circle at 50% 20%, color-mix(in srgb, var(--work-accent) 14%, transparent), transparent 12rem),
+      rgba(2, 6, 12, 0.58);
+  }
+
+  .evidence-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .evidence-card > div:last-child {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .evidence-card h4 {
     margin: 0;
     color: var(--text-strong);
-    font-size: 1rem;
-    line-height: 1.15;
+    font-size: 1.08rem;
+    line-height: 1.12;
     letter-spacing: 0;
   }
 
-  .small-actions {
-    display: flex !important;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 0 !important;
+  .evidence-card p {
+    font-size: 0.9rem;
+    line-height: 1.45;
   }
 
-  .small-actions a {
-    color: #dffbff;
-    font-size: 0.82rem;
-    font-weight: 900;
-  }
-
-  @media (max-width: 1080px) {
+  @media (max-width: 1180px) {
     .flagship-card,
-    .medium-card {
+    .support-card {
       grid-template-columns: 1fr;
     }
 
-    .small-grid {
+    .support-visual {
+      border-right: 0;
+      border-bottom: 1px solid rgba(191, 203, 220, 0.12);
+    }
+
+    .evidence-row {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 680px) {
-    .medium-grid,
-    .small-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 720px) {
+    .featured-work::before {
+      display: none;
+    }
+
+    .flagship-card {
+      border-radius: 24px;
+      padding: 18px;
+    }
+
+    .flagship-copy h3 {
+      font-size: 2.05rem;
     }
 
     .flagship-visual {
-      min-height: 260px;
+      min-height: auto;
+    }
+
+    .workflow-rail,
+    .supporting-grid,
+    .evidence-row {
+      grid-template-columns: 1fr;
+    }
+
+    .workflow-rail span:not(:last-child)::after {
+      display: none;
+    }
+
+    .support-card {
+      min-height: auto;
+    }
+
+    .evidence-card {
+      min-height: auto;
     }
   }
 </style>

@@ -30,8 +30,8 @@ import { profile } from '@data/profile';
     <div class="container">
       <SectionHeader
         kicker="Featured work"
-        title="Case-study systems with visible architecture, APIs, model tables, screenshots, and demos."
-        copy="A flagship healthcare ML API anchors the portfolio, with LLM steering, agentic research infrastructure, forecasting, interoperability, and document AI close behind."
+        title="Case-study systems that turn the domain map into visible architecture and working evidence."
+        copy="A flagship healthcare ML API anchors the page, then agentic AI, quant research, interoperability, document AI, and local RAG show the breadth around it."
       />
       <FeaturedWork />
     </div>
@@ -41,8 +41,8 @@ import { profile } from '@data/profile';
     <div class="container">
       <SectionHeader
         kicker="Evidence"
-        title="Evidence, not just labels."
-        copy="Screenshots, GIFs, JSON responses, architecture diagrams, model tables, and synthetic examples are surfaced directly from public-safe repos or generated as labeled portfolio visualizations."
+        title="A proof deck with screenshots, API contracts, diagrams, model comparisons, and reviewable examples."
+        copy="The artifact previews keep the portfolio grounded in things a technical reviewer can inspect: UI flows, JSON responses, charts, diagrams, and public-safe synthetic inputs."
       />
       <ArtifactWall client:load />
     </div>
@@ -52,8 +52,8 @@ import { profile } from '@data/profile';
     <div class="container">
       <SectionHeader
         kicker="Professional systems"
-        title="Enterprise AI patterns from regulated healthcare and insurance delivery."
-        copy="Sanitized architecture maps connect the public portfolio to claims automation, HEDIS evidence extraction, local RAG/OCR, predictive models, FWA analytics, and healthcare analytics platforms."
+        title="Enterprise patterns behind the public systems."
+        copy="Sanitized architecture streams connect the portfolio to claims automation, HEDIS evidence extraction, local RAG/OCR, predictive models, FWA analytics, and healthcare analytics platforms."
       />
       <ProfessionalSystemsPreview />
     </div>
@@ -63,7 +63,8 @@ import { profile } from '@data/profile';
     <div class="container cta-grid">
       <div>
         <p class="section-kicker">Implementation details</p>
-        <h2>Explore the case studies, source repos, and professional systems map.</h2>
+        <h2>Follow the build trail from case studies to source repos and enterprise patterns.</h2>
+        <p>Use the detailed pages to inspect architecture, artifacts, responsible-use boundaries, and the systems library behind the landing page.</p>
       </div>
       <div class="cta-actions">
         <a class="button" href="/projects/">Case Studies</a>
@@ -81,17 +82,28 @@ import { profile } from '@data/profile';
   }
 
   .showroom-section {
-    padding-top: 34px;
+    padding-top: 48px;
   }
 
   .artifact-section,
   .professional-section {
-    padding-top: 82px;
+    padding-top: 92px;
+  }
+
+  .showroom-section,
+  .professional-section {
+    background:
+      linear-gradient(180deg, transparent, rgba(88, 220, 230, 0.025), transparent),
+      transparent;
   }
 
   .final-cta {
+    position: relative;
+    overflow: hidden;
     border-top: 1px solid rgba(191, 203, 220, 0.12);
     background:
+      radial-gradient(circle at 16% 0%, rgba(88, 220, 230, 0.13), transparent 18rem),
+      radial-gradient(circle at 88% 100%, rgba(241, 189, 92, 0.1), transparent 20rem),
       linear-gradient(90deg, rgba(88, 220, 230, 0.055), transparent 42%, rgba(240, 160, 189, 0.045)),
       rgba(5, 9, 15, 0.82);
   }
@@ -99,7 +111,7 @@ import { profile } from '@data/profile';
   .cta-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 24px;
+    gap: 28px;
     align-items: center;
   }
 
@@ -110,6 +122,13 @@ import { profile } from '@data/profile';
     font-size: clamp(1.7rem, 3.3vw, 3.2rem);
     line-height: 1.05;
     letter-spacing: 0;
+  }
+
+  .cta-grid p:not(.section-kicker) {
+    max-width: 780px;
+    margin: 16px 0 0;
+    color: var(--muted-copy);
+    font-size: 1rem;
   }
 
   .cta-actions {

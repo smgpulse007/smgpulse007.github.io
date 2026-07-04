@@ -17,12 +17,29 @@ const { kicker, title, copy, align = 'left' } = Astro.props;
 
 <style>
   .section-header {
+    position: relative;
+    display: grid;
+    gap: 0;
     margin-bottom: 30px;
+  }
+
+  .section-header::before {
+    width: 52px;
+    height: 2px;
+    margin-bottom: 16px;
+    border-radius: 999px;
+    content: '';
+    background: linear-gradient(90deg, var(--cyan), rgba(241, 189, 92, 0.72));
+    box-shadow: 0 0 28px rgba(88, 220, 230, 0.18);
   }
 
   .section-header.center {
     display: grid;
     justify-items: center;
     text-align: center;
+  }
+
+  .section-header.center::before {
+    margin-inline: auto;
   }
 </style>

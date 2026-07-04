@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ExternalLink, X } from 'lucide-react';
+import { ExternalLink, Maximize2, X } from 'lucide-react';
 
 type WallArtifact = {
   title: string;
@@ -88,7 +88,7 @@ export default function ArtifactWall() {
         {artifacts.map((artifact, index) => (
           <motion.button
             type="button"
-            className="wall-card"
+            className={index === 0 ? 'wall-card lead' : 'wall-card'}
             key={artifact.title}
             onClick={() => setSelected(artifact)}
             initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
@@ -96,7 +96,7 @@ export default function ArtifactWall() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.32, delay: index * 0.035, ease: 'easeOut' }}
           >
-            <span>{artifact.eyebrow}</span>
+            <span className="wall-eyebrow">{artifact.eyebrow}</span>
             <strong>{artifact.title}</strong>
             {artifact.src ? (
               <img src={artifact.src} alt="" loading="lazy" />
@@ -106,6 +106,10 @@ export default function ArtifactWall() {
               </pre>
             )}
             <p>{artifact.description}</p>
+            <em>
+              Preview
+              <Maximize2 aria-hidden="true" size={14} strokeWidth={2.3} />
+            </em>
           </motion.button>
         ))}
       </div>
@@ -153,20 +157,24 @@ export default function ArtifactWall() {
         }
 
         .wall-grid {
-          columns: 3 260px;
-          column-gap: 16px;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-auto-flow: dense;
+          gap: 16px;
         }
 
         .wall-card {
+          --artifact-accent: #f1bd5c;
+          position: relative;
           display: grid;
+          grid-template-rows: auto auto minmax(180px, auto) auto auto;
           width: 100%;
-          break-inside: avoid;
           gap: 12px;
-          margin: 0 0 16px;
           border: 1px solid rgba(191, 203, 220, 0.14);
           border-radius: 24px;
           padding: 16px;
           background:
+            radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--artifact-accent) 12%, transparent), transparent 12rem),
             linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.02)),
             rgba(7, 13, 23, 0.9);
           color: inherit;
@@ -179,15 +187,27 @@ export default function ArtifactWall() {
             box-shadow var(--duration) ease;
         }
 
+        .wall-card:nth-child(2) { --artifact-accent: #b9a7ff; }
+        .wall-card:nth-child(3) { --artifact-accent: #58dce6; }
+        .wall-card:nth-child(4) { --artifact-accent: #8de8b4; }
+        .wall-card:nth-child(5) { --artifact-accent: #58dce6; }
+        .wall-card:nth-child(6) { --artifact-accent: #f0a0bd; }
+        .wall-card:nth-child(7) { --artifact-accent: #cbd5e1; }
+
+        .wall-card.lead {
+          grid-column: span 2;
+          grid-row: span 2;
+        }
+
         .wall-card:hover {
           transform: translateY(-3px);
-          border-color: rgba(88, 220, 230, 0.36);
+          border-color: color-mix(in srgb, var(--artifact-accent) 46%, white 8%);
           box-shadow: 0 26px 72px rgba(0, 0, 0, 0.34);
         }
 
-        .wall-card span,
+        .wall-card .wall-eyebrow,
         .lightbox span {
-          color: #f1bd5c;
+          color: var(--artifact-accent);
           font-size: 0.72rem;
           font-weight: 950;
           letter-spacing: 0.1em;
@@ -196,16 +216,28 @@ export default function ArtifactWall() {
 
         .wall-card strong {
           color: #ffffff;
-          font-size: 1.08rem;
+          font-size: 1.12rem;
           line-height: 1.15;
+        }
+
+        .wall-card.lead strong {
+          font-size: clamp(1.5rem, 2.6vw, 2.35rem);
+          line-height: 1.05;
         }
 
         .wall-card img,
         .lightbox img {
           width: 100%;
+          min-height: 190px;
+          max-height: 340px;
+          object-fit: contain;
           border: 1px solid rgba(191, 203, 220, 0.14);
           border-radius: 16px;
           background: #05070c;
+        }
+
+        .wall-card.lead img {
+          min-height: 390px;
         }
 
         .wall-card pre,
@@ -221,11 +253,26 @@ export default function ArtifactWall() {
           line-height: 1.55;
         }
 
+        .wall-card pre {
+          min-height: 210px;
+        }
+
         .wall-card p,
         .lightbox p {
           margin: 0;
           color: #a7b5c9;
           line-height: 1.48;
+        }
+
+        .wall-card em {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          width: fit-content;
+          color: var(--artifact-accent);
+          font-size: 0.78rem;
+          font-style: normal;
+          font-weight: 950;
         }
 
         .lightbox-backdrop {
@@ -286,6 +333,29 @@ export default function ArtifactWall() {
           width: fit-content;
           color: #dffbff;
           font-weight: 950;
+        }
+
+        @media (max-width: 1180px) {
+          .wall-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 720px) {
+          .wall-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .wall-card,
+          .wall-card.lead {
+            grid-column: auto;
+            grid-row: auto;
+          }
+
+          .wall-card.lead img,
+          .wall-card img {
+            min-height: 210px;
+          }
         }
       `}</style>
     </section>

@@ -3,7 +3,7 @@ import Layout from '@components/Layout.astro';
 import Hero from '@components/Hero.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import CredentialImpactStrip from '@components/home/CredentialImpactStrip.astro';
-import DomainExpertise from '@components/home/DomainExpertise.astro';
+import DomainSystemsList from '@components/home/DomainSystemsList';
 import FeaturedWork from '@components/home/FeaturedWork.astro';
 import ArtifactWall from '@components/home/ArtifactWall';
 import ProfessionalSystemsPreview from '@components/home/ProfessionalSystemsPreview.astro';
@@ -19,10 +19,10 @@ import { profile } from '@data/profile';
     <div class="container">
       <SectionHeader
         kicker="Domains"
-        title="A curated view of the systems I build: healthcare AI, claims automation, document intelligence, forecasting, and MLOps."
-        copy="Each domain card points to a concrete system or evidence trail so technical reviewers can quickly see breadth and depth."
+        title="A connected map of the systems I build across healthcare AI, claims automation, forecasting, agentic workflows, and MLOps."
+        copy="Each row links a domain to a concrete system, the implementation stack behind it, and the path a reviewer can follow next."
       />
-      <DomainExpertise />
+      <DomainSystemsList client:load />
     </div>
   </section>
 

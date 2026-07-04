@@ -37,7 +37,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
   },
   {
     title: 'Research Archive',
-    thesis: 'Earlier healthcare, RAG, visualization, infrastructure, and ML foundation projects kept below the flagship layer.',
+    thesis: 'Earlier healthcare, RAG, visualization, infrastructure, and ML foundation projects that show technical range and learning depth.',
     leadSlug: 'azure-los-prediction',
     supportingSlugs: ['rag-implementation-hedis-ssd', 'gpu-analysis', 'hnsc-viz'],
     proofArtifacts: ['LOS regression notes', 'HEDIS RAG concept', 'GPU planning matrix'],

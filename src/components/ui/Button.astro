@@ -1,0 +1,61 @@
+---
+type Props = {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  class?: string;
+  ariaLabel?: string;
+};
+
+const { href, variant = 'primary', class: className = '', ariaLabel } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag href={href} aria-label={ariaLabel} class:list={['ui-button', variant, className]}>
+  <slot />
+</Tag>
+
+<style>
+  .ui-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    border: 1px solid rgba(88, 220, 230, 0.44);
+    border-radius: 12px;
+    padding: 10px 16px;
+    color: #f8feff;
+    background: linear-gradient(135deg, rgba(88, 220, 230, 0.22), rgba(74, 222, 189, 0.08));
+    font-weight: 900;
+    line-height: 1;
+    transition:
+      transform var(--duration) ease,
+      border-color var(--duration) ease,
+      box-shadow var(--duration) ease,
+      background var(--duration) ease;
+  }
+
+  .ui-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(88, 220, 230, 0.78);
+    box-shadow: 0 14px 38px rgba(88, 220, 230, 0.16);
+  }
+
+  .secondary {
+    border-color: rgba(180, 202, 232, 0.24);
+    background: rgba(255, 255, 255, 0.055);
+    color: #e6edf7;
+  }
+
+  .ghost {
+    border-color: transparent;
+    background: transparent;
+    color: #dbeafe;
+  }
+
+  @media (max-width: 560px) {
+    .ui-button {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+type Props = {
+  tone?: 'cyan' | 'emerald' | 'amber' | 'violet' | 'rose' | 'slate';
+  class?: string;
+};
+
+const { tone = 'cyan', class: className = '' } = Astro.props;
+---
+
+<span class:list={['ui-badge', tone, className]}>
+  <slot />
+</span>
+
+<style>
+  .ui-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    border: 1px solid rgba(88, 220, 230, 0.26);
+    border-radius: 999px;
+    padding: 4px 10px;
+    background: rgba(88, 220, 230, 0.075);
+    color: #dffbff;
+    font-size: 0.76rem;
+    font-weight: 850;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .emerald {
+    border-color: rgba(141, 232, 180, 0.28);
+    background: rgba(141, 232, 180, 0.08);
+    color: #e3ffed;
+  }
+
+  .amber {
+    border-color: rgba(241, 189, 92, 0.32);
+    background: rgba(241, 189, 92, 0.09);
+    color: #fff0bf;
+  }
+
+  .violet {
+    border-color: rgba(185, 167, 255, 0.32);
+    background: rgba(185, 167, 255, 0.1);
+    color: #eee9ff;
+  }
+
+  .rose {
+    border-color: rgba(240, 160, 189, 0.32);
+    background: rgba(240, 160, 189, 0.09);
+    color: #ffe5ee;
+  }
+
+  .slate {
+    border-color: rgba(203, 213, 225, 0.22);
+    background: rgba(203, 213, 225, 0.08);
+    color: #edf4ff;
+  }
+</style>

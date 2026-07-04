@@ -36,7 +36,7 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
     proofStrip: [
       { label: 'Feature groups', value: 'age, utilization, comorbidity, medications, labs, discharge' },
       { label: 'Score surface', value: 'probability-like risk + low/medium/high band' },
-      { label: 'Proof assets', value: 'sample JSON response, model card, architecture notes' },
+      { label: 'Evidence assets', value: 'sample JSON response, model card, architecture notes' },
     ],
     walkthrough: [
       { title: 'FHIR bundle intake', body: 'The API starts from synthetic FHIR-style resources so the demo can show healthcare data contracts without patient data.' },
@@ -168,7 +168,7 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
     proofStrip: [
       { label: 'Repo assets', value: 'Terminal demo, UI demo, UI screenshot' },
       { label: 'Report shape', value: 'Structured Fusion reports' },
-      { label: 'Boundary', value: 'Engineering demo, not financial advice' },
+      { label: 'Responsible use', value: 'Engineering demo, not financial advice' },
     ],
     walkthrough: [
       { title: 'Signal ingestion', body: 'Public market and macro signals move through explicit ingestion adapters so source boundaries are inspectable.' },
@@ -197,7 +197,7 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
     thesis: 'Historical sports forecasting lab that emphasizes baselines, calibration, ensembles, and backtesting discipline.',
     systemType: 'Forecasting and backtesting pipeline',
     primaryUsers: 'Data scientists, forecasting reviewers, model-risk reviewers',
-    artifactMaturity: 'Archived historical experiment',
+    artifactMaturity: 'Historical forecasting research lab',
     atAGlance: [
       { label: 'Dataset', value: '6,991 games, 1999-2024 cited in README' },
       { label: 'Models', value: 'Elo, XGBoost, logistic regression, ensemble' },
@@ -215,13 +215,13 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { title: 'Calibration and backtesting', body: 'Brier score and historical backtests keep the discussion focused on probability quality, not only headline accuracy.' },
     ],
     decisions: [
-      { title: 'Archived on purpose', body: 'The project is positioned as historical model evidence, not an active betting product.' },
+      { title: 'Historical scope', body: 'The project is positioned as completed forecasting research evidence, not an active betting product.' },
       { title: 'Keep the original domain honest', body: 'The site uses sports forecasting externally and preserves responsible-use language.' },
       { title: 'Show the table', body: 'The model comparison table is more credible than another generic AI card.' },
     ],
     validationNotes: [
       'The project foregrounds baselines, calibration, Brier score, and historical backtesting rather than only accuracy.',
-      'Archive status and non-betting boundaries are explicit.',
+      'Historical scope and non-betting boundaries are explicit.',
       'Reported tables are historical analytics evidence, not forward-looking wagering claims.',
     ],
     artifacts: [
@@ -307,7 +307,7 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       { label: 'Inference', value: 'Ollama via LangChain' },
     ],
     proofStrip: [
-      { label: 'Boundary', value: 'Local/private inference path' },
+      { label: 'Responsible use', value: 'Local/private inference path' },
       { label: 'UI', value: 'Streamlit review surface' },
       { label: 'Pattern', value: 'PDF -> chunks -> prompt -> result' },
     ],
@@ -356,7 +356,7 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
     decisions: [
       { title: 'Cloud RAG counterpart', body: 'This complements the local document AI repo by showing an Azure ML workflow path.' },
       { title: 'Template discipline', body: 'Jinja prompt templates keep the prompt layer explicit.' },
-      { title: 'Secondary placement', body: 'The project is useful as RAG breadth, not as the strongest flagship system.' },
+      { title: 'Cloud RAG counterpart', body: 'The project complements the local document AI repo by showing an Azure ML workflow path.' },
     ],
     validationNotes: [
       'Public-content retrieval, Jinja templates, Prompt Flow nodes, and answer review are separated.',

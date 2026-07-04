@@ -1,37 +1,37 @@
 ---
 import { profile } from '@data/profile';
-import AppliedSystemsConsole from './visual/AppliedSystemsConsole';
+import ArtifactStackHero from './visual/ArtifactStackHero';
 ---
 
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-copy">
       <p class="eyebrow">{profile.name}</p>
-      <h1>Applied AI Systems Console</h1>
+      <h1>Production AI systems for healthcare, insurance, and agentic workflows.</h1>
       <h2>{profile.role}</h2>
       <p class="lede">{profile.positioning}</p>
-      <p class="hero-proof">Regulated healthcare AI, claims automation, document intelligence, agentic workflows, forecasting, and MLOps shown through public-safe system artifacts.</p>
+      <p class="hero-proof">FHIR/HL7 | LangGraph | RAG/OCR | FastAPI | Azure | MLflow | XGBoost | LLMOps</p>
       <div class="button-row">
         <a class="button" href="/projects/">View Case Studies</a>
         <a class="button secondary" href="/systems/">Explore Systems</a>
         <a class="button secondary" href={profile.github}>GitHub</a>
       </div>
     </div>
-    <AppliedSystemsConsole client:load />
+    <ArtifactStackHero client:load />
   </div>
 </section>
 
 <style>
   .hero {
-    padding: 58px 0 36px;
+    padding: 52px 0 28px;
     display: grid;
     align-items: center;
   }
 
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.78fr) minmax(480px, 1.22fr);
-    gap: 38px;
+    grid-template-columns: minmax(0, 0.86fr) minmax(460px, 1fr);
+    gap: 44px;
     align-items: center;
   }
 
@@ -47,8 +47,8 @@ import AppliedSystemsConsole from './visual/AppliedSystemsConsole';
   h1 {
     margin: 0;
     color: var(--text-strong);
-    font-size: clamp(3rem, 6.8vw, 6.4rem);
-    line-height: 0.95;
+    font-size: clamp(2.55rem, 4.4vw, 4.85rem);
+    line-height: 1;
     letter-spacing: 0;
   }
 
@@ -70,11 +70,14 @@ import AppliedSystemsConsole from './visual/AppliedSystemsConsole';
   .hero-proof {
     max-width: 760px;
     margin: 18px 0 30px;
-    border-left: 3px solid var(--amber);
-    padding-left: 14px;
-    color: #e9f8ff;
+    border: 1px solid rgba(241, 189, 92, 0.26);
+    border-radius: 999px;
+    padding: 9px 14px;
+    background: rgba(241, 189, 92, 0.075);
+    color: #fff0bf;
     font-size: 0.98rem;
     font-weight: 850;
+    line-height: 1.45;
   }
 
   @media (max-width: 940px) {
@@ -85,7 +88,31 @@ import AppliedSystemsConsole from './visual/AppliedSystemsConsole';
 
   @media (max-width: 640px) {
     .hero {
-      padding-top: 52px;
+      padding-top: 38px;
+    }
+
+    h1 {
+      font-size: 2.28rem;
+      line-height: 1.04;
+    }
+
+    .hero-proof {
+      border-radius: 18px;
+      font-size: 0.9rem;
+    }
+
+    .button-row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .button-row .button {
+      flex: 0 0 auto;
+      width: auto;
+      min-height: 42px;
+      padding: 9px 14px;
     }
   }
 </style>

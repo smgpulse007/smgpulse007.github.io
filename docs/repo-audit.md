@@ -13,13 +13,13 @@ Audited on 2026-07-04 from local clones plus `gh repo view` metadata for `smgpul
 | `nfl_betting_model` | Featured historical forecasting lab | README metrics, 1999-2024/2025 results JSON, model comparison/backtesting outputs | Sports forecasting and calibration case study | Historical analytics only; avoid wagering framing |
 | `FreshTrackAIModule` | Polished demo | FastAPI variants, OCR/LLM parsing paths, Dockerfiles, canonical data, sample receipt | Document AI / OCR case study | Do not imply production customer data or payment data |
 | `ollama_poc` | Polished demo | Streamlit app, Dockerfile, compose file, LangChain/Ollama PDF extraction | Local document AI case study | Local runtime required; no private docs in repo |
-| `ChatWithWiki_AzureML` | Supporting RAG demo | README, Prompt Flow/Jinja/Python metadata | RAG breadth and research archive | Small repo; supporting not flagship |
+| `ChatWithWiki_AzureML` | Supporting RAG demo | README, Prompt Flow/Jinja/Python metadata | RAG breadth and research archive | Compact supporting repo |
 | `AzureLOSPrediction` | Research archive | Notebook, toy LOS CSV | Healthcare analytics foundations | Toy dataset; not production proof |
 | `RAGImplementationForHEDIS_SSD` | Research archive | README concept for HEDIS/RAG/de-identification | Healthcare RAG foundations | Concept-level evidence only |
-| `HEDIS-Dashboard` | Archive/foundations | Streamlit files, `rag_output.json` | Dashboard foundations | Starter-style repo; not flagship |
+| `HEDIS-Dashboard` | Research foundations | Streamlit files, `rag_output.json` | Dashboard foundations | Starter-style repo |
 | `MedicationRecommendation` | Research archive | README concept | Non-clinical healthcare LLM experiment | High-risk domain; keep explicit non-clinical boundary |
 | `gpu_analysis` | Research note | GPU planning README | Infrastructure planning breadth | Qualitative note, not benchmark proof |
-| `MarketAnalyzerApp` | Excluded for now | Python app files, no README | Not surfaced in project grid | Needs README/context before responsible framing |
+| `MarketAnalyzerApp` | Needs context | Python app files, no README | Not surfaced in project grid | Needs README/context before responsible framing |
 | `hnsc_viz` | Research note | README for activation visualization | Scientific ML/visualization foundation | Exploratory only |
 | `ML_Templates` | Foundations/archive | Reusable ML template scripts | Research archive | Generic templates; not current system proof |
 | `Py-Projects` | Not surfaced | Bioinformatics DL project files, no README | Not surfaced | Older coursework/project files need curation before public positioning |

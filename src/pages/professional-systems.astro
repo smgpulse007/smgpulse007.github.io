@@ -2,7 +2,7 @@
 import Layout from '@components/Layout.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import ProfessionalSystemsGrid from '@components/ProfessionalSystemsGrid.astro';
-import { profile } from '@data/profile';
+import { impactMetrics, profile } from '@data/profile';
 ---
 
 <Layout
@@ -13,17 +13,32 @@ import { profile } from '@data/profile';
   <section class="section intro">
     <div class="container">
       <p class="section-kicker">Professional Systems</p>
-      <h1>Sanitized architecture summaries for regulated applied AI delivery.</h1>
-      <p class="section-copy">Claims automation, HEDIS evidence extraction, on-prem RAG/OCR, utilization models, FWA analytics, and healthcare analytics platform work are described as reusable public-safe system patterns.</p>
+      <h1>Enterprise AI Systems</h1>
+      <p class="section-copy">Sanitized architecture maps from real healthcare and insurance delivery: claims automation, HEDIS evidence extraction, on-prem RAG/OCR, utilization models, FWA analytics, and healthcare analytics platform work.</p>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container outcome-ribbon" aria-label="Professional outcomes">
+      {impactMetrics.map((metric) => (
+        <article>
+          <strong>{metric.value}</strong>
+          <span>{metric.label}</span>
+        </article>
+      ))}
+      <article>
+        <strong>$500K</strong>
+        <span>new revenue impact</span>
+      </article>
     </div>
   </section>
 
   <section class="section compact">
     <div class="container">
       <SectionHeader
-        kicker="Public-safe system cards"
-        title="Architecture-level proof without private data."
-        copy={profile.privacyNote}
+        kicker="Sanitized system cards"
+        title="Problem, system shape, stack, outcome, and architecture pattern."
+        copy="Enterprise systems are described as sanitized architecture patterns. No PHI, PII, employer-confidential data, or proprietary workflows are included."
       />
       <ProfessionalSystemsGrid />
     </div>
@@ -42,5 +57,66 @@ import { profile } from '@data/profile';
     font-size: clamp(2.6rem, 5.6vw, 5rem);
     line-height: 1;
     letter-spacing: 0;
+  }
+
+  .outcome-ribbon {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    overflow: hidden;
+    border: 1px solid rgba(191, 203, 220, 0.14);
+    border-radius: 24px;
+    background: rgba(191, 203, 220, 0.1);
+  }
+
+  .outcome-ribbon article {
+    min-height: 116px;
+    padding: 18px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+      rgba(8, 13, 25, 0.94);
+  }
+
+  .outcome-ribbon article + article {
+    border-left: 1px solid rgba(191, 203, 220, 0.1);
+  }
+
+  .outcome-ribbon strong,
+  .outcome-ribbon span {
+    display: block;
+  }
+
+  .outcome-ribbon strong {
+    color: var(--green);
+    font-size: clamp(1.6rem, 2.7vw, 2.6rem);
+    line-height: 1;
+  }
+
+  .outcome-ribbon span {
+    margin-top: 10px;
+    color: var(--text-strong);
+    font-weight: 900;
+    line-height: 1.15;
+  }
+
+  @media (max-width: 1180px) {
+    .outcome-ribbon {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .outcome-ribbon article:nth-child(4),
+    .outcome-ribbon article:nth-child(7) {
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .outcome-ribbon {
+      grid-template-columns: 1fr;
+    }
+
+    .outcome-ribbon article + article {
+      border-left: 0;
+      border-top: 1px solid rgba(191, 203, 220, 0.1);
+    }
   }
 </style>

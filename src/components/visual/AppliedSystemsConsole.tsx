@@ -114,7 +114,7 @@ export default function AppliedSystemsConsole() {
           })}
         </div>
 
-        <aside className="domain-proof" aria-label={`${activeDomain.label} proof artifacts`}>
+        <aside className="domain-proof" aria-label={`${activeDomain.label} evidence`}>
           <p>{activeDomain.thesis}</p>
           <div>
             <strong>Related systems</strong>
@@ -125,7 +125,7 @@ export default function AppliedSystemsConsole() {
             ))}
           </div>
           <div>
-            <strong>Proof artifacts</strong>
+            <strong>Evidence</strong>
             {activeDomain.proofArtifacts.map((artifact) => (
               <span key={artifact}>{artifact}</span>
             ))}

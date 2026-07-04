@@ -22,7 +22,7 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
 ---
 
 <Layout title={title} description={description} canonicalPath={project.caseStudyUrl ?? '/projects/'} image={project.image}>
-  <CaseStudyHero project={project} thesis={detail?.thesis} coreProof={detail?.proofStrip?.[0]?.value} />
+  <CaseStudyHero project={project} thesis={detail?.thesis} coreEvidence={detail?.proofStrip?.[0]?.value} />
 
   {detail ? (
     <>
@@ -60,7 +60,7 @@ const description = `${detail?.thesis ?? project.summary} Case study by Shailesh
           <div class="container">
             <SectionHeader
               kicker="Architecture"
-              title="A custom system map for the project."
+            title="A system map for the project."
               copy={project.architectureSummary}
             />
             <ArchitectureDiagram variant={project.architectureVariant} />

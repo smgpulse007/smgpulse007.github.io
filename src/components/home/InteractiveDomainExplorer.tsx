@@ -32,7 +32,7 @@ export default function InteractiveDomainExplorer() {
 
   return (
     <section className={`domain-explorer accent-${activeDomain.accent}`} aria-label="Interactive domain explorer">
-      <div className="domain-tabs" role="tablist" aria-label="Domain modules">
+      <div className="domain-tabs" role="tablist" aria-label="System domains">
         {domainModules.map((domain, index) => (
           <button
             key={domain.key}
@@ -100,7 +100,7 @@ export default function InteractiveDomainExplorer() {
         <aside className="proof-rail">
           <div>
             <ShieldCheck aria-hidden="true" size={18} strokeWidth={2.2} />
-            <strong>Proof artifacts</strong>
+            <strong>Evidence</strong>
           </div>
           {activeDomain.proofArtifacts.map((artifact) => (
             <span key={artifact}>{artifact}</span>

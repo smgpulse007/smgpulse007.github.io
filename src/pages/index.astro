@@ -3,8 +3,10 @@ import Layout from '@components/Layout.astro';
 import Hero from '@components/Hero.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import CredentialImpactStrip from '@components/home/CredentialImpactStrip.astro';
-import InteractiveDomainExplorer from '@components/home/InteractiveDomainExplorer';
-import FeaturedSystemsShowroom from '@components/home/FeaturedSystemsShowroom';
+import DomainExpertise from '@components/home/DomainExpertise.astro';
+import FeaturedWork from '@components/home/FeaturedWork.astro';
+import ArtifactWall from '@components/home/ArtifactWall';
+import ProfessionalSystemsPreview from '@components/home/ProfessionalSystemsPreview.astro';
 import { profile } from '@data/profile';
 ---
 
@@ -16,35 +18,58 @@ import { profile } from '@data/profile';
   <section class="section domain-section">
     <div class="container">
       <SectionHeader
-        kicker="Domain modules"
-        title="One control surface for regulated AI systems, not a wall of project cards."
-        copy="The portfolio is organized around system domains: healthcare standards, claims/document workflows, agentic orchestration, forecasting, and MLOps proof."
+        kicker="Domains"
+        title="A curated view of the systems I build: healthcare AI, claims automation, document intelligence, forecasting, and MLOps."
+        copy="Each domain card points to a concrete system or evidence trail so technical reviewers can quickly see breadth and depth."
       />
-      <InteractiveDomainExplorer client:load />
+      <DomainExpertise />
     </div>
   </section>
 
   <section class="section showroom-section">
     <div class="container">
       <SectionHeader
-        kicker="Featured systems showroom"
-        title="Lead system, supporting systems, and proof artifacts by domain."
-        copy="Each tab keeps the scan path tight: one primary case study, two adjacent systems, and three artifacts that make the implementation concrete."
+        kicker="Featured work"
+        title="Case-study systems with visible architecture, APIs, model tables, screenshots, and demos."
+        copy="A flagship healthcare ML API anchors the portfolio, with LLM steering, agentic research infrastructure, forecasting, interoperability, and document AI close behind."
       />
-      <FeaturedSystemsShowroom client:load />
+      <FeaturedWork />
+    </div>
+  </section>
+
+  <section class="section artifact-section section-band">
+    <div class="container">
+      <SectionHeader
+        kicker="Evidence"
+        title="Evidence, not just labels."
+        copy="Screenshots, GIFs, JSON responses, architecture diagrams, model tables, and synthetic examples are surfaced directly from public-safe repos or generated as labeled portfolio visualizations."
+      />
+      <ArtifactWall client:load />
+    </div>
+  </section>
+
+  <section class="section professional-section">
+    <div class="container">
+      <SectionHeader
+        kicker="Professional systems"
+        title="Enterprise AI patterns from regulated healthcare and insurance delivery."
+        copy="Sanitized architecture maps connect the public portfolio to claims automation, HEDIS evidence extraction, local RAG/OCR, predictive models, FWA analytics, and healthcare analytics platforms."
+      />
+      <ProfessionalSystemsPreview />
     </div>
   </section>
 
   <section class="section compact final-cta">
     <div class="container cta-grid">
       <div>
-        <p class="section-kicker">Archive routes</p>
-        <h2>Long libraries live below the fold of the site, not below the fold of the homepage.</h2>
+        <p class="section-kicker">Implementation details</p>
+        <h2>Explore the case studies, source repos, and professional systems map.</h2>
       </div>
       <div class="cta-actions">
-        <a class="button" href="/projects/">Open Case Studies</a>
-        <a class="button secondary" href="/systems/">Systems Index</a>
-        <a class="button secondary" href="/research-archive/">Research Archive</a>
+        <a class="button" href="/projects/">Case Studies</a>
+        <a class="button secondary" href="/systems/">Systems Library</a>
+        <a class="button secondary" href={profile.github}>GitHub</a>
+        <a class="button secondary" href={profile.linkedin}>LinkedIn</a>
       </div>
     </div>
   </section>
@@ -57,6 +82,11 @@ import { profile } from '@data/profile';
 
   .showroom-section {
     padding-top: 34px;
+  }
+
+  .artifact-section,
+  .professional-section {
+    padding-top: 82px;
   }
 
   .final-cta {

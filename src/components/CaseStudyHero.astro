@@ -5,10 +5,10 @@ import type { Project } from '@data/projects';
 type Props = {
   project: Project;
   thesis?: string;
-  coreProof?: string;
+  coreEvidence?: string;
 };
 
-const { project, thesis, coreProof } = Astro.props;
+const { project, thesis, coreEvidence } = Astro.props;
 ---
 
 <section class="case-hero">
@@ -21,7 +21,7 @@ const { project, thesis, coreProof } = Astro.props;
         <span>{project.domain}</span>
         <RepoMaturityBadge maturity={project.maturity} note={project.statusNote} />
       </div>
-      {coreProof && <p class="core-proof">Core proof artifact: {coreProof}</p>}
+      {coreEvidence && <p class="core-evidence">Primary evidence: {coreEvidence}</p>}
       <div class="button-row">
         <a class="button" href={project.githubUrl}>GitHub Repository</a>
         <a class="button secondary" href="/projects/">All Case Studies</a>
@@ -77,7 +77,7 @@ const { project, thesis, coreProof } = Astro.props;
     margin-top: 28px;
   }
 
-  .core-proof {
+  .core-evidence {
     max-width: 760px;
     margin: 18px 0 0;
     border-left: 3px solid var(--amber);

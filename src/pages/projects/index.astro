@@ -19,8 +19,8 @@ function projectFor(slug: string): Project | undefined {
   <section class="section intro">
     <div class="container">
       <p class="section-kicker">Case studies</p>
-      <h1>Applied AI systems grouped by domain, maturity, and proof artifacts.</h1>
-      <p class="section-copy">The index prioritizes lead systems and supporting evidence. Archive projects stay visible without competing with flagship case studies.</p>
+      <h1>Case studies in production-aware AI systems.</h1>
+      <p class="section-copy">Scan by domain, then open the systems with enough public evidence to evaluate architecture, implementation choices, and responsible-use boundaries.</p>
     </div>
   </section>
 
@@ -35,7 +35,7 @@ function projectFor(slug: string): Project | undefined {
             <div class="group-copy">
               <p class="section-kicker">{group.title}</p>
               <h2 id={`group-${group.leadSlug}`}>{group.thesis}</h2>
-              <div class="proof-list" aria-label={`${group.title} proof artifacts`}>
+              <div class="evidence-list" aria-label={`${group.title} evidence`}>
                 {group.proofArtifacts.map((artifact) => <span>{artifact}</span>)}
               </div>
             </div>
@@ -48,7 +48,7 @@ function projectFor(slug: string): Project | undefined {
                 <RepoMaturityBadge maturity={lead.maturity} note={lead.statusNote} />
               </div>
               <a class="case-link" href={lead.caseStudyUrl ?? lead.githubUrl}>
-                {lead.caseStudyUrl ? 'Open case study' : 'Open evidence'}
+                {lead.caseStudyUrl ? 'Open case study' : 'Open source evidence'}
               </a>
             </article>
 
@@ -132,14 +132,14 @@ function projectFor(slug: string): Project | undefined {
     letter-spacing: 0;
   }
 
-  .proof-list {
+  .evidence-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 18px;
   }
 
-  .proof-list span {
+  .evidence-list span {
     border: 1px solid rgba(141, 232, 180, 0.18);
     border-radius: 999px;
     padding: 6px 9px;

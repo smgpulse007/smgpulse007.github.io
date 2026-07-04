@@ -97,7 +97,7 @@ export default function FeaturedSystemsShowroom() {
             <div className="terminal-strip">
               <span>system.contract</span>
               <span>validation.ready</span>
-              <span>boundary.visible</span>
+              <span>reviewable.outputs</span>
             </div>
             <img src={lead.image} alt="" />
           </div>
@@ -113,10 +113,10 @@ export default function FeaturedSystemsShowroom() {
           ))}
         </div>
 
-        <aside className="proof-stack" aria-label="Proof artifacts">
+        <aside className="proof-stack" aria-label="Evidence">
           <div>
             <Braces aria-hidden="true" size={18} strokeWidth={2.2} />
-            <strong>Proof artifacts</strong>
+            <strong>Evidence</strong>
           </div>
           {activeGroup.proofArtifacts.slice(0, 3).map((artifact) => (
             <span key={artifact}>

@@ -1,0 +1,17 @@
+---
+type Props = {
+  class?: string;
+};
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['ui-separator', className]} role="separator" />
+
+<style>
+  .ui-separator {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(191, 203, 220, 0.22), transparent);
+  }
+</style>

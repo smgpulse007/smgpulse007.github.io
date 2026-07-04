@@ -28,7 +28,7 @@ const diagrams: Record<DiagramVariant, Diagram> = {
       { label: 'FHIR Contract', tone: 'cyan', nodes: ['Synthetic bundle', 'FastAPI schema', 'resource validation'] },
       { label: 'Feature Layer', tone: 'green', nodes: ['FHIR parser', 'feature builder', 'risk matrix'] },
       { label: 'Model Layer', tone: 'violet', nodes: ['scorer', 'feature contributions', 'risk band'] },
-      { label: 'Proof Layer', tone: 'amber', nodes: ['sample response', 'model card', 'pytest + Docker'] },
+      { label: 'Validation Layer', tone: 'amber', nodes: ['sample response', 'model card', 'pytest + Docker'] },
     ],
     footer: ['No PHI', 'Synthetic examples', 'Explainable output', 'CI-ready service'],
   },
@@ -85,7 +85,7 @@ const diagrams: Record<DiagramVariant, Diagram> = {
       { label: 'Model Stack', tone: 'violet', nodes: ['XGBoost', 'logistic regression', 'ensemble'] },
       { label: 'Evaluation', tone: 'amber', nodes: ['Brier score', 'accuracy table', 'backtesting'] },
     ],
-    footer: ['Archived experiment', 'historical analytics', 'not betting advice', 'calibration discipline'],
+    footer: ['Historical lab', 'analytics research', 'not betting advice', 'calibration discipline'],
   },
   freshtrack: {
     title: 'OCR-to-JSON extraction API',

@@ -4,20 +4,36 @@
 
 :root {
   color-scheme: dark;
-  --bg: #05070c;
-  --panel: rgba(7, 13, 23, 0.94);
+  --background: 218 49% 4%;
+  --foreground: 214 56% 96%;
+  --card: 219 45% 8%;
+  --card-foreground: 214 56% 96%;
+  --primary: 184 78% 62%;
+  --primary-foreground: 218 54% 6%;
+  --secondary: 220 28% 14%;
+  --secondary-foreground: 214 45% 92%;
+  --muted-hsl: 219 26% 16%;
+  --muted-foreground: 214 21% 69%;
+  --accent: 37 84% 65%;
+  --accent-foreground: 218 54% 6%;
+  --border: 214 24% 24%;
+  --input: 214 24% 24%;
+  --ring: 184 78% 62%;
+  --bg: #040811;
+  --panel: rgba(8, 15, 28, 0.94);
   --line: rgba(191, 203, 220, 0.16);
   --text: #f5f8ff;
   --text-strong: #ffffff;
   --muted: #a7b5c9;
-  --muted-2: #7f8da3;
+  --muted-copy: #a7b5c9;
+  --muted-2: #8394ad;
   --cyan: #58dce6;
   --green: #8de8b4;
   --amber: #f1bd5c;
   --violet: #b9a7ff;
   --rose: #f0a0bd;
   --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.22);
-  --radius: 8px;
+  --radius: 12px;
   --duration: 180ms;
 }
 
@@ -35,10 +51,12 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   background:
+    radial-gradient(circle at 14% 12%, rgba(88, 220, 230, 0.12), transparent 22rem),
+    radial-gradient(circle at 86% 8%, rgba(185, 167, 255, 0.12), transparent 24rem),
     linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(135deg, #05070c 0%, #07101b 46%, #0d1322 100%);
-  background-size: 38px 38px, 38px 38px, auto;
+    linear-gradient(135deg, #040811 0%, #07101b 46%, #111827 100%);
+  background-size: auto, auto, 38px 38px, 38px 38px, auto;
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, Segoe UI, sans-serif;
   line-height: 1.6;
@@ -102,7 +120,7 @@ img {
 .section-copy {
   max-width: 800px;
   margin: 18px 0 0;
-  color: var(--muted);
+  color: var(--muted-copy);
   font-size: clamp(1.02rem, 1.6vw, 1.18rem);
 }
 
@@ -114,7 +132,7 @@ img {
 .panel,
 .glass-card {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 22px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)),
     var(--panel);
@@ -173,7 +191,7 @@ img {
   min-height: 44px;
   padding: 10px 16px;
   border: 1px solid rgba(88, 220, 230, 0.44);
-  border-radius: var(--radius);
+  border-radius: 12px;
   background: linear-gradient(135deg, rgba(88, 220, 230, 0.2), rgba(74, 222, 189, 0.08));
   color: #f8feff;
   font-weight: 900;
@@ -190,6 +208,62 @@ img {
   border-color: rgba(180, 202, 232, 0.22);
   background: rgba(255, 255, 255, 0.055);
   color: #e6edf7;
+}
+
+.premium-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(191, 203, 220, 0.14);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.022)),
+    rgba(7, 13, 23, 0.9);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+}
+
+.premium-panel::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: '';
+  background: linear-gradient(135deg, rgba(88, 220, 230, 0.12), transparent 34%, rgba(241, 189, 92, 0.08), transparent 78%);
+  opacity: 0.52;
+}
+
+.premium-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.grid-surface {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    rgba(4, 10, 18, 0.48);
+  background-size: 30px 30px, 30px 30px, auto;
+}
+
+.section-band {
+  border-block: 1px solid rgba(191, 203, 220, 0.12);
+  background:
+    linear-gradient(90deg, rgba(88, 220, 230, 0.055), transparent 34%, rgba(185, 167, 255, 0.045), transparent 72%, rgba(241, 189, 92, 0.04)),
+    rgba(5, 9, 15, 0.72);
+}
+
+.image-frame {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(191, 203, 220, 0.14);
+  border-radius: 16px;
+  background: #05070c;
+}
+
+.image-frame img,
+.image-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-grid {
@@ -214,7 +288,7 @@ img {
 
 .text-block p {
   margin: 0;
-  color: var(--muted);
+  color: var(--muted-copy);
 }
 
 .text-block p + p {
@@ -224,7 +298,7 @@ img {
 .text-block ul {
   margin: 0;
   padding-left: 20px;
-  color: var(--muted);
+  color: var(--muted-copy);
 }
 
 .text-block li + li {

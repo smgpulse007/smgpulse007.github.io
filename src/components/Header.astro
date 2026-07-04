@@ -2,13 +2,13 @@
 import { profile } from '@data/profile';
 
 const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Systems', href: '/systems/' },
+  { label: 'Work', href: '/' },
   { label: 'Case Studies', href: '/projects/' },
-  { label: 'Quant & Forecasting', href: '/quant-forecasting/' },
+  { label: 'Systems', href: '/systems/' },
   { label: 'Professional Systems', href: '/professional-systems/' },
-  { label: 'Research Archive', href: '/research-archive/' },
+  { label: 'Research Lab', href: '/research-archive/' },
   { label: 'GitHub', href: profile.github },
+  { label: 'LinkedIn', href: profile.linkedin },
 ];
 ---
 
@@ -108,12 +108,20 @@ const navItems = [
       align-items: flex-start;
       flex-direction: column;
       padding: 12px 0;
+      gap: 10px;
     }
 
     .nav-links {
       width: 100%;
       justify-content: flex-start;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .nav-links a {
+      flex: 0 0 auto;
     }
   }
 </style>

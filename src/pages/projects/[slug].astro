@@ -1,0 +1,18 @@
+---
+import RedirectPage from '../../components/RedirectPage.astro';
+export function getStaticPaths() {
+  const redirects: Record<string, string> = {
+    'llm-steering': '/work/llm-steering-lab/',
+    'local-document-ai-extraction': '/work/on-prem-rag-ocr/',
+    'hl7-ai-challenge': '/lab/#healthcare',
+    'hospital-readmission-fhir-ml-api': '/lab/#healthcare',
+    'freshtrack-ai-module': '/lab/#documents',
+    'agentic-alpha-engine': '/lab/#forecasting',
+    'nfl-sports-forecasting': '/lab/#forecasting',
+    'chatwithwiki-azureml': '/lab/#agentic',
+  };
+  return Object.entries(redirects).map(([slug, to]) => ({ params: { slug }, props: { to } }));
+}
+const { to } = Astro.props;
+---
+<RedirectPage to={to} label="Case study" />

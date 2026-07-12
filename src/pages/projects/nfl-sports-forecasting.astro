@@ -1,9 +1,0 @@
----
-import CaseStudyLayout from '@components/CaseStudyLayout.astro';
-import { getProject } from '@data/projects';
-
-const project = getProject('nfl-sports-forecasting');
-if (!project) throw new Error('Missing project data');
----
-
-<CaseStudyLayout project={project} />

@@ -1,45 +1,56 @@
-# Shailesh Dudala Portfolio
+# Shailesh Dudala Portfolio V2
 
-Premium GitHub Pages portfolio for Shailesh Dudala, Senior Applied AI / ML Engineer.
+Static-first Astro portfolio for Shailesh Dudala, Senior Applied AI Engineer.
 
-Live site: https://smgpulse007.github.io/
+The product has one source and design system with two future hosting targets:
 
-## Positioning
+- `shaileshdudala.com` on Hostinger as the canonical production site after approved cutover;
+- `smgpulse007.github.io` as a no-index static mirror built from the same release.
 
-The site presents public-safe applied AI systems across:
+No Hostinger deployment or production cutover is performed from this branch.
 
-- Healthcare and insurance AI
-- Agentic AI, LLMOps, and document intelligence
-- Quant research, sports forecasting, and applied data science
-- MLOps, infrastructure, and deployment patterns
+## Primary routes
 
-## Routes
+- `/` — positioning, flight recorder, outcomes, selected work, experience, and contact
+- `/work/` and `/work/[slug]/` — four evidence-governed engineering case studies
+- `/experience/` — career throughline and scoped outcomes
+- `/lab/` — progressively enhanced public project library
+- `/about/` — professional narrative, principles, education, and credentials
+- `/resume/` — print-friendly résumé summary and current PDF availability
+- `/portfolio.json` and `/llms.txt` — machine-readable portfolio guides
 
-- `/` - homepage and featured systems
-- `/systems/` - filterable project library
-- `/projects/` - substantive case studies
-- `/quant-forecasting/` - quant, finance, and sports forecasting breadth
-- `/professional-systems/` - sanitized professional system architecture cards
-- `/research-archive/` - research notes and archive-tier data science foundations
-- `/data-science-lab/` - compatibility route for the research archive
-- `/experience/` - public-safe experience story and career timeline
+Historical routes under `/projects/`, `/systems/`, `/professional-systems/`, and the former lab taxonomy remain as static compatibility pages with new canonicals.
 
-## Local Development
+## Local development
+
+Requires Node.js 24 LTS (the package contract also accepts compatible Node 22.12+ releases).
 
 ```bash
 npm ci
 npm run dev
 ```
 
-## Build
+## Validation
 
 ```bash
+npm run check
+npm test
 npm run build
-npm run preview
+npm run test:content
+npm run test:links
+npm run test:targets
+npm run test:a11y
+npm run test:e2e
 ```
 
-## Deployment
+Generate the three visual QA passes with:
 
-The site deploys to GitHub Pages with `.github/workflows/deploy.yml` using GitHub Actions.
+```bash
+npm run screenshots
+```
 
-No `CNAME` file is included. Custom-domain work is intentionally deferred.
+## Deployment targets
+
+The build reads `PUBLIC_DEPLOY_TARGET`, `PUBLIC_SITE_URL`, `PUBLIC_CANONICAL_URL`, and `PUBLIC_ROBOTS`. See `docs/HOSTING_ARCHITECTURE.md`, `docs/DEPLOYMENT.md`, and the Hostinger staging/cutover/rollback runbooks for the complete contract.
+
+The site requires no server runtime. Astro emits static files to `dist`.

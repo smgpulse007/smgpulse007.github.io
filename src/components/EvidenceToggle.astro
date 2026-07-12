@@ -1,0 +1,20 @@
+<div class="evidence-toggle" aria-label="Portfolio reading mode">
+  <span>Reading mode</span>
+  <button type="button" data-evidence-toggle aria-pressed="false">Evidence mode</button>
+</div>
+<script>
+  const button = document.querySelector('[data-evidence-toggle]');
+  const key = 'portfolio-evidence-mode';
+  const apply = (active: boolean) => {
+    document.documentElement.dataset.evidenceMode = active ? 'evidence' : 'narrative';
+    button?.setAttribute('aria-pressed', String(active));
+    if (button) button.textContent = active ? 'Narrative mode' : 'Evidence mode';
+  };
+  apply(localStorage.getItem(key) === 'evidence');
+  button?.addEventListener('click', () => {
+    const active = document.documentElement.dataset.evidenceMode !== 'evidence';
+    localStorage.setItem(key, active ? 'evidence' : 'narrative');
+    apply(active);
+  });
+</script>
+

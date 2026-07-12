@@ -3,7 +3,7 @@ export const professionalSystems = [
     domain: 'Claims automation',
     accent: '#8de8b4',
     metric: '90% review-time reduction pattern',
-    title: 'Claims Document Automation / Autonomous Adjudication Support',
+    title: 'Claims Document Automation / Human-in-the-Loop Adjudication Support',
     thesis:
       'LangGraph-style orchestration for document understanding, structured extraction, validation gates, exception routing, and downstream claims-system handoffs.',
     architecture: ['document intake', 'OCR/extraction', 'agent graph', 'validation gates', 'exception routing', 'claims handoff'],

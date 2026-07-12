@@ -2,83 +2,86 @@
 import '../styles/global.css';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
-import { profile } from '@data/profile';
-import { ClientRouter } from 'astro:transitions';
+import { profile } from '../data/profile';
+import { absoluteUrl, siteConfig } from '../config/site';
 
 type Props = {
   title: string;
   description: string;
   canonicalPath?: string;
   image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  noIndex?: boolean;
 };
 
 const {
   title,
   description,
   canonicalPath = Astro.url.pathname,
-  image = '/assets/og-image.svg',
+  image,
+  type = 'website',
+  jsonLd = [],
+  noIndex = false,
 } = Astro.props;
-const canonicalUrl = new URL(canonicalPath, profile.site).toString();
-const imageUrl = new URL(image, profile.site).toString();
-const personJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: profile.name,
-  jobTitle: profile.role,
-  url: profile.site,
-  sameAs: [profile.github, profile.linkedin],
-  knowsAbout: [
-    'Applied AI',
-    'Agentic AI',
-    'Healthcare AI',
-    'Insurance AI',
-    'FHIR',
-    'HL7',
-    'Document AI',
-    'Quant Research',
-    'Sports Forecasting',
-    'LLMOps',
-    'MLOps',
-  ],
-};
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: `${profile.name} Portfolio`,
-  url: profile.site,
-  description,
-};
+
+const canonicalUrl = absoluteUrl(canonicalPath, true);
+const ogSlug = canonicalPath === '/' ? 'home' : canonicalPath.replace(/^\//, '').replace(/\/$/, '').replaceAll('/', '-');
+const imageUrl = absoluteUrl(image ?? `/og/${ogSlug}/`);
+const baseJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: profile.name,
+    jobTitle: profile.role,
+    url: siteConfig.canonicalUrl,
+    sameAs: [profile.github, profile.linkedin],
+    knowsAbout: ['Agentic AI', 'Document intelligence', 'Healthcare interoperability', 'Predictive ML', 'MLOps'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: `${profile.name} — ${profile.role}`,
+    url: siteConfig.canonicalUrl,
+    description: profile.seoDescription,
+  },
+];
+const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-evidence-mode="narrative">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={noIndex ? 'noindex,nofollow' : siteConfig.robots} />
+    <meta name="theme-color" content="#0a0d0c" />
+    <title>{title}</title>
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={imageUrl} />
+    <meta property="og:site_name" content={`${profile.name} Portfolio`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
-    <ClientRouter />
-    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
-    <script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
+    {[...baseJsonLd, ...extraJsonLd].map((item) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />
+    ))}
   </head>
   <body>
     <Header />
-    <main id="main-content">
-      <slot />
-    </main>
+    {siteConfig.isMirror && (
+      <aside class="target-banner">Mirror copy · Canonical portfolio: <a href="https://shaileshdudala.com">shaileshdudala.com</a></aside>
+    )}
+    {siteConfig.isStaging && <aside class="target-banner">Hostinger staging · Not indexed</aside>}
+    <main id="main-content"><slot /></main>
     <Footer />
   </body>
 </html>
-

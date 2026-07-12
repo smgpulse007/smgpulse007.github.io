@@ -1,0 +1,22 @@
+---
+import { publicImpactClaims } from '../data/impactClaims';
+const claims = publicImpactClaims.slice(0, 5);
+---
+<section class="impact-strip" aria-labelledby="impact-title">
+  <div class="shell">
+    <div class="impact-heading">
+      <h2 id="impact-title">Selected outcomes across healthcare, insurance, and analytics delivery</h2>
+      <span>Résumé-supported · scoped by context</span>
+    </div>
+    <div class="impact-grid">
+      {claims.map((claim) => (
+        <article>
+          <strong>{claim.value}</strong>
+          <h3>{claim.label}</h3>
+          <p>{claim.context}</p>
+          {claim.qualification && <small>{claim.qualification}</small>}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

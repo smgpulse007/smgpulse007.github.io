@@ -1,38 +1,6 @@
 ---
-import Layout from '@components/Layout.astro';
+import Layout from '../components/Layout.astro';
 ---
-
-<Layout
-  title="Page Not Found | Shailesh Dudala"
-  description="The requested portfolio page was not found."
-  canonicalPath="/404/"
->
-  <section class="section">
-    <div class="container not-found panel">
-      <p class="section-kicker">404</p>
-      <h1>Page not found</h1>
-      <p>The page may have moved. Return to the portfolio homepage or browse the case studies.</p>
-      <div class="button-row">
-        <a class="button" href="/">Home</a>
-        <a class="button secondary" href="/projects/">Case Studies</a>
-      </div>
-    </div>
-  </section>
+<Layout title="Page not found — Shailesh Dudala" description="This route is not part of the portfolio." canonicalPath="/404/" noIndex>
+  <section class="not-found"><div class="shell"><span>404</span><p class="eyebrow">Trace ended</p><h1>This route did not reach a valid state.</h1><p>The portfolio architecture changed. Use the primary paths below.</p><div><a class="button primary" href="/work/">Selected work</a><a class="button quiet" href="/lab/">Lab</a><a class="button quiet" href="/">Home</a></div></div></section>
 </Layout>
-
-<style>
-  .not-found {
-    border-radius: 8px;
-    padding: 36px;
-  }
-
-  h1 {
-    margin: 0 0 12px;
-    font-size: clamp(2.6rem, 6vw, 4.6rem);
-  }
-
-  p {
-    color: var(--muted);
-  }
-</style>
-

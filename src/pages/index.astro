@@ -1,150 +1,104 @@
 ---
-import Layout from '@components/Layout.astro';
-import Hero from '@components/Hero.astro';
-import SectionHeader from '@components/SectionHeader.astro';
-import CredentialImpactStrip from '@components/home/CredentialImpactStrip.astro';
-import DomainSystemsList from '@components/home/DomainSystemsList';
-import FeaturedWork from '@components/home/FeaturedWork.astro';
-import ArtifactWall from '@components/home/ArtifactWall';
-import ProfessionalSystemsPreview from '@components/home/ProfessionalSystemsPreview.astro';
-import { profile } from '@data/profile';
+import Layout from '../components/Layout.astro';
+import FlightRecorder from '../components/FlightRecorder';
+import ImpactStrip from '../components/ImpactStrip.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import WorkFeature from '../components/WorkFeature.astro';
+import EvidenceToggle from '../components/EvidenceToggle.astro';
+import { profile } from '../data/profile';
+import { featuredWork } from '../data/work';
+import { experienceEras } from '../data/experience';
+import { recognition } from '../data/recognition';
 ---
 
 <Layout title={profile.seoTitle} description={profile.seoDescription} canonicalPath="/">
-  <Hero />
-
-  <CredentialImpactStrip />
-
-  <section class="section domain-section">
-    <div class="container">
-      <SectionHeader
-        kicker="Domains"
-        title="A connected map of the systems I build across regulated AI, document intelligence, forecasting, local model labs, and MLOps."
-        copy="Each row links a domain to a concrete system, the implementation stack behind it, and the next case study a reviewer can inspect."
-      />
-      <DomainSystemsList client:load />
-    </div>
-  </section>
-
-  <section class="section showroom-section">
-    <div class="container">
-      <SectionHeader
-        kicker="Featured work"
-        title="Case-study systems that turn the domain map into visible architecture and working evidence."
-        copy="A flagship healthcare ML API anchors the page, then agentic AI, quant research, interoperability, document AI, and local RAG show the breadth around it."
-      />
-      <FeaturedWork />
-    </div>
-  </section>
-
-  <section class="section artifact-section section-band">
-    <div class="container">
-      <SectionHeader
-        kicker="Evidence"
-        title="Evidence organized as a guided dossier, not a pile of disconnected cards."
-        copy="Move through UI demos, JSON contracts, charts, diagrams, and local-model workflows in sequence, then open the larger preview when a reviewer needs the artifact detail."
-      />
-      <ArtifactWall client:load />
-    </div>
-  </section>
-
-  <section class="section professional-section">
-    <div class="container">
-      <SectionHeader
-        kicker="Professional systems"
-        title="Enterprise patterns behind the public systems."
-        copy="Sanitized architecture streams connect the portfolio to claims automation, HEDIS evidence extraction, local RAG/OCR, predictive models, FWA analytics, and healthcare analytics platforms."
-      />
-      <ProfessionalSystemsPreview />
-    </div>
-  </section>
-
-  <section class="section compact final-cta">
-    <div class="container cta-grid">
-      <div>
-        <p class="section-kicker">Implementation details</p>
-        <h2>Follow the build trail from case studies to source repos and enterprise patterns.</h2>
-        <p>Use the detailed pages to inspect architecture, artifacts, responsible-use boundaries, and the systems library behind the landing page.</p>
+  <section class="hero-section">
+    <div class="shell hero-layout">
+      <div class="hero-copy">
+        <div class="hero-overline"><span>{profile.role}</span><span>Healthcare · Insurance</span></div>
+        <p class="hero-name">Shailesh Dudala</p>
+        <h1>I build AI systems that survive real operations.</h1>
+        <p class="hero-lede">From claim packets and clinical documents to HL7/FHIR events and human review queues, I turn messy, regulated data into validated, traceable workflows.</p>
+        <p class="hero-domains">Agentic AI <i>·</i> Document Intelligence <i>·</i> Healthcare &amp; Insurance <i>·</i> ML Platforms</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/work/">Explore selected work</a>
+          <a class="button quiet" href="/resume/">View résumé summary <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-links">
+          <a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={`mailto:${profile.email}`}>Email ↗</a>
+        </div>
       </div>
-      <div class="cta-actions">
-        <a class="button" href="/projects/">Case Studies</a>
-        <a class="button secondary" href="/systems/">Systems Library</a>
-        <a class="button secondary" href={profile.github}>GitHub</a>
-        <a class="button secondary" href={profile.linkedin}>LinkedIn</a>
+      <div class="hero-instrument"><FlightRecorder client:visible /></div>
+    </div>
+    <div class="shell mode-row"><EvidenceToggle /></div>
+  </section>
+
+  <ImpactStrip />
+
+  <section class="section" id="work">
+    <div class="shell">
+      <SectionIntro eyebrow="Selected work" title="Systems where the hard part begins after the model responds." body="These stories focus on contracts, validation, review paths, and operational controls—not a gallery of model demos." />
+      <div class="work-stack">
+        {featuredWork.map((item, index) => <WorkFeature item={item} index={index + 1} lead={index === 0} />)}
       </div>
+      <a class="section-link" href="/work/">View every case study <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="section paper-section">
+    <div class="shell">
+      <SectionIntro eyebrow="How I build" title="Five habits that keep uncertainty visible." body="The same operating principles connect claims, clinical documents, predictive ML, and local-model research." />
+      <ol class="principles">
+        <li><span>01</span><div><h3>Contracts before prompts</h3><p>Typed inputs and outputs expose ambiguity before it reaches downstream work.</p><a href="/work/claims-intelligence/">Claims intelligence ↗</a></div></li>
+        <li><span>02</span><div><h3>Evaluation before automation</h3><p>Define failure modes, acceptance sets, and release gates before scaling volume.</p><a href="/work/llm-steering-lab/">LLM Steering Lab ↗</a></div></li>
+        <li><span>03</span><div><h3>Humans where risk remains</h3><p>Route uncertainty with a reason and evidence instead of hiding it behind confidence.</p><a href="/work/claims-intelligence/">Reviewer boundary ↗</a></div></li>
+        <li><span>04</span><div><h3>Local-first when data requires it</h3><p>Choose deployment boundaries around privacy, control, and operational ownership.</p><a href="/work/on-prem-rag-ocr/">On-prem review ↗</a></div></li>
+        <li><span>05</span><div><h3>Observability is part of the product</h3><p>Trace latency, cost, tool events, errors, routes, and outcomes from the start.</p><a href="/work/claims-intelligence/">Flight recorder ↗</a></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <SectionIntro eyebrow="Experience" title="Increasing scope, one throughline." body="Biomedical data became healthcare prediction, then analytics products, on-prem GenAI, and agentic insurance workflows." />
+      <div class="experience-river">
+        {experienceEras.map((era, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <div><p>{era.period}</p><h3>{era.theme}</h3><strong>{era.organization}</strong><p>{era.summary}</p></div>
+            <ul>{era.outcomes.slice(0, 2).map((outcome) => <li>{outcome}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+      <a class="section-link" href="/experience/">Read the full experience story <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="section recognition-section">
+    <div class="shell recognition-layout">
+      <div><p class="eyebrow">Recognition</p><h2>Team credit, project names, and evidence stay attached.</h2><p>Awards are supporting context—not a substitute for the engineering story.</p></div>
+      <div class="recognition-list">
+        {recognition.map((item) => <article><span>{item.attribution}</span><h3>{item.title}</h3><p>{item.project}</p><small>{item.evidence}</small>{'officialUrl' in item && <a href={item.officialUrl}>Official evidence ↗</a>}</article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section lab-teaser">
+    <div class="shell">
+      <SectionIntro eyebrow="Lab" title="Breadth, with the labels left on." body="Public implementations, research systems, and historical experiments show range without pretending every repository is a deployed system." />
+      <div class="domain-constellation">
+        <a href="/lab/#healthcare"><span>01</span><strong>Healthcare &amp; Interoperability</strong><small>FHIR · HL7 · predictive care</small></a>
+        <a href="/lab/#agentic"><span>02</span><strong>Agentic AI &amp; LLM Engineering</strong><small>steering · RAG · evaluation</small></a>
+        <a href="/lab/#documents"><span>03</span><strong>Document AI</strong><small>OCR · extraction · local inference</small></a>
+        <a href="/lab/#forecasting"><span>04</span><strong>Forecasting &amp; Quant</strong><small>backtests · calibration · research</small></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-section" id="contact">
+    <div class="shell contact-layout">
+      <div><p class="eyebrow">Contact</p><h2>Building a workflow where an AI answer has to become a defensible action?</h2><p>Let’s talk about the architecture between those two points.</p></div>
+      <div class="contact-actions"><a class="button primary" href={`mailto:${profile.email}`}>Email Shailesh</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Résumé summary →</a></div>
     </div>
   </section>
 </Layout>
-
-<style>
-  .domain-section {
-    padding-top: 76px;
-  }
-
-  .showroom-section {
-    padding-top: 48px;
-  }
-
-  .artifact-section,
-  .professional-section {
-    padding-top: 92px;
-  }
-
-  .showroom-section,
-  .professional-section {
-    background:
-      linear-gradient(180deg, transparent, rgba(88, 220, 230, 0.025), transparent),
-      transparent;
-  }
-
-  .final-cta {
-    position: relative;
-    overflow: hidden;
-    border-top: 1px solid rgba(191, 203, 220, 0.12);
-    background:
-      radial-gradient(circle at 16% 0%, rgba(88, 220, 230, 0.13), transparent 18rem),
-      radial-gradient(circle at 88% 100%, rgba(241, 189, 92, 0.1), transparent 20rem),
-      linear-gradient(90deg, rgba(88, 220, 230, 0.055), transparent 42%, rgba(240, 160, 189, 0.045)),
-      rgba(5, 9, 15, 0.82);
-  }
-
-  .cta-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 28px;
-    align-items: center;
-  }
-
-  .cta-grid h2 {
-    max-width: 900px;
-    margin: 0;
-    color: var(--text-strong);
-    font-size: clamp(1.7rem, 3.3vw, 3.2rem);
-    line-height: 1.05;
-    letter-spacing: 0;
-  }
-
-  .cta-grid p:not(.section-kicker) {
-    max-width: 780px;
-    margin: 16px 0 0;
-    color: var(--muted-copy);
-    font-size: 1rem;
-  }
-
-  .cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-
-  @media (max-width: 860px) {
-    .cta-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .cta-actions {
-      justify-content: flex-start;
-    }
-  }
-</style>

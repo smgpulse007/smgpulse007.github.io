@@ -1,0 +1,9 @@
+---
+import '../styles/global.css';
+import { absoluteUrl, siteConfig } from '../config/site';
+type Props = { to: string; label: string };
+const { to, label } = Astro.props;
+const target = absoluteUrl(to, true);
+---
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><meta name="robots" content="noindex,follow" /><meta http-equiv="refresh" content={`0;url=${to}`} /><link rel="canonical" href={target} /><title>{label} moved — Shailesh Dudala</title></head><body><main class="redirect-page"><p class="eyebrow">Route updated</p><h1>{label} has moved.</h1><p><a class="button primary" href={to}>Continue to {to}</a></p><small>Deployment target: {siteConfig.target}</small></main><script is:inline define:vars={{ to }}>window.location.replace(to);</script></body></html>

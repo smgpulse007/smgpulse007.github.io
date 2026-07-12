@@ -1,0 +1,50 @@
+export const experienceEras = [
+  {
+    period: '2026 — present',
+    organization: 'MetLife via Bizintex',
+    title: 'Applied AI Engineer Consultant',
+    theme: 'Insurance claims and agentic AI',
+    summary: 'Designing governed document and claims workflows with typed contracts, validation gates, reviewer fallbacks, and trace telemetry.',
+    outcomes: ['≈90% lower document-handling effort in a measured claim-packet workflow', '≈50% shorter time-to-claim-payable in a supported workstream'],
+    judgment: 'Separated model reasoning from deterministic workflow authority and kept uncertain cases in visible review states.',
+  },
+  {
+    period: '2023 — 2025',
+    organization: 'Inland Empire Health Plan via Infowave',
+    title: 'Lead DS/ML Engineer Consultant',
+    theme: 'Payer AI modernization',
+    summary: 'Led local RAG/OCR, healthcare quality evidence extraction, predictive ML, FWA analytics, MLOps, and operational reporting.',
+    outcomes: ['Cleared a 7K-case review backlog with ≈90% lower review time', 'Improved automated measure closures by 20%', 'Reduced transportation waste by 18%'],
+    judgment: 'Chose local inference when the data boundary required control, then built evaluation and reviewer paths around OCR and retrieval failure.',
+  },
+  {
+    period: '2020 — 2023',
+    organization: 'Hexplora',
+    title: 'Lead Data Scientist / Product',
+    theme: '0-to-1 healthcare analytics platform',
+    summary: 'Built and scaled a predictive analytics platform across nine healthcare programs, combining risk models, data products, and care-manager workflows.',
+    outcomes: ['$500K in new revenue supported', '≈$3M in client performance-based payouts', '≈50% faster model deployment cycles'],
+    judgment: 'Treated model delivery, workflow design, and reporting as one product problem instead of separate technical workstreams.',
+  },
+  {
+    period: 'Earlier foundations',
+    organization: 'CommonSpirit Health · Health New England · University of Chicago · AbbVie',
+    title: 'Data science, biomedical informatics, and clinical-data work',
+    theme: 'Research and operational foundations',
+    summary: 'Worked across hospital analytics, provider data, biomedical research, clinical sensors, genomics, and public-health modeling.',
+    outcomes: ['Analytics spanning 142 hospitals', '100K+ provider records validated', '60% less manual provider-review effort'],
+    judgment: 'Learned to make data lineage, statistical assumptions, and operational context visible before a model could be trusted.',
+  },
+] as const;
+
+export const education = [
+  'M.S., Biomedical Informatics — University of Chicago, 2019',
+  'Summer School, Public Health Modeling — Yale University, 2019',
+  'B.Tech., Computer Science & Engineering — SRM University, 2018',
+] as const;
+
+export const certifications = [
+  'AWS Certified Machine Learning Engineer — Associate',
+  'Microsoft Azure AI Fundamentals (AI-900)',
+  'Microsoft Power BI Data Analyst (PL-300)',
+] as const;

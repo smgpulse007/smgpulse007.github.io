@@ -10,12 +10,13 @@ import { navigation, profile } from '../data/profile';
     </div>
     <nav aria-label="Footer navigation">
       {navigation.slice(0, 5).map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href="/recognition/">Recognition</a>
       <a href={profile.github}>GitHub ↗</a>
       <a href={profile.linkedin}>LinkedIn ↗</a>
     </nav>
   </div>
   <div class="shell footer-meta">
-    <span>Astro · Static by default</span>
+    <span>Built for clarity, speed, and privacy</span>
     <span>© {new Date().getFullYear()} Shailesh Dudala</span>
   </div>
 </footer>

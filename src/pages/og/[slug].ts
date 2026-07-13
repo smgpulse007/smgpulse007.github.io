@@ -4,11 +4,13 @@ import { workItems } from '../../data/work';
 
 const cards = [
   { slug: 'home', eyebrow: 'Senior Applied AI Engineer', title: 'AI systems that survive real operations.' },
-  { slug: 'work', eyebrow: 'Selected work', title: 'Proof of judgment under real constraints.' },
+  { slug: 'work', eyebrow: 'Selected work', title: 'Four systems. Four operating constraints.' },
   { slug: 'experience', eyebrow: 'Experience', title: 'From biomedical data to accountable AI workflows.' },
-  { slug: 'lab', eyebrow: 'Lab', title: 'Range, without category blur.' },
-  { slug: 'about', eyebrow: 'About', title: 'The space between a model and a system people can trust.' },
+  { slug: 'lab', eyebrow: 'Lab', title: 'Public builds, organized by what they can show.' },
+  { slug: 'recognition', eyebrow: 'Recognition', title: 'The award matters. The attribution matters too.' },
+  { slug: 'about', eyebrow: 'About', title: 'AI through the discipline of biomedical context.' },
   { slug: 'resume', eyebrow: 'Résumé', title: 'Shailesh Dudala · Senior Applied AI Engineer' },
+  { slug: 'contact', eyebrow: 'Contact', title: 'Bring the messy input and the operational constraint.' },
   { slug: '404', eyebrow: 'Trace ended', title: 'This route did not reach a valid state.' },
   ...workItems.map((item) => ({ slug: `work-${item.slug}`, eyebrow: item.eyebrow, title: item.title })),
 ];

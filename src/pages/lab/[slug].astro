@@ -1,0 +1,28 @@
+---
+import Layout from '../../components/Layout.astro';
+import { labItems, type LabItem } from '../../data/lab';
+import { evidenceAsset } from '../../data/projectEvidence';
+
+export function getStaticPaths() {
+  return labItems.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+type Props = { item: LabItem };
+const { item } = Astro.props;
+const mediaId = item.slug === 'llm-steering' ? 'llm-activation-flow' : item.slug === 'hl7-ai-reference-platform' ? 'hl7-high-level' : item.slug === 'alphaquant' ? 'alphaquant-ui' : undefined;
+const media = mediaId ? evidenceAsset(mediaId) : undefined;
+const dimensions = mediaId === 'hl7-high-level' ? { width: 3840, height: 2394 } : mediaId === 'alphaquant-ui' ? { width: 1251, height: 1222 } : { width: 960, height: 540 };
+---
+<Layout title={`${item.title} — Lab — Shailesh Dudala`} description={`${item.description} ${item.limitation}`} canonicalPath={`/lab/${item.slug}/`}>
+  <article class="lab-detail">
+    <header class="page-hero"><div class="shell lab-detail-hero"><div><a class="back-link" href="/lab/">← Lab</a><p class="eyebrow">{item.status} · {item.year}</p><h1>{item.title}</h1><p>{item.description}</p></div><aside><span>Why it matters</span><strong>{item.why}</strong></aside></div></header>
+    <section class="section"><div class="shell lab-detail-grid">
+      <div class="lab-detail-main">
+        <section><p class="eyebrow">What this project shows</p><h2>A bounded implementation, not a universal claim.</h2><p>{item.why} The useful evidence is the combination of public source, explicit stack, and a limitation that stays close to the work.</p></section>
+        {media && <figure class="source-media"><img src={media.path} alt={media.alt} width={dimensions.width} height={dimensions.height} loading="lazy" /><figcaption>{media.caption}</figcaption></figure>}
+        <section><p class="eyebrow">Boundary</p><h2>What it does not establish</h2><p>{item.limitation}</p></section>
+      </div>
+      <aside class="lab-detail-facts"><div><span>Domain</span><strong>{item.domain}</strong></div><div><span>Stack</span><p>{item.stack.join(' · ')}</p></div>{media && <div><span>Media source</span><p><a href={media.sourceRepository}>Repository ↗</a><br /><code>{media.commit.slice(0, 8)}</code> · {media.license}</p></div>}<div class="lab-detail-links">{item.href && <a class="button primary" href={item.href}>Open repository</a>}{item.caseStudy && <a class="button quiet" href={item.caseStudy}>Read case study</a>}</div></aside>
+    </div></section>
+  </article>
+</Layout>

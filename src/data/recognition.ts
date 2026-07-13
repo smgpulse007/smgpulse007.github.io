@@ -19,6 +19,6 @@ export const recognition = [
     title: 'HiCounselor Diabetes Risk Prediction Challenge (2024)',
     project: 'Diabetes risk prediction',
     attribution: 'Challenge recognition',
-    evidence: 'Recognition and model result are résumé-supported; no payer affiliation is asserted.',
+    evidence: 'Recognition and model result are recorded in the current career record; no payer affiliation is asserted.',
   },
 ] as const;

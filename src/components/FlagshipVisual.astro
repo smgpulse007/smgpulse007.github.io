@@ -1,0 +1,69 @@
+---
+import type { WorkItem } from '../data/types';
+
+type Props = { item: WorkItem; compact?: boolean };
+const { item, compact = false } = Astro.props;
+---
+
+<div class:list={['flagship-visual', `visual-${item.visual}`, { compact }]} aria-label={`${item.eyebrow} system illustration`}>
+  {item.visual === 'packet-trace' && (
+    <div class="packet-visual">
+      <div class="packet-pages" aria-label="Illustrative claim packet">
+        <span class="packet-page page-one"><small>PAGE 04</small><strong>EOB</strong><i>service date</i><b>04 / 18</b></span>
+        <span class="packet-page page-two"><small>PAGE 05</small><strong>CLAIM FORM</strong><i>service date</i><b class="conflict">04 / 19</b></span>
+        <span class="packet-page page-three"><small>PAGE 09</small><strong>NOTE</strong><i>supporting context</i></span>
+      </div>
+      <ol class="decision-thread" aria-label="Decision sequence">
+        <li class="complete"><span>01</span><strong>Identify</strong><small>9 pages</small></li>
+        <li class="complete"><span>02</span><strong>Extract</strong><small>typed fields</small></li>
+        <li class="alert"><span>03</span><strong>Validate</strong><small>dates conflict</small></li>
+        <li class="review"><span>04</span><strong>Review</strong><small>pages 4–5</small></li>
+      </ol>
+      <div class="review-card"><span>Review required</span><strong>Service dates conflict</strong><small>Next: reviewer confirmation</small></div>
+    </div>
+  )}
+
+  {item.visual === 'local-boundary' && (
+    <div class="boundary-visual">
+      <div class="boundary-title"><span>Controlled environment</span><small>Documents do not cross this line</small></div>
+      <div class="source-stack"><i>PDF</i><i>SCAN</i><i>POLICY</i></div>
+      <ol class="local-flow" aria-label="Local document review flow">
+        <li><span>01</span><strong>Read pages</strong><small>quality signal</small></li>
+        <li><span>02</span><strong>Find evidence</strong><small>page citations</small></li>
+        <li><span>03</span><strong>Compare fields</strong><small>conflict found</small></li>
+      </ol>
+      <div class="review-surface"><span>Reviewer view</span><strong>Effective date needs confirmation</strong><p><i>p.04</i> Apr 01 <i>p.05</i> Apr 11</p></div>
+    </div>
+  )}
+
+  {item.visual === 'health-index' && (
+    <div class="health-visual">
+      <div class="health-index" aria-label="Illustrative composite Health Index">
+        <span>Composite</span><strong>73</strong><small>risk · utilization · quality</small>
+      </div>
+      <div class="program-field" aria-label="Nine healthcare programs">
+        {Array.from({ length: 9 }, (_, index) => <i class:list={{ active: index < 7 }}><span>{String(index + 1).padStart(2, '0')}</span></i>)}
+        <small>Nine program contexts · one reusable delivery spine</small>
+      </div>
+      <ol class="platform-flow">
+        <li><strong>Models</strong><small>program-specific</small></li>
+        <li><strong>Delivery</strong><small>reusable pipelines</small></li>
+        <li><strong>Care work</strong><small>review and action</small></li>
+      </ol>
+    </div>
+  )}
+
+  {item.visual === 'activation-steering' && (
+    <div class="steering-visual">
+      <div class="layer-stack" aria-label="Activation hook at model layer 18">
+        {[16, 17, 18, 19, 20].map((layer) => <span class:list={{ hooked: layer === 18 }}><i>L{layer}</i>{layer === 18 && <b>+ vector</b>}</span>)}
+        <small>post hook · all tokens · coefficient 20</small>
+      </div>
+      <div class="output-diff">
+        <article><span>Baseline</span><p>I can certainly help you arrange for a replacement; could you please provide your order number?</p></article>
+        <article><span>Activation-steered</span><p>I can certainly help you arrange a replacement right away. Please provide your order number so I can process this immediately.</p></article>
+      </div>
+      <p class="steering-note">Checked-in comparison · one prompt · effect not generalized</p>
+    </div>
+  )}
+</div>

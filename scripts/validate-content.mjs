@@ -113,7 +113,7 @@ if (fs.existsSync(resumeArtifact)) {
 
 const ogDirectory = path.join(dist, 'og');
 for (const slug of ['home', 'work', 'experience', 'lab', 'about', 'resume', 'work-claims-intelligence', 'work-on-prem-rag-ocr', 'work-lets-talk-doc', 'work-llm-steering-lab']) {
-  const filename = path.join(ogDirectory, slug);
+  const filename = path.join(ogDirectory, `${slug}.png`);
   if (!fs.existsSync(filename)) {
     fail(`social preview: missing ${slug} card`);
     continue;
@@ -146,6 +146,19 @@ for (const relativePath of primaryPages) {
   if (!canonicalHref(html)) fail(`${relativePath}: missing canonical link`);
   if (!metaContent(html, 'robots')) fail(`${relativePath}: missing robots meta tag`);
   if (!/<h1\b/i.test(html)) fail(`${relativePath}: missing h1`);
+  const socialImage = metaContent(html, 'og:image');
+  if (!socialImage) fail(`${relativePath}: missing Open Graph image`);
+  else {
+    if (metaContent(html, 'twitter:image') !== socialImage) fail(`${relativePath}: Twitter image does not match Open Graph image`);
+    try {
+      const imageUrl = new URL(socialImage);
+      if (!/\/og\/[a-z0-9-]+\.png$/.test(imageUrl.pathname)) fail(`${relativePath}: Open Graph image is not a PNG asset`);
+      const imageArtifact = path.join(dist, imageUrl.pathname.replace(/^\/+/, ''));
+      if (!fs.existsSync(imageArtifact)) fail(`${relativePath}: Open Graph image artifact is missing`);
+    } catch {
+      fail(`${relativePath}: Open Graph image URL is invalid`);
+    }
+  }
 }
 
 const htmlFiles = listFiles(dist, '.html');

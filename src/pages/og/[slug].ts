@@ -14,7 +14,7 @@ const cards = [
 ];
 
 export function getStaticPaths() {
-  return cards.map((card) => ({ params: { slug: card.slug }, props: { card } }));
+  return cards.map((card) => ({ params: { slug: `${card.slug}.png` }, props: { card } }));
 }
 
 const escapeXml = (value: string) => value.replace(/[<>&'\"]/g, (character) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[character] ?? character);

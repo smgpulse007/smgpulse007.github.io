@@ -60,6 +60,11 @@ test.describe('static route and metadata contract', () => {
         'href',
         expectedCanonical(route),
       );
+      const socialImage = await page.locator('meta[property="og:image"]').getAttribute('content');
+      expect(socialImage).toMatch(/^https?:\/\/[^/]+\/og\/[a-z0-9-]+\.png$/);
+      const socialResponse = await page.request.get(new URL(socialImage!).pathname);
+      expect(socialResponse.status()).toBe(200);
+      expect(socialResponse.headers()['content-type']).toContain('image/png');
     });
   }
 
@@ -84,6 +89,11 @@ test.describe('static route and metadata contract', () => {
     if (expectedSha) expect((await buildResponse.json()).commit).toBe(expectedSha);
     const missing = await request.get('/definitely-not-a-portfolio-route');
     expect(missing.status()).toBe(404);
+    if (process.env.PLAYWRIGHT_BASE_URL) {
+      const missingHtml = await missing.text();
+      expect(missingHtml).toContain('Page not found');
+      expect(missingHtml).toContain('name="robots" content="noindex,nofollow"');
+    }
     const custom404 = await request.get('/404.html');
     expect(custom404.status()).toBe(200);
     expect(await custom404.text()).toContain('Page not found');

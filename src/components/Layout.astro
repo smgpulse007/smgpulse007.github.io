@@ -27,7 +27,7 @@ const {
 
 const canonicalUrl = absoluteUrl(canonicalPath, true);
 const ogSlug = canonicalPath === '/' ? 'home' : canonicalPath.replace(/^\//, '').replace(/\/$/, '').replaceAll('/', '-');
-const imageUrl = absoluteUrl(image ?? `/og/${ogSlug}/`);
+const imageUrl = absoluteUrl(image ?? `/og/${ogSlug}.png`);
 const baseJsonLd = [
   {
     '@context': 'https://schema.org',

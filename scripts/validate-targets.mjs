@@ -75,10 +75,18 @@ try {
     const home = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
     const work = fs.readFileSync(path.join(dist, 'work', 'claims-intelligence', 'index.html'), 'utf8');
     const robotsText = fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8');
+    const redirectConfigPath = path.join(dist, '.htaccess');
     const sitemapIndexPath = path.join(dist, 'sitemap-index.xml');
     const sitemapPath = path.join(dist, 'sitemap-0.xml');
     const metadata = JSON.parse(fs.readFileSync(path.join(dist, 'build.json'), 'utf8'));
     const expectedCanonical = `${configuration.canonicalUrl}/`;
+
+    if (!fs.existsSync(redirectConfigPath)) failures.push(`${configuration.target}: canonical-host redirect configuration is missing`);
+    else {
+      const redirectConfig = fs.readFileSync(redirectConfigPath, 'utf8');
+      if (!redirectConfig.includes('^www\\.shaileshdudala\\.com$')) failures.push(`${configuration.target}: www host condition is missing from .htaccess`);
+      if (!redirectConfig.includes('https://shaileshdudala.com%{REQUEST_URI} [R=301,L,NE]')) failures.push(`${configuration.target}: www redirect is not permanent and path-preserving`);
+    }
 
     if (canonicalHref(home) !== expectedCanonical) failures.push(`${configuration.target}: canonical was ${canonicalHref(home)}, expected ${expectedCanonical}`);
     if (metaContent(home, 'robots') !== configuration.robots) failures.push(`${configuration.target}: robots meta was ${metaContent(home, 'robots')}, expected ${configuration.robots}`);

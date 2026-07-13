@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Keep one canonical production origin while preserving the requested path and query.
+RewriteCond %{HTTP_HOST} ^www\.shaileshdudala\.com$ [NC]
+RewriteRule ^ https://shaileshdudala.com%{REQUEST_URI} [R=301,L,NE]

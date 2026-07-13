@@ -1,9 +1,17 @@
 name: Deploy GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      release_sha:
+        description: Full 40-character production-verified release SHA
+        required: true
+        type: string
+      production_verified:
+        description: Confirm Hostinger production passed cutover verification
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -23,9 +31,22 @@ jobs:
       PUBLIC_SITE_URL: https://smgpulse007.github.io
       PUBLIC_CANONICAL_URL: https://shaileshdudala.com
       PUBLIC_ROBOTS: noindex,follow
+      COMMIT_SHA: ${{ inputs.release_sha }}
     steps:
+      - name: Enforce post-production release gate
+        shell: bash
+        run: |
+          [[ "${{ inputs.production_verified }}" == "true" ]]
+          [[ "${{ inputs.release_sha }}" =~ ^[0-9a-f]{40}$ ]]
+
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.release_sha }}
+
+      - name: Verify immutable release checkout
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ inputs.release_sha }}"
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -60,6 +81,14 @@ jobs:
 
       - name: Build no-index mirror
         run: npm run build
+
+      - name: Verify mirror build identity and SEO contract
+        shell: bash
+        run: |
+          node -e "const m=require('./dist/build.json'); if(m.commit !== process.env.COMMIT_SHA || m.target !== 'github-pages-mirror') process.exit(1)"
+          test ! -e dist/sitemap-index.xml
+          grep -q 'noindex,follow' dist/index.html
+          grep -q 'https://shaileshdudala.com/' dist/index.html
 
       - name: Validate mirror content and links
         run: |

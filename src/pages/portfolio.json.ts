@@ -10,7 +10,7 @@ export const GET: APIRoute = () => new Response(JSON.stringify({
   name: profile.name,
   role: profile.role,
   positioning: profile.positioning,
-  links: { github: profile.github, linkedin: profile.linkedin, resumePage: '/resume/', resumePdfPublished: profile.resumeAvailable },
+  links: { github: profile.github, linkedin: profile.linkedin, resumePage: '/resume/', resumePdf: profile.resumePath, resumePdfPublished: profile.resumeAvailable },
   selectedExperience: experienceEras.map(({ period, organization, title, theme }) => ({ period, organization, title, theme })),
   selectedProjects: workItems.map(({ slug, title, type, status, domain, role, repository, outcome }) => ({ slug, title, type, status, domain, role, repository, outcome })),
   lab: labItems.map(({ title, status, domain, href, limitation }) => ({ title, status, domain, href, limitation })),

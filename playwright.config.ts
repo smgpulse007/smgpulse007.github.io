@@ -2,6 +2,31 @@ import { defineConfig, devices } from '@playwright/test';
 
 const runLabel = process.env.VISUAL_QA_PASS ?? 'functional';
 const externalBaseUrl = process.env.PLAYWRIGHT_BASE_URL;
+const requiredViewports = [
+  { width: 320, height: 700 },
+  { width: 360, height: 800 },
+  { width: 390, height: 844 },
+  { width: 430, height: 932 },
+  { width: 768, height: 1024 },
+  { width: 1024, height: 900 },
+  { width: 1280, height: 800 },
+  { width: 1440, height: 1000 },
+  { width: 1920, height: 1080 },
+  { width: 2560, height: 1440 },
+] as const;
+const browserEngines = ['chromium', 'firefox', 'webkit'] as const;
+
+const visualProjects = browserEngines.flatMap((browserName) =>
+  requiredViewports.map((viewport) => ({
+    name: `visual-${browserName}-${viewport.width}x${viewport.height}`,
+    testMatch: /visual\.spec\.ts/,
+    use: {
+      browserName,
+      viewport,
+      deviceScaleFactor: 1,
+    },
+  })),
+);
 
 export default defineConfig({
   testDir: './tests',
@@ -40,29 +65,15 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
-      name: 'visual-1440x1000',
-      testMatch: /visual\.spec\.ts/,
-      use: { browserName: 'chromium', viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 },
+      name: 'firefox',
+      testIgnore: /visual\.spec\.ts/,
+      use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
-      name: 'visual-1024x900',
-      testMatch: /visual\.spec\.ts/,
-      use: { browserName: 'chromium', viewport: { width: 1024, height: 900 }, deviceScaleFactor: 1 },
+      name: 'webkit',
+      testIgnore: /visual\.spec\.ts/,
+      use: { ...devices['Desktop Safari'], viewport: { width: 1280, height: 800 } },
     },
-    {
-      name: 'visual-768x1024',
-      testMatch: /visual\.spec\.ts/,
-      use: { browserName: 'chromium', viewport: { width: 768, height: 1024 }, deviceScaleFactor: 1 },
-    },
-    {
-      name: 'visual-390x844',
-      testMatch: /visual\.spec\.ts/,
-      use: { browserName: 'chromium', viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true },
-    },
-    {
-      name: 'visual-320x700',
-      testMatch: /visual\.spec\.ts/,
-      use: { browserName: 'chromium', viewport: { width: 320, height: 700 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true },
-    },
+    ...visualProjects,
   ],
 });

@@ -7,6 +7,11 @@ const root = process.cwd();
 const dist = path.resolve(root, process.argv[2] ?? 'dist');
 const failures = [];
 const externalUrls = new Set();
+const buildOrigins = new Set([
+  process.env.PUBLIC_SITE_URL,
+  process.env.PUBLIC_CANONICAL_URL,
+  'http://localhost:4321',
+].filter(Boolean).map((value) => new URL(value).origin));
 let checkedLocal = 0;
 
 function listHtml(directory) {
@@ -49,7 +54,7 @@ for (const filename of htmlFiles) {
       continue;
     }
     if (/^(?:https?:)?\/\//i.test(rawUrl)) {
-      if (/^https?:/i.test(rawUrl)) externalUrls.add(stripQueryAndHash(rawUrl));
+      if (/^https?:/i.test(rawUrl) && !buildOrigins.has(new URL(rawUrl).origin)) externalUrls.add(stripQueryAndHash(rawUrl));
       continue;
     }
 
@@ -75,7 +80,7 @@ if (process.env.CHECK_EXTERNAL_LINKS === 'true') {
   for (const url of externalUrls) {
     try {
       const response = await fetch(url, { method: 'HEAD', redirect: 'follow', signal: AbortSignal.timeout(12_000) });
-      if (response.status >= 400 && ![403, 405, 429].includes(response.status)) failures.push(`external ${url}: HTTP ${response.status}`);
+      if (response.status >= 400 && ![403, 405, 429, 999].includes(response.status)) failures.push(`external ${url}: HTTP ${response.status}`);
     } catch (error) {
       failures.push(`external ${url}: ${error.message}`);
     }

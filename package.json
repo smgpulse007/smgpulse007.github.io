@@ -14,16 +14,22 @@
     "check": "astro check",
     "test": "node --test scripts/*.test.mjs",
     "test:content": "node scripts/validate-content.mjs",
+    "test:secrets": "node scripts/scan-secrets.mjs",
     "test:links": "node scripts/check-links.mjs dist",
     "test:targets": "node scripts/validate-targets.mjs",
     "test:e2e": "playwright test tests/e2e.spec.ts --project=chromium",
+    "test:e2e:all": "playwright test tests/e2e.spec.ts --project=chromium --project=firefox --project=webkit",
     "test:a11y": "playwright test tests/accessibility.spec.ts --project=chromium",
+    "test:a11y:all": "playwright test tests/accessibility.spec.ts --project=chromium --project=firefox --project=webkit",
+    "test:live-modes": "playwright test tests/live-modes.spec.ts --project=chromium --project=firefox --project=webkit",
     "test:visual": "playwright test tests/visual.spec.ts",
-    "screenshots": "npm run screenshots:pass1 && npm run screenshots:pass2 && npm run screenshots:pass3",
-    "screenshots:pass1": "node scripts/run-visual-qa.mjs pass-1-hierarchy",
-    "screenshots:pass2": "node scripts/run-visual-qa.mjs pass-2-polish",
-    "screenshots:pass3": "node scripts/run-visual-qa.mjs pass-3-restraint",
-    "validate": "npm run check && npm run test && npm run build && npm run test:content && npm run test:links && npm run test:targets && npm run test:a11y && npm run test:e2e"
+    "screenshots": "npm run screenshots:pass1 && npm run screenshots:pass2 && npm run screenshots:pass3 && npm run screenshots:pass4 && npm run screenshots:pass5",
+    "screenshots:pass1": "node scripts/run-visual-qa.mjs pass-1-identity-hierarchy",
+    "screenshots:pass2": "node scripts/run-visual-qa.mjs pass-2-signature-interaction",
+    "screenshots:pass3": "node scripts/run-visual-qa.mjs pass-3-editorial-depth",
+    "screenshots:pass4": "node scripts/run-visual-qa.mjs pass-4-craft-microdetail",
+    "screenshots:pass5": "node scripts/run-visual-qa.mjs pass-5-restraint-memorability",
+    "validate": "npm run test:secrets && npm run check && npm run test && npm run build && npm run test:content && npm run test:links && npm run test:targets && npm run test:a11y && npm run test:e2e"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.1",
@@ -45,6 +51,8 @@
     "@astrojs/check": "^0.9.9",
     "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.61.1",
+    "pdfjs-dist": "^6.1.200",
+    "sharp": "^0.34.5",
     "typescript": "^6.0.3"
   }
 }

@@ -22,7 +22,7 @@ import { recognition } from '../data/recognition';
         <p class="hero-domains">Agentic AI <i>·</i> Document Intelligence <i>·</i> Healthcare &amp; Insurance <i>·</i> ML Platforms</p>
         <div class="hero-actions">
           <a class="button primary" href="/work/">Explore selected work</a>
-          <a class="button quiet" href="/resume/">View résumé summary <span aria-hidden="true">→</span></a>
+          <a class="button quiet" href={profile.resumePath}>Download résumé <span aria-hidden="true">↓</span></a>
         </div>
         <div class="hero-links">
           <a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={`mailto:${profile.email}`}>Email ↗</a>
@@ -98,7 +98,7 @@ import { recognition } from '../data/recognition';
   <section class="section contact-section" id="contact">
     <div class="shell contact-layout">
       <div><p class="eyebrow">Contact</p><h2>Building a workflow where an AI answer has to become a defensible action?</h2><p>Let’s talk about the architecture between those two points.</p></div>
-      <div class="contact-actions"><a class="button primary" href={`mailto:${profile.email}`}>Email Shailesh</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Résumé summary →</a></div>
+      <div class="contact-actions"><a class="button primary" href={`mailto:${profile.email}`}>Email Shailesh</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Résumé →</a></div>
     </div>
   </section>
 </Layout>

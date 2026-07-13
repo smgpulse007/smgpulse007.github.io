@@ -77,8 +77,8 @@ After Hostinger reports a successful build:
 5. verify résumé and social images return successful responses;
 6. inspect raw homepage HTML for final metric strings and reject `0K`, `$0M`, or zero-percentage placeholders;
 7. verify staging canonical URLs use the temporary URL;
-8. verify meta robots and `robots.txt` both prevent indexing;
-9. verify sitemap URLs use the staging base or are intentionally suppressed according to the final implementation;
+8. verify meta robots is `noindex,nofollow` while `robots.txt` permits crawling so crawlers can read the directive;
+9. verify sitemap output is suppressed on staging and `robots.txt` does not advertise one;
 10. validate JSON-LD, `portfolio.json`, `llms.txt`, and the 404;
 11. run the complete Playwright, accessibility, content, and link suites against the staging URL;
 12. perform three visual QA passes at every required viewport;

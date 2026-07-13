@@ -73,7 +73,7 @@ PUBLIC_CANONICAL_URL
 PUBLIC_ROBOTS
 ```
 
-The contract controls canonical tags, Open Graph URLs, sitemap and robots output, structured data, absolute résumé/social URLs, and mirror/staging indicators.
+The contract controls canonical tags, Open Graph URLs, sitemap and robots output, structured data, absolute résumé/social URLs, and mirror/staging indicators. Sitemap artifacts are production-only. Staging and the mirror remain crawlable so their page-level `noindex` directives can be observed, but they do not advertise competing sitemaps.
 
 Public build variables are not secrets. Tokens, credentials, and private Hostinger data must never enter the repository.
 

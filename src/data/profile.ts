@@ -9,8 +9,9 @@ export const profile = {
     'Senior Applied AI Engineer building traceable agentic AI, document intelligence, healthcare interoperability, predictive ML, and MLOps systems.',
   github: 'https://github.com/smgpulse007',
   linkedin: 'https://www.linkedin.com/in/ssdudala/',
-  resumeAvailable: false,
-  resumeStatus: 'Public PDF withheld pending a privacy-cleared replacement.',
+  resumeAvailable: true,
+  resumePath: '/resume/Shailesh-Dudala-Senior-Applied-AI-Engineer-Resume.pdf',
+  resumeStatus: 'Privacy-cleared public edition generated from governed portfolio content.',
   privacyNote:
     'Professional case studies use sanitized architecture, synthetic artifacts, and public descriptions. No PHI, PII, employer-confidential data, proprietary claim records, credentials, or production secrets are published.',
 } as const;

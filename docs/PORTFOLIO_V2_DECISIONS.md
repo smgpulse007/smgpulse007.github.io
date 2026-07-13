@@ -76,7 +76,7 @@ Portfolio V2 uses a synthetic, progressive-enhancement system flight recorder to
 
 ## Resume
 
-The target behavior is to serve the latest privacy-approved PDF directly from `public/resume/` with a descriptive filename, alongside `/resume/` and a print-friendly Experience presentation. No PDF is currently approved: the reviewed `_JRFO` source must remain outside `public/`, and `/resume/` must show the governed summary and a clear privacy notice without a broken download link. Add the direct PDF link only after owner approval of a sanitized artifact. Do not expose a phone number on the website.
+The reviewed `_JRFO` source remains private and outside `public/`. Portfolio V2 serves a generated, privacy-cleared public edition at `public/resume/Shailesh-Dudala-Senior-Applied-AI-Engineer-Resume.pdf`, alongside `/resume/` and its print-friendly governed summary. The generator and public hash are recorded in `CONTENT_PROVENANCE.md`; validation extracts PDF text and rejects governed private-content categories. The site and public PDF do not expose a phone number or precise location field.
 
 ## SEO and machine readability
 

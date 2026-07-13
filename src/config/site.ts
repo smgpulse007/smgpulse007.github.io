@@ -13,8 +13,8 @@ const defaults: Record<DeployTarget, { siteUrl: string; canonicalUrl: string; ro
     robots: 'noindex,nofollow',
   },
   'hostinger-staging': {
-    siteUrl: 'http://localhost:4321',
-    canonicalUrl: 'http://localhost:4321',
+    siteUrl: 'https://staging.invalid',
+    canonicalUrl: 'https://staging.invalid',
     robots: 'noindex,nofollow',
   },
   'hostinger-production': {
@@ -35,7 +35,7 @@ export const siteConfig = {
   target,
   siteUrl: import.meta.env.PUBLIC_SITE_URL ?? selected.siteUrl,
   canonicalUrl: import.meta.env.PUBLIC_CANONICAL_URL ?? selected.canonicalUrl,
-  robots: import.meta.env.PUBLIC_ROBOTS ?? selected.robots,
+  robots: selected.robots,
   isMirror: target === 'github-pages-mirror',
   isStaging: target === 'hostinger-staging',
   isProduction: target === 'hostinger-production',
@@ -44,4 +44,3 @@ export const siteConfig = {
 export function absoluteUrl(path: string, canonical = false) {
   return new URL(path, canonical ? siteConfig.canonicalUrl : siteConfig.siteUrl).toString();
 }
-

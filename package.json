@@ -14,6 +14,10 @@
     "check": "astro check",
     "test": "node --test scripts/*.test.mjs",
     "test:content": "node scripts/validate-content.mjs",
+    "test:copy": "node scripts/validate-copy.mjs",
+    "test:legacy": "node scripts/validate-legacy.mjs",
+    "test:media": "node scripts/validate-media.mjs",
+    "test:evidence": "node scripts/validate-evidence.mjs",
     "test:secrets": "node scripts/scan-secrets.mjs",
     "test:links": "node scripts/check-links.mjs dist",
     "test:targets": "node scripts/validate-targets.mjs",
@@ -29,7 +33,7 @@
     "screenshots:pass3": "node scripts/run-visual-qa.mjs pass-3-editorial-depth",
     "screenshots:pass4": "node scripts/run-visual-qa.mjs pass-4-craft-microdetail",
     "screenshots:pass5": "node scripts/run-visual-qa.mjs pass-5-restraint-memorability",
-    "validate": "npm run test:secrets && npm run check && npm run test && npm run build && npm run test:content && npm run test:links && npm run test:targets && npm run test:a11y && npm run test:e2e"
+    "validate": "npm run test:secrets && npm run check && npm run test && npm run build && npm run test:content && npm run test:copy && npm run test:legacy && npm run test:links && npm run test:targets && npm run test:media && npm run test:evidence && npm run test:a11y && npm run test:e2e"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.1",

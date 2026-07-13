@@ -5,11 +5,13 @@ const routes: Record<string, string> = {
   work: '/work/',
   experience: '/experience/',
   lab: '/lab/',
+  recognition: '/recognition/',
   about: '/about/',
   resume: '/resume/',
+  contact: '/contact/',
   'case-claims': '/work/claims-intelligence/',
   'case-on-prem': '/work/on-prem-rag-ocr/',
-  'case-lets-talk-doc': '/work/lets-talk-doc/',
+  'case-healthcare-platform': '/work/healthcare-analytics-platform/',
   'case-llm-steering': '/work/llm-steering-lab/',
 };
 

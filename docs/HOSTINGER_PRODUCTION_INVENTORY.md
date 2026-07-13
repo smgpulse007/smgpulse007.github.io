@@ -1,108 +1,112 @@
 # Hostinger Production Inventory
 
-Status: authenticated read-only inventory complete; no-index Builder rollback copy published and restore control verified
-Captured: 2026-07-13 04:13–04:26 UTC
+Status: production cutover complete; protected domain, DNS, email, TLS, and hosting state verified
+Baseline captured: 2026-07-13 04:13-04:26 UTC
+Post-cutover reconciliation: 2026-07-13
 
-This is a privacy-safe launch record. DKIM targets, complete SPF/DMARC payloads, verification values, account contacts, and credentials are intentionally omitted. No token value was read or printed. The authoritative full values remain in Hostinger; this document records the fields required to detect unsafe structural changes.
+This is a privacy-safe launch record. Credentials, account contacts, DKIM targets, and complete SPF/DMARC payloads are intentionally omitted. The exact protected TXT values remain in Hostinger DNS history; this document records enough structure and verification evidence to detect and remediate drift without publishing private operational data.
 
 ## Approved surfaces and identifiers
 
 | Item | Verified value |
 | --- | --- |
 | Repository | `smgpulse007/smgpulse007.github.io` |
-| Implementation branch | `codex/portfolio-v2-hostinger` |
-| Last live staging SHA before this documentation checkpoint | `8ff708b9e5b81434bd89bedf6ba60d865c11cd07` |
+| Production branch | `main` |
+| Production release | `1ae06ad45315baffaef6d1564aae0da4d4051a53` |
 | Hosting order | `201333978`; active Hostinger Business plan |
 | Hosting account | `u380810059`; Boston datacenter |
-| Static staging website identifier | `aquamarine-mole-482437.hostingersite.com` |
-| Legacy Builder website identifier | `shaileshdudala.com` |
+| Production document root | `/home/u380810059/domains/shaileshdudala.com/public_html` |
+| Production archive | `portfolio-v2-production_20260713_024555_1ae06ad.zip` |
+| Production archive SHA-256 | `25EDE1D4CCA851CC432B9456E40A891F0D94CB74AE656934EC944AA9FF0CF71B` |
+| Static staging website | `aquamarine-mole-482437.hostingersite.com` |
 | Builder rollback copy | `palegoldenrod-fish-builder-nfhz3v9lxfzda19t.hostingersite.com` |
 
-The Hosting API lists the isolated static staging website. Website Builder is a separate control surface and is visible in hPanel, not in the Hosting API website list.
+The production application is the same static Astro portfolio verified on staging. It has no persistent Node or server runtime.
 
-## Domain registration and attachment state
+## Domain registration and hosting state
 
 | Field | Verified value |
 | --- | --- |
 | Domain | `shaileshdudala.com` |
 | Registrar status | Active |
 | Registration record ID | `11469793` |
-| Expires | 2028-01-30 |
+| Registration expiration | 2028-01-30 |
 | Registrar lock | Enabled |
 | WHOIS privacy | Enabled |
-| Nameservers | `ns1.dns-parking.com`, `ns2.dns-parking.com` |
+| Nameservers | `ns1.dns-parking.com`, `ns2.dns-parking.com`; unchanged |
 | Domain forwarding product | None configured |
-| Current application | Hostinger Website Builder; public title `Shailesh | Data Scientist` |
-| Current apex behavior | HTTP permanently redirects to HTTPS; HTTPS returns 200 |
-| Current `www` behavior | HTTP/HTTPS permanently redirect to HTTPS apex; current Builder redirect does not preserve paths |
-| Current certificate | TLS 1.3; apex and `www` SANs; Let's Encrypt R13; expires 2026-08-18 |
+| Current application | Static Portfolio V2 on Hostinger Business Web Hosting |
+| Apex behavior | HTTP redirects to HTTPS; HTTPS serves the verified production release |
+| `www` behavior | One permanent redirect to the corresponding HTTPS apex path, preserving the path and query string |
+| TLS | Valid for apex and `www` |
 
-## Authoritative DNS zone
+The original Website Builder production site was deleted only after the owner's exact action-time approval. The required website-deletion acknowledgement was selected and the independent optional email/mailbox deletion option remained unchecked.
+
+## Current authoritative DNS zone
+
+The current zone contains every one of the 10 pre-cutover baseline groups plus one Hostinger-added `ftp` record:
 
 | Name | Type | TTL | Classification | Safe value/status |
 | --- | --- | ---: | --- | --- |
 | `@` | `ALIAS` | 300 | Web routing | `shaileshdudala.com.cdn.hstgr.net.` |
 | `www` | `CNAME` | 300 | Web routing | `www.shaileshdudala.com.cdn.hstgr.net.` |
-| `@` | `MX` | 14400 | Email critical | preference 5 `mx1.hostinger.com.`; preference 10 `mx2.hostinger.com.` |
-| `@` | `TXT` | 3600 | Email critical — SPF | Present; Hostinger include confirmed; full payload withheld |
-| `_dmarc` | `TXT` | 3600 | Email critical — DMARC | Present; policy `none`; full payload withheld |
-| `hostingermail-a._domainkey` | `CNAME` | 300 | Email critical — DKIM | Present; target withheld |
-| `hostingermail-b._domainkey` | `CNAME` | 300 | Email critical — DKIM | Present; target withheld |
-| `hostingermail-c._domainkey` | `CNAME` | 300 | Email critical — DKIM | Present; target withheld |
+| `@` | `MX` | 14400 | Email critical | Hostinger MX preferences 5 and 10; targets unchanged |
+| `@` | `TXT` | 3600 | Email critical - SPF | Restored from snapshot `150089457`; exact payload withheld |
+| `_dmarc` | `TXT` | 3600 | Email critical - DMARC | Restored from snapshot `150089457`; policy `none`; exact payload withheld |
+| `hostingermail-a._domainkey` | `CNAME` | 300 | Email critical - DKIM | Present; target withheld |
+| `hostingermail-b._domainkey` | `CNAME` | 300 | Email critical - DKIM | Present; target withheld |
+| `hostingermail-c._domainkey` | `CNAME` | 300 | Email critical - DKIM | Present; target withheld |
 | `autodiscover` | `CNAME` | 300 | Email critical | `autodiscover.mail.hostinger.com.` |
 | `autoconfig` | `CNAME` | 300 | Email critical | `autoconfig.mail.hostinger.com.` |
+| `ftp` | `A` | 1800 | Hostinger-added hosting record | `88.223.85.139` |
 
-Hostinger stores the apex as an `ALIAS`; public authoritative resolution returns two geo-rotating A records and two geo-rotating AAAA records with 60-second TTLs. At capture time the authoritative answers were:
+The `ftp` record was not part of the 10-group baseline. It appeared when Hostinger created the static production website and is retained as a separately classified platform-added record; it is not evidence that an email or nameserver setting changed.
 
-- `ns1`: A `191.101.104.249`, `191.96.144.71`; AAAA `2a02:4780:1e:a7f5:828e:1729:9c7:98d3`, `2a02:4780:22:26f5:690a:73a2:a6cb:ab32`.
-- `ns2`: A `191.101.104.71`, `191.96.144.189`; AAAA `2a02:4780:1e:4911:c9a6:3496:36d3:510a`, `2a02:4780:21:50d3:1dca:b364:92b3:fdc2`.
+## DNS incident and remediation
 
-The address values are edge-dependent; record count, TTL, Hostinger ownership, and the stored `ALIAS`/`www` CNAME are the stable comparison signals.
-
-## DNS rollback points
-
-| Snapshot | Captured | Comparison with current zone |
+| Snapshot | Captured | Role |
 | --- | --- | --- |
-| `150089457` | 2026-05-20 10:45:19 UTC | Exact match across all 10 stored records at inventory time |
-| `143071414` | 2026-04-28 23:48:21 UTC | Does not match current web routing (`connect.hostinger.com` was used) |
+| `150089457` | 2026-05-20 10:45:19 UTC | Exact match to all 10 pre-cutover stored record groups; authoritative source for protected TXT recovery |
+| `143071414` | 2026-04-28 23:48:21 UTC | Older nonmatching web-routing state using `connect.hostinger.com`; not a cutover rollback target |
 
-Do not restore a whole snapshot as the normal cutover or rollback mechanism. Prefer no DNS write at all; if Hostinger changes web routing automatically, compare the protected records and repair only a proven web-routing RRset. Snapshot `150089457` is emergency evidence, not permission for a broad restore.
+Immediately after the static-site cutover, the Hostinger DNS API returned nine groups: the two protected TXT groups for apex SPF and `_dmarc` were absent, while the new `ftp` A record was present. Public lookups also returned no apex TXT and NXDOMAIN for `_dmarc`. This was treated as a protected-state regression, not as propagation.
 
-## Email preservation finding
+Remediation was deliberately narrow:
 
-Hostinger hPanel reports **Free Business Email: Active** and **0/100 mailboxes** for `@shaileshdudala.com`. There is no mailbox content to back up. The email service, MX, SPF, DKIM, DMARC, autodiscover, and autoconfig records remain protected and must survive cutover.
+1. inspect snapshot `150089457` and recover the exact prior SPF and DMARC payloads without publishing them;
+2. restore only `@ TXT` and `_dmarc TXT`, each with the baseline TTL of 3600;
+3. leave web routing, nameservers, MX, DKIM, autodiscover, autoconfig, and the platform-added `ftp` record untouched;
+4. verify both restored RRsets through the Hostinger DNS API and the independent public resolvers `1.1.1.1` and `8.8.8.8`.
 
-The verified Builder deletion dialog has two independent checkboxes:
+Do not perform a whole-zone snapshot restore during normal rollback. A broad restore could replace the verified static-production web routing with an obsolete attachment state.
 
-1. required acknowledgement that the website and related site data are permanently deleted;
-2. optional **“Also delete email and mailboxes for this domain”**.
+## Email preservation
 
-The optional email checkbox must remain unchecked. The site delete button remains disabled until the required website acknowledgement is selected.
+Hostinger reports **Free Business Email: Active**, automatic renewal **On**, expiration **2028-04-29**, and **0/100 mailboxes** for `@shaileshdudala.com`. No mailbox content existed to back up. The email service was not deleted, and the complete MX, SPF, DKIM, DMARC, autodiscover, and autoconfig structure is present after the targeted TXT remediation.
 
-## Builder safety copy and proposed production path
+## Builder rollback asset
 
-The legacy Builder site was duplicated in hPanel to `palegoldenrod-fish-builder-nfhz3v9lxfzda19t.hostingersite.com` before any destructive action, then published successfully. Live HTTPS smoke tests passed for `/`, `/about`, `/my-ai-app-library`, `/projects`, and `/contact`; every route returns `meta name="robots" content="noindex"`, and the homepage returns the legacy title `Shailesh | Data Scientist`. The public original remains live. The duplicate is the platform rollback asset; Builder does not provide a downloadable full-site backup that survives deletion of the original. Hostinger documents that online-store products/settings are not copied; no store was surfaced in the original site's dashboard inventory.
+The legacy Builder site remains published at `palegoldenrod-fish-builder-nfhz3v9lxfzda19t.hostingersite.com`. Page-level `noindex` was verified on the real published routes:
 
-The following is the only technically viable sequence found in the Hosting API and hPanel. It remains a **proposed** production sequence until the owner explicitly overrides the master specification's no-delete invariant for the original Builder website at the action boundary:
+- `/`
+- `/projects/`
+- `/about/`
+- `/my-ai-app-library/`
+- `/contact/`
 
-1. keep the Builder duplicate available;
-2. delete only the original `shaileshdudala.com` Builder website in hPanel, selecting the required website acknowledgement while leaving optional email deletion unchecked;
-3. wait until the apex is released from Builder;
-4. call Hosting `createWebsite` for `shaileshdudala.com` on order `201333978`;
-5. build the exact merged `main` SHA with the production environment contract;
-6. deploy the prebuilt static archive to the new apex website;
-7. allow Hostinger to apply web routing and issue SSL automatically;
-8. compare all protected DNS/email records with this inventory;
-9. verify apex, path-preserving `www` redirect behavior, every route, SEO, resume, structured data, and `/build.json`;
-10. roll back immediately through the Builder duplicate if a critical gate fails.
+This list is the verified route inventory; it does not claim that arbitrary Builder paths exist. The duplicate's **Connect domain** control remains the platform rollback path.
 
-Do not use Change domain, domain forwarding, parked-domain aliasing, DNS reset, nameserver changes, or broad snapshot restoration for this launch.
+Rollback order is mandatory: first delete/release only the failed static apex website with the optional email/mailbox deletion setting unchecked; only after the apex is free may the Builder duplicate reconnect `shaileshdudala.com` and publish/update.
 
-The duplicate's restore control was inspected without submitting a domain mutation: Websites → Website Builder → duplicate → **Connect domain** → enter/select `shaileshdudala.com` → **Next**, then publish/update the site. The duplicate now serves live content. During rollback, first release the apex from the failed static website by deleting only that newly created website with optional email/mailbox deletion unchecked, then use this Connect domain flow. The final **Next** was intentionally not clicked during preflight because the apex is still attached to the live original; Hostinger's official Builder connection documentation identifies that click as the connection action.
+## Production verification
 
-## Expected interruption
-
-The destructive interval begins when the original Builder site is deleted and ends when the new apex static website is created, deployed, routed, and serving valid HTTPS. Hostinger web-routing TTLs are 300 seconds and public edge answers use 60 seconds. The temporary staging site and Builder duplicate remain available throughout.
+- `/build.json` reports release `1ae06ad45315baffaef6d1564aae0da4d4051a53` and target `hostinger-production`.
+- The final production archive hash matches the value recorded above.
+- Canonical, robots, sitemap, structured data, social cards, resume, real 404, primary routes, and compatibility routes passed production verification.
+- Chromium, Firefox, and WebKit production matrices passed 30/30 accessibility, 84/84 end-to-end, and 24/24 adverse-mode checks.
+- Ten observed apex CDN IPs served the same V2 release after cache purge; 10 observed `www` CDN IPs served the same path/query-preserving redirect.
+- `www` redirects permanently to apex while preserving paths and queries.
+- TLS is valid for apex and `www`.
 
 ## Official procedure references
 
@@ -112,4 +116,4 @@ The destructive interval begins when the original Builder site is deleted and en
 - [Add an empty website](https://support.hostinger.com/en/articles/1583214-how-to-add-a-website)
 - [Automatic Lifetime SSL behavior](https://www.hostinger.com/support/5613445-how-to-fix-a-failed-lifetime-ssl-installation-in-hostinger/)
 
-These sources were accessed 2026-07-13. Account-specific controls and inventory take precedence over generic screenshots; no unsupported DNS or email action is inferred from them.
+Account-specific verified state takes precedence over generic procedure screenshots. This record does not authorize nameserver, registration, billing, subscription, or email-service changes.

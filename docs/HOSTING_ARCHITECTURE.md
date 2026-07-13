@@ -1,9 +1,9 @@
 # Hosting Architecture
 
-Status: staging verified; production cutover inventory and rollback preparation complete
+Status: production launch complete; staging and rollback surfaces retained
 Last reviewed: 2026-07-13
 
-## One product, three delivery surfaces
+## One product, four retained surfaces
 
 ```text
 GitHub repository: smgpulse007/smgpulse007.github.io
@@ -11,17 +11,17 @@ GitHub repository: smgpulse007/smgpulse007.github.io
                          |
               GitHub Actions validation
                          |
-          +--------------+----------------+
-          |                               |
-Hostinger temporary domain       GitHub Pages mirror
-staging, noindex,nofollow         noindex,follow
-          |
-Hostinger production
-shaileshdudala.com
-index,follow
+       +-----------------+------------------+
+       |                 |                  |
+Hostinger production  Hostinger staging  GitHub Pages mirror
+canonical apex        retained QA origin  same-SHA fallback
+index,follow          noindex,nofollow    noindex,follow
+       |
+Website Builder duplicate
+rollback asset only
 ```
 
-There is one portfolio implementation. Hostinger staging, Hostinger production, and GitHub Pages consume the same repository and design system. Deployment variables change URLs and indexing behavior; they do not fork the product.
+There is one portfolio implementation. Hostinger production, retained Hostinger staging, and GitHub Pages consume the same repository and design system. Deployment variables change URLs and indexing behavior; they do not fork the product. The verified release is tag `portfolio-v2.0.0` at `1ae06ad45315baffaef6d1564aae0da4d4051a53`.
 
 ## Responsibilities
 
@@ -31,21 +31,19 @@ There is one portfolio implementation. Hostinger staging, Hostinger production, 
 - Pull-request review and CI.
 - Content, link, accessibility, browser, and screenshot evidence.
 - Public source-code links.
-- Static mirror/fallback at `https://smgpulse007.github.io`.
+- Static mirror/fallback at `https://smgpulse007.github.io`, built from the release SHA with production canonicals, `noindex,follow`, and Pages `cname=null`.
 
 ### Hostinger
 
-- Canonical production host for `https://shaileshdudala.com` after controlled cutover.
-- Verified temporary-domain staging at `https://aquamarine-mole-482437.hostingersite.com`.
+- Canonical production host for `https://shaileshdudala.com`.
+- Retained temporary-domain staging at `https://aquamarine-mole-482437.hostingersite.com`.
 - Root-level prebuilt static archive deployment; no persistent application runtime.
-- SSL, logs, and resource monitoring.
-- Domain/DNS control only during an explicitly approved cutover window.
+- Valid TLS for apex and `www`; `www` permanently redirects to the corresponding apex path while preserving the query string.
+- Domain, DNS, email, billing, and unrelated account state remain outside normal application deployment.
 
-### Existing Website Builder site
+### Website Builder rollback asset
 
-The existing Hostinger Website Builder site is the legacy production implementation. It remained online and unchanged throughout design, local QA, staging, and read-only inventory. The owner has issued `CUTOVER APPROVED`; the legacy site has been duplicated to the rollback-safe temporary Builder origin recorded in `HOSTINGER_PRODUCTION_INVENTORY.md`. The original is retired only inside the controlled cutover window after the final reviewed SHA and rollback record are ready.
-
-The verified deletion dialog exposes an independent optional email/mailbox checkbox. It must remain unchecked. Domain registration is never deleted.
+The original Website Builder production site was retired during the approved cutover. A published duplicate remains available only as the platform rollback asset; its address and restoration procedure are recorded in `HOSTINGER_PRODUCTION_INVENTORY.md` and `HOSTINGER_ROLLBACK.md`. It is not a second portfolio or an indexable production surface.
 
 ## Static-first decision
 
@@ -77,21 +75,22 @@ The contract controls canonical tags, Open Graph URLs, sitemap and robots output
 
 Public build variables are not secrets. Tokens, credentials, and private Hostinger data must never enter the repository.
 
-## Branch and release model
+## Release identity and deployment contract
 
-- `codex/portfolio-v2-hostinger`: current implementation and eventual Hostinger staging branch.
-- `main`: production-ready source after human review and merge.
-- Hostinger production and the GitHub Pages mirror must use the same approved release commit.
-- No uncommitted or unreviewed working tree may be deployed.
+| Surface | Verified release behavior |
+| --- | --- |
+| Hostinger production | `https://shaileshdudala.com`; `1ae06ad45315baffaef6d1564aae0da4d4051a53`; `hostinger-production`; production archive SHA-256 `25EDE1D4CCA851CC432B9456E40A891F0D94CB74AE656934EC944AA9FF0CF71B` |
+| Hostinger staging | `https://aquamarine-mole-482437.hostingersite.com`; same release SHA; `hostinger-staging`; archive SHA-256 `84DE4CD94F5F95A2B0F7ABA15E70FF134209BB72C243BCCB1E3B249E3578ED94` |
+| GitHub Pages mirror | `https://smgpulse007.github.io`; same release SHA; `github-pages-mirror`; production canonicals, `noindex,follow`, no sitemap, no custom domain |
 
-Current staging execution record: branch `codex/portfolio-v2-hostinger`; last verified SHA `8ff708b9e5b81434bd89bedf6ba60d865c11cd07`; hosting order `201333978`; account `u380810059`; website identifier `aquamarine-mole-482437.hostingersite.com`. The final merged `main` SHA will replace this staging identity before production cutover.
+`main` is the production-ready source branch. `codex/portfolio-v2-hostinger` is retained as historical implementation lineage; future reviewed work should branch from current `main`. No uncommitted or unreviewed working tree may be deployed.
 
 ## Future Lab
 
 `labs.shaileshdudala.com` is a separate later application for a few synthetic interactive demonstrations. It is not a second portfolio and is not part of this phase.
 
-## Current authorization boundary
+## Launch closeout
 
-The isolated staging app was created and deployed after authorization. Read-only Hosting, Domains, and DNS inventory was completed for cutover; the legacy Builder site was duplicated as a rollback asset. Production routing, DNS records, nameservers, email, billing, subscriptions, ecommerce, VPS, and the original Builder site remain unchanged pending the final controlled cutover operation.
+The controlled cutover, same-SHA mirror publication, TLS and redirect verification, and protected DNS/email reconciliation are complete. A cutover-time SPF/DMARC regression was repaired by restoring only the exact prior values from snapshot `150089457` and verifying them through Hostinger and independent public resolvers. Hostinger email remains active with 0/100 mailboxes.
 
-See `HOSTINGER_STAGING.md`, `HOSTINGER_PRODUCTION_INVENTORY.md`, `HOSTINGER_CUTOVER.md`, `HOSTINGER_ROLLBACK.md`, `DEPLOYMENT.md`, and `CUSTOM_DOMAIN.md` for the evidence and gated procedures.
+Further hosting, DNS, domain, email, billing, or rollback mutations require a new scoped authorization. See `PORTFOLIO_V2_RELEASE_EVIDENCE.md` for the central closeout record and `HOSTINGER_STAGING.md`, `HOSTINGER_PRODUCTION_INVENTORY.md`, `HOSTINGER_CUTOVER.md`, `HOSTINGER_ROLLBACK.md`, `DEPLOYMENT.md`, and `CUSTOM_DOMAIN.md` for the supporting runbooks.

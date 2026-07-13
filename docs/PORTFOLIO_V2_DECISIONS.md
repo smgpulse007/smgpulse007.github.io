@@ -1,16 +1,16 @@
 # Portfolio V2 Decisions
 
-Status: accepted for the release candidate and controlled cutover
-Date: 2026-07-12; reconciled 2026-07-13
+Status: accepted, executed, and verified in production
+Date: 2026-07-12; launch reconciled 2026-07-13
 
 ## Product and hosting
 
 1. Maintain one repository, one content model, one design system, and one portfolio product.
-2. Hostinger Business Web Hosting is the canonical production host for `https://shaileshdudala.com` after controlled cutover.
+2. Hostinger Business Web Hosting is the canonical production host for `https://shaileshdudala.com`.
 3. GitHub remains the source, review, CI, and public engineering-evidence layer.
 4. GitHub Pages remains a static fallback built from the same approved commit with `noindex,follow` and canonical URLs pointing to `https://shaileshdudala.com`.
 5. Never point the custom domain to GitHub Pages and never create a Hostinger-specific second design.
-6. Keep the existing Hostinger Website Builder site unchanged until staging passes, production inventory and rollback preparation are complete, and the owner issues `CUTOVER APPROVED`. The master specification's separate no-delete invariant still requires an exact override before deleting the original Builder site.
+6. The original Website Builder site remained unchanged through staging, production inventory, and rollback preparation. After `CUTOVER APPROVED` and the owner's separate exact deletion override, it was retired with optional email/mailbox deletion unchecked; its published no-index duplicate remains the platform rollback asset.
 
 ## Creative direction
 
@@ -95,8 +95,10 @@ Deployment-target configuration controls site URL, canonical base, robots behavi
 - Media uses responsive sizing and optimized formats where practical.
 - CI enforces type, content, route, link, accessibility, and browser checks.
 
-## Safety boundaries
+## Safety boundaries and executed cutover
 
-The staging and cutover gates are separate. Authorized staging created and deployed the isolated static website. The approved cutover window permitted read-only Hosting, Domains, and DNS inventory and preparation of a Builder rollback duplicate. The original Builder site, production routing, DNS, nameservers, email, billing, subscriptions, ecommerce, VPS, and domain registration remain unchanged.
+The staging and cutover gates remained separate. Authorized staging created the isolated no-index static website. The approved cutover window permitted production inventory and preparation of a published no-index Builder rollback duplicate. The owner then supplied the separate exact override required to delete only the original Builder website. The independent optional email/mailbox deletion control remained unchecked.
 
-The only verified technical production path requires deleting the original Builder website after preserving a published live duplicate and leaving optional email/mailbox deletion unchecked. That operation conflicts with the controlling master specification's no-delete invariant, so it cannot proceed from `CUTOVER APPROVED` alone. The exact action must receive a narrow owner override after the final artifact is ready; the duplicate's Connect domain restoration control and static holding fallback are already prepared. See `HOSTINGER_PRODUCTION_INVENTORY.md`, `HOSTINGER_CUTOVER.md`, and `HOSTINGER_ROLLBACK.md`.
+Portfolio V2 release `portfolio-v2.0.0` is now canonical on Hostinger. Domain registration, nameservers, email service, billing, subscriptions, ecommerce, VPS, and unrelated resources were not changed. The cutover-time disappearance of the protected SPF and DMARC TXT groups was remediated by restoring only the exact prior values from snapshot `150089457`; no broad zone restore was performed. All 10 baseline DNS groups plus Hostinger's separately classified `ftp` A record are present.
+
+The Builder duplicate's Connect domain path and the static holding artifact remain rollback controls. A platform rollback must release a failed static apex website before reconnecting the Builder duplicate, and every optional email/mailbox deletion control must remain unchecked. Future hosting, domain, DNS, email, or rollback mutations require a new scoped authorization. See `PORTFOLIO_V2_RELEASE_EVIDENCE.md`, `HOSTINGER_PRODUCTION_INVENTORY.md`, `HOSTINGER_CUTOVER.md`, and `HOSTINGER_ROLLBACK.md`.

@@ -1,13 +1,13 @@
 # Hostinger Staging Runbook
 
-Status: isolated static staging deployed and verified
+Status: completed and retained as the no-index release/QA origin
 Last reviewed: 2026-07-13
 
-The one-touch `CUTOVER APPROVED` directive authorized staging after local implementation completed. Hosting-only inventory showed one active Business hosting order and no API-managed website, so a new temporary Hostinger website was created without touching the existing Website Builder production site.
+The isolated static staging site remains live at `https://aquamarine-mole-482437.hostingersite.com` with `noindex,nofollow`. It serves the same verified release SHA as production while retaining the `hostinger-staging` target. It is a QA and rollback-diagnosis surface, not a second portfolio or a production canonical.
 
-## Owner gate and executed configuration
+## Executed configuration
 
-The executed staging session used the user-level pinned `hostinger-api-mcp@1.5.1` configuration. The credential was sourced only from the Windows user environment variable `HOSTINGER_API_TOKEN`; no value was printed or committed. For staging, only Hosting was enabled and its `default_tools_approval_mode` was `writes`; Domains and DNS remained disabled in prompt mode. The one-touch `CUTOVER APPROVED` directive supplied the required staging authorization.
+The staging session used the user-level pinned `hostinger-api-mcp@1.5.1` configuration. The credential was sourced only from the Windows user environment variable `HOSTINGER_API_TOKEN`; no value was printed or committed. For staging, only Hosting was enabled and its `default_tools_approval_mode` was `writes`; Domains and DNS remained disabled in prompt mode.
 
 The intended minimum staging posture is:
 
@@ -16,18 +16,18 @@ The intended minimum staging posture is:
 3. leave Domains/DNS, billing, subscriptions, email marketing, VPS, and ecommerce disabled;
 4. authorize a staging deployment, preferably with the phrase `STAGING AUTHORIZED`.
 
-The first Hostinger session was read-only inventory. It confirmed the Business hosting order, empty Hosting API website list, temporary-domain availability, and static archive path before the authorized staging website creation. Domains and DNS were enabled later only for the separately authorized production-readiness inventory.
+The first Hostinger session was read-only inventory. It confirmed the Business hosting order, empty Hosting API website list, temporary-domain availability, and static archive path before the authorized staging website creation. Domains and DNS were enabled later for the separately authorized production-readiness inventory and the narrowly targeted cutover-time SPF/DMARC remediation, then disabled again during post-launch lockdown.
 
-## Prerequisites
+## Reuse prerequisites
 
-- Branch `codex/portfolio-v2-hostinger` is pushed and clean.
-- The branch has an identified commit SHA.
+- A new reviewed branch starts from the current `main` release and is pushed and clean. The historical `codex/portfolio-v2-hostinger` branch is provenance, not the base for new work.
+- The candidate branch has an identified commit SHA.
 - Local validation is complete and recorded in `QA_REPORT.md`.
 - The public résumé resolves from the built site.
 - Final values, not zero animation placeholders, exist in server HTML.
 - The removed real-receipt asset and all references are absent.
 - No confidential term, credential, PHI, PII, payment data, or unsupported award claim is present.
-- The current Website Builder site remains unchanged.
+- The published Website Builder rollback duplicate remains unchanged.
 
 ## Expected static application settings
 
@@ -35,7 +35,7 @@ Verify Hostinger’s current framework detection before saving these values:
 
 ```text
 Repository: smgpulse007/smgpulse007.github.io
-Branch: codex/portfolio-v2-hostinger
+Revision: exact reviewed commit from a fresh branch based on current main
 Framework: Astro
 Package manager: npm
 Install command: npm ci
@@ -73,7 +73,7 @@ Use the exact assigned HTTPS temporary URL. Do not use localhost defaults in a s
 After Hostinger reports a successful build:
 
 1. record the temporary URL, connected branch, deployed full SHA, build command, output directory, and Node version;
-2. inspect the complete deployment log for warnings and fallback behavior;
+2. inspect any deployment log Hostinger exposes for warnings and fallback behavior; the current static-deploy API provides response and live-identity evidence rather than a separate log endpoint;
 3. verify `/build.json` contains the expected commit and `hostinger-staging` target;
 4. verify all primary and compatibility routes return successfully;
 5. verify résumé and social images return successful responses;
@@ -89,32 +89,21 @@ After Hostinger reports a successful build:
 
 Fix repository defects on the implementation branch, push them, and let staging redeploy. Do not patch files directly in Hostinger.
 
-## Staging proof record
+## Completed staging proof
 
-Fill these fields only after execution:
-
-| Field | Result |
+| Field | Verified result |
 | --- | --- |
-| Staging URL | `https://aquamarine-mole-482437.hostingersite.com` |
-| Connected branch/source | `codex/portfolio-v2-hostinger`; clean, pushed commit artifact |
-| Hosting order/account | `201333978`; `u380810059`; Hostinger Business |
-| Website identifier | `aquamarine-mole-482437.hostingersite.com` |
-| Initial deployed commit | `0d3ef553703eb7231bf7fc61916fdd83b5ee0d4f` |
-| Last verified staging commit before final release checkpoint | `8ff708b9e5b81434bd89bedf6ba60d865c11cd07`; `/build.json` target `hostinger-staging` |
-| Datacenter | Boston |
-| Node.js version | Local build/QA used 22.16.0; static Hostinger serving has no persistent Node runtime; Node 24 remains the expected Git-build setting |
-| Build command | `npm run build` with the staging environment contract |
-| Output directory | Contents of `dist/` at website root |
-| Entry file | None |
-| Build log | Static API exposes no build/status log; upload and deployment requests succeeded |
-| Deployment/request identifiers | The static deploy operation returned no durable request, deployment, or release identifier; website identity plus live `/build.json` is the durable proof |
-| Automated tests | 84/84 live E2E; 30/30 live accessibility; 24/24 live adverse-mode tests |
-| Visual QA | Five passes, 1,500/1,500 screenshots, 10 viewports, 3 engines; rubric 93/100 |
-| Static archive | 83 entries; 5,186,962 compressed bytes; 5,822,692 uncompressed bytes; `index.html` at archive root |
-| Executable JavaScript | Home 192,218 bytes total (186,992 external + 5,226 inline); Lab 592 bytes inline; Work, four case studies, Experience, About, and Resume 0 bytes |
-| Canonical/robots | Temporary-origin canonicals and `noindex,nofollow`; sitemap suppressed. Repository output allows crawl, but the live Hostinger temporary-domain edge adds a Googlebot-specific disallow; page-level noindex remains present. |
-| Owner visual approval | One-touch autonomous release gate active; objective visual and privacy gates passed |
+| Origin | `https://aquamarine-mole-482437.hostingersite.com` |
+| Final release | `1ae06ad45315baffaef6d1564aae0da4d4051a53`; live `/build.json` target `hostinger-staging` |
+| Initial staging release | `0d3ef553703eb7231bf7fc61916fdd83b5ee0d4f` |
+| Archive | Root-level `dist/` static artifact; SHA-256 `84DE4CD94F5F95A2B0F7ABA15E70FF134209BB72C243BCCB1E3B249E3578ED94` |
+| Expected Hostinger Git-build contract | Node 24 LTS; `npm ci`; `npm run build`; output `dist`; no entry file |
+| Runtime | None; Hostinger serves static files |
+| Automated QA | 84/84 E2E, 30/30 accessibility, and 24/24 adverse-mode checks |
+| Visual QA | Five passes; 1,500/1,500 screenshots across 10 viewports and 3 engines; aesthetic rubric 93/100 |
+| Lighthouse | Live staging 100/100/100 with SEO intentionally 66 because of `noindex`; production-profile mobile and desktop 100/100/100/100 |
+| Canonical/indexing | Temporary-origin canonicals, page-level `noindex,nofollow`, no sitemap; the temporary-domain edge also adds a Googlebot-specific disallow |
+| Workflow evidence | GitHub Actions run `29229921553`; artifact `8271294538`; digest `sha256:5251b19fe8a571bc51c7e1142751df121587a3e4a1461b66406a287a97d49ed9` |
+| Retention | Retained after launch for regression comparison and rollback diagnosis; never canonical |
 
-Staging success does not authorize production cutover.
-
-Creative-direction research is recorded in `CREATIVE_DIRECTION_RESEARCH.md`; the privacy-safe production inventory is recorded in `HOSTINGER_PRODUCTION_INVENTORY.md`.
+Future staging changes must repeat the release gates and do not authorize production, domain, DNS, email, or rollback mutations. Creative-direction research is in `CREATIVE_DIRECTION_RESEARCH.md`; final release proof is in `PORTFOLIO_V2_RELEASE_EVIDENCE.md`.

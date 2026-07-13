@@ -4,7 +4,18 @@ Last reviewed: 2026-07-13
 
 ## Current phase
 
-Portfolio V2 is live at `https://aquamarine-mole-482437.hostingersite.com` from `codex/portfolio-v2-hostinger` and has passed live staging QA. Read-only production inventory and the Builder rollback duplicate are complete. The final release still requires branch merge, exact-`main`-SHA staging redeploy/CI, explicit authorization for the original Builder deletion, production deployment and verification, same-SHA mirror publication, tool lockdown, and tagging.
+Portfolio V2 is live at `https://shaileshdudala.com` from `main` release `1ae06ad45315baffaef6d1564aae0da4d4051a53`, tagged `portfolio-v2.0.0`. The isolated Hostinger staging origin and `https://smgpulse007.github.io` mirror expose the same SHA. Production is canonical and indexable; the mirror is `noindex,follow`, uses production canonicals, publishes no sitemap, and has no custom domain.
+
+## Completed release record
+
+| Surface or artifact | Verified result |
+| --- | --- |
+| Hostinger staging | `https://aquamarine-mole-482437.hostingersite.com`; target `hostinger-staging`; final SHA; archive SHA-256 `84DE4CD94F5F95A2B0F7ABA15E70FF134209BB72C243BCCB1E3B249E3578ED94` |
+| Hostinger production | `https://shaileshdudala.com`; target `hostinger-production`; built at `2026-07-13T06:45:48.123Z`; production archive SHA-256 `25EDE1D4CCA851CC432B9456E40A891F0D94CB74AE656934EC944AA9FF0CF71B` |
+| Holding fallback | Prepared but not used; SHA-256 `EBD364C245562A026645794E099C815284549CF5DA3C63C79B05BBC189F8F841` |
+| Release CI | [Run 29229851998](https://github.com/smgpulse007/smgpulse007.github.io/actions/runs/29229851998), success; artifact `8271234263`, digest `sha256:e52d9f240a39e13d9f660598cdad69c959be8fd0a3fd397d1f4f18d1a4aab164` |
+| Live staging QA | [Run 29229921553](https://github.com/smgpulse007/smgpulse007.github.io/actions/runs/29229921553), success; artifact `8271294538`, digest `sha256:5251b19fe8a571bc51c7e1142751df121587a3e4a1461b66406a287a97d49ed9` |
+| GitHub Pages mirror | [Run 29231031648](https://github.com/smgpulse007/smgpulse007.github.io/actions/runs/29231031648), success; artifact `8271549578`, digest `sha256:392d07cacb2fdd4f2ff53332ab4102202c41d84b63bdafee22d166c33c0cbb7b` |
 
 ## Application shape
 
@@ -93,29 +104,31 @@ Confirmed application settings for the prebuilt static deployment path:
 | Setting | Value |
 | --- | --- |
 | Repository | `smgpulse007/smgpulse007.github.io` |
-| Staging branch | `codex/portfolio-v2-hostinger` |
-| Production branch | `main` after approval |
+| Release branch | `main` |
+| Release SHA/tag | `1ae06ad45315baffaef6d1564aae0da4d4051a53` / `portfolio-v2.0.0` |
 | Install | `npm ci` |
 | Build | `npm run build` |
 | Output | `dist` |
 | Entry file | None |
 | Node.js | Node 24 LTS |
 
-Local build and QA used Node 22.16.0, which satisfies the package engine contract. Node 24 remains the expected future Git-build setting. The staging deployment used a root-level prebuilt archive rather than a persistent Node process: hosting order `201333978`, account `u380810059`, website `aquamarine-mole-482437.hostingersite.com`, 83 archive entries, and no runtime entry file.
+The release contract uses Node 24, `npm ci`, `npm run build`, and the static `dist` output. Hostinger received root-level prebuilt archives rather than a persistent Node process: hosting order `201333978`, account `u380810059`, staging website `aquamarine-mole-482437.hostingersite.com`, canonical production website `shaileshdudala.com`, and no runtime entry file.
 
-Do not choose a server entry file or start command merely because Hostinger supports Node applications.
+Do not choose a server entry file or start command merely because Hostinger supports Node applications. No current feature requires a server runtime.
 
 ## GitHub Pages mirror
 
-The GitHub workflow must:
+The completed GitHub Pages workflow:
 
-1. run the required validation suite before upload;
-2. build with the mirror environment contract;
-3. deploy the static `dist/` artifact;
-4. preserve `noindex,follow` and production canonicals;
-5. use the same approved release SHA as production;
-6. expose no custom-domain CNAME;
-7. fail rather than deploy when content, route, accessibility, link, or browser checks fail.
+1. ran the required validation suite before upload;
+2. built with the mirror environment contract;
+3. deployed the static `dist/` artifact;
+4. preserved `noindex,follow` and production canonicals;
+5. used the same approved release SHA as production;
+6. emitted no sitemap and exposed no custom-domain CNAME; and
+7. completed successfully as run 29231031648.
+
+Live `/build.json` reports commit `1ae06ad45315baffaef6d1564aae0da4d4051a53`, built at `2026-07-13T07:09:11.916Z`, target `github-pages-mirror`. The Pages API reports `cname=null` and HTTPS enforced.
 
 ## Build metadata
 
@@ -131,34 +144,37 @@ The GitHub workflow must:
 
 Deployment verification must compare this value with the approved commit.
 
-## Release sequence
+Final verification matched the release SHA on all three hosted surfaces:
 
-1. Complete local implementation and QA.
-2. Commit logical checkpoints and push the implementation branch.
-3. Obtain staging authorization and follow `HOSTINGER_STAGING.md`.
-4. Iterate on the branch until staging and visual review pass.
-5. Merge the approved branch to `main` without unrelated changes.
-6. Use the completed `HOSTINGER_PRODUCTION_INVENTORY.md` to reconcile `HOSTINGER_CUTOVER.md` and `HOSTINGER_ROLLBACK.md` with the actual account.
-7. Treat the received `CUTOVER APPROVED` phrase as production authorization, while obtaining the separate exact override required for original-Builder deletion by the master specification.
-8. Perform controlled cutover and production verification from the exact staging-verified `main` SHA.
-9. Deploy and verify the GitHub Pages mirror from the same SHA.
-10. Record results in `QA_REPORT.md`, tag the verified release, and disable DNS tooling.
+- staging: target `hostinger-staging`, built at `2026-07-13T06:44:16.396Z`;
+- production: target `hostinger-production`, built at `2026-07-13T06:45:48.123Z`; and
+- mirror: target `github-pages-mirror`, built at `2026-07-13T07:09:11.916Z`.
 
-## Required deployment proof
+## Completed release sequence
 
-- branch and commit SHA;
-- build commands and logs;
-- output directory or entry file;
-- Node.js version;
-- automated test results;
-- screenshots at required viewports;
-- canonical and robots behavior per target;
-- résumé and social-image status;
-- staging and production URLs;
-- SSL and production response status;
-- DNS/email preservation result;
-- GitHub Pages mirror result;
-- rollback instructions.
+1. Local implementation, content governance, CI, and five visual QA passes completed.
+2. The implementation branch was reviewed through pull request #1 and merged to `main`.
+3. The final `main` release SHA passed CI and the isolated live-staging workflow.
+4. The Builder rollback duplicate and holding artifact were verified before cutover.
+5. The authorized production archive was deployed to `shaileshdudala.com` and `/build.json` matched the release SHA.
+6. Apex/`www`, TLS, ten primary routes, custom 404, structured data, social images, public résumé, console/network behavior, accessibility, adverse modes, and the final 300-screenshot matrix passed.
+7. Missing SPF and DMARC records were restored exactly from matching snapshot `150089457`; public DNS verification passed and email remained unaffected.
+8. The no-index GitHub Pages mirror was deployed from the same SHA and verified without a sitemap or custom domain.
+9. The release was tagged `portfolio-v2.0.0`.
+
+## Final deployment proof
+
+| Proof | Result |
+| --- | --- |
+| Source identity | `main`; `1ae06ad45315baffaef6d1564aae0da4d4051a53`; `portfolio-v2.0.0` |
+| Static build | Node 24, `npm ci`, `npm run build`, output `dist`, no entry file or server |
+| Automated and visual QA | CI and staging workflows passed; production 138/138 browser checks and 300/300 final screenshots |
+| Production SEO | Production canonicals, `index,follow`, sitemap, structured data, and social images passed |
+| Public résumé and routes | Public PDF, all ten primary routes, compatibility behavior, and custom 404 passed |
+| HTTPS | Apex and `www` TLS edges and canonical redirect behavior passed |
+| DNS/email | All 10 baseline record groups plus the separately classified Hostinger-added `ftp` A record verified; SPF/DMARC incident remediated from exact snapshot values; active email unaffected with 0 mailboxes |
+| Mirror | Same SHA; production canonicals; `noindex,follow`; no sitemap; `cname=null` |
+| Rollback | Published no-index Builder duplicate and holding archive remain available; see `HOSTINGER_ROLLBACK.md` |
 
 ## Secret handling
 

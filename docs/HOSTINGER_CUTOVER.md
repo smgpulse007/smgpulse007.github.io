@@ -1,67 +1,31 @@
 # Hostinger Production Cutover Runbook
 
-Status: `CUTOVER APPROVED` received; inventory and rollback control complete; final Builder deletion override pending
-Last reviewed: 2026-07-13
+Status: production cutover complete and verified
+Completed: 2026-07-13
 
-The authorization phrase has been received, staging passed, and the protected production inventory is complete. No production domain, DNS, original Website Builder, email, or production-hosting change has been made. A rollback Builder duplicate exists. The only verified route for freeing the apex requires deleting the original Builder website; because the master launch specification explicitly prohibits that operation, the final delete requires a narrow action-time owner override after the release artifact and rollback control are ready.
+Portfolio V2 is the canonical production application at `https://shaileshdudala.com`. The owner supplied `CUTOVER APPROVED` and then gave the exact action-time approval required to delete the original Website Builder site. The optional email/mailbox deletion control remained unchecked. The replacement is the same static Astro product verified on staging; no server runtime was introduced.
 
-## Verified MCP capability boundary
+## Completed safety gates
 
-The pinned `hostinger-api-mcp@1.5.1` Hosting server can create and deploy the isolated static staging website. It does not expose Website Builder archive/duplicate/release/restore, primary-domain reassignment, SSL controls, apex/`www` redirect controls, static release history, email backup/health, or a proven safe custom-domain attachment operation. Domains/DNS tools add DNS reads and record mutations but do not fill those Website Builder/application attachment gaps.
+- The final implementation was merged to `main` and identified by full SHA.
+- Staging passed content, privacy, accessibility, browser, SEO, performance, and visual release gates.
+- The production archive was built from the approved SHA and hashed before upload.
+- The legacy Builder site was duplicated and published as a no-index rollback asset before the original was deleted.
+- Domain registration, nameservers, email service, billing, and subscriptions were not changed.
+- The deletion dialog's independent optional email/mailbox deletion setting remained unchecked.
+- The protected DNS baseline and rollback snapshots were recorded before cutover.
+- A post-cutover protected-DNS regression was detected, repaired with two targeted TXT writes, and independently verified.
+- The final static production release passed all required live checks across Chromium, Firefox, and WebKit.
 
-Consequences:
-
-- do not use a parked-domain alias as a substitute for a verified production attachment;
-- do not delete the original Builder website unless the owner explicitly overrides the master no-delete invariant for that exact action after reviewing the prepared rollback and email-preservation evidence;
-- do not infer that DNS writes alone preserve Builder rollback or email;
-- perform domain/DNS inventory read-only after the disabled servers are enabled for the cutover window;
-- the verified hPanel dialog requires the website-deletion acknowledgement and exposes a separate optional email/mailbox deletion checkbox; the optional checkbox must remain unchecked;
-- resume automated application creation, deployment, and verification only after the apex is released.
-
-## Required gates
-
-All of the following must be true before cutover:
-
-- Hostinger staging is deployed from the approved commit and passes the release criteria.
-- The active one-touch autonomous release gate remains in force; objective desktop/mobile visual, content, privacy, and accessibility gates have passed.
-- The public résumé, recognition wording, metrics, contact links, and privacy boundaries are approved.
-- `QA_REPORT.md` contains final automated and visual results.
-- The approved implementation is merged to `main` without additional unreviewed changes.
-- The exact production commit SHA is recorded.
-- Hostinger Websites and Domains/DNS inventory has been performed read-only and recorded in `HOSTINGER_PRODUCTION_INVENTORY.md`.
-- Every current DNS record class, domain attachment, nameserver, TTL, and SSL state is recorded without publishing protected values.
-- Hostinger email is active with 0/100 mailboxes; there is no mailbox content to back up, and all email-critical DNS remains protected.
-- The old Website Builder site is duplicated at `palegoldenrod-fish-builder-nfhz3v9lxfzda19t.hostingersite.com`, published, and protected by verified page-level `noindex` across all five routes.
-- `HOSTINGER_ROLLBACK.md` is reconciled with the actual account; the published duplicate exposes the verified Connect domain restoration control.
-- The owner has issued `CUTOVER APPROVED` and must separately approve the exact original-Builder deletion because it overrides an explicit invariant in the master specification.
-
-## Read-only readiness inventory
-
-Completed 2026-07-13. The authoritative privacy-safe evidence is `HOSTINGER_PRODUCTION_INVENTORY.md`. It records registration ID `11469793`, nameservers, all 10 DNS record classes and TTLs, protected email records, current TLS and redirect behavior, DNS snapshots `150089457` and `143071414`, hosting order `201333978`, staging identifier, 0/100 mailboxes, and the Builder duplicate.
-
-The inventory covered:
-
-- current Website Builder site identifier and attached domain;
-- current apex and `www` behavior;
-- all A, AAAA, CNAME, ALIAS/ANAME, and redirect records;
-- all MX, SPF, DKIM, DMARC, verification, and unrelated records;
-- nameservers and TTLs;
-- active email service and backup confirmation;
-- current SSL behavior;
-- exact action that releases the domain from Website Builder without deleting email;
-- exact action that attaches the approved Astro application;
-- whether the Builder site can be duplicated, archived, or republished;
-- expected interruption and propagation behavior;
-- every Hostinger tool call or owner click required.
-
-The hPanel dialog distinguishes website deletion from optional email/mailbox deletion. Stop immediately before confirming website deletion and request the one precise override required by the master launch invariant. The optional email checkbox must stay unchecked.
-
-## Production settings
+## Production release settings
 
 ```text
 Repository: smgpulse007/smgpulse007.github.io
 Branch: main
-Commit: the exact merged and staging-verified `main` SHA recorded immediately before cutover
+Commit: 1ae06ad45315baffaef6d1564aae0da4d4051a53
+Hosting order: 201333978
+Hosting account: u380810059
+Document root: /home/u380810059/domains/shaileshdudala.com/public_html
 Install: npm ci
 Validation: repository check and test scripts
 Build: npm run build
@@ -74,70 +38,89 @@ PUBLIC_ROBOTS=index,follow
 NODE_ENV=production
 ```
 
-## Controlled sequence
+Production archive:
 
-After `CUTOVER APPROVED`:
+```text
+portfolio-v2-production_20260713_024555_1ae06ad.zip
+SHA-256: 25EDE1D4CCA851CC432B9456E40A891F0D94CB74AE656934EC944AA9FF0CF71B
+```
 
-1. reconfirm the approved branch, full SHA, successful staging build, and rollback record;
-2. reconfirm Hostinger email remains active with 0 mailboxes and compare the protected DNS structure with `HOSTINGER_PRODUCTION_INVENTORY.md`;
-3. reconfirm the published rollback Builder duplicate is live and its Connect domain restoration control is available;
-4. after the explicit action-time override, delete only the original `shaileshdudala.com` Builder website in hPanel, selecting the required website acknowledgement while leaving optional email/mailbox deletion unchecked;
-5. create the `shaileshdudala.com` static website on hosting order `201333978` through Hosting `createWebsite`;
-6. deploy the prebuilt Hostinger-production archive from the approved `main` SHA;
-7. allow Hostinger to issue SSL and verify the certificate chain;
-8. configure the verified apex/`www` behavior without altering unrelated DNS;
-9. verify the canonical production site comprehensively;
-10. build the GitHub Pages mirror from the same SHA using mirror environment values;
-11. verify the mirror is `noindex,follow`, canonicalizes to production, and has no custom domain;
-12. disable Domains/DNS tooling after verification;
-13. update the QA, deployment, and rollback records and create the approved release tag.
+The archive contents were deployed at the website root. Node is a build tool only; production serves prebuilt static files.
 
-Never select “delete email service.” Never delete the domain registration. Never change nameservers unless the verified plan requires it and the owner separately approves that exact change.
+## Executed sequence
 
-## Bounded execution and rollback thresholds
+1. Reconfirmed the approved branch, exact SHA, clean release artifact, staging result, domain inventory, email state, and rollback duplicate.
+2. Received the owner's exact action-time approval to retire the original Builder site.
+3. Deleted only the original `shaileshdudala.com` Builder website in hPanel; selected the required website acknowledgement and left optional email/mailbox deletion unchecked.
+4. Waited until the apex was released from Builder.
+5. Created the `shaileshdudala.com` static website on hosting order `201333978`.
+6. Deployed the exact prebuilt production archive to `/home/u380810059/domains/shaileshdudala.com/public_html`.
+7. Purged stale Hostinger/CDN state and confirmed the apex and both Hostinger edge addresses served Portfolio V2.
+8. Verified valid TLS and a single permanent `www`-to-apex redirect that preserves the requested path and query string.
+9. Compared the post-cutover DNS zone with the 10-group pre-cutover baseline.
+10. Detected that apex SPF and `_dmarc` TXT groups had disappeared, recovered their exact prior values from snapshot `150089457`, and restored only those two RRsets at TTL 3600.
+11. Verified the restored records through the Hostinger DNS API, `1.1.1.1`, and `8.8.8.8`.
+12. Reran production identity, route, metadata, asset, accessibility, browser, reduced-motion, no-JavaScript, reflow, and adverse-mode checks against the final SHA.
 
-- Poll original-Builder deletion every 30 seconds for at most 15 minutes, matching Hostinger's documented 10-minute typical removal window with buffer. If the apex is not released, stop; do not repeat deletion or touch DNS/domain registration.
-- After Hosting `createWebsite`, poll the Hosting website inventory every 30 seconds for at most 10 minutes. If the apex website is not created, start the published-Builder rollback flow.
-- Allow the static deployment request and `/build.json` identity to converge for at most 10 minutes, checking every 15 seconds. A wrong SHA/target is an immediate rollback trigger.
-- Allow automatic web routing for at most 15 minutes (three 300-second stored web-routing TTLs). Missing or changed protected DNS/email records trigger immediate rollback; never wait for propagation to excuse protected-record drift.
-- Accept HTTPS immediately if the already valid apex/`www` certificate continues to serve correctly. If TLS becomes invalid, observe automatic issuance for at most 15 minutes, then restore the Builder site rather than leaving an insecure canonical origin. Hostinger documents that new Lifetime SSL can take 1–2 hours, but this release chooses the shorter public-outage budget.
-- Any confidential-content exposure, non-production canonical, index-safety failure, inaccessible primary route/résumé, or inability to serve a real 404 triggers immediate rollback under `HOSTINGER_ROLLBACK.md`.
+No nameserver, registration, billing, subscription, mailbox, MX, DKIM, autodiscover, or autoconfig mutation was part of the cutover.
 
-## Production verification
+## DNS incident and remediation
 
-Verify and record:
+The pre-cutover baseline contained 10 stored record groups. Immediately after the static website was created, the Hostinger DNS API returned nine groups: protected SPF and DMARC TXT records were missing and a Hostinger-added `ftp` A record was present. Public DNS corroborated the missing TXT state. Because these records were classified as email-critical and protected, the absence was a release incident rather than an acceptable propagation delay.
 
-- apex and `www` HTTPS responses and redirect behavior;
-- SSL validity;
-- primary and compatibility route status;
-- raw HTML final metrics;
-- canonical, robots, sitemap, Open Graph, structured data, `portfolio.json`, `llms.txt`, and 404 behavior;
-- résumé status and content type;
-- contact, GitHub, LinkedIn, recognition, and repository links;
-- expected `/build.json` SHA and target;
-- console and failed-request results at desktop and mobile widths;
-- accessibility and reduced-motion smoke tests;
-- MX, SPF, DKIM, DMARC, verification, and unrelated DNS record preservation;
-- email send/receive health through an owner-approved check if email exists;
-- GitHub Pages mirror canonical/noindex behavior;
-- rollback readiness.
+The remediation did not restore the whole zone. Exact TXT payloads were read from snapshot `150089457`, then only these RRsets were restored:
 
-If a release criterion fails, use `HOSTINGER_ROLLBACK.md`. Do not call the launch successful while verification is incomplete.
+- `@ TXT`, TTL 3600 - SPF payload withheld from this public document;
+- `_dmarc TXT`, TTL 3600 - DMARC policy `none`; full payload withheld.
+
+Current DNS contains all 10 baseline groups plus `ftp A 88.223.85.139` at TTL 1800. Snapshot `143071414` remains an obsolete web-routing state and must not be restored broadly.
+
+## Production verification result
+
+| Gate | Result |
+| --- | --- |
+| Live identity | `/build.json` reports `1ae06ad45315baffaef6d1564aae0da4d4051a53` and `hostinger-production` |
+| Archive integrity | SHA-256 matched `25EDE1D4CCA851CC432B9456E40A891F0D94CB74AE656934EC944AA9FF0CF71B` |
+| Apex | HTTPS serves Portfolio V2 |
+| `www` | One 301 to the corresponding apex path; query preserved |
+| TLS | Valid for apex and `www` |
+| SEO | Production canonical, `index,follow`, production sitemap, structured data, and social metadata verified |
+| Content | Primary routes, compatibility routes, machine-readable endpoints, resume, and real 404 verified |
+| Accessibility | 30/30 live axe route scans passed across Chromium, Firefox, and WebKit |
+| End to end | 84/84 live tests passed across Chromium, Firefox, and WebKit |
+| Adverse modes | 24/24 live tests passed across Chromium, Firefox, and WebKit |
+| DNS | All 10 baseline groups present; targeted SPF/DMARC remediation verified through API and two public resolvers |
+| Email | Free Business Email active; auto-renew On; expires 2028-04-29; 0/100 mailboxes |
+| Registration | Active, locked, privacy enabled, expires 2028-01-30; nameservers unchanged |
+
+## Builder rollback control
+
+The published rollback copy is `palegoldenrod-fish-builder-nfhz3v9lxfzda19t.hostingersite.com`. Page-level `noindex` is verified only for its real routes `/`, `/projects/`, `/about/`, `/my-ai-app-library/`, and `/contact/`.
+
+If platform rollback becomes necessary, do not try to connect Builder while the failed static website still owns the apex. Follow this order exactly:
+
+1. optionally deploy the prepared no-index holding page while diagnosing the attached static website;
+2. delete/release only the failed static apex website, leaving optional email/mailbox deletion unchecked;
+3. confirm the apex is free;
+4. use the published Builder duplicate's **Connect domain** control to attach `shaileshdudala.com`;
+5. publish/update the duplicate and reverify DNS, email, TLS, apex, and `www`.
+
+Never delete the domain registration, select email deletion, change nameservers as a rollback shortcut, or broad-restore a DNS snapshot over the verified production zone.
 
 ## Cutover record
 
 | Field | Result |
 | --- | --- |
-| Owner approval phrase | `CUTOVER APPROVED` received |
-| Approved commit SHA | Pending final merge and exact-SHA staging redeploy |
-| Staging URL and result | `https://aquamarine-mole-482437.hostingersite.com`; release gates passed |
-| DNS inventory artifact | `HOSTINGER_PRODUCTION_INVENTORY.md`; 10 protected record structures recorded; no DNS write performed |
-| Email backup confirmation | Hostinger email active; 0/100 mailboxes, so no mailbox content exists to back up; email service and DNS remain protected |
-| Legacy Builder archive | Live duplicate: `palegoldenrod-fish-builder-nfhz3v9lxfzda19t.hostingersite.com` |
-| Original Builder deletion override | Pending exact action-time owner confirmation due master-spec invariant |
-| Apex-to-duplicate rollback control | Verified in hPanel without submission: published duplicate → Connect domain → select apex → Next; final mutation reserved for rollback |
-| Production deployment | Pending |
-| SSL | Pending |
-| Production verification | Pending |
-| Mirror verification | Pending |
-| Release tag | Pending |
+| Owner cutover authorization | `CUTOVER APPROVED` received |
+| Original Builder deletion authorization | Exact action-time approval received |
+| Original Builder deletion | Completed; optional email/mailbox deletion unchecked |
+| Approved production SHA | `1ae06ad45315baffaef6d1564aae0da4d4051a53` |
+| Staging result | `https://aquamarine-mole-482437.hostingersite.com`; release gates passed |
+| Production deployment | Completed on order `201333978`, account `u380810059` |
+| Builder rollback copy | Published and no-index on the five verified real routes |
+| DNS incident | Missing SPF/DMARC detected, recovered from snapshot `150089457`, and restored as two targeted TXT RRsets |
+| DNS verification | Hostinger API, `1.1.1.1`, and `8.8.8.8` passed |
+| SSL and redirect | Valid TLS; path/query-preserving `www` 301 passed |
+| Production verification | Complete; 138/138 browser checks passed |
+
+The GitHub Pages mirror remains a separate no-index release surface and must never receive the custom domain.

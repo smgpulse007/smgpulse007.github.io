@@ -31,7 +31,6 @@ jobs:
       PUBLIC_SITE_URL: https://smgpulse007.github.io
       PUBLIC_CANONICAL_URL: https://shaileshdudala.com
       PUBLIC_ROBOTS: noindex,follow
-      COMMIT_SHA: ${{ inputs.release_sha }}
     steps:
       - name: Enforce post-production release gate
         shell: bash
@@ -80,10 +79,14 @@ jobs:
         uses: actions/configure-pages@v6
 
       - name: Build no-index mirror
+        env:
+          COMMIT_SHA: ${{ inputs.release_sha }}
         run: npm run build
 
       - name: Verify mirror build identity and SEO contract
         shell: bash
+        env:
+          COMMIT_SHA: ${{ inputs.release_sha }}
         run: |
           node -e "const m=require('./dist/build.json'); if(m.commit !== process.env.COMMIT_SHA || m.target !== 'github-pages-mirror') process.exit(1)"
           test ! -e dist/sitemap-index.xml

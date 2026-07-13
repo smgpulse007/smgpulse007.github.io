@@ -1,16 +1,20 @@
 # Portfolio V2 Decisions
 
-Status: accepted for the implementation branch
-Date: 2026-07-12
+Status: accepted for the release candidate and controlled cutover
+Date: 2026-07-12; reconciled 2026-07-13
 
 ## Product and hosting
 
 1. Maintain one repository, one content model, one design system, and one portfolio product.
-2. Hostinger Business Web Hosting is the future canonical production host for `https://shaileshdudala.com`.
+2. Hostinger Business Web Hosting is the canonical production host for `https://shaileshdudala.com` after controlled cutover.
 3. GitHub remains the source, review, CI, and public engineering-evidence layer.
 4. GitHub Pages remains a static fallback built from the same approved commit with `noindex,follow` and canonical URLs pointing to `https://shaileshdudala.com`.
 5. Never point the custom domain to GitHub Pages and never create a Hostinger-specific second design.
-6. Keep the existing Hostinger Website Builder site unchanged until staging has passed and the owner issues the exact phrase `CUTOVER APPROVED`.
+6. Keep the existing Hostinger Website Builder site unchanged until staging passes, production inventory and rollback preparation are complete, and the owner issues `CUTOVER APPROVED`. The master specification's separate no-delete invariant still requires an exact override before deleting the original Builder site.
+
+## Creative direction
+
+The selected system is **editorial systems engineering**: premium editorial hierarchy, technical-document legibility, and operational artifacts that show how uncertain input becomes accountable action. The portfolio borrows principles rather than layouts or branding. The research ledger, exclusions, and implementation results are recorded in `CREATIVE_DIRECTION_RESEARCH.md`.
 
 ## Runtime
 
@@ -93,4 +97,6 @@ Deployment-target configuration controls site URL, canonical base, robots behavi
 
 ## Safety boundaries
 
-No Hostinger tool, staging app, production connection, DNS change, Website Builder change, email change, billing action, subscription action, or domain action is authorized by this implementation phase. Staging and cutover are separate owner-gated phases.
+The staging and cutover gates are separate. Authorized staging created and deployed the isolated static website. The approved cutover window permitted read-only Hosting, Domains, and DNS inventory and preparation of a Builder rollback duplicate. The original Builder site, production routing, DNS, nameservers, email, billing, subscriptions, ecommerce, VPS, and domain registration remain unchanged.
+
+The only verified technical production path requires deleting the original Builder website after preserving a published live duplicate and leaving optional email/mailbox deletion unchecked. That operation conflicts with the controlling master specification's no-delete invariant, so it cannot proceed from `CUTOVER APPROVED` alone. The exact action must receive a narrow owner override after the final artifact is ready; the duplicate's Connect domain restoration control and static holding fallback are already prepared. See `HOSTINGER_PRODUCTION_INVENTORY.md`, `HOSTINGER_CUTOVER.md`, and `HOSTINGER_ROLLBACK.md`.

@@ -2,12 +2,14 @@
 
 Static-first Astro portfolio for Shailesh Dudala, Senior Applied AI Engineer.
 
-The product has one source and design system with two future hosting targets:
+The product has one source and design system with two release surfaces:
 
-- `shaileshdudala.com` on Hostinger as the canonical production site after approved cutover;
+- `shaileshdudala.com` on Hostinger as the canonical production site after the approved cutover;
 - `smgpulse007.github.io` as a no-index static mirror built from the same release.
 
-No Hostinger deployment or production cutover is performed from this branch.
+The release candidate is verified on the isolated Hostinger staging origin at
+`https://aquamarine-mole-482437.hostingersite.com`. Production and the GitHub
+Pages mirror are released only from the same reviewed `main` commit.
 
 ## Primary routes
 
@@ -43,7 +45,7 @@ npm run test:a11y
 npm run test:e2e
 ```
 
-Generate the three visual QA passes with:
+Generate the five intentional visual QA passes with:
 
 ```bash
 npm run screenshots

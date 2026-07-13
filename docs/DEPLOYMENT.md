@@ -1,10 +1,10 @@
 # Deployment Guide
 
-Last reviewed: 2026-07-12
+Last reviewed: 2026-07-13
 
 ## Current phase
 
-Portfolio V2 is live on an isolated Hostinger temporary origin from `codex/portfolio-v2-hostinger` and has passed live staging QA. Production domain/DNS work remains pending the read-only domain/email inventory and the exact safe Website Builder release/application-attachment path.
+Portfolio V2 is live at `https://aquamarine-mole-482437.hostingersite.com` from `codex/portfolio-v2-hostinger` and has passed live staging QA. Read-only production inventory and the Builder rollback duplicate are complete. The final release still requires branch merge, exact-`main`-SHA staging redeploy/CI, explicit authorization for the original Builder deletion, production deployment and verification, same-SHA mirror publication, tool lockdown, and tagging.
 
 ## Application shape
 
@@ -88,7 +88,7 @@ The mirror must not receive a `CNAME` for `shaileshdudala.com`.
 
 ## Hostinger static settings
 
-Expected values, to be confirmed during read-only inventory:
+Confirmed application settings for the prebuilt static deployment path:
 
 | Setting | Value |
 | --- | --- |
@@ -100,6 +100,8 @@ Expected values, to be confirmed during read-only inventory:
 | Output | `dist` |
 | Entry file | None |
 | Node.js | Node 24 LTS |
+
+Local build and QA used Node 22.16.0, which satisfies the package engine contract. Node 24 remains the expected future Git-build setting. The staging deployment used a root-level prebuilt archive rather than a persistent Node process: hosting order `201333978`, account `u380810059`, website `aquamarine-mole-482437.hostingersite.com`, 83 archive entries, and no runtime entry file.
 
 Do not choose a server entry file or start command merely because Hostinger supports Node applications.
 
@@ -121,7 +123,7 @@ The GitHub workflow must:
 
 ```json
 {
-  "commit": "<short-sha>",
+  "commit": "<full-40-character-sha>",
   "builtAt": "<ISO timestamp>",
   "target": "<deploy target>"
 }
@@ -136,9 +138,9 @@ Deployment verification must compare this value with the approved commit.
 3. Obtain staging authorization and follow `HOSTINGER_STAGING.md`.
 4. Iterate on the branch until staging and visual review pass.
 5. Merge the approved branch to `main` without unrelated changes.
-6. Prepare cutover read-only and reconcile `HOSTINGER_CUTOVER.md` and `HOSTINGER_ROLLBACK.md` with the actual account.
-7. Wait for `CUTOVER APPROVED`.
-8. Perform controlled cutover and production verification.
+6. Use the completed `HOSTINGER_PRODUCTION_INVENTORY.md` to reconcile `HOSTINGER_CUTOVER.md` and `HOSTINGER_ROLLBACK.md` with the actual account.
+7. Treat the received `CUTOVER APPROVED` phrase as production authorization, while obtaining the separate exact override required for original-Builder deletion by the master specification.
+8. Perform controlled cutover and production verification from the exact staging-verified `main` SHA.
 9. Deploy and verify the GitHub Pages mirror from the same SHA.
 10. Record results in `QA_REPORT.md`, tag the verified release, and disable DNS tooling.
 

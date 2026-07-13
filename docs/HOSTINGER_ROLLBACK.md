@@ -1,7 +1,7 @@
 # Hostinger Rollback Runbook
 
-Status: planning document; verify against Hostinger inventory before cutover
-Last reviewed: 2026-07-12
+Status: inventory reconciled; published Builder duplicate and apex restoration control verified
+Last reviewed: 2026-07-13
 
 Rollback protects the portfolio and domain email. Do not improvise DNS edits or edit application files directly in Hostinger.
 
@@ -9,14 +9,14 @@ Pinned Hosting MCP has no Website Builder restore, primary-domain switch, SSL, o
 
 ## Required rollback evidence before cutover
 
-- Full approved and previous known-good commit SHAs.
-- Staging URL that remains available during verification where Hostinger permits.
-- Export or screenshots of all current DNS records, nameservers, TTLs, and domain attachments.
-- Confirmation of MX, SPF, DKIM, DMARC, verification, and unrelated records.
-- Email provider and backup confirmation.
-- Website Builder site identifier and archive/duplicate status.
-- Verified Hostinger operations for detaching and reattaching the domain.
-- Minimal static holding-page artifact and deployment instructions if the Builder site cannot be restored.
+- Final approved `main` SHA: recorded after merge and exact-SHA staging verification.
+- Current verified staging SHA: `8ff708b9e5b81434bd89bedf6ba60d865c11cd07`; staging remains at `https://aquamarine-mole-482437.hostingersite.com`.
+- DNS/domain evidence: `HOSTINGER_PRODUCTION_INVENTORY.md`; current exact-match snapshot `150089457`; older nonmatching snapshot `143071414`.
+- Protected records: MX, SPF, DKIM, DMARC, autodiscover, autoconfig, and unrelated records recorded by structure and TTL.
+- Email: Hostinger Free Business Email active; 0/100 mailboxes; no mailbox content exists to back up.
+- Legacy Builder: original `shaileshdudala.com`; live duplicate `palegoldenrod-fish-builder-nfhz3v9lxfzda19t.hostingersite.com`; all five duplicate routes verified with page-level `noindex`.
+- Apex restoration: after releasing the apex from the failed static site with optional email deletion unchecked, use Websites → Website Builder → published duplicate → **Connect domain** → enter/select `shaileshdudala.com` → **Next**, then publish/update. This control was inspected up to the final connection action without mutating production.
+- Holding fallback: `ops/holding-page/index.html`; package as a root-level static archive before cutover so it can replace a failed Portfolio V2 release immediately.
 
 ## Rollback triggers
 
@@ -37,8 +37,8 @@ Minor content defects with a healthy domain may use application rollback instead
 
 Use when the domain and Hostinger application are healthy but the new release is defective.
 
-1. select the previous known-good repository commit or release tag through the verified Git deployment control;
-2. redeploy using the same production environment variables;
+1. select the exact previous known-good repository commit or immutable release tag;
+2. rebuild it with the production environment contract and redeploy its root-level static archive through the same Hosting static-deploy operation;
 3. do not edit generated files in Hostinger;
 4. clear Hostinger/CDN cache only when necessary and supported;
 5. verify `/build.json` reports the rollback SHA and `hostinger-production`;
@@ -52,13 +52,14 @@ Use when the new Hostinger app, domain attachment, or SSL path is unusable.
 
 1. stop further changes and compare current DNS/domain state with the captured inventory;
 2. preserve all email and verification records;
-3. detach the domain from the new application only through the previously verified safe operation;
-4. restore the prior Website Builder attachment if the archived/duplicated site can be safely republished;
-5. if Builder restoration is unavailable, publish the prebuilt minimal static holding page while the staging URL remains available;
-6. restore only the web-routing records proven to have changed; do not overwrite MX, SPF, DKIM, DMARC, verification, or unrelated records;
-7. verify apex, `www`, SSL, and email health;
-8. keep the Portfolio V2 staging deployment for diagnosis without connecting the production domain;
-9. report the exact restored state and owner follow-up.
+3. while the failed apex static website is still attached, deploy the no-index holding artifact if a safe maintenance response is needed during preparation;
+4. delete/release only the newly created failed apex static website through hPanel, leaving every email/mailbox deletion option unchecked, because Builder cannot claim a domain that remains attached elsewhere;
+5. restore the prior Website Builder content through the verified published-duplicate Connect domain flow and publish/update it;
+6. if Builder connection fails, recreate the apex empty static website on order `201333978` and deploy the prebuilt no-index holding archive;
+7. restore only the web-routing records proven to have changed; do not overwrite MX, SPF, DKIM, DMARC, verification, or unrelated records;
+8. verify apex, `www`, SSL, and email health;
+9. keep the Portfolio V2 staging deployment for diagnosis without connecting the production domain;
+10. report the exact restored state and owner follow-up.
 
 Nameserver changes are not a routine rollback mechanism.
 
@@ -103,4 +104,4 @@ Record actual tags and SHAs here only after they exist.
 | --- | --- |
 | Previous known-good production | Pending |
 | Portfolio V2 approved production | Pending |
-| Current staging | `https://aquamarine-mole-482437.hostingersite.com`; exact SHA exposed by `/build.json` |
+| Current staging | `8ff708b9e5b81434bd89bedf6ba60d865c11cd07` at `https://aquamarine-mole-482437.hostingersite.com` |

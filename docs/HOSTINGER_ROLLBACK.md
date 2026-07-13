@@ -5,6 +5,8 @@ Last reviewed: 2026-07-12
 
 Rollback protects the portfolio and domain email. Do not improvise DNS edits or edit application files directly in Hostinger.
 
+Pinned Hosting MCP has no Website Builder restore, primary-domain switch, SSL, or static release-history operation. Platform rollback therefore requires a verified hPanel detach/reattach path or owner action; broad DNS snapshot restoration is not an acceptable substitute. A minimal no-index holding artifact is versioned at `ops/holding-page/index.html` for use only if the legacy Builder site cannot be safely republished.
+
 ## Required rollback evidence before cutover
 
 - Full approved and previous known-good commit SHAs.
@@ -101,4 +103,4 @@ Record actual tags and SHAs here only after they exist.
 | --- | --- |
 | Previous known-good production | Pending |
 | Portfolio V2 approved production | Pending |
-| Current staging | Pending |
+| Current staging | `https://aquamarine-mole-482437.hostingersite.com`; exact SHA exposed by `/build.json` |

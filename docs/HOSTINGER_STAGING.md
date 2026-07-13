@@ -1,9 +1,9 @@
 # Hostinger Staging Runbook
 
-Status: not authorized and not executed
+Status: isolated static staging deployed and verified
 Last reviewed: 2026-07-12
 
-This runbook begins only after local implementation is complete, the branch is pushed, and the owner explicitly authorizes staging. The design/implementation phase does not authorize Hostinger access or writes.
+The one-touch `CUTOVER APPROVED` directive authorized staging after local implementation completed. Hosting-only inventory showed one active Business hosting order and no API-managed website, so a new temporary Hostinger website was created without touching the existing Website Builder production site.
 
 ## Owner gate
 
@@ -81,7 +81,7 @@ After Hostinger reports a successful build:
 9. verify sitemap output is suppressed on staging and `robots.txt` does not advertise one;
 10. validate JSON-LD, `portfolio.json`, `llms.txt`, and the 404;
 11. run the complete Playwright, accessibility, content, and link suites against the staging URL;
-12. perform three visual QA passes at every required viewport;
+12. perform five intentional visual QA passes at every required viewport and browser engine;
 13. inspect console errors, failed network requests, horizontal overflow, keyboard flow, reduced motion, and dialog focus behavior;
 14. review Hostinger logs and resource use if exposed.
 
@@ -93,17 +93,18 @@ Fill these fields only after execution:
 
 | Field | Result |
 | --- | --- |
-| Staging URL | Pending staging authorization |
-| Connected branch | `codex/portfolio-v2-hostinger` expected |
-| Deployed commit | Pending |
-| Node.js version | Pending Hostinger inventory |
-| Build command | `npm run build` expected |
-| Output directory | `dist` expected |
-| Entry file | None expected |
-| Build log | Pending |
-| Automated tests | Pending |
-| Visual QA | Pending |
-| Canonical/robots | Pending |
-| Owner visual approval | Pending |
+| Staging URL | `https://aquamarine-mole-482437.hostingersite.com` |
+| Connected branch/source | `codex/portfolio-v2-hostinger`; clean, pushed commit artifact |
+| Initial deployed commit | `0d3ef553703eb7231bf7fc61916fdd83b5ee0d4f`; final docs checkpoint verified via `/build.json` after redeploy |
+| Datacenter | Boston |
+| Node.js version | Local build/QA used 22.16.0; static Hostinger serving has no persistent Node runtime; Node 24 remains the expected Git-build setting |
+| Build command | `npm run build` with the staging environment contract |
+| Output directory | Contents of `dist/` at website root |
+| Entry file | None |
+| Build log | Static API exposes no build/status log; upload and deployment requests succeeded |
+| Automated tests | 84/84 live E2E; 30/30 live accessibility; 24/24 live adverse-mode tests |
+| Visual QA | Five passes, 1,500/1,500 screenshots, 10 viewports, 3 engines; rubric 93/100 |
+| Canonical/robots | Temporary-origin canonicals; `noindex,nofollow`; crawl allowed; sitemap suppressed |
+| Owner visual approval | One-touch autonomous release gate active; objective visual and privacy gates passed |
 
 Staging success does not authorize production cutover.

@@ -1,9 +1,21 @@
 # Hostinger Production Cutover Runbook
 
-Status: prohibited until the exact phrase `CUTOVER APPROVED`
+Status: `CUTOVER APPROVED` received; production inventory and safe manual attachment path still required
 Last reviewed: 2026-07-12
 
-This is a readiness plan, not authorization. No production domain, DNS, Website Builder, email, or hosting change has been made during Portfolio V2 implementation.
+The authorization phrase has been received, but no production domain, DNS, Website Builder, email, or production-hosting change has been made. Staging passed. Cutover cannot begin until protected DNS/email inventory and the exact safe Website Builder release/attachment flow are known.
+
+## Verified MCP capability boundary
+
+The pinned `hostinger-api-mcp@1.5.1` Hosting server can create and deploy the isolated static staging website. It does not expose Website Builder archive/duplicate/release/restore, primary-domain reassignment, SSL controls, apex/`www` redirect controls, static release history, email backup/health, or a proven safe custom-domain attachment operation. Domains/DNS tools add DNS reads and record mutations but do not fill those Website Builder/application attachment gaps.
+
+Consequences:
+
+- do not use a parked-domain alias as a substitute for a verified production attachment;
+- do not delete the Builder website to free the domain;
+- do not infer that DNS writes alone preserve Builder rollback or email;
+- perform domain/DNS inventory read-only after the disabled servers are enabled for the cutover window;
+- use one precise owner hPanel action for Builder archive/release/application attachment if the UI exposes a safe path, then resume automated verification.
 
 ## Required gates
 
@@ -104,9 +116,9 @@ If a release criterion fails, use `HOSTINGER_ROLLBACK.md`. Do not call the launc
 
 | Field | Result |
 | --- | --- |
-| Owner approval phrase | Pending |
+| Owner approval phrase | `CUTOVER APPROVED` received |
 | Approved commit SHA | Pending |
-| Staging URL and result | Pending |
+| Staging URL and result | `https://aquamarine-mole-482437.hostingersite.com`; release gates passed |
 | DNS inventory artifact | Pending |
 | Email backup confirmation | Pending |
 | Legacy Builder archive | Pending |

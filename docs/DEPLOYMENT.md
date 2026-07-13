@@ -4,7 +4,7 @@ Last reviewed: 2026-07-12
 
 ## Current phase
 
-Portfolio V2 is in local implementation and QA on `codex/portfolio-v2-hostinger`. Production deployment, Hostinger staging, domain connection, and DNS changes are outside the current authorization.
+Portfolio V2 is live on an isolated Hostinger temporary origin from `codex/portfolio-v2-hostinger` and has passed live staging QA. Production domain/DNS work remains pending the read-only domain/email inventory and the exact safe Website Builder release/application-attachment path.
 
 ## Application shape
 
@@ -28,10 +28,12 @@ Run the complete validated script set exposed by the final `package.json`:
 
 ```powershell
 npm run check
+npm run test:secrets
 npm run test:content
 npm run test:links
-npm run test:a11y
-npm run test:e2e
+npm run test:a11y:all
+npm run test:e2e:all
+npm run test:live-modes
 npm run test
 npm run build
 ```

@@ -1,0 +1,182 @@
+import { expect, test, type Page } from '@playwright/test';
+
+const essentialRoutes = [
+  '/',
+  '/work/',
+  '/experience/',
+  '/lab/',
+  '/about/',
+  '/resume/',
+  '/work/claims-intelligence/',
+  '/work/on-prem-rag-ocr/',
+  '/work/lets-talk-doc/',
+  '/work/llm-steering-lab/',
+];
+
+function requireBaseUrl(baseURL: string | undefined) {
+  if (!baseURL) throw new Error('Playwright baseURL is required for live-mode validation.');
+  return baseURL;
+}
+
+async function horizontalOverflow(page: Page) {
+  return page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+}
+
+test('essential routes retain complete content with JavaScript disabled', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({
+    baseURL: requireBaseUrl(baseURL),
+    javaScriptEnabled: false,
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+
+  for (const route of essentialRoutes) {
+    const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
+    expect(response?.status(), `${route} status without JavaScript`).toBe(200);
+    await expect(page.locator('h1'), `${route} H1 without JavaScript`).toHaveCount(1);
+    await expect(page.locator('main'), `${route} main content without JavaScript`).not.toBeEmpty();
+    expect(await horizontalOverflow(page), `${route} no-JavaScript overflow`).toBeLessThanOrEqual(1);
+  }
+
+  await context.close();
+});
+
+test('reduced-motion mode preserves controls and suppresses recorder motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
+  await expect(page.locator('.flight-recorder')).toBeVisible();
+  const durations = await page.locator('.flight-recorder').evaluate((element) => {
+    const style = getComputedStyle(element);
+    return [style.animationDuration, style.transitionDuration];
+  });
+  expect(durations.every((value) => value === '0s' || Number.parseFloat(value) <= 0.00001)).toBe(true);
+});
+
+test('keyboard-only navigation reaches skip, navigation, evidence, and recorder controls', async ({ page, browserName }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  const skip = page.locator('.skip-link');
+  await page.keyboard.press('Tab');
+  if (browserName === 'webkit' && !(await skip.evaluate((element) => element === document.activeElement))) {
+    // Desktop WebKit follows the platform default that can omit links from the
+    // Tab sequence. Validate the same focus and keyboard-activation contract.
+    await skip.focus();
+  }
+  await expect(skip).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#main-content$/);
+
+  const menu = page.locator('.mobile-nav summary');
+  await menu.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.mobile-nav')).toHaveAttribute('open', '');
+
+  const evidence = page.locator('[data-evidence-toggle]');
+  await evidence.focus();
+  await page.keyboard.press('Enter');
+  await expect(evidence).toHaveAttribute('aria-pressed', 'true');
+
+  const recorderControl = page.getByRole('button', { name: 'FHIR care event' });
+  const recorderIsland = page.locator('astro-island').filter({ has: recorderControl });
+  await recorderIsland.scrollIntoViewIfNeeded();
+  await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
+  await recorderControl.focus();
+  await page.keyboard.press('Space');
+  await expect(recorderControl).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('forced-colors mode retains essential content and controls', async ({ page }, testInfo) => {
+  await page.emulateMedia({ forcedColors: 'active' });
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('[data-evidence-toggle]')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'FHIR care event' })).toBeVisible();
+  expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+
+  const screenshot = testInfo.outputPath('forced-colors-home.png');
+  await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
+  await testInfo.attach('forced-colors-home', { path: screenshot, contentType: 'image/png' });
+});
+
+test('200% zoom-equivalent reflow remains usable at 320 CSS pixels', async ({ page }, testInfo) => {
+  // A 320 CSS-pixel viewport is the reflow width produced by 200% browser zoom
+  // on a 640 CSS-pixel viewport. This is deterministic across all three engines.
+  await page.setViewportSize({ width: 320, height: 700 });
+  for (const route of essentialRoutes) {
+    await page.goto(route, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('h1')).toBeVisible();
+    expect(await horizontalOverflow(page), `${route} 200% reflow overflow`).toBeLessThanOrEqual(1);
+  }
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const screenshot = testInfo.outputPath('zoom-200-reflow-home.png');
+  await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
+  await testInfo.attach('zoom-200-reflow-home', { path: screenshot, contentType: 'image/png' });
+});
+
+test('cold-cache navigation returns complete server-rendered content', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({
+    baseURL: requireBaseUrl(baseURL),
+    serviceWorkers: 'block',
+    extraHTTPHeaders: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+  });
+  const page = await context.newPage();
+  const response = await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  expect(response?.status()).toBe(200);
+  await expect(page.locator('h1')).toContainText(/AI systems/i);
+  await expect(page.locator('main')).toContainText('7K');
+  await context.close();
+});
+
+test('slow-network latency preserves first-content usability', async ({ page, baseURL }, testInfo) => {
+  const origin = new URL(requireBaseUrl(baseURL)).origin;
+  let delayedRequests = 0;
+  await page.route('**/*', async (route) => {
+    if (new URL(route.request().url()).origin === origin) {
+      delayedRequests += 1;
+      await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+    await route.continue();
+  });
+
+  const started = Date.now();
+  const response = await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const domContentLoadedMs = Date.now() - started;
+  expect(response?.status()).toBe(200);
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main')).toContainText('7K');
+  expect(delayedRequests).toBeGreaterThan(0);
+  await testInfo.attach('slow-network-profile', {
+    body: Buffer.from(JSON.stringify({ artificialLatencyMs: 250, delayedRequests, domContentLoadedMs }, null, 2)),
+    contentType: 'application/json',
+  });
+});
+
+test('high-density rendering stays sharp and overflow-free at deviceScaleFactor 2', async ({ browser, baseURL }, testInfo) => {
+  const context = await browser.newContext({
+    baseURL: requireBaseUrl(baseURL),
+    viewport: { width: 390, height: 844 },
+    deviceScaleFactor: 2,
+  });
+  const page = await context.newPage();
+  await page.goto('/', { waitUntil: 'networkidle' });
+
+  expect(await page.evaluate(() => devicePixelRatio)).toBe(2);
+  expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+  await expect(page.locator('h1')).toBeVisible();
+
+  const screenshot = testInfo.outputPath('hidpi-390x844-home.png');
+  await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
+  await testInfo.attach('hidpi-390x844-home', { path: screenshot, contentType: 'image/png' });
+  await context.close();
+});

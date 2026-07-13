@@ -1,0 +1,9 @@
+---
+type Props = { eyebrow: string; title: string; body?: string; align?: 'left' | 'split' };
+const { eyebrow, title, body, align = 'split' } = Astro.props;
+---
+<header class:list={['section-intro', align]}>
+  <div><p class="eyebrow">{eyebrow}</p><h2>{title}</h2></div>
+  {body && <p>{body}</p>}
+</header>
+

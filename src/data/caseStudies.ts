@@ -280,7 +280,7 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
       'Sensitive receipts, payment data, and API keys are out of scope for public artifacts.',
     ],
     artifacts: [
-      { title: 'Sample receipt artifact', type: 'image', src: '/assets/case-studies/freshtrack/screenshots/sample-receipt.jpg', alt: 'Sample receipt image used for OCR tests' },
+      { title: 'Document extraction illustration', type: 'image', src: '/assets/project-freshtrack.svg', alt: 'Abstract document extraction workflow illustration' },
       {
         title: 'LLM-enhanced output shape',
         type: 'json',

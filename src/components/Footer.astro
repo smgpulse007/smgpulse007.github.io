@@ -1,70 +1,21 @@
 ---
-import { profile } from '@data/profile';
+import { navigation, profile } from '../data/profile';
 ---
 
 <footer class="site-footer">
-  <div class="container footer-grid">
+  <div class="shell footer-grid">
     <div>
-      <strong>{profile.name}</strong>
+      <a class="footer-brand" href="/">{profile.name}</a>
       <p>{profile.privacyNote}</p>
     </div>
     <nav aria-label="Footer navigation">
-      <a href="/">Home</a>
-      <a href="/systems/">Systems</a>
-      <a href="/projects/">Case Studies</a>
-      <a href="/quant-forecasting/">Quant</a>
-      <a href="/professional-systems/">Professional Systems</a>
-      <a href="/research-archive/">Research Lab</a>
-      <a href={profile.github}>GitHub</a>
-      <a href={profile.linkedin}>LinkedIn</a>
+      {navigation.slice(0, 5).map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href={profile.github}>GitHub ↗</a>
+      <a href={profile.linkedin}>LinkedIn ↗</a>
     </nav>
   </div>
+  <div class="shell footer-meta">
+    <span>Astro · Static by default</span>
+    <span>© {new Date().getFullYear()} Shailesh Dudala</span>
+  </div>
 </footer>
-
-<style>
-  .site-footer {
-    border-top: 1px solid rgba(180, 202, 232, 0.14);
-    padding: 38px 0;
-    background: rgba(5, 7, 12, 0.82);
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 24px;
-    align-items: start;
-  }
-
-  strong {
-    color: var(--text-strong);
-  }
-
-  p {
-    max-width: 760px;
-    margin: 8px 0 0;
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: flex-end;
-  }
-
-  nav a {
-    color: var(--muted);
-    font-weight: 850;
-  }
-
-  @media (max-width: 760px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-    }
-
-    nav {
-      justify-content: flex-start;
-    }
-  }
-</style>

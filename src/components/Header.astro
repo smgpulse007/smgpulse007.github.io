@@ -1,127 +1,24 @@
 ---
-import { profile } from '@data/profile';
-
-const navItems = [
-  { label: 'Work', href: '/' },
-  { label: 'Case Studies', href: '/projects/' },
-  { label: 'Systems', href: '/systems/' },
-  { label: 'Professional Systems', href: '/professional-systems/' },
-  { label: 'Research Lab', href: '/research-archive/' },
-  { label: 'GitHub', href: profile.github },
-  { label: 'LinkedIn', href: profile.linkedin },
-];
+import { navigation, profile } from '../data/profile';
 ---
 
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header">
-  <nav class="container nav" aria-label="Primary navigation">
-    <a class="brand" href="/" aria-label="Home">
-      <span class="brand-mark">SD</span>
-      <span>{profile.name}</span>
+  <nav class="shell nav-shell" aria-label="Primary navigation">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">SD</span>
+      <span class="brand-copy"><strong>{profile.name}</strong><small>Applied AI systems</small></span>
     </a>
-    <div class="nav-links">
-      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+    <div class="desktop-nav">
+      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
     </div>
+    <details class="mobile-nav">
+      <summary>Menu</summary>
+      <div>
+        {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href={profile.github}>GitHub ↗</a>
+        <a href={profile.linkedin}>LinkedIn ↗</a>
+      </div>
+    </details>
   </nav>
 </header>
-
-<style>
-  .skip-link {
-    position: absolute;
-    left: -999px;
-    top: 12px;
-    z-index: 30;
-    padding: 10px 14px;
-    border-radius: 8px;
-    background: var(--cyan);
-    color: #03101b;
-    font-weight: 900;
-  }
-
-  .skip-link:focus {
-    left: 12px;
-  }
-
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    border-bottom: 1px solid rgba(180, 202, 232, 0.14);
-    background: rgba(5, 7, 12, 0.78);
-    backdrop-filter: blur(20px);
-  }
-
-  .nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 72px;
-    gap: 18px;
-  }
-
-  .brand,
-  .nav-links {
-    display: flex;
-    align-items: center;
-  }
-
-  .brand {
-    flex: 0 0 auto;
-    gap: 12px;
-    color: var(--text-strong);
-    font-weight: 950;
-  }
-
-  .brand-mark {
-    display: inline-grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    border: 1px solid rgba(88, 220, 230, 0.42);
-    border-radius: 8px;
-    color: var(--cyan);
-    background: rgba(88, 220, 230, 0.09);
-    font-size: 0.82rem;
-  }
-
-  .nav-links {
-    justify-content: flex-end;
-    gap: 4px;
-  }
-
-  .nav-links a {
-    border-radius: 8px;
-    padding: 8px 9px;
-    color: var(--muted);
-    font-size: 0.84rem;
-    font-weight: 850;
-    white-space: nowrap;
-  }
-
-  .nav-links a:hover {
-    background: rgba(255, 255, 255, 0.055);
-    color: var(--text-strong);
-  }
-
-  @media (max-width: 980px) {
-    .nav {
-      align-items: flex-start;
-      flex-direction: column;
-      padding: 12px 0;
-      gap: 10px;
-    }
-
-    .nav-links {
-      width: 100%;
-      justify-content: flex-start;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: thin;
-    }
-
-    .nav-links a {
-      flex: 0 0 auto;
-    }
-  }
-</style>

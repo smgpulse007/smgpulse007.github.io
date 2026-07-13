@@ -1,0 +1,218 @@
+import type { WorkItem } from './types';
+
+export const workItems: WorkItem[] = [
+  {
+    slug: 'claims-intelligence',
+    title: 'From claim packet to auditable action',
+    eyebrow: 'Claims intelligence',
+    lede: 'A governed document workflow that turns mixed claim packets into typed facts, visible exceptions, and reviewer-ready decisions.',
+    outcome: 'Reduced document handling in a measured workstream while keeping every uncertain field and route inspectable.',
+    type: 'Professional system — sanitized',
+    status: 'Operational pattern; details sanitized',
+    domain: 'Insurance · Document intelligence · Agentic workflows',
+    role: 'Applied AI engineering, workflow architecture, evaluation, and observability',
+    timeframe: 'Current engagement · 2026',
+    teamContext: 'Cross-functional delivery with claims, operations, and platform partners',
+    featured: true,
+    order: 1,
+    technologies: ['Agent graphs', 'OCR', 'typed schemas', 'retrieval', 'human review', 'trace telemetry'],
+    privacyBoundary: 'The architecture and artifacts are synthetic reconstructions. Employer data, rules, APIs, document types, model routing, and downstream system names are omitted.',
+    accent: 'jade',
+    flow: ['Ingest', 'Classify', 'Extract', 'Validate', 'Human review', 'Action', 'Observe'],
+    artifact: {
+      label: 'Synthetic validation event',
+      code: `{
+  "packet_id": "SYN-042",
+  "contract": "claim_fact.v3",
+  "confidence": 0.78,
+  "rule": "service_date_sequence",
+  "state": "review_required",
+  "trace_id": "tr_8a21"
+}`,
+    },
+    glance: [
+      { label: 'Project type', value: 'Professional system — sanitized' },
+      { label: 'Primary risk', value: 'Incorrect extraction moving downstream' },
+      { label: 'Control', value: 'Typed validation plus explicit reviewer routes' },
+      { label: 'Public code', value: 'No; synthetic artifacts only' },
+    ],
+    sections: [
+      { heading: 'Context and stakes', body: ['Claim packets arrive as collections, not clean records. Page identity, duplicated documents, missing context, and conflicting values make a model response only the beginning of the engineering problem.', 'The public goal is not to reproduce a private implementation. It is to show the control structure required when an AI-derived field can affect real operational work.'] },
+      { heading: 'My role', body: ['I worked across orchestration, document understanding, structured extraction, validation, reviewer routing, evaluation, and telemetry. The central design decision was to represent every step as an explicit state transition rather than a chain of opaque model calls.'] },
+      { heading: 'Constraints', body: ['Regulated data could not appear in public artifacts. Model confidence was not accepted as a business rule. Latency and cost mattered, but correctness, traceability, and recoverability came first.'], bullets: ['Mixed multi-document inputs', 'Policy and procedure context', 'Partial or contradictory evidence', 'Human accountability for unresolved risk'] },
+      { heading: 'Architecture', body: ['A packet manifest establishes page identity and provenance. Classification selects a typed extraction contract. Deterministic checks, cross-document consistency rules, and confidence gates decide whether the result can proceed or must enter review.', 'The audit trace records the contract version, tool events, validation results, reviewer route, latency, and final disposition without storing sensitive source content in telemetry.'] },
+      { heading: 'Key decisions and rejected alternatives', body: ['I rejected free-form JSON that downstream code would have to interpret. Versioned schemas made missing fields, invalid enums, and incompatible changes visible before handoff.', 'I also rejected a single pass/fail confidence threshold. Field-level uncertainty, business-rule failures, and missing evidence require different reviewer queues and different remediation.'] },
+      { heading: 'What failed or was unreliable', body: ['OCR was least reliable around page identity, section boundaries, low-quality scans, and repeated headers. Model-generated confidence was not calibrated enough to stand alone. Those failures drove the manifest, deterministic validators, and reviewer fallback.'] },
+      { heading: 'Validation, review, and operations', body: ['Evaluation separates extraction accuracy, validation coverage, routing accuracy, and workflow outcome. Reviewers see the source reference, normalized value, reason for the route, and the failed rule—not just a red badge.', 'Operational monitoring tracks stage latency, retry patterns, tool failures, validation rates, review volume, and drift in document mix.'] },
+      { heading: 'Outcome', body: ['In a measured claims workstream, the approach supported an approximate 90% reduction in document-handling effort and an approximate 50% reduction in time-to-claim-payable. These are scoped, résumé-supported outcomes, not enterprise-wide promises.'] },
+      { heading: 'What I would improve next', body: ['I would expand slice-based evaluation by document family, add reviewer-agreement analysis, and formalize a shadow-mode release gate before any new extraction contract receives downstream authority.'] },
+    ],
+    evidence: [
+      { label: 'Career evidence', classification: 'resume-supported', detail: 'Role, workflow scope, and qualified outcomes are supported by the latest résumé.' },
+      { label: 'Public artifact', classification: 'public-source', detail: 'Synthetic contract, trace, and validation examples are authored for this portfolio.' },
+      { label: 'Private implementation', classification: 'private-evidence', detail: 'Production details are intentionally not published.' },
+    ],
+    limitations: ['No private source code or production screenshots are public.', 'Synthetic artifacts demonstrate control patterns, not a deployable clone.', 'Outcome language is limited to the measured workstream.'],
+    seo: { title: 'Claims Intelligence Case Study — Shailesh Dudala', description: 'A sanitized engineering case study of typed extraction, validation, human review, and observability in a claims document workflow.' },
+  },
+  {
+    slug: 'on-prem-rag-ocr',
+    title: 'Clearing a 7,000-case review backlog without moving regulated documents off-prem',
+    eyebrow: 'On-prem RAG and OCR',
+    lede: 'A local document-review system combining OCR, retrieval, small language models, and a reviewer surface inside the data boundary.',
+    outcome: 'Cleared a 7K-case backlog and reduced review time by about 90% in the measured workflow.',
+    type: 'Professional system — sanitized',
+    status: 'Delivered professional system; details sanitized',
+    domain: 'Healthcare payer · Local inference · Compliance review',
+    role: 'Technical lead for applied ML, local deployment, evaluation, and workflow integration',
+    timeframe: '2023–2025',
+    teamContext: 'Payer modernization program with engineering, operations, and review stakeholders',
+    featured: true,
+    order: 2,
+    technologies: ['OCR', 'local RAG', 'Ollama/vLLM patterns', 'containers', 'review UI', 'evaluation sets'],
+    privacyBoundary: 'No regulated documents, member information, screenshots, prompts, or private retrieval content are published.',
+    accent: 'cyan',
+    flow: ['Local intake', 'OCR', 'Chunk', 'Retrieve', 'Generate', 'Review', 'Measure'],
+    artifact: {
+      label: 'Synthetic reviewer route',
+      code: `review_case:
+  source: synthetic-policy-17.pdf
+  pages: [4, 5]
+  retrieval_score: 0.84
+  extraction_state: qualified
+  route: reviewer_confirm
+  reason: conflicting_effective_dates`,
+    },
+    glance: [
+      { label: 'Project type', value: 'Professional system — sanitized' },
+      { label: 'Deployment', value: 'Local/on-premises boundary' },
+      { label: 'Outcome', value: '7K backlog; ≈90% review-time reduction' },
+      { label: 'Public code', value: 'Related patterns only; not the employer system' },
+    ],
+    sections: [
+      { heading: 'Context and stakes', body: ['A growing review backlog was trapped between document volume, slow manual search, and a hard data boundary. Sending source material to a hosted model was not an acceptable trade.', 'The useful question was not whether a local model could answer questions. It was whether a local system could make reviewers faster without concealing OCR, retrieval, or citation failures.'] },
+      { heading: 'My role', body: ['I led the applied ML and deployment work: document parsing, chunking, retrieval, local inference, containerization, reviewer experience, evaluation, and the operational handoff needed to keep the system maintainable.'] },
+      { heading: 'Architecture', body: ['Documents remained inside the controlled environment. OCR produced page-addressable text and quality signals. Chunking preserved section and page provenance. Retrieval returned evidence spans before the model produced a structured answer.', 'The reviewer surface placed extracted fields beside citations and uncertainty reasons. Low-quality OCR, weak retrieval, conflicting dates, and missing evidence routed to explicit fallback states.'] },
+      { heading: 'Why local inference', body: ['The local boundary reduced data movement and increased deployment control. It also imposed real costs: model selection was narrower, GPU capacity had to be planned, upgrades needed regression tests, and operations owned more of the serving stack.'] },
+      { heading: 'What failed or was unreliable', body: ['Long documents and repeated boilerplate degraded naive chunking. Tables and low-resolution scans caused OCR defects. Retrieval similarity alone over-ranked plausible but irrelevant sections.', 'Section-aware chunks, page citations, document-family evaluation, and reviewer feedback loops performed better than adding prompt complexity.'] },
+      { heading: 'Evaluation and human review', body: ['The acceptance set measured OCR coverage, retrieval recall, structured-field accuracy, citation correctness, and reviewer time. A response without an evidence span could not be treated as complete.', 'Reviewers remained the authority for conflicts, low-quality source pages, and policy interpretation. The system reduced search and transcription work; it did not remove accountability.'] },
+      { heading: 'Outcome', body: ['The system helped clear a 7,000-case backlog and reduced review time by approximately 90% in the measured workflow. Both claims are résumé-supported and intentionally scoped.'] },
+      { heading: 'What I would improve next', body: ['I would add ongoing OCR-quality sampling, retrieval drift reporting by document family, and a formal reviewer-disagreement queue that feeds the next evaluation release.'] },
+    ],
+    evidence: [
+      { label: 'Career evidence', classification: 'resume-supported', detail: 'Backlog and review-time outcomes are supported by the latest résumé.' },
+      { label: 'Related public pattern', classification: 'public-source', href: 'https://github.com/smgpulse007/ollama_poc', detail: 'A separate public local-document-AI experiment illustrates adjacent techniques; it is not the professional system.' },
+    ],
+    limitations: ['No regulated source data is available publicly.', 'Public repositories are related experiments, not replicas.', 'Local serving details vary with approved infrastructure.'],
+    seo: { title: 'On-Prem RAG and OCR Case Study — Shailesh Dudala', description: 'How a local document-review workflow used OCR, retrieval, local inference, evaluation, and human review to clear a 7K-case backlog.' },
+  },
+  {
+    slug: 'lets-talk-doc',
+    title: 'Standards-aware patient communication, built as a team',
+    eyebrow: 'Let’s Talk Doc',
+    lede: 'A healthcare interoperability project recognized by the Global HL7 AI Challenge for Transformative Impact in Healthcare.',
+    outcome: 'Team recipient of the 2025 Global HL7 AI Challenge recognition for Let’s Talk Doc.',
+    type: 'Team award project',
+    status: 'Award project; official award and recipient sources verified',
+    domain: 'Healthcare interoperability · Patient communication · FHIR',
+    role: 'AI video-avatar application contribution for multilingual post-visit follow-up and smart intake; résumé-supported',
+    timeframe: '2025',
+    teamContext: 'Collaborative hackathon team',
+    featured: true,
+    order: 3,
+    technologies: ['FHIR', 'SMART on FHIR', 'clinical context', 'multilingual communication', 'human-centered workflow'],
+    privacyBoundary: 'Only team-level, public-safe project framing is shown. No patient information or unverified individual contribution is claimed.',
+    accent: 'amber',
+    flow: ['Clinical context', 'FHIR contract', 'Patient-friendly transform', 'Safety checks', 'Human touchpoint'],
+    artifact: {
+      label: 'Synthetic FHIR communication contract',
+      code: `{
+  "resourceType": "CommunicationRequest",
+  "status": "active",
+  "subject": { "reference": "Patient/SYNTHETIC" },
+  "payload": [{ "contentString": "Post-visit summary" }],
+  "language": "es-US"
+}`,
+    },
+    glance: [
+      { label: 'Project type', value: 'Team award project' },
+      { label: 'Recognition', value: 'Global HL7 AI Challenge, 2025' },
+      { label: 'Attribution', value: 'Team recipient for Let’s Talk Doc' },
+      { label: 'Evidence status', value: 'Official award and recipient lists; contribution résumé-supported' },
+    ],
+    sections: [
+      { heading: 'Context and stakes', body: ['Clinical information is often technically available but difficult for patients to act on. The team explored a standards-aware communication workflow that could translate structured care context into a clearer post-visit experience.', 'The portfolio keeps the claim narrow: Let’s Talk Doc is the recognized project. The separate HEDIS/HL7 repository is not presented as the award winner.'] },
+      { heading: 'Team and my role', body: ['HL7’s official recipient list names Shailesh Dudala, William Laolagi, and Diane Nguyen among the 2025 AI Challenge award recipients, while public team posts connect them to Let’s Talk Doc. Shailesh’s latest résumé states that he built an AI video-avatar application for multilingual post-visit follow-ups and smart intake using EHR-integrated FHIR/HL7 workflows.', 'Because the official project narrative does not isolate component ownership, that contribution remains labeled résumé-supported and is not presented as sole authorship.'] },
+      { heading: 'System at a glance', body: ['The public-safe architecture centers on a FHIR-aware context boundary, a patient-friendly transformation layer, language and safety checks, and an explicit human touchpoint. The synthetic contract demonstrates the standard, not a production patient record.'] },
+      { heading: 'Key decisions', body: ['Standards alignment matters because a useful experience has to connect to real clinical context without inventing a parallel data model. Patient-friendly output also needs uncertainty and escalation paths; fluent text is not the same as safe communication.'] },
+      { heading: 'Validation and safety boundary', body: ['A credible evaluation would separate factual consistency, reading level, language quality, clinical completeness, and escalation behavior. The current public evidence does not support a claim of clinical deployment or patient outcome impact, so none is made.'] },
+      { heading: 'Outcome and evidence', body: ['The verified portfolio claim is team recognition: Global HL7 AI Challenge — Transformative Impact in Healthcare Award (2025), for Let’s Talk Doc. HL7’s official winners page ties the award to the project, and HL7’s official recipient list names Shailesh Dudala. His specific implementation contribution remains résumé-supported.'] },
+      { heading: 'What I would improve next', body: ['I would publish an approved contribution map, demonstration media, and a compact evaluation card once those materials are confirmed for public use.'] },
+    ],
+    evidence: [
+      { label: 'Official award source', classification: 'public-source', href: 'https://blog.hl7.org/hl7-international-announces-winners-of-global-ai-challenge-showcasing-standards-based-innovation-in-healthcare', detail: 'HL7 confirms Let’s Talk Doc and the Transformative Impact in Healthcare award.' },
+      { label: 'Official recipient list', classification: 'public-source', href: 'https://hl7news.hl7.org/2026/01/07/update-from-hq/', detail: 'HL7 News names Shailesh Dudala among the 2025 AI Challenge award recipients.' },
+      { label: 'Team project context', classification: 'public-source', href: 'https://www.linkedin.com/posts/ssdudala_hl7-hl7aichallenge-ai-activity-7376818141378777088-JwDN', detail: 'Public team posts connect Shailesh, William Laolagi, and Diane Nguyen to Let’s Talk Doc.' },
+      { label: 'Individual contribution', classification: 'resume-supported', detail: 'Video-avatar and multilingual post-visit/smart-intake contribution is stated in the latest résumé; official sources do not isolate component ownership.' },
+    ],
+    limitations: ['Individual contribution is résumé-supported, not isolated by the official project narrative.', 'No clinical deployment or patient-outcome claim is made.', 'The HEDIS public repository is classified separately.'],
+    seo: { title: 'Let’s Talk Doc Team Award Project — Shailesh Dudala', description: 'A carefully attributed team case study for the Let’s Talk Doc Global HL7 AI Challenge project.' },
+  },
+  {
+    slug: 'llm-steering-lab',
+    title: 'Turning model-behavior research into a reproducible engineering workbench',
+    eyebrow: 'LLM Steering Lab',
+    lede: 'A public local-first workbench for activation steering, model inspection, API-driven experiments, and repeatable evaluation.',
+    outcome: 'Public code, tests, UI, and documented limitations make the research inspectable rather than promotional.',
+    type: 'Research lab',
+    status: 'Maintained public repository',
+    domain: 'Representation engineering · Local models · Evaluation tooling',
+    role: 'Repository owner and engineer',
+    timeframe: '2026',
+    teamContext: 'Independent public engineering project',
+    featured: true,
+    order: 4,
+    repository: 'https://github.com/smgpulse007/llm-steering',
+    technologies: ['PyTorch', 'Transformers', 'FastAPI', 'React', 'activation hooks', 'test automation'],
+    privacyBoundary: 'Research tooling only. It does not claim general model control, safety guarantees, or production readiness.',
+    accent: 'violet',
+    flow: ['Load model', 'Capture activations', 'Construct vector', 'Apply hook', 'Evaluate', 'Compare'],
+    artifact: {
+      label: 'Experiment manifest',
+      code: `experiment: sentiment-axis-04
+model: local-transformer
+layer: 18
+coefficient: 0.65
+seed: 42
+comparison: baseline_vs_steered
+status: reproducible`,
+    },
+    glance: [
+      { label: 'Project type', value: 'Research lab' },
+      { label: 'Code', value: 'Public repository' },
+      { label: 'Validation', value: 'Automated tests plus experiment comparisons' },
+      { label: 'Boundary', value: 'Research results; no safety guarantee' },
+    ],
+    sections: [
+      { heading: 'Problem beyond prompt examples', body: ['Prompt comparisons are useful, but they do not expose where a behavior is represented or whether an intervention is repeatable. The workbench turns steering experiments into explicit model, layer, vector, coefficient, seed, and evaluation records.'] },
+      { heading: 'My role', body: ['I built the repository as an end-to-end research tool: model adapters, activation capture and intervention hooks, API contracts, experiment persistence, UI workflows, tests, and documentation.'] },
+      { heading: 'Architecture', body: ['The backend isolates model loading, activation capture, vector construction, intervention, and generation behind typed API contracts. The UI makes baseline and steered runs comparable without hiding the experiment configuration.', 'Local execution keeps model weights and prompts under the operator’s control. Saved manifests make a result reproducible across sessions when the same model and environment are available.'] },
+      { heading: 'What failed or was unreliable', body: ['Steering effects vary across models, layers, prompt families, and coefficient ranges. A visually strong single example can be misleading. Memory use and hook cleanup also need deliberate handling in repeated local runs.'] },
+      { heading: 'Evaluation', body: ['The repository treats steering as an experiment, not a guarantee. Comparisons retain baseline output, steered output, configuration, and evaluation notes. Tests cover API and core workflow behavior; they do not establish broad behavioral validity.'] },
+      { heading: 'Tradeoffs', body: ['Local execution improves control and inspectability but increases setup and hardware variability. A UI lowers the barrier to exploration but can make experimental results look more settled than they are, so limitations stay close to the output.'] },
+      { heading: 'What I would improve next', body: ['Next steps include broader model adapters, dataset-level evaluations, uncertainty summaries across prompts, and stronger environment capture for cross-machine reproducibility.'] },
+    ],
+    evidence: [
+      { label: 'Repository', classification: 'public-source', href: 'https://github.com/smgpulse007/llm-steering', detail: 'Source, tests, UI, and documentation are public.' },
+      { label: 'Validation', classification: 'public-source', detail: 'Repository tests and documented local validation provide inspectable engineering evidence.' },
+    ],
+    limitations: ['Effects do not generalize automatically across models or prompts.', 'The project is a research workbench, not a model-safety product.', 'Local hardware and dependency versions affect reproducibility.'],
+    seo: { title: 'LLM Steering Lab Case Study — Shailesh Dudala', description: 'A public engineering case study for activation steering, reproducible experiments, local model tooling, and evaluation limitations.' },
+  },
+];
+
+export const featuredWork = workItems.filter((item) => item.featured).sort((a, b) => a.order - b.order);
+
+export function getWorkItem(slug: string) {
+  return workItems.find((item) => item.slug === slug);
+}

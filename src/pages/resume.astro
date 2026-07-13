@@ -1,0 +1,9 @@
+---
+import Layout from '../components/Layout.astro';
+import { experienceEras, education } from '../data/experience';
+import { profile } from '../data/profile';
+---
+<Layout title="Résumé — Shailesh Dudala" description="Download the privacy-cleared public résumé or review the print-friendly career summary." canonicalPath="/resume/">
+  <section class="resume-hero"><div class="shell resume-heading"><div><p class="eyebrow">Résumé</p><h1>Senior Applied AI Engineer</h1><p>Healthcare, insurance, document intelligence, agentic workflows, predictive ML, and MLOps.</p></div><div class="resume-status"><strong>Public PDF available</strong><span>{profile.resumeStatus}</span><a class="button primary" href={profile.resumePath} download>Download résumé PDF</a></div></div></section>
+  <section class="section resume-sheet"><div class="shell"><header><h2>{profile.name}</h2><div><a href={`mailto:${profile.email}`}>{profile.email}</a><a href={profile.linkedin}>LinkedIn</a><a href={profile.github}>GitHub</a></div></header><p class="resume-summary">I build governed AI systems that turn messy regulated inputs into typed, validated workflows with visible human-review boundaries.</p>{experienceEras.map((era) => <article><div><span>{era.period}</span><h3>{era.organization}</h3><strong>{era.title}</strong></div><div><p>{era.summary}</p><ul>{era.outcomes.map((outcome) => <li>{outcome}</li>)}</ul></div></article>)}<footer><h3>Education</h3><ul>{education.map((item) => <li>{item}</li>)}</ul></footer></div></section>
+</Layout>

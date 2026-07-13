@@ -1,0 +1,80 @@
+name: Live Hostinger Staging QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      staging_url:
+        description: Temporary HTTPS Hostinger staging origin
+        required: true
+        type: string
+      target_ref:
+        description: Branch or full commit SHA deployed to staging
+        required: true
+        default: codex/portfolio-v2-hostinger
+        type: string
+      expected_sha:
+        description: Optional full deployed SHA to verify against the checkout
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-live-staging-${{ inputs.staging_url }}
+  cancel-in-progress: false
+
+jobs:
+  live-staging-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PLAYWRIGHT_BASE_URL: ${{ inputs.staging_url }}
+      PLAYWRIGHT_EXPECTED_CANONICAL_URL: ${{ inputs.staging_url }}
+      PLAYWRIGHT_EXPECTED_ROBOTS: noindex,nofollow
+      PLAYWRIGHT_EXPECTED_SHA: ${{ inputs.expected_sha }}
+    steps:
+      - name: Checkout deployed ref
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.target_ref }}
+
+      - name: Verify optional expected SHA
+        if: ${{ inputs.expected_sha != '' }}
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ inputs.expected_sha }}"
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Live accessibility matrix
+        run: npm run test:a11y:all
+
+      - name: Live route, metadata, console, and network matrix
+        run: npm run test:e2e:all
+
+      - name: Live browser-mode matrix
+        run: npm run test:live-modes
+
+      - name: Final live visual pass
+        run: npm run screenshots:pass5
+
+      - name: Upload live-origin QA artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: portfolio-live-staging-qa-${{ github.run_id }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: error
+          retention-days: 30

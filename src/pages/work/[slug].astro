@@ -1,0 +1,45 @@
+---
+import Layout from '../../components/Layout.astro';
+import { workItems } from '../../data/work';
+import type { WorkItem } from '../../data/types';
+import { absoluteUrl } from '../../config/site';
+
+export function getStaticPaths() {
+  return workItems.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+type Props = { item: WorkItem };
+const { item } = Astro.props;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org', '@type': item.repository ? 'SoftwareSourceCode' : 'CreativeWork',
+    name: item.title, description: item.lede, url: absoluteUrl(`/work/${item.slug}/`, true),
+    author: { '@type': 'Person', name: 'Shailesh Dudala' }, codeRepository: item.repository,
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: absoluteUrl('/', true) },
+      { '@type': 'ListItem', position: 2, name: 'Work', item: absoluteUrl('/work/', true) },
+      { '@type': 'ListItem', position: 3, name: item.title },
+    ],
+  },
+];
+---
+<Layout title={item.seo.title} description={item.seo.description} canonicalPath={`/work/${item.slug}/`} type="article" jsonLd={jsonLd}>
+  <article class:list={['case-study', `accent-${item.accent}`]}>
+    <header class="case-hero"><div class="shell case-hero-grid">
+      <div><a class="back-link" href="/work/">← Selected work</a><p class="eyebrow">{item.eyebrow}</p><h1>{item.title}</h1><p class="case-lede">{item.lede}</p><div class="case-tags"><span>{item.type}</span><span>{item.status}</span></div></div>
+      <aside class="case-artifact"><div class="artifact-bar"><span>{item.artifact.label}</span><i>Synthetic / public-safe</i></div><pre><code>{item.artifact.code}</code></pre><ol>{item.flow.map((step) => <li>{step}</li>)}</ol></aside>
+    </div></header>
+    <details class="case-mobile-nav"><summary>In this case study</summary><nav>{item.sections.map((section, index) => <a href={`#section-${index + 1}`}>{String(index + 1).padStart(2, '0')} {section.heading}</a>)}<a href="#evidence">E Evidence and limitations</a></nav></details>
+    <div class="shell case-body-grid">
+      <aside class="case-nav"><p>In this case study</p><nav>{item.sections.map((section, index) => <a href={`#section-${index + 1}`}>{String(index + 1).padStart(2, '0')} {section.heading}</a>)}</nav></aside>
+      <div class="case-main">
+        <section class="glance-grid" aria-label="At a glance">{item.glance.map((fact) => <div><span>{fact.label}</span><strong>{fact.value}</strong></div>)}</section>
+        <section class="outcome-callout"><span>One-sentence outcome</span><p>{item.outcome}</p></section>
+        {item.sections.map((section, index) => <section id={`section-${index + 1}`} class="case-section"><div class="section-number">{String(index + 1).padStart(2, '0')}</div><div><h2>{section.heading}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}</div></section>)}
+        <section class="case-section evidence-section" id="evidence"><div class="section-number">E</div><div><h2>Evidence and limitations</h2><div class="evidence-cards">{item.evidence.map((evidence) => <article><span>{evidence.classification}</span><h3>{evidence.label}</h3><p>{evidence.detail}</p>{evidence.href && <a href={evidence.href}>Open source ↗</a>}</article>)}</div><h3>Limitations</h3><ul>{item.limitations.map((limitation) => <li>{limitation}</li>)}</ul><p class="privacy-boundary">{item.privacyBoundary}</p></div></section>
+        <nav class="case-next" aria-label="Case study navigation"><a href="/work/">All work</a><a href="/experience/">Experience →</a></nav>
+      </div>
+    </div>
+  </article>
+</Layout>

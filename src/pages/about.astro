@@ -1,0 +1,28 @@
+---
+import Layout from '../components/Layout.astro';
+import { certifications, education } from '../data/experience';
+import { profile } from '../data/profile';
+import { absoluteUrl } from '../config/site';
+
+const profilePageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  name: `About ${profile.name}`,
+  url: absoluteUrl('/about/', true),
+  mainEntity: {
+    '@type': 'Person',
+    name: profile.name,
+    jobTitle: profile.role,
+    url: absoluteUrl('/', true),
+    sameAs: [profile.github, profile.linkedin],
+    knowsAbout: ['Agentic AI', 'Document intelligence', 'Healthcare interoperability', 'Predictive ML', 'MLOps'],
+  },
+};
+---
+<Layout title="About — Shailesh Dudala" description="The engineering principles, background, and interests behind Shailesh Dudala's Applied AI work." canonicalPath="/about/" jsonLd={profilePageJsonLd}>
+  <section class="about-hero"><div class="shell about-grid"><div><p class="eyebrow">About</p><h1>I care about the space between a promising model and a system people can trust.</h1></div><div><p>That means explicit contracts, evaluation sets, reviewer fallbacks, observable traces, and deployment boundaries that match the data.</p><p>Across more than seven years, my work has moved from biomedical informatics and clinical-data foundations to healthcare analytics products, payer AI modernization, local document intelligence, and agentic insurance workflows.</p></div></div></section>
+  <section class="section"><div class="shell about-details"><article><span>01</span><h2>What I optimize for</h2><p>Clear failure states, evidence a reviewer can inspect, and operational outcomes that survive beyond a demo.</p></article><article><span>02</span><h2>How I lead</h2><p>I translate ambiguous workflow problems into contracts, evaluation plans, release gates, and shared language across engineering and operations.</p></article><article><span>03</span><h2>What stays private</h2><p>Employer data, production rules, private model routes, confidential screenshots, credentials, PHI, PII, and proprietary APIs.</p></article></div></section>
+  <section class="section paper-section"><div class="shell credentials-grid"><div><p class="eyebrow">Education</p><ul>{education.map((item) => <li>{item}</li>)}</ul></div><div><p class="eyebrow">Credentials</p><ul>{certifications.map((item) => <li>{item}</li>)}</ul></div></div></section>
+  <section class="section"><div class="shell outside-lane"><div><p class="eyebrow">Outside the primary lane</p><h2>Forecasting, quant systems, sports models, and research tooling.</h2></div><p>These interests sharpen how I think about calibration, backtests, uncertainty, and experiment design. They live in the Lab so the primary healthcare and insurance story stays clear.</p><a class="button quiet" href="/lab/">Explore the Lab</a></div></section>
+  <section class="section contact-section"><div class="shell contact-layout"><div><p class="eyebrow">Get in touch</p><h2>Have a system where model output needs an accountable path?</h2></div><div class="contact-actions"><a class="button primary" href={`mailto:${profile.email}`}>Email Shailesh</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a></div></div></section>
+</Layout>

@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://smgpulse007.github.io/sitemap-index.xml
-

@@ -1,0 +1,11 @@
+---
+import Layout from '../../components/Layout.astro';
+import SectionIntro from '../../components/SectionIntro.astro';
+import WorkFeature from '../../components/WorkFeature.astro';
+import { workItems } from '../../data/work';
+---
+<Layout title="Selected Work — Shailesh Dudala" description="Engineering case studies across claims intelligence, local document AI, healthcare interoperability, and LLM research." canonicalPath="/work/">
+  <section class="page-hero"><div class="shell"><p class="eyebrow">Selected work</p><h1>Proof of judgment under real constraints.</h1><p>Four stories at different evidence boundaries: professional systems are sanitized, public code is linked, research is labeled, and team recognition stays attributed.</p></div></section>
+  <section class="section"><div class="shell"><SectionIntro eyebrow="Case studies" title="From context to failure modes, review boundaries, and outcomes." /><div class="work-stack">{workItems.map((item, index) => <WorkFeature item={item} index={index + 1} lead={index === 0} />)}</div></div></section>
+</Layout>
+

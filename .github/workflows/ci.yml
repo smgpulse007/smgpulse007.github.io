@@ -1,0 +1,92 @@
+name: Portfolio CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'codex/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PUBLIC_DEPLOY_TARGET: local
+      PUBLIC_SITE_URL: http://localhost:4321
+      PUBLIC_CANONICAL_URL: http://localhost:4321
+      PUBLIC_ROBOTS: noindex,nofollow
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Secret and dependency audit
+        run: |
+          npm run test:secrets
+          npm audit --audit-level=moderate
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Type and Astro checks
+        run: npm run check
+
+      - name: Validator unit tests
+        run: npm test
+
+      - name: Static build
+        run: npm run build
+
+      - name: Content and claim validation
+        run: npm run test:content
+
+      - name: Internal link validation
+        run: npm run test:links
+
+      - name: External evidence-link validation
+        env:
+          CHECK_EXTERNAL_LINKS: 'true'
+        run: npm run test:links
+
+      - name: Deployment-target contract
+        run: npm run test:targets
+
+      - name: Accessibility tests across browser engines
+        run: npm run test:a11y:all
+
+      - name: End-to-end tests across browser engines
+        run: npm run test:e2e:all
+
+      - name: Browser-mode release checks
+        run: npm run test:live-modes
+
+      - name: Final ten-viewport, three-engine screenshot set
+        run: npm run screenshots:pass5
+
+      - name: Upload QA artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: portfolio-qa-${{ github.sha }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: warn
+          retention-days: 14

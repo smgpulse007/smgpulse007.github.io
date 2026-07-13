@@ -33,6 +33,10 @@ jobs:
       PLAYWRIGHT_EXPECTED_CANONICAL_URL: ${{ inputs.staging_url }}
       PLAYWRIGHT_EXPECTED_ROBOTS: noindex,nofollow
       PLAYWRIGHT_EXPECTED_SHA: ${{ inputs.expected_sha }}
+      # WebKit's Linux trust store rejects the otherwise valid Hostinger
+      # temporary-domain chain. The strict curl preflight below remains the
+      # authoritative TLS gate; this flag only lets WebKit reach the pages.
+      PLAYWRIGHT_WEBKIT_IGNORE_HTTPS_ERRORS: 'true'
     steps:
       - name: Checkout deployed ref
         uses: actions/checkout@v7
@@ -55,6 +59,31 @@ jobs:
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Validate staging TLS and deployed identity
+        shell: bash
+        run: |
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --proto '=https' \
+            --tlsv1.2 \
+            --max-time 30 \
+            --output "$RUNNER_TEMP/build.json" \
+            "$PLAYWRIGHT_BASE_URL/build.json"
+          node -e '
+            const fs = require("node:fs");
+            const build = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + "/build.json", "utf8"));
+            const expected = process.env.PLAYWRIGHT_EXPECTED_SHA;
+            if (expected && build.commit !== expected) {
+              throw new Error(`Deployed SHA mismatch: expected ${expected}, received ${build.commit}`);
+            }
+            if (build.target !== "hostinger-staging") {
+              throw new Error(`Unexpected deployment target: ${build.target}`);
+            }
+            console.log(`Strict TLS preflight passed for ${build.target} at ${build.commit}`);
+          '
 
       - name: Live accessibility matrix
         run: npm run test:a11y:all

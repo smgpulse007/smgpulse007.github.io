@@ -2,6 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 const runLabel = process.env.VISUAL_QA_PASS ?? 'functional';
 const externalBaseUrl = process.env.PLAYWRIGHT_BASE_URL;
+const ignoreExternalWebKitTlsErrors =
+  Boolean(externalBaseUrl) && process.env.PLAYWRIGHT_WEBKIT_IGNORE_HTTPS_ERRORS === 'true';
 const requiredViewports = [
   { width: 320, height: 700 },
   { width: 360, height: 800 },
@@ -24,6 +26,7 @@ const visualProjects = browserEngines.flatMap((browserName) =>
       browserName,
       viewport,
       deviceScaleFactor: 1,
+      ignoreHTTPSErrors: browserName === 'webkit' && ignoreExternalWebKitTlsErrors,
     },
   })),
 );
@@ -72,7 +75,11 @@ export default defineConfig({
     {
       name: 'webkit',
       testIgnore: /visual\.spec\.ts/,
-      use: { ...devices['Desktop Safari'], viewport: { width: 1280, height: 800 } },
+      use: {
+        ...devices['Desktop Safari'],
+        viewport: { width: 1280, height: 800 },
+        ignoreHTTPSErrors: ignoreExternalWebKitTlsErrors,
+      },
     },
     ...visualProjects,
   ],

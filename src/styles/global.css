@@ -461,7 +461,8 @@ code, pre { font-family: var(--mono); }
 .contact-page .eyebrow { color: #691f16; }
 .contact-page h1 { margin: 0 0 28px; font: 750 clamp(3.8rem, 7vw, 7.8rem)/.9 var(--serif); }
 .contact-page-grid > div:first-child > p:last-child { max-width: 700px; }
-.contact-card { display: grid; gap: 12px; border: 1px solid rgba(25,13,9,.35); padding: 28px; }
+.contact-card { display: grid; min-width: 0; gap: 12px; border: 1px solid rgba(25,13,9,.35); padding: 28px; }
+.contact-card a { overflow-wrap: anywhere; }
 .contact-card span { margin-top: 12px; font: 750 .65rem var(--mono); text-transform: uppercase; }
 .contact-card > a:first-of-type { font: 700 clamp(1.1rem, 2vw, 1.7rem) var(--serif); }
 .contact-card p { opacity: .72; }
@@ -610,6 +611,10 @@ code, pre { font-family: var(--mono); }
   .resume-sheet > .shell { width: calc(100% - 20px); padding: 25px 18px; }
   .resume-sheet header, .resume-sheet article { display: grid; grid-template-columns: 1fr; }
   .footer-meta { display: grid; }
+}
+
+@media (max-width: 360px) {
+  .contact-page h1 { font-size: 3.45rem; line-height: .92; }
 }
 
 @media (prefers-reduced-motion: reduce) {

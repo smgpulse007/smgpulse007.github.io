@@ -158,6 +158,12 @@ test('primary pages have no console errors or failed local requests', async ({ p
 });
 
 test('required widths have no horizontal overflow', async ({ page }) => {
+  const failures: Array<{
+    route: string;
+    width: number;
+    overflow: number;
+    offenders: Array<Record<string, string | number>>;
+  }> = [];
   const viewports = [
     { width: 320, height: 700 },
     { width: 360, height: 800 },
@@ -176,9 +182,31 @@ test('required widths have no horizontal overflow', async ({ page }) => {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
       await page.evaluate(() => document.fonts.ready);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-      expect(overflow, `${route} overflow at ${width}px`).toBeLessThanOrEqual(1);
+      if (overflow > 1) {
+        const offenders = await page.evaluate(() => {
+          const viewportWidth = document.documentElement.clientWidth;
+          return [...document.body.querySelectorAll<HTMLElement>('*')]
+            .map((element) => {
+              const rect = element.getBoundingClientRect();
+              return {
+                element: `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${element.classList.length ? `.${[...element.classList].join('.')}` : ''}`,
+                text: (element.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 90),
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                width: Math.round(rect.width),
+                overflowRight: Math.max(0, Math.round(rect.right - viewportWidth)),
+                internalOverflow: Math.max(0, element.scrollWidth - element.clientWidth),
+              };
+            })
+            .filter((item) => item.left < -1 || item.overflowRight > 1 || item.internalOverflow > 1)
+            .sort((a, b) => Math.max(b.overflowRight, b.internalOverflow) - Math.max(a.overflowRight, a.internalOverflow))
+            .slice(0, 8);
+        });
+        failures.push({ route, width, overflow, offenders });
+      }
     }
   }
+  expect(failures, JSON.stringify(failures, null, 2)).toEqual([]);
 });
 
 test('reduced motion and keyboard/mobile navigation remain usable', async ({ page, browserName }) => {

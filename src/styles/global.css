@@ -588,6 +588,10 @@ code, pre { font-family: var(--mono); }
   .operating-thread small { grid-column: 2; }
   .experience-river article, .era-card { grid-template-columns: 1fr; }
   .experience-river article ul, .era-card > ul { grid-column: 1; }
+  .era-card > *, .era-copy, .evidence-ledger > *, .credentials-grid > * { min-width: 0; }
+  .era-copy h2 { font-size: clamp(2.1rem, 10vw, 2.6rem); }
+  .evidence-ledger h2 { font-size: clamp(2.2rem, 10.5vw, 3rem); }
+  .era-copy h2, .era-copy h3, .era-copy > strong, .evidence-ledger h2, .credentials-grid h2, .credentials-grid li { overflow-wrap: break-word; }
   .recognition-list article { grid-template-columns: 1fr; }
   .recognition-list span { grid-row: auto; margin-bottom: 10px; }
   .about-teaser blockquote { font-size: 2.35rem; }

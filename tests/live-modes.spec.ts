@@ -175,7 +175,9 @@ test('high-density rendering stays sharp and overflow-free at deviceScaleFactor 
   await expect(page.locator('h1')).toBeVisible();
 
   const screenshot = testInfo.outputPath('hidpi-390x844-home.png');
-  await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
+  // Keep this as a viewport proof: a DPR-2 full-page bitmap can exceed the
+  // 32,767-pixel protocol limit in Firefox and WebKit on Linux runners.
+  await page.screenshot({ path: screenshot, animations: 'disabled' });
   await testInfo.attach('hidpi-390x844-home', { path: screenshot, contentType: 'image/png' });
   await context.close();
 });

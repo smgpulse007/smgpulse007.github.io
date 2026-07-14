@@ -738,6 +738,13 @@ body{background:var(--obs);color:var(--obs-paper)}body::before{opacity:.13;backg
 
 @media (max-width: 360px) {
   .contact-page h1 { line-height: .92; }
+  .constellation-field { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; align-content: center; padding: 28px 14px; }
+  .constellation-field::before,
+  .constellation-field::after { display: none; }
+  .constellation-field > strong { position: static; grid-column: 1 / -1; transform: none; margin-bottom: 18px; }
+  .constellation-field i { position: static; display: grid; width: auto; height: auto; min-width: 0; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; transform: none; border-radius: 0; padding: 10px; box-shadow: none; }
+  .constellation-field i span { position: static; width: auto; min-width: 0; transform: none; overflow-wrap: anywhere; text-align: left; }
+  .constellation-field i b { position: static; transform: none; }
 }
 
 /* V2.2 accessibility contrast floor for compact instrumentation labels. */

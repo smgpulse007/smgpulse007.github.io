@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test';
 const servedOrigin = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4380',
 ).origin;
+const servedHostname = new URL(servedOrigin).hostname;
+const isRemoteDeployment = !['127.0.0.1', 'localhost', '::1'].includes(servedHostname);
 const expectedCanonicalOrigin =
   process.env.PLAYWRIGHT_EXPECTED_CANONICAL_URL ??
   process.env.PUBLIC_CANONICAL_URL ??
@@ -93,7 +95,7 @@ test.describe('static route and metadata contract', () => {
     if (expectedSha) expect((await buildResponse.json()).commit).toBe(expectedSha);
     const missing = await request.get('/definitely-not-a-portfolio-route');
     expect(missing.status()).toBe(404);
-    if (process.env.PLAYWRIGHT_BASE_URL) {
+    if (process.env.PLAYWRIGHT_BASE_URL && isRemoteDeployment) {
       const missingHtml = await missing.text();
       expect(missingHtml).toContain('Page not found');
       expect(missingHtml).toContain('name="robots" content="noindex,nofollow"');

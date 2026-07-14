@@ -116,7 +116,9 @@ test('200% zoom-equivalent reflow remains usable at 320 CSS pixels', async ({ pa
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   const screenshot = testInfo.outputPath('zoom-200-reflow-home.png');
-  await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
+  // WebKit cannot capture a full page taller than 32,767 pixels. The route loop
+  // above proves full-document reflow; this bounded image records the first fold.
+  await page.screenshot({ path: screenshot, fullPage: false, animations: 'disabled' });
   await testInfo.attach('zoom-200-reflow-home', { path: screenshot, contentType: 'image/png' });
 });
 

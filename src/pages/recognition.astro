@@ -1,0 +1,8 @@
+---
+import Layout from '../components/Layout.astro';
+import { recognition } from '../data/recognition';
+---
+<Layout title="Recognition — Shailesh Dudala" description="Officially sourced team and challenge recognition across healthcare interoperability and applied machine learning." canonicalPath="/recognition/">
+  <section class="recognition-v22-hero"><div class="shell"><span>RECOGNITION / OFFICIAL PROOF</span><h1>The work is celebrated. The team stays attached.</h1><p>Concise recognition with the public source and contribution boundary one layer deeper.</p></div></section>
+  <section class="v22-scene recognition-instrument"><div class="shell">{recognition.map((item,i)=><article id={i===0?'lets-talk-doc':undefined}><div><span>{String(i+1).padStart(2,'0')} / {item.attribution}</span><time>{['2025','2025','2024'][i]}</time></div><h2>{item.title}</h2><strong>{item.project}</strong><p>{item.evidence}</p><footer>{'officialUrl' in item&&item.officialUrl&&<a href={item.officialUrl}>Official source ↗</a>}{'recipientUrl' in item&&item.recipientUrl&&<a href={item.recipientUrl}>Recipient update ↗</a>}</footer></article>)}</div></section>
+</Layout>

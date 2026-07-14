@@ -1,24 +1,13 @@
 ---
 import { navigation, profile } from '../data/profile';
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href.split('#')[0]);
 ---
-
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header">
   <nav class="shell nav-shell" aria-label="Primary navigation">
-    <a class="brand" href="/">
-      <span class="brand-mark" aria-hidden="true">SD</span>
-      <span class="brand-copy"><strong>{profile.name}</strong><small>Applied AI systems</small></span>
-    </a>
-    <div class="desktop-nav">
-      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
-    </div>
-    <details class="mobile-nav">
-      <summary>Menu</summary>
-      <div>
-        {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
-        <a href={profile.github}>GitHub ↗</a>
-        <a href={profile.linkedin}>LinkedIn ↗</a>
-      </div>
-    </details>
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"><i></i>SD</span><span class="brand-copy"><strong>{profile.name}</strong><small>Systems Observatory</small></span></a>
+    <div class="desktop-nav">{navigation.slice(0,5).map((item)=><a href={item.href} aria-current={isActive(item.href)?'page':undefined}>{item.label}</a>)}<a class="nav-contact" href="/resume/" aria-current={pathname.startsWith('/resume')?'page':undefined}>Résumé ↗</a></div>
+    <details class="mobile-nav"><summary>Menu</summary><div>{navigation.map((item)=><a href={item.href} aria-current={isActive(item.href)?'page':undefined}>{item.label}</a>)}<a href="/recognition/">Recognition</a><a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a></div></details>
   </nav>
 </header>

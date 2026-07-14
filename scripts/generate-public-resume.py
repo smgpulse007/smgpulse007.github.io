@@ -1,9 +1,4 @@
-"""Generate the privacy-cleared, ATS-readable public resume artifact.
-
-The source career record contains private and over-broad details that are not
-eligible for publication. This generator intentionally uses only the governed
-portfolio copy and keeps the public artifact reproducible.
-"""
+"""Generate the one-page, privacy-cleared public resume artifact."""
 
 from pathlib import Path
 
@@ -12,17 +7,16 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen import canvas
-from reportlab.platypus import KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer
+from reportlab.platypus import KeepTogether, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "public" / "resume" / "Shailesh-Dudala-Senior-Applied-AI-Engineer-Resume.pdf"
-INK = colors.HexColor("#17211d")
-ACCENT = colors.HexColor("#126a4a")
-MUTED = colors.HexColor("#52615a")
+INK = colors.HexColor("#122019")
+ACCENT = colors.HexColor("#167254")
+MUTED = colors.HexColor("#52615A")
+RULE = colors.HexColor("#CCD6CF")
 
 
 class ResumeCanvas(canvas.Canvas):
@@ -36,31 +30,27 @@ class ResumeCanvas(canvas.Canvas):
         self.setKeywords("Applied AI, agentic AI, document intelligence, healthcare, insurance, MLOps")
 
     def showPage(self):
-        self._draw_footer()
-        super().showPage()
-
-    def _draw_footer(self):
         self.saveState()
-        self.setStrokeColor(colors.HexColor("#d8dfda"))
-        self.line(0.58 * inch, 0.43 * inch, 7.92 * inch, 0.43 * inch)
+        self.setStrokeColor(RULE)
+        self.line(0.48 * inch, 0.38 * inch, 8.02 * inch, 0.38 * inch)
         self.setFillColor(MUTED)
-        self.setFont("Helvetica", 7.5)
-        self.drawString(0.58 * inch, 0.25 * inch, "Public resume - governed portfolio edition")
-        self.drawRightString(7.92 * inch, 0.25 * inch, f"Page {self.getPageNumber()}")
+        self.setFont("Helvetica", 6.8)
+        self.drawString(0.48 * inch, 0.22 * inch, "Public resume - portfolio edition")
+        self.drawRightString(8.02 * inch, 0.22 * inch, "shaileshdudala.com")
         self.restoreState()
+        super().showPage()
 
 
 def bullet(text: str, styles: dict) -> Paragraph:
     return Paragraph(f"- {text}", styles["Bullet"])
 
 
-def role(title: str, organization: str, period: str, summary: str, bullets: list[str], styles: dict):
+def role(title: str, organization: str, period: str, bullets: list[str], styles: dict):
     return KeepTogether([
         Paragraph(f"<b>{title}</b> | {organization}", styles["Role"]),
         Paragraph(period, styles["Period"]),
-        Paragraph(summary, styles["Body"]),
         *[bullet(item, styles) for item in bullets],
-        Spacer(1, 7),
+        Spacer(1, 4.5),
     ])
 
 
@@ -68,31 +58,35 @@ def build() -> None:
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     sample = getSampleStyleSheet()
     styles = {
-        "Name": ParagraphStyle("Name", parent=sample["Title"], fontName="Helvetica-Bold", fontSize=20, leading=22, textColor=INK, alignment=TA_CENTER, spaceAfter=2),
-        "Headline": ParagraphStyle("Headline", parent=sample["Normal"], fontName="Helvetica-Bold", fontSize=10.5, leading=13, textColor=ACCENT, alignment=TA_CENTER, spaceAfter=4),
-        "Contact": ParagraphStyle("Contact", parent=sample["Normal"], fontName="Helvetica", fontSize=8.5, leading=11, textColor=MUTED, alignment=TA_CENTER, spaceAfter=9),
-        "Section": ParagraphStyle("Section", parent=sample["Heading2"], fontName="Helvetica-Bold", fontSize=10.5, leading=13, textColor=ACCENT, spaceBefore=5, spaceAfter=4, borderWidth=0, keepWithNext=True),
-        "Role": ParagraphStyle("Role", parent=sample["Normal"], fontName="Helvetica-Bold", fontSize=9.5, leading=12, textColor=INK, keepWithNext=True),
-        "Period": ParagraphStyle("Period", parent=sample["Normal"], fontName="Helvetica-Oblique", fontSize=8, leading=10, textColor=MUTED, spaceAfter=2, keepWithNext=True),
-        "Body": ParagraphStyle("Body", parent=sample["BodyText"], fontName="Helvetica", fontSize=8.5, leading=11.2, textColor=INK, spaceAfter=3),
-        "Bullet": ParagraphStyle("Bullet", parent=sample["BodyText"], fontName="Helvetica", fontSize=8.3, leading=10.7, textColor=INK, leftIndent=11, firstLineIndent=-7, bulletIndent=2, spaceAfter=1.7),
-        "Compact": ParagraphStyle("Compact", parent=sample["BodyText"], fontName="Helvetica", fontSize=8.2, leading=10.5, textColor=INK, spaceAfter=2),
+        "Name": ParagraphStyle("Name", parent=sample["Title"], fontName="Helvetica-Bold", fontSize=19.5, leading=21, textColor=INK, alignment=TA_CENTER, spaceAfter=1),
+        "Headline": ParagraphStyle("Headline", parent=sample["Normal"], fontName="Helvetica-Bold", fontSize=9.7, leading=11.5, textColor=ACCENT, alignment=TA_CENTER, spaceAfter=2.5),
+        "Contact": ParagraphStyle("Contact", parent=sample["Normal"], fontName="Helvetica", fontSize=7.7, leading=9.2, textColor=MUTED, alignment=TA_CENTER, spaceAfter=6),
+        "Section": ParagraphStyle("Section", parent=sample["Heading2"], fontName="Helvetica-Bold", fontSize=9.6, leading=11, textColor=ACCENT, spaceBefore=3.5, spaceAfter=2.8, keepWithNext=True),
+        "Role": ParagraphStyle("Role", parent=sample["Normal"], fontName="Helvetica-Bold", fontSize=8.6, leading=10.2, textColor=INK, keepWithNext=True),
+        "Period": ParagraphStyle("Period", parent=sample["Normal"], fontName="Helvetica-Oblique", fontSize=7.45, leading=8.8, textColor=MUTED, spaceAfter=1.4, keepWithNext=True),
+        "Body": ParagraphStyle("Body", parent=sample["BodyText"], fontName="Helvetica", fontSize=8.05, leading=10.1, textColor=INK, spaceAfter=2.4),
+        "Bullet": ParagraphStyle("Bullet", parent=sample["BodyText"], fontName="Helvetica", fontSize=7.95, leading=9.75, textColor=INK, leftIndent=10, firstLineIndent=-6, spaceAfter=0.9),
+        "Compact": ParagraphStyle("Compact", parent=sample["BodyText"], fontName="Helvetica", fontSize=7.6, leading=9.3, textColor=INK, spaceAfter=1.7),
+        "MiniHead": ParagraphStyle("MiniHead", parent=sample["Heading3"], fontName="Helvetica-Bold", fontSize=8.1, leading=9.3, textColor=ACCENT, spaceAfter=2.5),
+        "Note": ParagraphStyle("Note", parent=sample["BodyText"], fontName="Helvetica", fontSize=6.65, leading=8, textColor=MUTED),
     }
 
     doc = SimpleDocTemplate(
         str(OUTPUT),
         pagesize=letter,
-        rightMargin=0.58 * inch,
-        leftMargin=0.58 * inch,
-        topMargin=0.42 * inch,
-        bottomMargin=0.55 * inch,
+        rightMargin=0.48 * inch,
+        leftMargin=0.48 * inch,
+        topMargin=0.34 * inch,
+        bottomMargin=0.48 * inch,
         title="Shailesh Dudala - Senior Applied AI Engineer Resume",
         author="Shailesh Dudala",
+        subject="Privacy-cleared public professional resume",
+        keywords="Applied AI, agentic AI, document intelligence, healthcare, insurance, MLOps",
     )
 
     story = [
         Paragraph("Shailesh Dudala", styles["Name"]),
-        Paragraph("SENIOR APPLIED AI ENGINEER", styles["Headline"]),
+        Paragraph("SENIOR APPLIED AI ENGINEER | HEALTHCARE & INSURANCE", styles["Headline"]),
         Paragraph(
             '<link href="mailto:shaileshdudala@icloud.com">shaileshdudala@icloud.com</link> | '
             '<link href="https://shaileshdudala.com">shaileshdudala.com</link> | '
@@ -100,14 +94,14 @@ def build() -> None:
             '<link href="https://github.com/smgpulse007">GitHub</link>',
             styles["Contact"],
         ),
-        Paragraph("SUMMARY", styles["Section"]),
+        Paragraph("PROFILE", styles["Section"]),
         Paragraph(
-            "Applied AI engineer with more than seven years across healthcare, insurance, document intelligence, predictive ML, and MLOps. Builds governed systems that turn complex inputs into typed, validated workflows with explicit human-review boundaries, observable traces, and production-minded evaluation.",
+            "Applied AI engineer with more than seven years across healthcare, insurance, document intelligence, predictive ML, and MLOps. Designs the contracts, evaluation, human review, and observability that turn uncertain model output into accountable workflows.",
             styles["Body"],
         ),
-        Paragraph("CORE EXPERTISE", styles["Section"]),
+        Paragraph("CORE", styles["Section"]),
         Paragraph(
-            "Agentic AI and LLMOps | Document intelligence, OCR, and RAG | Healthcare interoperability (FHIR and HL7) | Predictive ML | Human-in-the-loop workflow design | Evaluation and observability | Local/on-prem inference | ML platforms and MLOps",
+            "Agentic workflows | Document intelligence, OCR, and RAG | Healthcare interoperability (FHIR/HL7) | Predictive ML | Human-in-the-loop systems | Evaluation and observability | Local/private AI | ML platforms and MLOps",
             styles["Compact"],
         ),
         Paragraph("PROFESSIONAL EXPERIENCE", styles["Section"]),
@@ -115,10 +109,9 @@ def build() -> None:
             "Applied AI Engineer Consultant",
             "MetLife via Bizintex",
             "2026 - Present",
-            "Designs governed document and claims workflows with typed contracts, validation gates, reviewer fallbacks, and trace telemetry.",
             [
-                "Supported approximately 90% lower document-handling effort and approximately 50% shorter time-to-claim-payable in a measured claims workstream.",
-                "Separated model reasoning from deterministic workflow authority so uncertain cases remain visible and reviewable.",
+                "Designs claims and document workflows with typed extraction, validation gates, reviewer fallbacks, and trace telemetry.",
+                "Supported approximately 90% lower handling effort and approximately 50% shorter time-to-claim-payable in a measured claims workstream.",
             ],
             styles,
         ),
@@ -126,11 +119,10 @@ def build() -> None:
             "Lead DS/ML Engineer Consultant",
             "Inland Empire Health Plan via Infowave",
             "2023 - 2025",
-            "Led applied ML across local document review, healthcare quality evidence, predictive analytics, fraud/waste review, and MLOps.",
             [
-                "Cleared a 7,000-case review backlog with approximately 90% lower review time using a local OCR/RAG workflow inside the data boundary.",
-                "Improved automated quality-measure closures by 20% and reduced transportation waste by 18% in their respective measured workflows.",
-                "Built reviewer paths and evaluation around OCR, retrieval, and prediction failure rather than treating model confidence as authority.",
+                "Led local document intelligence, quality-measure evidence, predictive analytics, fraud/waste review, and MLOps.",
+                "Cleared a 7,000-case backlog with approximately 90% lower review time inside the local data boundary.",
+                "Improved automated quality-measure closures by 20% and reduced transportation waste by 18% in their respective workflows.",
             ],
             styles,
         ),
@@ -138,10 +130,9 @@ def build() -> None:
             "Lead Data Scientist / Product",
             "Hexplora",
             "2020 - 2023",
-            "Built and scaled a predictive healthcare analytics platform spanning risk models, data products, reporting, and care-manager workflows.",
             [
-                "Supported $500K in new revenue and contributed to approximately $3M in client performance-based payouts across the broader program.",
-                "Reduced model deployment cycles by approximately 50% through reusable delivery and MLOps patterns.",
+                "Helped build and scale a 0-to-1 analytics product across nine healthcare programs, spanning risk models, reusable delivery, dashboards, and care workflows.",
+                "Supported $500K in new revenue, approximately $3M in broader client P4P impact, and approximately 50% faster model deployment cycles.",
             ],
             styles,
         ),
@@ -149,36 +140,51 @@ def build() -> None:
             "Data Science and Biomedical Informatics Roles",
             "CommonSpirit Health; Health New England; University of Chicago; AbbVie",
             "Earlier foundations",
-            "Worked across hospital analytics, provider data, biomedical research, clinical sensors, genomics, and public-health modeling.",
             [
-                "Delivered analytics across 142 hospitals and validation workflows covering more than 100,000 provider records.",
-                "Reduced manual provider-review effort by 60% in a measured workflow.",
+                "Worked across hospital analytics, provider data, biomedical research, clinical sensors, genomics, and public-health modeling.",
+                "Delivered analytics spanning 142 hospitals and validation covering 100,000+ provider records; reduced manual provider review by 60% in a measured workflow.",
             ],
             styles,
         ),
-        PageBreak(),
-        Paragraph("SELECTED ENGINEERING WORK", styles["Section"]),
-        bullet("Claims Intelligence - sanitized professional case study covering typed extraction, deterministic validation, exception routing, human review, and audit telemetry.", styles),
-        bullet("On-Prem RAG/OCR - local document-review architecture with page-level provenance, retrieval evaluation, and explicit fallback states.", styles),
-        bullet("Let's Talk Doc - team recipient, Global HL7 AI Challenge Transformative Impact in Healthcare Award (2025); individual implementation contribution remains resume-supported and qualified.", styles),
-        bullet("LLM Steering Lab - public local-first workbench for activation steering, experiment manifests, model inspection, and repeatable evaluation.", styles),
-        Paragraph("TECHNOLOGIES", styles["Section"]),
-        Paragraph(
-            "Python, SQL, TypeScript, PyTorch, scikit-learn, XGBoost, LangGraph/LangChain patterns, OCR and PDF parsing, FHIR R4, HL7, FastAPI, React, Docker, Kubernetes, MLflow, CI/CD, Azure, AWS, local model serving, observability and evaluation tooling",
-            styles["Compact"],
-        ),
-        Paragraph("EDUCATION AND CREDENTIALS", styles["Section"]),
-        bullet("M.S., Biomedical Informatics - University of Chicago, 2019", styles),
-        bullet("Summer School, Public Health Modeling - Yale University, 2019", styles),
-        bullet("B.Tech., Computer Science and Engineering - SRM University, 2018", styles),
-        bullet("AWS Certified Machine Learning Engineer - Associate", styles),
-        bullet("Microsoft Azure AI Fundamentals (AI-900); Microsoft Power BI Data Analyst (PL-300)", styles),
-        Spacer(1, 4),
-        Paragraph(
-            "PUBLICATION NOTE: Professional systems are intentionally sanitized. No PHI, PII, employer-confidential artifacts, proprietary workflow rules, credentials, or private production details are included.",
-            styles["Compact"],
-        ),
     ]
+
+    selected_systems = [
+        Paragraph("SELECTED SYSTEMS", styles["MiniHead"]),
+        bullet("Claims intelligence - typed extraction, deterministic validation, exception routing, human review, and audit telemetry.", styles),
+        bullet("On-prem document intelligence - local parsing, retrieval, page citations, and explicit fallback states.", styles),
+        bullet("Healthcare analytics platform - risk models, reusable delivery, reporting, and care workflows across nine programs.", styles),
+        bullet("LLM Steering - public local-first activation-steering workbench with tests, experiment manifests, and documented limits.", styles),
+    ]
+    education = [
+        Paragraph("EDUCATION + CREDENTIALS", styles["MiniHead"]),
+        Paragraph("M.S., Biomedical Informatics - University of Chicago, 2019", styles["Compact"]),
+        Paragraph("B.Tech., Computer Science and Engineering - SRM University, 2018", styles["Compact"]),
+        Paragraph("Yale Summer School, Public Health Modeling, 2019", styles["Compact"]),
+        Paragraph("AWS ML Engineer - Associate | Azure AI Fundamentals | Power BI Data Analyst", styles["Compact"]),
+        Spacer(1, 3),
+        Paragraph("RECOGNITION", styles["MiniHead"]),
+        Paragraph("Team recipient - Global HL7 AI Challenge, Transformative Impact in Healthcare Award (2025), Let’s Talk Doc", styles["Compact"]),
+    ]
+    table = Table([[selected_systems, education]], colWidths=[3.95 * inch, 3.45 * inch], hAlign="LEFT")
+    table.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (0, 0), 0),
+        ("RIGHTPADDING", (0, 0), (0, 0), 16),
+        ("LEFTPADDING", (1, 0), (1, 0), 16),
+        ("RIGHTPADDING", (1, 0), (1, 0), 0),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+        ("LINEABOVE", (0, 0), (-1, 0), 0.6, RULE),
+        ("LINEBEFORE", (1, 0), (1, 0), 0.6, RULE),
+    ]))
+    story.extend([
+        table,
+        Spacer(1, 3),
+        Paragraph(
+            "PUBLICATION BOUNDARY: Professional systems are described without PHI, PII, employer-confidential artifacts, proprietary workflow rules, credentials, or private production details.",
+            styles["Note"],
+        ),
+    ])
 
     doc.build(story, canvasmaker=ResumeCanvas)
     print(OUTPUT)

@@ -3,15 +3,23 @@ import { expect, test } from '@playwright/test';
 
 const routes = [
   '/',
+  '/systems/',
+  '/evolution/',
+  '/research/',
   '/work/',
   '/experience/',
   '/lab/',
+  '/recognition/',
   '/about/',
   '/resume/',
+  '/contact/',
   '/work/claims-intelligence/',
   '/work/on-prem-rag-ocr/',
-  '/work/lets-talk-doc/',
+  '/work/healthcare-analytics-platform/',
   '/work/llm-steering-lab/',
+  '/systems/claims-agents/',
+  '/systems/meta-harness/',
+  '/systems/llm-steering/',
 ];
 
 for (const route of routes) {

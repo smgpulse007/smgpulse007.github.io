@@ -2,15 +2,23 @@ import { expect, test } from '@playwright/test';
 
 const routes: Record<string, string> = {
   home: '/',
+  systems: '/systems/',
+  evolution: '/evolution/',
+  research: '/research/',
   work: '/work/',
   experience: '/experience/',
   lab: '/lab/',
+  recognition: '/recognition/',
   about: '/about/',
   resume: '/resume/',
+  contact: '/contact/',
   'case-claims': '/work/claims-intelligence/',
   'case-on-prem': '/work/on-prem-rag-ocr/',
-  'case-lets-talk-doc': '/work/lets-talk-doc/',
+  'case-healthcare-platform': '/work/healthcare-analytics-platform/',
   'case-llm-steering': '/work/llm-steering-lab/',
+  'system-claims': '/systems/claims-agents/',
+  'system-meta-harness': '/systems/meta-harness/',
+  'system-llm-steering': '/systems/llm-steering/',
 };
 
 for (const [name, route] of Object.entries(routes)) {

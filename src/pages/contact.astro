@@ -1,0 +1,7 @@
+---
+import Layout from '../components/Layout.astro';
+import { profile } from '../data/profile';
+---
+<Layout title="Contact — Shailesh Dudala" description="Contact Shailesh Dudala about Applied AI systems in healthcare, insurance, document intelligence, and ML platforms." canonicalPath="/contact/">
+  <section class="contact-page"><div class="shell contact-page-grid"><div><p class="eyebrow">Contact</p><h1>Bring the messy input and the operational constraint.</h1><p>If you are working on claims, clinical documents, local/private AI, interoperability, predictive ML, or the review layer around them, email is the clearest place to start.</p></div><div class="contact-card"><span>Primary</span><a href={`mailto:${profile.email}`}>{profile.email}</a><p>For roles, collaborations, and technical conversations.</p><span>Elsewhere</span><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Public résumé →</a></div></div></section>
+</Layout>

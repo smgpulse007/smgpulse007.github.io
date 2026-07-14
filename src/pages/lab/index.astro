@@ -3,14 +3,14 @@ import Layout from '../../components/Layout.astro';
 import { labItems } from '../../data/lab';
 const domains = [...new Set(labItems.map((item) => item.domain))];
 ---
-<Layout title="Lab — Shailesh Dudala" description="A curated library of public reference implementations, research systems, forecasting work, and historical experiments." canonicalPath="/lab/">
-  <section class="page-hero"><div class="shell"><p class="eyebrow">Lab</p><h1>Range, without category blur.</h1><p>Complete static content comes first. Filters progressively narrow the library, while every item keeps its maturity, evidence, and limitation visible.</p></div></section>
+<Layout title="Lab — Shailesh Dudala" description="Public reference implementations, research systems, and historical experiments across local AI, healthcare interoperability, document intelligence, and forecasting." canonicalPath="/lab/">
+  <section class="page-hero lab-hero"><div class="shell lab-hero-grid"><div><p class="eyebrow">Lab</p><h1>Public builds, organized by what they can honestly show.</h1></div><p>Some projects are maintained workbenches. Some are references. Some are useful history. Maturity and limitations stay visible without turning the page into an evidence taxonomy.</p></div></section>
   <section class="section"><div class="shell">
-    <div class="lab-controls" aria-label="Lab filters"><label>Search <input type="search" data-lab-search placeholder="Project, domain, or stack" /></label><div><button type="button" class="active" data-domain="all">All</button>{domains.map((domain) => <button type="button" data-domain={domain}>{domain}</button>)}</div></div>
+    <div class="lab-controls" aria-label="Lab filters"><label><span>Search the shelf</span><input type="search" data-lab-search placeholder="Project, domain, or stack" /></label><div><button type="button" class="active" data-domain="all">All</button>{domains.map((domain) => <button type="button" data-domain={domain}>{domain.replace(' & ', ' + ')}</button>)}</div></div>
     <p class="filter-status" aria-live="polite" data-filter-status>{labItems.length} projects</p>
     <div class="lab-grid" data-lab-grid>
-      {labItems.map((item, index) => <article class="lab-card" data-lab-item data-domain={item.domain} data-search={`${item.title} ${item.description} ${item.stack.join(' ')}`.toLowerCase()} id={item.domain.includes('Healthcare') ? 'healthcare' : item.domain.includes('Agentic') ? 'agentic' : item.domain.includes('Document') ? 'documents' : item.domain.includes('Forecasting') ? 'forecasting' : undefined}>
-        <div class="lab-index">{String(index + 1).padStart(2, '0')}</div><div class="lab-meta"><span>{item.status}</span><span>{item.year}</span></div><h2>{item.title}</h2><p>{item.description}</p><dl><div><dt>Why it matters</dt><dd>{item.why}</dd></div><div><dt>Limitation</dt><dd>{item.limitation}</dd></div></dl><div class="stack-list">{item.stack.map((tech) => <span>{tech}</span>)}</div><div class="lab-links">{item.caseStudy && <a href={item.caseStudy}>Case study →</a>}{item.href && <a href={item.href}>Repository ↗</a>}</div>
+      {labItems.map((item, index) => <article class:list={['lab-card', `lab-card-${index % 3}`]} data-lab-item data-domain={item.domain} data-search={`${item.title} ${item.description} ${item.stack.join(' ')}`.toLowerCase()} id={item.domain.includes('Healthcare') ? 'healthcare' : item.domain.includes('Agentic') ? 'agentic' : item.domain.includes('Document') ? 'documents' : item.domain.includes('Forecasting') ? 'forecasting' : undefined}>
+        <div class="lab-index">{String(index + 1).padStart(2, '0')}</div><div class="lab-meta"><span>{item.status}</span><span>{item.year}</span></div><h2><a href={`/lab/${item.slug}/`}>{item.title}</a></h2><p>{item.description}</p><div class="lab-why"><span>Why it matters</span><p>{item.why}</p></div><div class="stack-list">{item.stack.map((tech) => <span>{tech}</span>)}</div><p class="lab-limit"><strong>Boundary:</strong> {item.limitation}</p><div class="lab-links"><a href={`/lab/${item.slug}/`}>Project notes →</a>{item.caseStudy && <a href={item.caseStudy}>Case study →</a>}{item.href && <a href={item.href}>Repository ↗</a>}</div>
       </article>)}
     </div>
   </div></section>
@@ -35,4 +35,3 @@ const domains = [...new Set(labItems.map((item) => item.domain))];
     search?.addEventListener('input', update);
   </script>
 </Layout>
-

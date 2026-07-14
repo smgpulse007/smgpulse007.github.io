@@ -18,9 +18,10 @@ export const workItems: WorkItem[] = [
     technologies: ['Agent graphs', 'OCR', 'typed schemas', 'retrieval', 'human review', 'trace telemetry'],
     privacyBoundary: 'The architecture and artifacts are synthetic reconstructions. Employer data, rules, APIs, document types, model routing, and downstream system names are omitted.',
     accent: 'jade',
+    visual: 'packet-trace',
     flow: ['Ingest', 'Classify', 'Extract', 'Validate', 'Human review', 'Action', 'Observe'],
     artifact: {
-      label: 'Synthetic validation event',
+      label: 'Illustrative validation event',
       code: `{
   "packet_id": "SYN-042",
   "contract": "claim_fact.v3",
@@ -31,7 +32,7 @@ export const workItems: WorkItem[] = [
 }`,
     },
     glance: [
-      { label: 'Project type', value: 'Professional system — sanitized' },
+      { label: 'Context', value: 'Professional work' },
       { label: 'Primary risk', value: 'Incorrect extraction moving downstream' },
       { label: 'Control', value: 'Typed validation plus explicit reviewer routes' },
       { label: 'Public code', value: 'No; synthetic artifacts only' },
@@ -44,12 +45,12 @@ export const workItems: WorkItem[] = [
       { heading: 'Key decisions and rejected alternatives', body: ['I rejected free-form JSON that downstream code would have to interpret. Versioned schemas made missing fields, invalid enums, and incompatible changes visible before handoff.', 'I also rejected a single pass/fail confidence threshold. Field-level uncertainty, business-rule failures, and missing evidence require different reviewer queues and different remediation.'] },
       { heading: 'What failed or was unreliable', body: ['OCR was least reliable around page identity, section boundaries, low-quality scans, and repeated headers. Model-generated confidence was not calibrated enough to stand alone. Those failures drove the manifest, deterministic validators, and reviewer fallback.'] },
       { heading: 'Validation, review, and operations', body: ['Evaluation separates extraction accuracy, validation coverage, routing accuracy, and workflow outcome. Reviewers see the source reference, normalized value, reason for the route, and the failed rule—not just a red badge.', 'Operational monitoring tracks stage latency, retry patterns, tool failures, validation rates, review volume, and drift in document mix.'] },
-      { heading: 'Outcome', body: ['In a measured claims workstream, the approach supported an approximate 90% reduction in document-handling effort and an approximate 50% reduction in time-to-claim-payable. These are scoped, résumé-supported outcomes, not enterprise-wide promises.'] },
+      { heading: 'Outcome', body: ['In a measured claims workstream, the approach supported an approximate 90% reduction in document-handling effort and an approximate 50% reduction in time-to-claim-payable. The outcomes belong to that workstream, not an enterprise-wide promise.'] },
       { heading: 'What I would improve next', body: ['I would expand slice-based evaluation by document family, add reviewer-agreement analysis, and formalize a shadow-mode release gate before any new extraction contract receives downstream authority.'] },
     ],
     evidence: [
-      { label: 'Career evidence', classification: 'resume-supported', detail: 'Role, workflow scope, and qualified outcomes are supported by the latest résumé.' },
-      { label: 'Public artifact', classification: 'public-source', detail: 'Synthetic contract, trace, and validation examples are authored for this portfolio.' },
+      { label: 'Career record', classification: 'resume-supported', detail: 'Role, workflow scope, and qualified outcomes are supported by the current career record.' },
+      { label: 'Illustrative artifact', classification: 'public-source', detail: 'The contract, trace, and validation examples are authored here without private data.' },
       { label: 'Private implementation', classification: 'private-evidence', detail: 'Production details are intentionally not published.' },
     ],
     limitations: ['No private source code or production screenshots are public.', 'Synthetic artifacts demonstrate control patterns, not a deployable clone.', 'Outcome language is limited to the measured workstream.'],
@@ -72,9 +73,10 @@ export const workItems: WorkItem[] = [
     technologies: ['OCR', 'local RAG', 'Ollama/vLLM patterns', 'containers', 'review UI', 'evaluation sets'],
     privacyBoundary: 'No regulated documents, member information, screenshots, prompts, or private retrieval content are published.',
     accent: 'cyan',
+    visual: 'local-boundary',
     flow: ['Local intake', 'OCR', 'Chunk', 'Retrieve', 'Generate', 'Review', 'Measure'],
     artifact: {
-      label: 'Synthetic reviewer route',
+      label: 'Illustrative reviewer route',
       code: `review_case:
   source: synthetic-policy-17.pdf
   pages: [4, 5]
@@ -84,7 +86,7 @@ export const workItems: WorkItem[] = [
   reason: conflicting_effective_dates`,
     },
     glance: [
-      { label: 'Project type', value: 'Professional system — sanitized' },
+      { label: 'Context', value: 'Professional work' },
       { label: 'Deployment', value: 'Local/on-premises boundary' },
       { label: 'Outcome', value: '7K backlog; ≈90% review-time reduction' },
       { label: 'Public code', value: 'Related patterns only; not the employer system' },
@@ -96,67 +98,67 @@ export const workItems: WorkItem[] = [
       { heading: 'Why local inference', body: ['The local boundary reduced data movement and increased deployment control. It also imposed real costs: model selection was narrower, GPU capacity had to be planned, upgrades needed regression tests, and operations owned more of the serving stack.'] },
       { heading: 'What failed or was unreliable', body: ['Long documents and repeated boilerplate degraded naive chunking. Tables and low-resolution scans caused OCR defects. Retrieval similarity alone over-ranked plausible but irrelevant sections.', 'Section-aware chunks, page citations, document-family evaluation, and reviewer feedback loops performed better than adding prompt complexity.'] },
       { heading: 'Evaluation and human review', body: ['The acceptance set measured OCR coverage, retrieval recall, structured-field accuracy, citation correctness, and reviewer time. A response without an evidence span could not be treated as complete.', 'Reviewers remained the authority for conflicts, low-quality source pages, and policy interpretation. The system reduced search and transcription work; it did not remove accountability.'] },
-      { heading: 'Outcome', body: ['The system helped clear a 7,000-case backlog and reduced review time by approximately 90% in the measured workflow. Both claims are résumé-supported and intentionally scoped.'] },
+      { heading: 'Outcome', body: ['The system helped clear a 7,000-case backlog and reduced review time by approximately 90% in the measured workflow. Both outcomes remain attached to that workstream.'] },
       { heading: 'What I would improve next', body: ['I would add ongoing OCR-quality sampling, retrieval drift reporting by document family, and a formal reviewer-disagreement queue that feeds the next evaluation release.'] },
     ],
     evidence: [
-      { label: 'Career evidence', classification: 'resume-supported', detail: 'Backlog and review-time outcomes are supported by the latest résumé.' },
+      { label: 'Career record', classification: 'resume-supported', detail: 'Backlog and review-time outcomes are supported by the current career record.' },
       { label: 'Related public pattern', classification: 'public-source', href: 'https://github.com/smgpulse007/ollama_poc', detail: 'A separate public local-document-AI experiment illustrates adjacent techniques; it is not the professional system.' },
     ],
     limitations: ['No regulated source data is available publicly.', 'Public repositories are related experiments, not replicas.', 'Local serving details vary with approved infrastructure.'],
     seo: { title: 'On-Prem RAG and OCR Case Study — Shailesh Dudala', description: 'How a local document-review workflow used OCR, retrieval, local inference, evaluation, and human review to clear a 7K-case backlog.' },
   },
   {
-    slug: 'lets-talk-doc',
-    title: 'Standards-aware patient communication, built as a team',
-    eyebrow: 'Let’s Talk Doc',
-    lede: 'A healthcare interoperability project recognized by the Global HL7 AI Challenge for Transformative Impact in Healthcare.',
-    outcome: 'Team recipient of the 2025 Global HL7 AI Challenge recognition for Let’s Talk Doc.',
-    type: 'Team award project',
-    status: 'Award project; official award and recipient sources verified',
-    domain: 'Healthcare interoperability · Patient communication · FHIR',
-    role: 'AI video-avatar application contribution for multilingual post-visit follow-up and smart intake; résumé-supported',
-    timeframe: '2025',
-    teamContext: 'Collaborative hackathon team',
+    slug: 'healthcare-analytics-platform',
+    title: 'From risk models to a care-management operating system',
+    eyebrow: 'Healthcare analytics platform',
+    lede: 'A 0-to-1 analytics product scaled across nine healthcare programs, connecting risk models, delivery pipelines, dashboards, and care-manager workflows.',
+    outcome: '$500K in new revenue supported and approximately $3M in client performance-based payouts across the broader program.',
+    type: 'Professional system — sanitized',
+    status: 'Scaled professional product; details sanitized',
+    domain: 'Healthcare product · Predictive ML · MLOps',
+    role: 'Lead data scientist and product partner across modeling, platform delivery, reporting, and workflow adoption',
+    timeframe: '2020–2023',
+    teamContext: 'Cross-functional product delivery across nine healthcare programs',
     featured: true,
     order: 3,
-    technologies: ['FHIR', 'SMART on FHIR', 'clinical context', 'multilingual communication', 'human-centered workflow'],
-    privacyBoundary: 'Only team-level, public-safe project framing is shown. No patient information or unverified individual contribution is claimed.',
+    technologies: ['Python', 'predictive ML', 'risk stratification', 'MLOps', 'analytics products', 'care workflows'],
+    privacyBoundary: 'The product map is an authored reconstruction. No client data, private dashboard, model feature, clinical metric, contract term, or employer artifact is reproduced.',
     accent: 'amber',
-    flow: ['Clinical context', 'FHIR contract', 'Patient-friendly transform', 'Safety checks', 'Human touchpoint'],
+    visual: 'health-index',
+    flow: ['Data products', 'Risk models', 'Health Index', 'Program workflows', 'Care teams', 'Measure outcomes'],
     artifact: {
-      label: 'Synthetic FHIR communication contract',
-      code: `{
-  "resourceType": "CommunicationRequest",
-  "status": "active",
-  "subject": { "reference": "Patient/SYNTHETIC" },
-  "payload": [{ "contentString": "Post-visit summary" }],
-  "language": "es-US"
-}`,
+      label: 'Illustrative product map',
+      code: `health_index:
+  inputs: [risk, utilization, quality]
+  programs: 9
+  delivery: reusable_pipeline
+  users: care_management
+  review: program_specific`,
     },
     glance: [
-      { label: 'Project type', value: 'Team award project' },
-      { label: 'Recognition', value: 'Global HL7 AI Challenge, 2025' },
-      { label: 'Attribution', value: 'Team recipient for Let’s Talk Doc' },
-      { label: 'Evidence status', value: 'Official award and recipient lists; contribution résumé-supported' },
+      { label: 'Context', value: '0-to-1 healthcare analytics product' },
+      { label: 'Scale', value: 'Adopted across nine healthcare programs' },
+      { label: 'Product result', value: '$500K new revenue supported' },
+      { label: 'Program result', value: '≈$3M client P4P impact supported' },
     ],
     sections: [
-      { heading: 'Context and stakes', body: ['Clinical information is often technically available but difficult for patients to act on. The team explored a standards-aware communication workflow that could translate structured care context into a clearer post-visit experience.', 'The portfolio keeps the claim narrow: Let’s Talk Doc is the recognized project. The separate HEDIS/HL7 repository is not presented as the award winner.'] },
-      { heading: 'Team and my role', body: ['HL7’s official recipient list names Shailesh Dudala, William Laolagi, and Diane Nguyen among the 2025 AI Challenge award recipients, while public team posts connect them to Let’s Talk Doc. Shailesh’s latest résumé states that he built an AI video-avatar application for multilingual post-visit follow-ups and smart intake using EHR-integrated FHIR/HL7 workflows.', 'Because the official project narrative does not isolate component ownership, that contribution remains labeled résumé-supported and is not presented as sole authorship.'] },
-      { heading: 'System at a glance', body: ['The public-safe architecture centers on a FHIR-aware context boundary, a patient-friendly transformation layer, language and safety checks, and an explicit human touchpoint. The synthetic contract demonstrates the standard, not a production patient record.'] },
-      { heading: 'Key decisions', body: ['Standards alignment matters because a useful experience has to connect to real clinical context without inventing a parallel data model. Patient-friendly output also needs uncertainty and escalation paths; fluent text is not the same as safe communication.'] },
-      { heading: 'Validation and safety boundary', body: ['A credible evaluation would separate factual consistency, reading level, language quality, clinical completeness, and escalation behavior. The current public evidence does not support a claim of clinical deployment or patient outcome impact, so none is made.'] },
-      { heading: 'Outcome and evidence', body: ['The verified portfolio claim is team recognition: Global HL7 AI Challenge — Transformative Impact in Healthcare Award (2025), for Let’s Talk Doc. HL7’s official winners page ties the award to the project, and HL7’s official recipient list names Shailesh Dudala. His specific implementation contribution remains résumé-supported.'] },
-      { heading: 'What I would improve next', body: ['I would publish an approved contribution map, demonstration media, and a compact evaluation card once those materials are confirmed for public use.'] },
+      { heading: 'Context and stakes', body: ['Risk models were only one layer of the product. The harder problem was turning several healthcare programs into a repeatable operating system for data, model delivery, reporting, and care-team action.', 'A model that never reaches a workflow is not a product. A dashboard without a governed delivery path does not create durable adoption.'] },
+      { heading: 'My role', body: ['I led data science and product work across risk modeling, reusable delivery patterns, program reporting, and care-manager workflows. The role required translating between model development, client priorities, operational adoption, and measurable program outcomes.'] },
+      { heading: 'Product architecture', body: ['Shared data products and deployment patterns supported program-specific models rather than forcing every use case through one score. A composite Health Index provided a common orientation while each program kept its own population, intervention, and review logic.', 'The platform connected model outputs to dashboards, outreach priorities, and care-manager workflows, then fed operational feedback into later releases.'] },
+      { heading: 'The decision that mattered', body: ['I treated delivery and adoption as part of the model system. Reusable pipelines shortened release cycles, but program-specific review and workflow design stayed explicit so scale did not erase local context.'] },
+      { heading: 'What failed or was unreliable', body: ['A universal score was tempting but too blunt for nine different program goals. Reporting that did not match care-team work created friction even when the underlying model performed well. Data refresh and definition drift also needed product ownership, not one-time cleanup.'] },
+      { heading: 'Validation and operations', body: ['Validation combined model quality with delivery checks, cohort review, workflow adoption, and program outcomes. Release patterns reduced repeated engineering work while leaving room for program-specific thresholds, interventions, and monitoring.'] },
+      { heading: 'Outcome', body: ['The platform supported $500K in new revenue and approximately $3M in client performance-based payouts across the broader program. Reusable delivery patterns reduced model deployment cycles by approximately 50%. These are scoped career-record outcomes, not single-model claims.'] },
+      { heading: 'What I would improve next', body: ['I would formalize a shared model-card and workflow-card release contract, add adoption telemetry by program, and make change-impact reviews part of every data or model release.'] },
     ],
     evidence: [
-      { label: 'Official award source', classification: 'public-source', href: 'https://blog.hl7.org/hl7-international-announces-winners-of-global-ai-challenge-showcasing-standards-based-innovation-in-healthcare', detail: 'HL7 confirms Let’s Talk Doc and the Transformative Impact in Healthcare award.' },
-      { label: 'Official recipient list', classification: 'public-source', href: 'https://hl7news.hl7.org/2026/01/07/update-from-hq/', detail: 'HL7 News names Shailesh Dudala among the 2025 AI Challenge award recipients.' },
-      { label: 'Team project context', classification: 'public-source', href: 'https://www.linkedin.com/posts/ssdudala_hl7-hl7aichallenge-ai-activity-7376818141378777088-JwDN', detail: 'Public team posts connect Shailesh, William Laolagi, and Diane Nguyen to Let’s Talk Doc.' },
-      { label: 'Individual contribution', classification: 'resume-supported', detail: 'Video-avatar and multilingual post-visit/smart-intake contribution is stated in the latest résumé; official sources do not isolate component ownership.' },
+      { label: 'Career record', classification: 'resume-supported', detail: 'Role, nine-program scale, revenue, P4P impact, and faster delivery are supported by the current career record.' },
+      { label: 'Portfolio reconstruction', classification: 'public-source', detail: 'The product map and Health Index visual are authored here from approved facts without private data.' },
+      { label: 'Private implementation', classification: 'private-evidence', detail: 'Client dashboards, datasets, model features, contracts, and operational rules are intentionally not published.' },
     ],
-    limitations: ['Individual contribution is résumé-supported, not isolated by the official project narrative.', 'No clinical deployment or patient-outcome claim is made.', 'The HEDIS public repository is classified separately.'],
-    seo: { title: 'Let’s Talk Doc Team Award Project — Shailesh Dudala', description: 'A carefully attributed team case study for the Let’s Talk Doc Global HL7 AI Challenge project.' },
+    limitations: ['Outcomes belong to the broader product and program context, not one model.', 'The public visual is a reconstruction, not a private dashboard.', 'No clinical effectiveness claim is made.'],
+    seo: { title: 'Healthcare Analytics Platform Case Study — Shailesh Dudala', description: 'How a 0-to-1 healthcare analytics platform connected risk models, reusable delivery, reporting, and care-manager workflows across nine programs.' },
   },
   {
     slug: 'llm-steering-lab',
@@ -176,19 +178,21 @@ export const workItems: WorkItem[] = [
     technologies: ['PyTorch', 'Transformers', 'FastAPI', 'React', 'activation hooks', 'test automation'],
     privacyBoundary: 'Research tooling only. It does not claim general model control, safety guarantees, or production readiness.',
     accent: 'violet',
+    visual: 'activation-steering',
     flow: ['Load model', 'Capture activations', 'Construct vector', 'Apply hook', 'Evaluate', 'Compare'],
     artifact: {
       label: 'Experiment manifest',
-      code: `experiment: sentiment-axis-04
-model: local-transformer
+      code: `experiment: customer_support_empathy
+model: Qwen/Qwen2.5-0.5B-Instruct
 layer: 18
-coefficient: 0.65
-seed: 42
+coefficient: 20.0
+token_scope: all_tokens
+hook_stage: post
 comparison: baseline_vs_steered
 status: reproducible`,
     },
     glance: [
-      { label: 'Project type', value: 'Research lab' },
+      { label: 'Context', value: 'Public research build' },
       { label: 'Code', value: 'Public repository' },
       { label: 'Validation', value: 'Automated tests plus experiment comparisons' },
       { label: 'Boundary', value: 'Research results; no safety guarantee' },

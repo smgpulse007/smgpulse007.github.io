@@ -6,3 +6,8 @@ ErrorDocument 404 /404.html
 # Keep one canonical production origin while preserving the requested path and query.
 RewriteCond %{HTTP_HOST} ^www\.shaileshdudala\.com$ [NC]
 RewriteRule ^ https://shaileshdudala.com%{REQUEST_URI} [R=301,L,NE]
+
+# Neutralize historic Builder and V2.0 routes without retaining legacy copy.
+RewriteRule ^contact$ /contact/ [R=301,L,NE]
+RewriteRule ^my-ai-app-library/?$ /lab/ [R=301,L,NE]
+RewriteRule ^work/lets-talk-doc/?$ /recognition/#lets-talk-doc [R=301,L,NE]

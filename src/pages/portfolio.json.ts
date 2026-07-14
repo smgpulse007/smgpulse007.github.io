@@ -17,5 +17,5 @@ export const GET: APIRoute = () => new Response(JSON.stringify({
   recognition,
   publicImpactClaims,
   boundaries: profile.privacyNote,
-  lastUpdated: '2026-07-12',
+  lastUpdated: '2026-07-13',
 }, null, 2), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });

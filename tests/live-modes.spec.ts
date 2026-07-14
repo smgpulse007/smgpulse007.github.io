@@ -5,11 +5,13 @@ const essentialRoutes = [
   '/work/',
   '/experience/',
   '/lab/',
+  '/recognition/',
   '/about/',
   '/resume/',
+  '/contact/',
   '/work/claims-intelligence/',
   '/work/on-prem-rag-ocr/',
-  '/work/lets-talk-doc/',
+  '/work/healthcare-analytics-platform/',
   '/work/llm-steering-lab/',
 ];
 
@@ -49,15 +51,15 @@ test('reduced-motion mode preserves controls and suppresses recorder motion', as
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
-  await expect(page.locator('.flight-recorder')).toBeVisible();
-  const durations = await page.locator('.flight-recorder').evaluate((element) => {
+  await expect(page.locator('.packet-decision')).toBeVisible();
+  const durations = await page.locator('.packet-decision').evaluate((element) => {
     const style = getComputedStyle(element);
     return [style.animationDuration, style.transitionDuration];
   });
   expect(durations.every((value) => value === '0s' || Number.parseFloat(value) <= 0.00001)).toBe(true);
 });
 
-test('keyboard-only navigation reaches skip, navigation, evidence, and recorder controls', async ({ page, browserName }) => {
+test('keyboard-only navigation reaches skip, navigation, and trace controls', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
@@ -77,18 +79,13 @@ test('keyboard-only navigation reaches skip, navigation, evidence, and recorder 
   await page.keyboard.press('Enter');
   await expect(page.locator('.mobile-nav')).toHaveAttribute('open', '');
 
-  const evidence = page.locator('[data-evidence-toggle]');
-  await evidence.focus();
-  await page.keyboard.press('Enter');
-  await expect(evidence).toHaveAttribute('aria-pressed', 'true');
-
-  const recorderControl = page.getByRole('button', { name: 'FHIR care event' });
+  const recorderControl = page.getByRole('tab', { name: 'FHIR event' });
   const recorderIsland = page.locator('astro-island').filter({ has: recorderControl });
   await recorderIsland.scrollIntoViewIfNeeded();
   await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
   await recorderControl.focus();
   await page.keyboard.press('Space');
-  await expect(recorderControl).toHaveAttribute('aria-pressed', 'true');
+  await expect(recorderControl).toHaveAttribute('aria-selected', 'true');
 });
 
 test('forced-colors mode retains essential content and controls', async ({ page }, testInfo) => {
@@ -98,8 +95,8 @@ test('forced-colors mode retains essential content and controls', async ({ page 
 
   expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
   await expect(page.locator('h1')).toBeVisible();
-  await expect(page.locator('[data-evidence-toggle]')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'FHIR care event' })).toBeVisible();
+  await expect(page.locator('.packet-decision')).toBeVisible();
+  await expect(page.getByRole('tab', { name: 'FHIR event' })).toBeVisible();
   expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
 
   const screenshot = testInfo.outputPath('forced-colors-home.png');
@@ -119,7 +116,9 @@ test('200% zoom-equivalent reflow remains usable at 320 CSS pixels', async ({ pa
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   const screenshot = testInfo.outputPath('zoom-200-reflow-home.png');
-  await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
+  // WebKit cannot capture a full page taller than 32,767 pixels. The route loop
+  // above proves full-document reflow; this bounded image records the first fold.
+  await page.screenshot({ path: screenshot, fullPage: false, animations: 'disabled' });
   await testInfo.attach('zoom-200-reflow-home', { path: screenshot, contentType: 'image/png' });
 });
 
@@ -176,7 +175,9 @@ test('high-density rendering stays sharp and overflow-free at deviceScaleFactor 
   await expect(page.locator('h1')).toBeVisible();
 
   const screenshot = testInfo.outputPath('hidpi-390x844-home.png');
-  await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
+  // Keep this as a viewport proof: a DPR-2 full-page bitmap can exceed the
+  // 32,767-pixel protocol limit in Firefox and WebKit on Linux runners.
+  await page.screenshot({ path: screenshot, animations: 'disabled' });
   await testInfo.attach('hidpi-390x844-home', { path: screenshot, contentType: 'image/png' });
   await context.close();
 });

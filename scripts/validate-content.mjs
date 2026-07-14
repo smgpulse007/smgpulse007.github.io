@@ -48,9 +48,12 @@ const requiredArtifacts = [
   'work/index.html',
   'experience/index.html',
   'lab/index.html',
+  'recognition/index.html',
   'about/index.html',
   'resume/index.html',
+  'contact/index.html',
   'portfolio.json',
+  'project-evidence.json',
   'llms.txt',
   'build.json',
   'robots.txt',
@@ -96,7 +99,7 @@ if (fs.existsSync(resumeArtifact)) {
   try {
     const extracted = await extractPdfText(resumeArtifact);
     publicResumeText = extracted.text;
-    if (extracted.pages < 1 || extracted.pages > 2) fail(`public resume: expected one or two pages, found ${extracted.pages}`);
+    if (extracted.pages !== 1) fail(`public resume: expected one intentional page, found ${extracted.pages}`);
     if (!/Shailesh Dudala/i.test(publicResumeText) || !/Senior Applied AI Engineer/i.test(publicResumeText)) fail('public resume: ATS text extraction is missing the identity or target role');
     const bannedCategories = [
       { name: 'phone number', pattern: /(?:\+?1[ .-]?)?\(?\d{3}\)?[ .-]\d{3}[ .-]\d{4}/ },
@@ -112,7 +115,7 @@ if (fs.existsSync(resumeArtifact)) {
 }
 
 const ogDirectory = path.join(dist, 'og');
-for (const slug of ['home', 'work', 'experience', 'lab', 'about', 'resume', 'work-claims-intelligence', 'work-on-prem-rag-ocr', 'work-lets-talk-doc', 'work-llm-steering-lab']) {
+for (const slug of ['home', 'work', 'experience', 'lab', 'recognition', 'about', 'resume', 'contact', 'work-claims-intelligence', 'work-on-prem-rag-ocr', 'work-healthcare-analytics-platform', 'work-llm-steering-lab']) {
   const filename = path.join(ogDirectory, `${slug}.png`);
   if (!fs.existsSync(filename)) {
     fail(`social preview: missing ${slug} card`);
@@ -131,11 +134,13 @@ const primaryPages = [
   'work/index.html',
   'experience/index.html',
   'lab/index.html',
+  'recognition/index.html',
   'about/index.html',
   'resume/index.html',
+  'contact/index.html',
   'work/claims-intelligence/index.html',
   'work/on-prem-rag-ocr/index.html',
-  'work/lets-talk-doc/index.html',
+  'work/healthcare-analytics-platform/index.html',
   'work/llm-steering-lab/index.html',
 ];
 
@@ -238,7 +243,7 @@ if (fs.existsSync(resumePage)) {
   if (pdfLinks.length !== 1 || pdfLinks[0] !== `/${publicResumePath}`) fail('resume/index.html: expected exactly one canonical public resume PDF link');
 }
 
-for (const slug of ['claims-intelligence', 'on-prem-rag-ocr', 'lets-talk-doc', 'llm-steering-lab']) {
+for (const slug of ['claims-intelligence', 'on-prem-rag-ocr', 'healthcare-analytics-platform', 'llm-steering-lab']) {
   const filename = path.join(dist, 'work', slug, 'index.html');
   if (!fs.existsSync(filename)) continue;
   const html = fs.readFileSync(filename, 'utf8');

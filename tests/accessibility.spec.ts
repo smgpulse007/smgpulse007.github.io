@@ -6,11 +6,13 @@ const routes = [
   '/work/',
   '/experience/',
   '/lab/',
+  '/recognition/',
   '/about/',
   '/resume/',
+  '/contact/',
   '/work/claims-intelligence/',
   '/work/on-prem-rag-ocr/',
-  '/work/lets-talk-doc/',
+  '/work/healthcare-analytics-platform/',
   '/work/llm-steering-lab/',
 ];
 

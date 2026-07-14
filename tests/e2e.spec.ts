@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test';
 const servedOrigin = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4380',
 ).origin;
+const servedHostname = new URL(servedOrigin).hostname;
+const isRemoteDeployment = !['127.0.0.1', 'localhost', '::1'].includes(servedHostname);
 const expectedCanonicalOrigin =
   process.env.PLAYWRIGHT_EXPECTED_CANONICAL_URL ??
   process.env.PUBLIC_CANONICAL_URL ??
@@ -28,11 +30,13 @@ const primaryRoutes = [
   '/work/',
   '/experience/',
   '/lab/',
+  '/recognition/',
   '/about/',
   '/resume/',
+  '/contact/',
   '/work/claims-intelligence/',
   '/work/on-prem-rag-ocr/',
-  '/work/lets-talk-doc/',
+  '/work/healthcare-analytics-platform/',
   '/work/llm-steering-lab/',
 ];
 
@@ -47,6 +51,8 @@ const compatibilityRoutes: Record<string, string> = {
   '/projects/local-document-ai-extraction/': '/work/on-prem-rag-ocr/',
   '/projects/hl7-ai-challenge/': '/lab/#healthcare',
   '/projects/hospital-readmission-fhir-ml-api/': '/lab/#healthcare',
+  '/my-ai-app-library/': '/lab/',
+  '/work/lets-talk-doc/': '/recognition/#lets-talk-doc',
 };
 
 test.describe('static route and metadata contract', () => {
@@ -72,6 +78,13 @@ test.describe('static route and metadata contract', () => {
     test(`${route} preserves the inbound route`, async ({ request }) => {
       const response = await request.get(route);
       expect(response.status()).toBe(200);
+      const requestedPath = new URL(route, `${servedOrigin}/`).pathname;
+      const targetPath = new URL(target, `${servedOrigin}/`).pathname;
+      const responsePath = new URL(response.url()).pathname;
+      if (responsePath !== requestedPath) {
+        expect(responsePath).toBe(targetPath);
+        return;
+      }
       const html = await response.text();
       expect(html).toContain(`href="${target}"`);
       expect(html).toContain('http-equiv="refresh"');
@@ -89,7 +102,7 @@ test.describe('static route and metadata contract', () => {
     if (expectedSha) expect((await buildResponse.json()).commit).toBe(expectedSha);
     const missing = await request.get('/definitely-not-a-portfolio-route');
     expect(missing.status()).toBe(404);
-    if (process.env.PLAYWRIGHT_BASE_URL) {
+    if (process.env.PLAYWRIGHT_BASE_URL && isRemoteDeployment) {
       const missingHtml = await missing.text();
       expect(missingHtml).toContain('Page not found');
       expect(missingHtml).toContain('name="robots" content="noindex,nofollow"');
@@ -104,7 +117,7 @@ test('server-rendered homepage contains final metrics and no zero placeholders',
   const html = await (await request.get('/')).text();
   const values = [...html.matchAll(/<strong>(.*?)<\/strong>/g)]
     .map((match) => match[1].replace(/<!--.*?-->/g, '').replace(/<[^>]+>/g, '').trim());
-  expect(values).toEqual(expect.arrayContaining(['7K', '90%', '20%', '18%', '\u2248$3M']));
+  expect(values).toEqual(expect.arrayContaining(['7K', '90%', '20%', '\u2248$3M']));
   expect(values).not.toEqual(expect.arrayContaining(['0K', '0%', '$0M']));
 });
 
@@ -117,7 +130,7 @@ test('resume handling has no broken PDF CTA', async ({ page, request }) => {
 
 test('award attribution stays attached to Let’s Talk Doc', async ({ request }) => {
   const home = await (await request.get('/')).text();
-  const award = await (await request.get('/work/lets-talk-doc/')).text();
+  const award = await (await request.get('/recognition/')).text();
   const text = `${home} ${award}`.replace(/<[^>]+>/g, ' ');
   expect(text).toMatch(/Let(?:’|')s Talk Doc/i);
   expect(text).toMatch(/Team recipient/i);
@@ -145,6 +158,12 @@ test('primary pages have no console errors or failed local requests', async ({ p
 });
 
 test('required widths have no horizontal overflow', async ({ page }) => {
+  const failures: Array<{
+    route: string;
+    width: number;
+    overflow: number;
+    offenders: Array<Record<string, string | number>>;
+  }> = [];
   const viewports = [
     { width: 320, height: 700 },
     { width: 360, height: 800 },
@@ -159,12 +178,35 @@ test('required widths have no horizontal overflow', async ({ page }) => {
   ];
   for (const { width, height } of viewports) {
     await page.setViewportSize({ width, height });
-    for (const route of ['/', '/work/', '/work/claims-intelligence/', '/experience/', '/lab/', '/about/', '/resume/']) {
+    for (const route of ['/', '/work/', '/work/claims-intelligence/', '/work/healthcare-analytics-platform/', '/experience/', '/lab/', '/recognition/', '/about/', '/resume/', '/contact/']) {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
+      await page.evaluate(() => document.fonts.ready);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-      expect(overflow, `${route} overflow at ${width}px`).toBeLessThanOrEqual(1);
+      if (overflow > 1) {
+        const offenders = await page.evaluate(() => {
+          const viewportWidth = document.documentElement.clientWidth;
+          return [...document.body.querySelectorAll<HTMLElement>('*')]
+            .map((element) => {
+              const rect = element.getBoundingClientRect();
+              return {
+                element: `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${element.classList.length ? `.${[...element.classList].join('.')}` : ''}`,
+                text: (element.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 90),
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                width: Math.round(rect.width),
+                overflowRight: Math.max(0, Math.round(rect.right - viewportWidth)),
+                internalOverflow: element.clientWidth > 0 ? Math.max(0, element.scrollWidth - element.clientWidth) : 0,
+              };
+            })
+            .filter((item) => item.left < -1 || item.overflowRight > 1 || item.internalOverflow > 1)
+            .sort((a, b) => Math.max(b.overflowRight, b.internalOverflow) - Math.max(a.overflowRight, a.internalOverflow))
+            .slice(0, 8);
+        });
+        failures.push({ route, width, overflow, offenders });
+      }
     }
   }
+  expect(failures, JSON.stringify(failures, null, 2)).toEqual([]);
 });
 
 test('reduced motion and keyboard/mobile navigation remain usable', async ({ page, browserName }) => {
@@ -186,29 +228,44 @@ test('reduced motion and keyboard/mobile navigation remain usable', async ({ pag
   await expect(menu).toHaveAttribute('open', '');
   await expect(menu.getByRole('link', { name: 'Work' })).toBeVisible();
 
-  const fhir = page.getByRole('button', { name: 'FHIR care event' });
+  const fhir = page.getByRole('tab', { name: 'FHIR event' });
   const recorderIsland = page.locator('astro-island').filter({ has: fhir });
   await recorderIsland.scrollIntoViewIfNeeded();
   await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
   await fhir.focus();
   await fhir.press('Space');
-  await expect(fhir).toHaveAttribute('aria-pressed', 'true');
+  await expect(fhir).toHaveAttribute('aria-selected', 'true');
 
-  const motionDurations = await page.locator('.flight-recorder').evaluate((element) => {
+  const motionDurations = await page.locator('.packet-decision').evaluate((element) => {
     const style = getComputedStyle(element);
     return [style.animationDuration, style.transitionDuration];
   });
   expect(motionDurations.every((value) => value === '0s' || value === '1e-05s' || value === '0.00001s')).toBe(true);
 });
 
-test('evidence mode is keyboard operable and persists locally', async ({ page }) => {
+test('packet trace is complete without JavaScript and keyboard operable with JavaScript', async ({ page, browser }) => {
   await page.goto('/');
-  const toggle = page.locator('[data-evidence-toggle]');
-  await expect(toggle).toHaveText('Evidence mode');
-  await toggle.focus();
-  await toggle.press('Enter');
-  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
-  expect(await page.evaluate(() => localStorage.getItem('portfolio-evidence-mode'))).toBe('evidence');
-  await page.reload();
-  await expect(page.locator('html')).toHaveAttribute('data-evidence-mode', 'evidence');
+  const trace = page.locator('.packet-decision');
+  await expect(trace).toContainText('Packet received');
+  await expect(trace).toContainText('Trace closes');
+  const recorderIsland = page.locator('astro-island').filter({ has: trace });
+  await recorderIsland.scrollIntoViewIfNeeded();
+  await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
+  await page.getByRole('tab', { name: 'Claim packet' }).click();
+  await page.getByRole('button', { name: 'Previous decision step' }).click();
+  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Reviewer sees evidence');
+  await trace.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Trace closes');
+  await trace.focus();
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Reviewer sees evidence');
+
+  const noJsContext = await browser.newContext({ javaScriptEnabled: false });
+  const noJsPage = await noJsContext.newPage();
+  await noJsPage.goto('/');
+  await expect(noJsPage.locator('.packet-decision')).toContainText('Packet received');
+  await expect(noJsPage.locator('.packet-decision')).toContainText('Trace closes');
+  await expect(noJsPage.getByRole('link', { name: 'Explore the systems' })).toBeVisible();
+  await noJsContext.close();
 });

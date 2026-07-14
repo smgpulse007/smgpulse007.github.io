@@ -1,22 +1,4 @@
 ---
 import { navigation, profile } from '../data/profile';
 ---
-
-<footer class="site-footer">
-  <div class="shell footer-grid">
-    <div>
-      <a class="footer-brand" href="/">{profile.name}</a>
-      <p>{profile.privacyNote}</p>
-    </div>
-    <nav aria-label="Footer navigation">
-      {navigation.slice(0, 5).map((item) => <a href={item.href}>{item.label}</a>)}
-      <a href="/recognition/">Recognition</a>
-      <a href={profile.github}>GitHub ↗</a>
-      <a href={profile.linkedin}>LinkedIn ↗</a>
-    </nav>
-  </div>
-  <div class="shell footer-meta">
-    <span>Built for clarity, speed, and privacy</span>
-    <span>© {new Date().getFullYear()} Shailesh Dudala</span>
-  </div>
-</footer>
+<footer class="site-footer"><div class="shell footer-grid"><div><a class="footer-brand" href="/">{profile.name}</a><p>Predictive systems · context engines · bounded agents · execution harnesses.</p><small>{profile.privacyNote}</small></div><nav aria-label="Footer navigation">{navigation.slice(0,5).map((item)=><a href={item.href}>{item.label}</a>)}<a href="/recognition/">Recognition</a><a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a></nav></div><div class="shell footer-meta"><span>STATIC-FIRST · NO TRACKING · PRIVACY-SAFE SYSTEM DIAGRAMS</span><span>© {new Date().getFullYear()} Shailesh Dudala</span></div></footer>

@@ -1,17 +1,24 @@
 # Shailesh Dudala
 
-Senior Applied AI Engineer building agentic, document-intelligence, predictive-ML, and MLOps systems for healthcare and insurance.
+Senior Applied AI Engineer building the path from uncertain signals to bounded, observable action—across predictive healthcare, document intelligence, context-engineered agents, and execution harnesses.
 
-[Portfolio](https://shaileshdudala.com) · [Selected work](https://shaileshdudala.com/work/) · [LLM Steering](https://github.com/smgpulse007/llm-steering) · [LinkedIn](https://www.linkedin.com/in/ssdudala/)
+[Systems Observatory](https://shaileshdudala.com) · [Systems](https://shaileshdudala.com/systems/) · [Evolution](https://shaileshdudala.com/evolution/) · [Research Atlas](https://shaileshdudala.com/research/) · [LinkedIn](https://www.linkedin.com/in/ssdudala/)
 
-## Selected systems
+## Current frontier
 
-- Claims intelligence with explicit validation and human-review paths
-- On-prem document intelligence inside regulated data boundaries
-- Healthcare analytics platforms spanning models, delivery, and care workflows
+Context-engineered claims agents: model + context + tools + typed state + validation + reviewer authority. Public portfolio diagrams are sanitized; synthetic traces contain no employer data.
 
-## Public builds
+## Flagship public systems
 
-- [LLM Steering](https://github.com/smgpulse007/llm-steering) — local activation-steering workbench and evaluation tooling
-- [HL7 AI Challenge reference architecture](https://github.com/smgpulse007/hl7-ai-challenge) — standards-oriented healthcare event and orchestration patterns
-- [AlphaQuant](https://github.com/smgpulse007/AlphaQuant) — local-first agentic research and forecasting architecture
+- [Meta Harness](https://github.com/smgpulse007/meta-harness) — specification-driven execution with work orders, checkpoints, proof, review gates, and continuation.
+- [LLM Steering](https://github.com/smgpulse007/llm-steering) — local activation-steering workbench and checked-in model-behavior comparisons.
+- [HL7 AI Challenge reference architecture](https://github.com/smgpulse007/hl7-ai-challenge) — standards-oriented healthcare event and orchestration patterns.
+- [AlphaQuant](https://github.com/smgpulse007/AlphaQuant) — local-first agentic research and forecasting architecture.
+
+## Professional systems
+
+- Claims intelligence with explicit validation and human-review paths.
+- On-prem document intelligence inside regulated data boundaries.
+- Healthcare analytics platforms spanning models, delivery, and care workflows.
+
+Signal → Prediction → Product → Context → Agent → Harness

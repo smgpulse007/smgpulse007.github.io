@@ -59,14 +59,14 @@ for (const filename of htmlFiles) {
 const home = visibleText(fs.readFileSync(path.join(dist, 'index.html'), 'utf8'));
 for (const phrase of [
   'Senior Applied AI Engineer',
-  'Healthcare & Insurance',
-  'I build AI systems that survive real operations.',
-  'A packet becomes a decision',
-  'The systems behind the outcomes.',
+  'Intelligence becomes a system.',
+  'Signal → Prediction → Product → Context → Agent → Harness',
+  'An agent does not begin with a prompt. It begins with a system.',
+  'The ideas behind the systems.',
 ]) if (!home.includes(phrase)) failures.push(`home: required V2.1 copy is missing: ${phrase}`);
 
 const about = visibleText(fs.readFileSync(path.join(dist, 'about', 'index.html'), 'utf8'));
-if (!/biomedical context/i.test(about) || !/uncertainty legible/i.test(about)) failures.push('about: professional origin story is incomplete');
+if (!/biomedical informatics/i.test(about) || !/ambiguity is where the work begins/i.test(about)) failures.push('about: professional origin story is incomplete');
 
 if (failures.length) {
   console.error(`Copy validation failed with ${failures.length} issue(s):`);
@@ -74,4 +74,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Copy validation passed: ${htmlFiles.length} rendered pages, V2.1 identity spine, natural evidence language, origin story, PII/path guards, and Builder denylist.`);
+console.log(`Copy validation passed: ${htmlFiles.length} rendered pages, V2.2 systems narrative, natural evidence language, origin story, PII/path guards, and Builder denylist.`);

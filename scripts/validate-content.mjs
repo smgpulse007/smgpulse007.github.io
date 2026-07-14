@@ -46,13 +46,18 @@ const requiredArtifacts = [
   'index.html',
   '404.html',
   'work/index.html',
+  'systems/index.html',
+  'evolution/index.html',
   'experience/index.html',
   'lab/index.html',
+  'research/index.html',
   'recognition/index.html',
   'about/index.html',
   'resume/index.html',
   'contact/index.html',
   'portfolio.json',
+  'systems.json',
+  'research.json',
   'project-evidence.json',
   'llms.txt',
   'build.json',
@@ -115,7 +120,7 @@ if (fs.existsSync(resumeArtifact)) {
 }
 
 const ogDirectory = path.join(dist, 'og');
-for (const slug of ['home', 'work', 'experience', 'lab', 'recognition', 'about', 'resume', 'contact', 'work-claims-intelligence', 'work-on-prem-rag-ocr', 'work-healthcare-analytics-platform', 'work-llm-steering-lab']) {
+for (const slug of ['home', 'systems', 'evolution', 'lab', 'research', 'recognition', 'about', 'resume', 'contact', 'systems-claims-agents', 'systems-predictive-ml', 'systems-healthcare-platform', 'systems-document-intelligence', 'systems-meta-harness', 'systems-llm-steering']) {
   const filename = path.join(ogDirectory, `${slug}.png`);
   if (!fs.existsSync(filename)) {
     fail(`social preview: missing ${slug} card`);
@@ -131,17 +136,20 @@ for (const slug of ['home', 'work', 'experience', 'lab', 'recognition', 'about',
 
 const primaryPages = [
   'index.html',
-  'work/index.html',
-  'experience/index.html',
+  'systems/index.html',
+  'evolution/index.html',
   'lab/index.html',
+  'research/index.html',
   'recognition/index.html',
   'about/index.html',
   'resume/index.html',
   'contact/index.html',
-  'work/claims-intelligence/index.html',
-  'work/on-prem-rag-ocr/index.html',
-  'work/healthcare-analytics-platform/index.html',
-  'work/llm-steering-lab/index.html',
+  'systems/claims-agents/index.html',
+  'systems/predictive-ml/index.html',
+  'systems/healthcare-platform/index.html',
+  'systems/document-intelligence/index.html',
+  'systems/meta-harness/index.html',
+  'systems/llm-steering/index.html',
 ];
 
 for (const relativePath of primaryPages) {
@@ -222,11 +230,9 @@ if (fs.existsSync(portfolioPath)) {
   try {
     const portfolio = JSON.parse(fs.readFileSync(portfolioPath, 'utf8'));
     if (portfolio.role !== 'Senior Applied AI Engineer') fail('portfolio.json: canonical role is incorrect');
-    if (!Array.isArray(portfolio.selectedProjects) || portfolio.selectedProjects.length < 3) fail('portfolio.json: fewer than three selected projects');
-    for (const claim of portfolio.publicImpactClaims ?? []) {
-      if (!['approved', 'qualified'].includes(claim.publicationStatus)) fail(`portfolio.json: non-public claim rendered: ${claim.id ?? claim.label}`);
-      if (!claim.context || !claim.role || !claim.evidenceStatus) fail(`portfolio.json: incomplete claim provenance: ${claim.id ?? claim.label}`);
-    }
+    if (portfolio.schemaVersion !== 'systems-observatory.v2.2') fail('portfolio.json: V2.2 schema version is missing');
+    if (!Array.isArray(portfolio.professionalSystems) || portfolio.professionalSystems.length !== 4) fail('portfolio.json: expected four professional systems');
+    if (portfolio.research?.count < 30) fail('portfolio.json: research atlas count is incomplete');
   } catch (error) {
     fail(`portfolio.json: invalid JSON (${error.message})`);
   }

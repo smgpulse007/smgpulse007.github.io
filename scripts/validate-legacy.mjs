@@ -12,7 +12,6 @@ const redirects = {
   'my-ai-app-library/index.html': '/lab/',
   'work/lets-talk-doc/index.html': '/recognition/#lets-talk-doc',
   'projects/index.html': '/work/',
-  'systems/index.html': '/lab/',
   'professional-systems/index.html': '/work/',
   'research-archive/index.html': '/lab/',
   'data-science-lab/index.html': '/lab/',

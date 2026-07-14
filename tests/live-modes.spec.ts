@@ -2,6 +2,9 @@ import { expect, test, type Page } from '@playwright/test';
 
 const essentialRoutes = [
   '/',
+  '/systems/',
+  '/evolution/',
+  '/research/',
   '/work/',
   '/experience/',
   '/lab/',
@@ -13,6 +16,9 @@ const essentialRoutes = [
   '/work/on-prem-rag-ocr/',
   '/work/healthcare-analytics-platform/',
   '/work/llm-steering-lab/',
+  '/systems/claims-agents/',
+  '/systems/meta-harness/',
+  '/systems/llm-steering/',
 ];
 
 function requireBaseUrl(baseURL: string | undefined) {
@@ -45,14 +51,14 @@ test('essential routes retain complete content with JavaScript disabled', async 
   await context.close();
 });
 
-test('reduced-motion mode preserves controls and suppresses recorder motion', async ({ page }) => {
+test('reduced-motion mode preserves controls and suppresses observatory motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
-  await expect(page.locator('.packet-decision')).toBeVisible();
-  const durations = await page.locator('.packet-decision').evaluate((element) => {
+  await expect(page.locator('.agent-trace-v22')).toBeVisible();
+  const durations = await page.locator('.hero-signal').evaluate((element) => {
     const style = getComputedStyle(element);
     return [style.animationDuration, style.transitionDuration];
   });
@@ -79,13 +85,11 @@ test('keyboard-only navigation reaches skip, navigation, and trace controls', as
   await page.keyboard.press('Enter');
   await expect(page.locator('.mobile-nav')).toHaveAttribute('open', '');
 
-  const recorderControl = page.getByRole('tab', { name: 'FHIR event' });
-  const recorderIsland = page.locator('astro-island').filter({ has: recorderControl });
-  await recorderIsland.scrollIntoViewIfNeeded();
-  await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
-  await recorderControl.focus();
-  await page.keyboard.press('Space');
-  await expect(recorderControl).toHaveAttribute('aria-selected', 'true');
+  const trace = page.locator('.agent-trace-v22');
+  await trace.scrollIntoViewIfNeeded();
+  await trace.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(trace.locator('li[aria-current="step"]')).toContainText('Intent classified');
 });
 
 test('forced-colors mode retains essential content and controls', async ({ page }, testInfo) => {
@@ -95,8 +99,8 @@ test('forced-colors mode retains essential content and controls', async ({ page 
 
   expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
   await expect(page.locator('h1')).toBeVisible();
-  await expect(page.locator('.packet-decision')).toBeVisible();
-  await expect(page.getByRole('tab', { name: 'FHIR event' })).toBeVisible();
+  await expect(page.locator('.agent-trace-v22')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Next agent step' })).toBeVisible();
   expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
 
   const screenshot = testInfo.outputPath('forced-colors-home.png');
@@ -132,7 +136,7 @@ test('cold-cache navigation returns complete server-rendered content', async ({ 
   const response = await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(response?.status()).toBe(200);
-  await expect(page.locator('h1')).toContainText(/AI systems/i);
+  await expect(page.locator('h1')).toContainText(/Intelligence/i);
   await expect(page.locator('main')).toContainText('7K');
   await context.close();
 });

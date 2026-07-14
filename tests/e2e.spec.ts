@@ -27,6 +27,9 @@ function isApplicationRequest(url: string) {
 
 const primaryRoutes = [
   '/',
+  '/systems/',
+  '/evolution/',
+  '/research/',
   '/work/',
   '/experience/',
   '/lab/',
@@ -38,11 +41,16 @@ const primaryRoutes = [
   '/work/on-prem-rag-ocr/',
   '/work/healthcare-analytics-platform/',
   '/work/llm-steering-lab/',
+  '/systems/claims-agents/',
+  '/systems/predictive-ml/',
+  '/systems/healthcare-platform/',
+  '/systems/document-intelligence/',
+  '/systems/meta-harness/',
+  '/systems/llm-steering/',
 ];
 
 const compatibilityRoutes: Record<string, string> = {
   '/projects/': '/work/',
-  '/systems/': '/lab/',
   '/professional-systems/': '/work/',
   '/research-archive/': '/lab/',
   '/data-science-lab/': '/lab/',
@@ -95,7 +103,9 @@ test.describe('static route and metadata contract', () => {
   test('machine-readable routes and custom 404 are present', async ({ request }) => {
     const portfolio = await request.get('/portfolio.json');
     expect(portfolio.status()).toBe(200);
-    expect((await portfolio.json()).role).toBe('Senior Applied AI Engineer');
+    expect((await portfolio.json()).schemaVersion).toBe('systems-observatory.v2.2');
+    await expect(await request.get('/systems.json')).toBeOK();
+    await expect(await request.get('/research.json')).toBeOK();
     await expect(await request.get('/llms.txt')).toBeOK();
     const buildResponse = await request.get('/build.json');
     await expect(buildResponse).toBeOK();
@@ -178,7 +188,7 @@ test('required widths have no horizontal overflow', async ({ page }) => {
   ];
   for (const { width, height } of viewports) {
     await page.setViewportSize({ width, height });
-    for (const route of ['/', '/work/', '/work/claims-intelligence/', '/work/healthcare-analytics-platform/', '/experience/', '/lab/', '/recognition/', '/about/', '/resume/', '/contact/']) {
+    for (const route of ['/', '/systems/', '/evolution/', '/systems/claims-agents/', '/systems/meta-harness/', '/systems/llm-steering/', '/research/', '/lab/', '/recognition/', '/about/', '/resume/', '/contact/']) {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
       await page.evaluate(() => document.fonts.ready);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -226,46 +236,37 @@ test('reduced motion and keyboard/mobile navigation remain usable', async ({ pag
   const menu = page.locator('.mobile-nav');
   await menu.locator('summary').click();
   await expect(menu).toHaveAttribute('open', '');
-  await expect(menu.getByRole('link', { name: 'Work' })).toBeVisible();
+  await expect(menu.getByRole('link', { name: 'Systems' })).toBeVisible();
 
-  const fhir = page.getByRole('tab', { name: 'FHIR event' });
-  const recorderIsland = page.locator('astro-island').filter({ has: fhir });
-  await recorderIsland.scrollIntoViewIfNeeded();
-  await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
-  await fhir.focus();
-  await fhir.press('Space');
-  await expect(fhir).toHaveAttribute('aria-selected', 'true');
-
-  const motionDurations = await page.locator('.packet-decision').evaluate((element) => {
+  const trace = page.locator('.agent-trace-v22');
+  await trace.scrollIntoViewIfNeeded();
+  await trace.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(trace.locator('li[aria-current="step"]')).toContainText('Intent classified');
+  const motionDurations = await trace.evaluate((element) => {
     const style = getComputedStyle(element);
     return [style.animationDuration, style.transitionDuration];
   });
   expect(motionDurations.every((value) => value === '0s' || value === '1e-05s' || value === '0.00001s')).toBe(true);
 });
 
-test('packet trace is complete without JavaScript and keyboard operable with JavaScript', async ({ page, browser }) => {
+test('agent trace is complete without JavaScript and keyboard operable with JavaScript', async ({ page, browser }) => {
   await page.goto('/');
-  const trace = page.locator('.packet-decision');
-  await expect(trace).toContainText('Packet received');
+  const trace = page.locator('.agent-trace-v22');
+  await expect(trace).toContainText('Event arrives');
   await expect(trace).toContainText('Trace closes');
-  const recorderIsland = page.locator('astro-island').filter({ has: trace });
-  await recorderIsland.scrollIntoViewIfNeeded();
-  await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
-  await page.getByRole('tab', { name: 'Claim packet' }).click();
-  await page.getByRole('button', { name: 'Previous decision step' }).click();
-  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Reviewer sees evidence');
   await trace.focus();
   await page.keyboard.press('ArrowRight');
-  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Trace closes');
+  await expect(trace.locator('li[aria-current="step"]')).toContainText('Intent classified');
   await trace.focus();
   await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Reviewer sees evidence');
+  await expect(trace.locator('li[aria-current="step"]')).toContainText('Event arrives');
 
   const noJsContext = await browser.newContext({ javaScriptEnabled: false });
   const noJsPage = await noJsContext.newPage();
   await noJsPage.goto('/');
-  await expect(noJsPage.locator('.packet-decision')).toContainText('Packet received');
-  await expect(noJsPage.locator('.packet-decision')).toContainText('Trace closes');
-  await expect(noJsPage.getByRole('link', { name: 'Explore the systems' })).toBeVisible();
+  await expect(noJsPage.locator('.agent-trace-v22')).toContainText('Event arrives');
+  await expect(noJsPage.locator('.agent-trace-v22')).toContainText('Trace closes');
+  await expect(noJsPage.getByRole('link', { name: 'Explore the systems' }).first()).toBeVisible();
   await noJsContext.close();
 });

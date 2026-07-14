@@ -13,7 +13,7 @@ const targets = [
     siteUrl: 'http://localhost:4321',
     canonicalUrl: 'http://localhost:4321',
     robots: 'noindex,nofollow',
-    robotsDirective: 'Allow: /',
+    robotsDirective: 'Disallow: /',
     sitemap: false,
   },
   {
@@ -21,7 +21,7 @@ const targets = [
     siteUrl: 'https://portfolio-v2-staging.hostingersite.com',
     canonicalUrl: 'https://portfolio-v2-staging.hostingersite.com',
     robots: 'noindex,nofollow',
-    robotsDirective: 'Allow: /',
+    robotsDirective: 'Disallow: /',
     sitemap: false,
   },
   {
@@ -37,7 +37,7 @@ const targets = [
     siteUrl: 'https://smgpulse007.github.io',
     canonicalUrl: 'https://shaileshdudala.com',
     robots: 'noindex,follow',
-    robotsDirective: 'Allow: /',
+    robotsDirective: 'Disallow: /',
     sitemap: false,
   },
 ];

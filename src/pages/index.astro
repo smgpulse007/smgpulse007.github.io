@@ -1,108 +1,26 @@
 ---
 import Layout from '../components/Layout.astro';
-import FlightRecorder from '../components/FlightRecorder';
-import ImpactStrip from '../components/ImpactStrip.astro';
-import SectionIntro from '../components/SectionIntro.astro';
-import WorkFeature from '../components/WorkFeature.astro';
+import ObservatoryHero from '../components/v22/ObservatoryHero.astro';
+import EvolutionSpine from '../components/v22/EvolutionSpine.astro';
+import AgentTrace from '../components/v22/AgentTrace.astro';
+import MetaHarnessChamber from '../components/v22/MetaHarnessChamber.astro';
+import LatentLens from '../components/v22/LatentLens.astro';
 import { profile } from '../data/profile';
-import { featuredWork } from '../data/work';
-import { experienceEras } from '../data/experience';
+import { professionalSystems, labSystems } from '../data/observatory';
+import { researchItems } from '../data/research';
 import { recognition } from '../data/recognition';
-import { labItems } from '../data/lab';
 ---
-
-<Layout title={profile.seoTitle} description={profile.seoDescription} canonicalPath="/">
-  <section class="hero-section">
-    <div class="shell hero-intro">
-      <div class="hero-copy">
-        <p class="hero-overline">Senior Applied AI Engineer <i>·</i> Healthcare &amp; Insurance</p>
-        <p class="hero-name">Shailesh Dudala</p>
-        <h1>I build AI systems that survive real operations.</h1>
-      </div>
-      <div class="hero-context">
-        <p>Claim packets, clinical documents, and event streams rarely arrive ready for a model. I design the contracts, validation, human review, and observability that turn them into accountable workflows.</p>
-        <p class="hero-domains">Agentic workflows <i>·</i> Document intelligence <i>·</i> ML platforms</p>
-        <div class="hero-actions">
-          <a class="button primary" href="/work/">Explore the systems</a>
-          <a class="button quiet" href="/resume/">Public résumé</a>
-        </div>
-        <div class="hero-links"><a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={`mailto:${profile.email}`}>Email ↗</a></div>
-      </div>
-    </div>
-    <div class="shell hero-instrument"><FlightRecorder client:visible /></div>
-  </section>
-
-  <ImpactStrip />
-
-  <section class="section selected-work" id="work">
-    <div class="shell">
-      <SectionIntro eyebrow="Selected work" title="The systems behind the outcomes." body="Three professional stories and one public research build. Each focuses on the decisions a model cannot own alone." />
-      <div class="work-stack">
-        {featuredWork.map((item, index) => <WorkFeature item={item} index={index + 1} lead={index === 0} />)}
-      </div>
-      <a class="section-link" href="/work/">Browse selected work <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <section class="section operating-section">
-    <div class="shell operating-layout">
-      <div><p class="eyebrow">How I build</p><h2>A model answer is an input to a decision—not the decision itself.</h2></div>
-      <ol class="operating-thread">
-        <li><span>01</span><strong>Contract</strong><small>Make the output shape explicit.</small></li>
-        <li><span>02</span><strong>Evaluate</strong><small>Test failure modes before scale.</small></li>
-        <li><span>03</span><strong>Route</strong><small>Send uncertainty with a reason.</small></li>
-        <li><span>04</span><strong>Review</strong><small>Keep people in authority.</small></li>
-        <li><span>05</span><strong>Observe</strong><small>Measure what happens in use.</small></li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="section experience-preview">
-    <div class="shell">
-      <SectionIntro eyebrow="Experience" title="The scope widened. The operating question stayed the same." body="Biomedical data became healthcare prediction, then analytics products, local AI, and agentic insurance workflows." />
-      <div class="experience-river">
-        {experienceEras.map((era, index) => (
-          <article>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <div><p>{era.period}</p><h3>{era.theme}</h3><strong>{era.organization}</strong><p>{era.summary}</p></div>
-            <ul>{era.outcomes.slice(0, 2).map((outcome) => <li>{outcome}</li>)}</ul>
-          </article>
-        ))}
-      </div>
-      <a class="section-link" href="/experience/">Read the experience story <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <section class="section recognition-section">
-    <div class="shell recognition-layout">
-      <div><p class="eyebrow">Recognition</p><h2>Team work, credited as team work.</h2><p>Let’s Talk Doc belongs here: meaningful recognition with the project and contributors kept attached.</p><a class="section-link" href="/recognition/">See recognition <span aria-hidden="true">→</span></a></div>
-      <div class="recognition-list">
-        {recognition.slice(0, 2).map((item, index) => <article class:list={{ featured: index === 0 }}><span>{item.attribution}</span><h3>{item.title}</h3><p>{item.project}</p></article>)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section lab-teaser">
-    <div class="shell lab-teaser-layout">
-      <div><p class="eyebrow">Lab</p><h2>Public builds for the questions that keep expanding the work.</h2><p>Local model behavior, healthcare interoperability, document extraction, and forecasting—organized by maturity and limitation.</p><a class="button quiet" href="/lab/">Enter the Lab</a></div>
-      <div class="lab-teaser-list">
-        {labItems.slice(0, 3).map((item, index) => <a href={`/lab/${item.slug}/`}><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{item.title}</strong><small>{item.domain}</small></div><i>→</i></a>)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section about-teaser">
-    <div class="shell about-teaser-layout">
-      <p class="eyebrow">Origin</p>
-      <blockquote>“I started in biomedical informatics, where every result had to survive contact with messy clinical context. That lesson still shapes how I build AI.”</blockquote>
-      <div><p>The throughline is not a favorite model. It is making uncertainty legible enough for people to act responsibly.</p><a class="section-link" href="/about/">More about how I work <span aria-hidden="true">→</span></a></div>
-    </div>
-  </section>
-
-  <section class="section contact-section" id="contact">
-    <div class="shell contact-layout">
-      <div><p class="eyebrow">Contact</p><h2>Working on a system where an AI answer has to become a defensible action?</h2><p>Let’s talk about the architecture between those two points.</p></div>
-      <div class="contact-actions"><a class="button primary" href={`mailto:${profile.email}`}>Email Shailesh</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Public résumé →</a></div>
-    </div>
-  </section>
+<Layout title="Shailesh Dudala — Systems Observatory" description="Senior Applied AI Engineer building predictive systems, context-engineered agents, document intelligence, and evidence-gated execution harnesses." canonicalPath="/">
+  <ObservatoryHero />
+  <section class="v22-scene evolution-scene"><div class="shell scene-heading"><div><span>SCENE 02 / EVOLUTION</span><h2>Signal → Prediction → Product → Context → Agent → Harness</h2></div><p>One operating question connects the work: what evidence does a person need, what can the system own, and what happens when reality does not fit?</p></div><div class="shell"><EvolutionSpine compact /><a class="scene-link" href="/evolution/">Open the complete evolution <span>↗</span></a></div></section>
+  <section class="v22-scene frontier-scene"><div class="shell scene-heading"><div><span>SCENE 03 / CURRENT FRONTIER</span><h2>An agent does not begin with a prompt. It begins with a system.</h2></div><p>Current work centers on bounded autonomous claims processing and adjudication support—not human-free decisions.</p></div><div class="shell"><AgentTrace /><div class="layer-legend"><span><i>01</i><strong>Model</strong><small>Produces an output</small></span><span><i>02</i><strong>Context</strong><small>Assembles evidence and state</small></span><span><i>03</i><strong>Agent loop</strong><small>Acts, observes, retries, stops</small></span><span><i>04</i><strong>Harness</strong><small>Governs execution and proof</small></span><span class="authority"><i>05</i><strong>Workflow authority</strong><small>People own consequential action</small></span></div><a class="scene-link" href="/systems/claims-agents/">Inspect the claims-agent system <span>↗</span></a></div></section>
+  <section class="v22-scene system-field-scene"><div class="shell scene-heading"><div><span>SCENE 04 / PROFESSIONAL SYSTEMS</span><h2>Systems built where uncertainty has operating consequences.</h2></div><p>Each preview starts with the human problem, the system, the change, and the proof—not a technology inventory.</p></div><div class="shell system-field">{professionalSystems.map((system,i)=><article class={`system-scan ${system.accent}`}><div class="scan-index"><span>{String(i+1).padStart(2,'0')}</span><i></i><small>{system.stage}</small></div><div class="scan-title"><h3>{system.title}</h3><a href={system.href}>Inspect system ↗</a></div><dl><div><dt>Problem</dt><dd>{system.problem}</dd></div><div><dt>Built</dt><dd>{system.built}</dd></div><div><dt>Changed</dt><dd>{system.changed}</dd></div><div><dt>Proof</dt><dd>{system.proof}</dd></div></dl></article>)}</div></section>
+  <section class="v22-scene harness-scene"><div class="shell scene-heading"><div><span>SCENE 05 / OPEN-SOURCE FRONTIER</span><h2>Large specifications become phases, packets, proof, and continuation.</h2></div><p>Meta Harness makes the execution system around a coding agent inspectable. It is pre-1.0, source-installed, and read-only-first.</p></div><div class="shell"><MetaHarnessChamber /><a class="scene-link" href="/systems/meta-harness/">Open the Meta Harness flagship <span>↗</span></a></div></section>
+  <section class="v22-scene lens-scene"><div class="shell scene-heading"><div><span>SCENE 06 / MODEL BEHAVIOR</span><h2>Model behavior becomes an inspectable experiment.</h2></div><p>The Latent Lens uses actual checked-in outputs from LLM Steering. It never fabricates a generation or implies unsupported model compatibility.</p></div><div class="shell"><LatentLens /><a class="scene-link" href="/systems/llm-steering/">Open the LLM Steering flagship <span>↗</span></a></div></section>
+  <section class="v22-scene impact-scene"><div class="shell scene-heading"><div><span>SCENE 07 / IMPACT FIELD</span><h2>Outcomes, attached to the systems that produced them.</h2></div><p>Public-safe, qualified measures from the existing governed portfolio record.</p></div><div class="shell impact-field-v22"><article><span>DOCUMENT WORKFLOW</span><strong>7K</strong><p>documents/day in a measured local-intelligence workflow</p></article><article><span>HANDLING EFFORT</span><strong>90%</strong><p>approximate reduction in the measured packet workflow</p></article><article><span>ANALYTICS PRODUCT</span><strong>20%</strong><p>documented platform/product improvement in the governed record</p></article><article><span>PROGRAM VALUE</span><strong>≈$3M</strong><p>documented aggregate business impact, not personal revenue</p></article></div></section>
+  <section class="v22-scene lab-field-scene"><div class="shell scene-heading"><div><span>SCENE 08 / SYSTEMS LAB</span><h2>Same engineering principles. Different uncertainty structures.</h2></div><p>Healthcare interoperability, document AI, forecasting, quant, local models, and agent orchestration—organized by maturity and limit.</p></div><div class="shell lab-rail">{labSystems.map((system,i)=><article class:list={{flagship:i<2}}><span>{system.stage} / {system.maturity}</span><h3>{system.title}</h3><dl><div><dt>Problem</dt><dd>{system.problem}</dd></div><div><dt>Built</dt><dd>{system.built}</dd></div><div><dt>Proof</dt><dd>{system.proof}</dd></div><div><dt>Limit</dt><dd>{system.limits}</dd></div></dl><a href={system.href}>Enter system ↗</a></article>)}</div><div class="shell"><a class="scene-link" href="/lab/">Enter the Systems Lab <span>↗</span></a></div></section>
+  <section class="v22-scene atlas-preview-scene"><div class="shell atlas-preview"><div><span>SCENE 09 / RESEARCH ATLAS</span><h2>The ideas behind the systems.</h2><p>{researchItems.length} verified primary records connect predictive models, retrieval, agent loops, harness engineering, representation engineering, and healthcare interoperability.</p><a class="signal-button" href="/research/">Open the Research Atlas <span>↗</span></a></div><div class="atlas-mini" aria-label="Research cluster preview">{['Predictive models','Retrieval + context','Agent loops','Harnesses','Representations','FHIR'].map((label,i)=><i style={`--x:${[18,43,72,61,34,84][i]}%;--y:${[28,16,34,70,76,62][i]}%`}><span>{label}</span></i>)}</div></div></section>
+  <section class="v22-scene human-scene"><div class="shell human-grid"><div><span>SCENE 10 / HUMAN ORIGIN</span><h2>Ambiguity is where the work begins.</h2></div><div><p>Biomedical informatics taught me that technically correct results can still fail when lineage, assumptions, and operating context are invisible.</p><p>That is why the work keeps moving outward: from models, to products, to context, to agents, to the harness that makes execution accountable.</p><a class="scene-link" href="/about/">Read the human story <span>↗</span></a></div></div></section>
+  <section class="v22-scene recognition-v22"><div class="shell recognition-v22-grid"><div><span>SCENE 11 / RECOGNITION</span><h2>Official proof. Team credit intact.</h2><a class="scene-link" href="/recognition/">View recognition <span>↗</span></a></div><div>{recognition.slice(0,3).map((item)=><article><small>{item.attribution}</small><strong>{item.title}</strong><span>{item.project}</span></article>)}</div></div></section>
+  <section class="v22-contact"><div class="shell"><span>SCENE 12 / CONTACT</span><h2>Building an AI system where an answer must become a defensible action?</h2><p>I work where models meet workflow, evidence, operations, and human authority.</p><div><a class="signal-button" href={`mailto:${profile.email}`}>Email Shailesh <span>↗</span></a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Public résumé ↗</a></div></div></section>
 </Layout>

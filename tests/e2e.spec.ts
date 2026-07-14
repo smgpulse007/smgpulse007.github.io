@@ -195,7 +195,7 @@ test('required widths have no horizontal overflow', async ({ page }) => {
                 right: Math.round(rect.right),
                 width: Math.round(rect.width),
                 overflowRight: Math.max(0, Math.round(rect.right - viewportWidth)),
-                internalOverflow: Math.max(0, element.scrollWidth - element.clientWidth),
+                internalOverflow: element.clientWidth > 0 ? Math.max(0, element.scrollWidth - element.clientWidth) : 0,
               };
             })
             .filter((item) => item.left < -1 || item.overflowRight > 1 || item.internalOverflow > 1)

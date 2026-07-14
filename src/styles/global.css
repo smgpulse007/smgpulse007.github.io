@@ -787,9 +787,26 @@ body{background:var(--obs);color:var(--obs-paper)}body::before{opacity:.13;backg
   .agent-trace-v22 > header { display: grid; align-items: stretch; }
   .trace-controls { display: grid; grid-template-columns: 48px minmax(0, 1fr) 48px; width: 100%; max-width: 100%; }
   .trace-controls button { min-width: 0; }
+  .scene-heading > *,
+  .system-detail-hero > .shell > *,
+  .flagship-hero > .shell > *,
+  .limitation-field > .shell > *,
+  .harness-chamber > header > *,
+  .latent-lens > header > *,
+  .research-toolbar > * { min-width: 0; max-width: 100%; }
+  .scene-heading h2,
+  .system-detail-hero h1,
+  .flagship-hero h1,
+  .limitation-field h2 { overflow-wrap: anywhere; }
+  .flagship-hero > div > div { flex-wrap: wrap; }
+  .latent-lens select,
+  .research-toolbar select { width: 100%; min-width: 0; max-width: 100%; }
+  .research-toolbar { align-items: stretch; }
+  .research-toolbar [role="tablist"] { display: grid; grid-template-columns: 1fr; width: 100%; }
+  .research-toolbar button + button { border-top: 0; border-left: 1px solid var(--obs-line); }
   .research-product,
   .constellation-field,
-  .atlas-mini { overflow: clip; }
+  .atlas-mini { overflow: hidden; }
 }
 
 @media (max-width: 900px) {

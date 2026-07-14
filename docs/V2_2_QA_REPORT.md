@@ -1,6 +1,8 @@
 # Portfolio V2.2 QA report
 
-Status: **local implementation passed; remote Hostinger staging pending**.
+Status: **local and isolated Hostinger staging validation passed**.
+
+Staging: `https://royalblue-wildcat-803695.hostingersite.com`
 
 ## Local gates
 
@@ -35,11 +37,19 @@ Human inspection found and corrected:
 
 The live-modes suite covers disabled JavaScript, reduced motion, keyboard-only navigation, forced colors, 200% zoom-equivalent reflow, cold cache, slow-network latency, and device-scale-factor 2 rendering.
 
-## Remaining remote gates
+## Remote staging proof
 
-- Repeat the cross-browser matrix against the live staging origin.
-- Live no-index, robots, canonical, JSON, PDF, and legacy-route checks.
-- Hostinger response headers, caching, and 404 behavior.
-- Final staging screenshots/videos after deployment.
+- 120/120 E2E checks passed across Chromium, Firefox, and WebKit.
+- 54/54 axe route/browser combinations passed.
+- 24/24 live-mode checks passed.
+- Canonicals resolve to the isolated staging host.
+- Meta robots is `noindex,nofollow`; no sitemap is emitted. Hostinger HCDN supplies its own free-subdomain `robots.txt` with a Googlebot block, so the deployment also carries a host-conditional `X-Robots-Tag: noindex, nofollow, noarchive` safeguard.
+- `build.json` identifies the expected branch SHA and `hostinger-staging` target.
+- PDF, JSON endpoints, legacy routes, custom 404, and social images returned successfully.
+
+## Owner-review boundary
+
+- Review the isolated staging site and the committed staging screenshots/videos.
+- Decide whether V2.2 is accepted for a later, separately authorized cutover.
 
 No production, mirror, DNS, or V2.1 staging mutation is authorized.

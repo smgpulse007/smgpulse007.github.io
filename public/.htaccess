@@ -1,5 +1,12 @@
 RewriteEngine On
 
+# Hostinger free staging domains override robots.txt at the CDN. Add an
+# independent response-level no-index directive only on hostingersite.com.
+<IfModule mod_headers.c>
+  SetEnvIf Host "\.hostingersite\.com$" PORTFOLIO_NOINDEX
+  Header set X-Robots-Tag "noindex, nofollow, noarchive" env=PORTFOLIO_NOINDEX
+</IfModule>
+
 # Serve the portfolio's accessible, no-index error page for unknown routes.
 ErrorDocument 404 /404.html
 

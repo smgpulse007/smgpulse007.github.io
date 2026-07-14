@@ -85,6 +85,7 @@ try {
     else {
       const redirectConfig = fs.readFileSync(redirectConfigPath, 'utf8');
       if (!redirectConfig.includes('ErrorDocument 404 /404.html')) failures.push(`${configuration.target}: custom 404 directive is missing from .htaccess`);
+      if (!redirectConfig.includes('Header set X-Robots-Tag "noindex, nofollow, noarchive" env=PORTFOLIO_NOINDEX')) failures.push(`${configuration.target}: Hostinger staging X-Robots-Tag safeguard is missing from .htaccess`);
       if (!redirectConfig.includes('^www\\.shaileshdudala\\.com$')) failures.push(`${configuration.target}: www host condition is missing from .htaccess`);
       if (!redirectConfig.includes('https://shaileshdudala.com%{REQUEST_URI} [R=301,L,NE]')) failures.push(`${configuration.target}: www redirect is not permanent and path-preserving`);
     }

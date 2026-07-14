@@ -3,9 +3,10 @@ import path from 'node:path';
 import { chromium } from '@playwright/test';
 
 const baseUrl = process.env.V22_BASE_URL ?? 'http://127.0.0.1:4382';
+const evidenceLabel = process.env.V22_EVIDENCE_LABEL ?? 'v2.2-review';
 const root = process.cwd();
-const screenshotDir = path.join(root, 'docs', 'screenshots', 'v2.2-review');
-const videoDir = path.join(root, 'docs', 'videos', 'v2.2-review');
+const screenshotDir = path.join(root, 'docs', 'screenshots', evidenceLabel);
+const videoDir = path.join(root, 'docs', 'videos', evidenceLabel);
 const videoTempDir = path.join(root, 'test-results', 'v2.2-evidence-videos');
 
 await Promise.all([

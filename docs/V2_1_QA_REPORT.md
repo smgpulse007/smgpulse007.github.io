@@ -63,7 +63,7 @@ Each formal pass covers 12 routes, 10 required viewport profiles, and Chromium, 
 | 4 — craft and microdetail | 360/360 | Confirmed narrow labels, borders, footer links, résumé shell, and dense cards remain legible at every required width. |
 | 5 — restraint and memorability | 360/360 local and 360/360 remote | Preserved the final system after contrast refinements; the authoritative manifest is from the actual Hostinger staging origin. |
 
-GitHub Actions portability follow-up: the initial staging-review head exposed an 18–19px homepage overflow at 320px only on Ubuntu fallback-font metrics. A dedicated `max-width: 340px` hero type step removed the platform dependency; the focused 12-route, three-engine visual matrix passed 36/36 and the complete local E2E matrix passed 96/96 after the fix. The hosted PR check remains a mandatory release gate.
+GitHub Actions portability follow-up: the initial staging-review heads exposed narrow homepage and page-hero overflow only on Ubuntu fallback-font metrics (18–19px at 320px initially, then 4px at 360px and 16px at 320px after the first correction). A fluid 320–600px type scale, sized against the longest unbroken heading word, replaced those platform-dependent edges. Correction proof includes a 72/72 all-route 320/360px screenshot pass before the final fluid adjustment, then 18/18 affected-surface screenshots, 96/96 E2E cases in CI-mode, and a 9/9 repeated cross-engine width stress run after it. The hosted PR check remains a mandatory release gate.
 
 Ignored machine manifests live under `test-results/pass-*/qa-manifest.json`. Selected review images are committed under [`docs/screenshots/v2.1-review/`](screenshots/v2.1-review/).
 

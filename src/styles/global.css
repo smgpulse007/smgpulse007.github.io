@@ -548,7 +548,7 @@ code, pre { font-family: var(--mono); }
   .hero-overline { display: block; line-height: 1.8; }
   .hero-overline i { margin-inline: 6px; }
   .hero-name { margin-top: 28px; }
-  .hero-copy h1 { font-size: clamp(3.55rem, 17vw, 5.5rem); line-height: .88; }
+  .hero-copy h1 { font-size: clamp(3.25rem, 16vw, 5.5rem); line-height: .88; }
   .hero-actions { display: grid; }
   .hero-actions .button { width: 100%; }
   .hero-instrument { width: 100%; margin-top: 55px; }
@@ -592,7 +592,7 @@ code, pre { font-family: var(--mono); }
   .recognition-list span { grid-row: auto; margin-bottom: 10px; }
   .about-teaser blockquote { font-size: 2.35rem; }
   .contact-layout { gap: 40px; }
-  .page-hero h1 { font-size: clamp(3.3rem, 16vw, 5.4rem); }
+  .page-hero h1 { font-size: clamp(2.5rem, 12.5vw, 5.4rem); }
   .case-hero { padding-top: 65px; }
   .back-link { margin-bottom: 35px; }
   .case-hero h1 { font-size: clamp(3rem, 14vw, 5rem); }
@@ -618,10 +618,6 @@ code, pre { font-family: var(--mono); }
 
 @media (max-width: 360px) {
   .contact-page h1 { font-size: 3.45rem; line-height: .92; }
-}
-
-@media (max-width: 340px) {
-  .hero-copy h1 { font-size: 3.25rem; line-height: .9; }
 }
 
 @media (prefers-reduced-motion: reduce) {

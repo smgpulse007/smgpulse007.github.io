@@ -620,6 +620,10 @@ code, pre { font-family: var(--mono); }
   .contact-page h1 { font-size: 3.45rem; line-height: .92; }
 }
 
+@media (max-width: 340px) {
+  .hero-copy h1 { font-size: 3.25rem; line-height: .9; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .00001s !important; animation-iteration-count: 1 !important; transition-duration: .00001s !important; }
 }

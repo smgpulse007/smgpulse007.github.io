@@ -503,6 +503,7 @@ code, pre { font-family: var(--mono); }
   .mobile-nav { display: block; position: relative; }
   .mobile-nav summary { min-width: 64px; border: 1px solid var(--line); padding: 9px 12px; font-size: .78rem; font-weight: 800; list-style: none; text-align: center; }
   .mobile-nav summary::-webkit-details-marker { display: none; }
+  .mobile-nav:not([open]) > div { display: none; }
   .mobile-nav[open] > div { position: fixed; inset: 77px 0 0; z-index: 99; display: grid; align-content: start; gap: 0; padding: 25px 18px; background: #09100c; }
   .mobile-nav[open] a { border-bottom: 1px solid var(--line); padding: 16px 8px; color: var(--text); font: 730 1.4rem var(--serif); text-decoration: none; }
   .mobile-nav a[aria-current="page"] { color: var(--jade); }

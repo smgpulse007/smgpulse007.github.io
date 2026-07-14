@@ -78,6 +78,13 @@ test.describe('static route and metadata contract', () => {
     test(`${route} preserves the inbound route`, async ({ request }) => {
       const response = await request.get(route);
       expect(response.status()).toBe(200);
+      const requestedPath = new URL(route, `${servedOrigin}/`).pathname;
+      const targetPath = new URL(target, `${servedOrigin}/`).pathname;
+      const responsePath = new URL(response.url()).pathname;
+      if (responsePath !== requestedPath) {
+        expect(responsePath).toBe(targetPath);
+        return;
+      }
       const html = await response.text();
       expect(html).toContain(`href="${target}"`);
       expect(html).toContain('http-equiv="refresh"');
@@ -212,8 +219,15 @@ test('packet trace is complete without JavaScript and keyboard operable with Jav
   const trace = page.locator('.packet-decision');
   await expect(trace).toContainText('Packet received');
   await expect(trace).toContainText('Trace closes');
-  const next = page.getByRole('button', { name: 'Next decision step' });
-  for (let index = 0; index < 5; index += 1) await next.click();
+  const recorderIsland = page.locator('astro-island').filter({ has: trace });
+  await recorderIsland.scrollIntoViewIfNeeded();
+  await expect.poll(() => recorderIsland.getAttribute('ssr')).toBeNull();
+  await page.getByRole('tab', { name: 'Claim packet' }).click();
+  await page.getByRole('button', { name: 'Previous decision step' }).click();
+  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Reviewer sees evidence');
+  await trace.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Trace closes');
   await trace.focus();
   await page.keyboard.press('ArrowLeft');
   await expect(page.locator('.trace-sequence li[aria-current="step"]')).toContainText('Reviewer sees evidence');

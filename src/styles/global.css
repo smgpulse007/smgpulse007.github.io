@@ -542,7 +542,7 @@ code, pre { font-family: var(--mono); }
 }
 
 @media (max-width: 600px) {
-  .shell, .container { width: min(100% - 30px, 1280px); }
+  .shell, .container { width: min(100% - 30px, 1280px); max-width: calc(100% - 30px); }
   .section { padding: 78px 0; }
   .brand-copy small { display: none; }
   .hero-section { padding-top: 58px; }
@@ -605,19 +605,21 @@ code, pre { font-family: var(--mono); }
   .glance-grid div { border-right: 0; border-top: 1px solid var(--line-dark); }
   .outcome-callout { grid-template-columns: 1fr; }
   .case-section { grid-template-columns: 1fr; }
-  .evidence-cards, .recognition-grid { grid-template-columns: 1fr; }
-  .lab-controls { grid-template-columns: 1fr; }
-  .lab-controls > div { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 6px; }
+  .evidence-cards, .recognition-grid { grid-template-columns: minmax(0, 1fr); }
+  .lab-controls { grid-template-columns: minmax(0, 1fr); }
+  .lab-controls > div { width: 100%; max-width: 100%; min-width: 0; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 6px; }
   .lab-controls button { flex: 0 0 auto; }
-  .lab-grid { grid-template-columns: 1fr; }
+  .lab-grid { grid-template-columns: minmax(0, 1fr); }
   .lab-card, .lab-card:nth-child(n) { grid-column: 1; min-height: 0; }
-  .award-feature { grid-template-columns: 1fr; }
+  .about-grid, .contact-page-grid, .resume-heading, .award-feature { grid-template-columns: minmax(0, 1fr); }
+  .about-grid > *, .contact-page-grid > *, .resume-heading > *, .award-feature > *, .recognition-page, .recognition-grid > *, .lab-controls > *, .lab-grid > * { min-width: 0; max-width: 100%; }
   .award-feature aside { grid-column: 1; }
   .origin-line { grid-template-columns: 1fr; gap: 7px; }
   .origin-line i { width: 1px; height: 18px; margin-left: 18px; }
   .evidence-ledger > div:last-child { grid-template-columns: 1fr; }
   .resume-sheet > .shell { width: calc(100% - 20px); padding: 25px 18px; }
-  .resume-sheet header, .resume-sheet article { display: grid; grid-template-columns: 1fr; }
+  .resume-sheet header, .resume-sheet article { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .resume-sheet header > *, .resume-sheet article > * { min-width: 0; max-width: 100%; }
   .footer-meta { display: grid; }
 }
 

@@ -174,6 +174,7 @@ test('required widths have no horizontal overflow', async ({ page }) => {
     await page.setViewportSize({ width, height });
     for (const route of ['/', '/work/', '/work/claims-intelligence/', '/work/healthcare-analytics-platform/', '/experience/', '/lab/', '/recognition/', '/about/', '/resume/', '/contact/']) {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
+      await page.evaluate(() => document.fonts.ready);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       expect(overflow, `${route} overflow at ${width}px`).toBeLessThanOrEqual(1);
     }

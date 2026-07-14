@@ -742,7 +742,7 @@ body{background:var(--obs);color:var(--obs-paper)}body::before{opacity:.13;backg
   .constellation-field::before,
   .constellation-field::after { display: none; }
   .constellation-field > strong { position: static; grid-column: 1 / -1; transform: none; margin-bottom: 18px; }
-  .constellation-field i { position: static; display: grid; width: auto; height: auto; min-width: 0; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; transform: none; border-radius: 0; padding: 10px; box-shadow: none; }
+  .research-product .constellation-field i { position: static; display: grid; width: auto; height: auto; min-width: 0; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; transform: none; border-radius: 0; padding: 10px; box-shadow: none; }
   .constellation-field i span { position: static; width: auto; min-width: 0; transform: none; overflow-wrap: anywhere; text-align: left; }
   .constellation-field i b { position: static; transform: none; }
 }
@@ -798,13 +798,15 @@ body{background:var(--obs);color:var(--obs-paper)}body::before{opacity:.13;backg
   .system-detail-hero > .shell > *,
   .flagship-hero > .shell > *,
   .limitation-field > .shell > *,
+  .atlas-method > .shell > *,
   .harness-chamber > header > *,
   .latent-lens > header > *,
   .research-toolbar > * { min-width: 0; max-width: 100%; }
   .scene-heading h2,
   .system-detail-hero h1,
   .flagship-hero h1,
-  .limitation-field h2 { overflow-wrap: anywhere; }
+  .limitation-field h2,
+  .atlas-method h2 { overflow-wrap: anywhere; }
   .flagship-hero > div > div { flex-wrap: wrap; }
   .latent-lens select,
   .research-toolbar select { width: 100%; min-width: 0; max-width: 100%; }

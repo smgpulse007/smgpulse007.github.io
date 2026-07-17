@@ -158,5 +158,4 @@ The paper/night alternation gives source reading a distinct editorial rhythm wit
 
 ## Validation boundary
 
-This document records the implemented material tokens and fallbacks. It does not assert that final contrast, zoom, browser blur behavior, GPU compositing cost, or remote staging appearance has passed. The final accessibility, performance, and QA reports must contain actual measurements and screenshots across enhanced, standard, reduced, forced-colors, and mobile states.
-
+This document records the implemented material tokens and fallbacks. Automated remote validation now covers 57/57 axe, 30/30 constrained-mode, 147/147 functional, and 420/420 visual checks. Sustained GPU/frame-rate measurement and subjective blur review remain outside this claim; the accessibility, performance, and QA reports contain the measured release evidence.

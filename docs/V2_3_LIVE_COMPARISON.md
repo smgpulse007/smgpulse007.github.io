@@ -1,9 +1,9 @@
 # Portfolio V2.3 live comparison
 
-Status: recorded comparison through the pre-V2.3 live baseline  
+Status: automated comparison extended through live V2.3 staging; owner qualitative acceptance remains pending
 Review date: 2026-07-17
 
-This document records the manual browser observations made against production, V2.1 staging, V2.2 staging, and the final local V2.3 release candidate. It distinguishes observed local behavior from the still-pending remote V2.3 staging review. Automated DOM inspection and screenshots supported the work, but the observations below came from interacting with the rendered pages.
+This document records the manual browser observations made against production, V2.1 staging, V2.2 staging, and the final local V2.3 release candidate, plus the completed automated review of the isolated V2.3 staging origin. Automated DOM inspection and screenshots support the remote results; owner qualitative acceptance remains separate.
 
 ## Reviewed surfaces
 
@@ -13,7 +13,7 @@ This document records the manual browser observations made against production, V
 | V2.1 staging | `https://aquamarine-mole-482437.hostingersite.com/` | Manually reviewed on desktop and mobile |
 | V2.2 staging | `https://royalblue-wildcat-803695.hostingersite.com/` | Manually reviewed on desktop and 390×844 mobile; Home, Lab, Research, and interactions inspected |
 | V2.3 local | Final local release candidate | Manually reviewed on desktop and 390×844 mobile; primary pages, cases, Lab, Research, navigation, motion, and decision surfaces inspected |
-| V2.3 staging | Future isolated Hostinger URL | Remote comparison pending deployment |
+| V2.3 staging | `https://lightgrey-bat-510306.hostingersite.com/` | Deployed; 147/147 functional, 57/57 axe, 30/30 live-mode, 420/420 visual, and 5/5 capture checks passed |
 
 ## Production
 
@@ -86,16 +86,16 @@ V2.3 decision: preserve the ambition, agent-process clarity, Lab interactivity, 
 
 These are qualitative design judgments from the live review, not benchmark measurements.
 
-| Dimension | Production | V2.1 | V2.2 | V2.3 target |
+| Dimension | Production | V2.1 | V2.2 | V2.3 staging |
 | --- | --- | --- | --- | --- |
-| First-glance role clarity | Strong | Strongest | Weak | Strongest plus distinctive in local RC |
-| Professional work dominance | Strong | Strong | Weak/medium | Strong in local RC |
-| Career breadth | Medium | Strong | Weak/medium | Strong and interactive in local RC |
-| Visual distinction | Medium | Medium | Strong | Strong with restraint in local RC |
-| Meaningful interaction | Low | Medium | Strong | Strong and case-specific in local RC |
-| Project maturity clarity | Medium | Medium | Medium | Strong in local RC |
-| Research balance | Medium | Medium | Context/harness-heavy | Foundation/applied/frontier balance in local RC |
-| Mobile menu | Working | Working | Broken in reviewed state | Opaque, bounded, and verified locally |
+| First-glance role clarity | Strong | Strongest | Weak | Strongest plus distinctive |
+| Professional work dominance | Strong | Strong | Weak/medium | Strong |
+| Career breadth | Medium | Strong | Weak/medium | Strong and interactive |
+| Visual distinction | Medium | Medium | Strong | Strong with restraint |
+| Meaningful interaction | Low | Medium | Strong | Strong and case-specific |
+| Project maturity clarity | Medium | Medium | Medium | Strong |
+| Research balance | Medium | Medium | Context/harness-heavy | Foundation/applied/frontier balance |
+| Mobile menu | Working | Working | Broken in reviewed state | Opaque, bounded, and remotely verified |
 
 ## Changes traced into V2.3 source
 
@@ -112,7 +112,7 @@ These are qualitative design judgments from the live review, not benchmark measu
 
 ## V2.3 live-review gate
 
-The final local build has completed the following review. The comparison remains incomplete only until the same checks pass on isolated Hostinger staging:
+The deployed V2.3 origin completed the automated remote gate across functional, accessibility, constrained-mode, responsive-visual, and capture suites. The reviewed scope included:
 
 - all primary navigation and the mobile menu;
 - homepage scroll, hover, focus, ambient motion, career field, and claims run;
@@ -124,4 +124,4 @@ The final local build has completed the following review. The comparison remains
 - desktop, tablet, mobile, and ultrawide screenshots;
 - remote noindex, canonical, robots, build, and asset behavior.
 
-No V2.3 “winner” or staging acceptance should be inferred from this pre-staging comparison alone.
+Remote automated completion establishes review readiness; it does not itself constitute owner acceptance or production authorization.

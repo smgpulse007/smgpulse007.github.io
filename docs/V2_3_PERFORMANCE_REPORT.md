@@ -2,7 +2,7 @@
 
 Date: 2026-07-17  
 Scope: V2.3 branch and isolated review build  
-Status: full local release matrix passed; remote staging measurements to be appended after deployment
+Status: full local release matrix and remote staging browser-behavior matrix passed
 
 ## Performance objective
 
@@ -59,7 +59,7 @@ The three-engine live-mode suite passed 30/30 checks across Chromium, Firefox, a
 - slow-network routing;
 - device-pixel ratio 2.
 
-The responsive visual matrix also passed 420/420 route-and-viewport checks across the three engines, from 320 × 700 through 2560 × 1440. Exact remote-staging results are recorded in `V2_3_QA_REPORT.md` after deployment.
+The responsive visual matrix also passed 420/420 route-and-viewport checks across the three engines, from 320 × 700 through 2560 × 1440. The same 420/420 responsive visual matrix passed against `https://lightgrey-bat-510306.hostingersite.com`.
 
 ## Tradeoffs
 
@@ -71,4 +71,4 @@ The responsive visual matrix also passed 420/420 route-and-viewport checks acros
 
 ## Release gate
 
-Local payload, media, and constrained-mode gates are green. Remote response, asset, and browser measurements must remain green on the isolated Hostinger build before this document is final.
+Local payload, media, and constrained-mode gates are green. Remote response, asset, and browser-behavior gates are also green: 147/147 functional, 30/30 live-mode, and 420/420 visual checks passed. Payload figures remain local-build measurements.

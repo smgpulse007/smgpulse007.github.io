@@ -2,7 +2,7 @@
 
 Date: 2026-07-17  
 Standard: WCAG 2.2 AA-oriented implementation and automated regression review  
-Status: local cross-engine gate passed; remote staging parity remains the release closeout gate
+Status: local and remote staging cross-engine gates passed; production remains gated on owner approval
 
 ## Implemented accessibility contract
 
@@ -50,4 +50,4 @@ Automated axe results do not prove usability for every assistive-technology comb
 
 ## Release gate
 
-No local critical, serious, moderate, or minor axe violations remain in the 57-route-and-engine matrix. Final remote results must match this state before staging sign-off.
+No local or remote critical, serious, moderate, or minor axe violations remain in the 57-route-and-engine matrix. Remote staging at `https://lightgrey-bat-510306.hostingersite.com` matched local parity: 57/57 axe, 30/30 constrained/live-mode, and 147/147 functional checks passed across Chromium, Firefox, and WebKit.

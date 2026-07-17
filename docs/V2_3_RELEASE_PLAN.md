@@ -1,23 +1,23 @@
 # Portfolio V2.3 release plan
 
 Date: 2026-07-17  
-Current phase: isolated staging review  
+Current phase: `complete_pending_human_review`
 Required approval for any production action: `V2.3 CUTOVER APPROVED`
 
 ## Review release
 
-1. Complete source, content, evidence, accessibility, browser, and performance gates.
-2. Commit V2.3 on `codex/portfolio-v2.3-creative-expansion`.
-3. Create a new isolated Hostinger free-subdomain website on the existing hosting order.
-4. Build with:
+1. [x] Complete source, content, evidence, accessibility, browser, and performance gates.
+2. [x] Commit V2.3 on `codex/portfolio-v2.3-creative-expansion`.
+3. [x] Create a new isolated Hostinger free-subdomain website on the existing hosting order: `https://lightgrey-bat-510306.hostingersite.com`.
+4. [x] Build with:
    - `PUBLIC_DEPLOY_TARGET=hostinger-staging`;
    - staging URL as both site and canonical URL;
    - `noindex,nofollow`;
    - no sitemap.
-5. Deploy only the prebuilt static `dist` archive to the new V2.3 hostname.
-6. Verify HTML, headers, robots, canonical, build metadata, assets, interactions, and browser matrix remotely.
-7. Capture remote screenshots and videos into the V2.3 evidence directories.
-8. Push the V2.3 branch and open the draft review PR titled `Portfolio V2.3 — creative expansion staging review (DO NOT MERGE)`.
+5. [x] Deploy only the prebuilt static `dist` archive to the new V2.3 hostname.
+6. [x] Verify HTML, headers, robots, canonical, build metadata, assets, interactions, and browser matrix remotely: 147/147 functional, 57/57 axe, 30/30 live-mode, and 420/420 visual checks passed.
+7. [x] Capture remote screenshots and videos into the V2.3 evidence directories: 5/5 capture scenarios passed.
+8. [x] Push the V2.3 branch and open draft PR #4, `Portfolio V2.3 — creative expansion staging review (DO NOT MERGE)`.
 
 ## Draft PR contract
 
@@ -59,5 +59,4 @@ The staging assignment does not authorize changes to:
 
 ## Terminal state
 
-This plan reaches `complete_pending_human_review` when the isolated staging URL, branch SHA, draft PR, remote proof, and evidence package are all available. It does not authorize merge or production deployment.
-
+This plan has reached `complete_pending_human_review`: the isolated staging URL, branch, draft PR, remote proof, and evidence package are available. It does not authorize merge or production deployment.

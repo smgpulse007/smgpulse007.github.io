@@ -73,5 +73,4 @@ Any later GPU enhancement must:
 
 ## Review boundary
 
-This audit verifies source selection and the design decisions represented in the current source. It does not claim that every external reference was exhaustively interaction-tested, or that V2.3 has passed final visual, contrast, browser, or performance review. Those results belong in `V2_3_ACCESSIBILITY_REPORT.md`, `V2_3_PERFORMANCE_REPORT.md`, and `V2_3_QA_REPORT.md`.
-
+This audit verifies source selection and the design decisions represented in the current source; it does not claim that every external reference was exhaustively interaction-tested. This source audit does not independently reproduce final QA. Completed local and remote results are recorded in `V2_3_ACCESSIBILITY_REPORT.md`, `V2_3_PERFORMANCE_REPORT.md`, and `V2_3_QA_REPORT.md`.

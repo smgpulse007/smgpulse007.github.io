@@ -94,20 +94,21 @@ The final desktop and mobile artifacts were regenerated after these revisions.
 
 ## Remote staging gate
 
-Pending isolated Hostinger deployment. Final staging must prove:
+Remote staging verification passed at `https://lightgrey-bat-510306.hostingersite.com`:
 
-- `noindex,nofollow` meta and robots disallow;
-- staging-canonical URLs;
-- no sitemap;
-- build SHA/target metadata;
-- three-engine e2e and axe parity;
-- mobile/tablet/desktop/ultrawide overflow safety;
-- no-JavaScript, WebGL-failure, forced-colors, slow-network, and reduced-motion behavior;
-- final screenshots and videos recorded from the remote URL.
+- target metadata: `hostinger-staging`;
+- staging-canonical URLs and `noindex,nofollow` page metadata;
+- `X-Robots-Tag: noindex, nofollow, noarchive`, robots disallow, and no sitemap;
+- deployed build metadata matched the source SHA used for the remote capture;
+- 147/147 functional and 57/57 axe checks passed across Chromium, Firefox, and WebKit;
+- 30/30 no-JavaScript, WebGL-failure, forced-colors, slow-network, reduced-motion, zoom, density, and persistence checks passed;
+- 420/420 responsive visual checks passed from 320 × 700 through 2560 × 1440;
+- 5/5 remote capture scenarios regenerated the checked-in screenshots and videos.
 
 ## Current blocker count
 
 - Local critical blockers: 0.
 - Local serious accessibility blockers: 0.
+- Remote staging critical blockers: 0.
 - Protected-production blockers: intentionally not entered; cutover is not authorized.
-- Remote staging verification: pending deployment.
+- Draft review PR: `https://github.com/smgpulse007/smgpulse007.github.io/pull/4`.

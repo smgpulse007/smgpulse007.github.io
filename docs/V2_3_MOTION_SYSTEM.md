@@ -207,8 +207,6 @@ This document describes source behavior. It does not claim the following have pa
 - cross-browser reduced-transparency support;
 - global motion pause persistence across all navigation paths;
 - keyboard review of every control;
-- vestibular review;
-- remote staging playback and visibility handling.
+- vestibular review.
 
-Those results must be captured in the performance, accessibility, and QA reports from actual test runs.
-
+Remote playback and visibility behavior passed within the 30/30 live-mode and 147/147 functional matrices. Remaining boundaries must be evaluated through their named specialist reviews rather than inferred from these automated results.

@@ -1,38 +1,14 @@
 ---
 import Layout from '../../components/Layout.astro';
-import { labItems } from '../../data/lab';
-const domains = [...new Set(labItems.map((item) => item.domain))];
+import ProjectWorkbench from '../../components/v23/ProjectWorkbench.astro';
+import { featuredProjects, exploreProjects, archiveProjects, projectInventory } from '../../data/v23';
 ---
-<Layout title="Lab — Shailesh Dudala" description="A curated library of public reference implementations, research systems, forecasting work, and historical experiments." canonicalPath="/lab/">
-  <section class="page-hero"><div class="shell"><p class="eyebrow">Lab</p><h1>Range, without category blur.</h1><p>Complete static content comes first. Filters progressively narrow the library, while every item keeps its maturity, evidence, and limitation visible.</p></div></section>
-  <section class="section"><div class="shell">
-    <div class="lab-controls" aria-label="Lab filters"><label>Search <input type="search" data-lab-search placeholder="Project, domain, or stack" /></label><div><button type="button" class="active" data-domain="all">All</button>{domains.map((domain) => <button type="button" data-domain={domain}>{domain}</button>)}</div></div>
-    <p class="filter-status" aria-live="polite" data-filter-status>{labItems.length} projects</p>
-    <div class="lab-grid" data-lab-grid>
-      {labItems.map((item, index) => <article class="lab-card" data-lab-item data-domain={item.domain} data-search={`${item.title} ${item.description} ${item.stack.join(' ')}`.toLowerCase()} id={item.domain.includes('Healthcare') ? 'healthcare' : item.domain.includes('Agentic') ? 'agentic' : item.domain.includes('Document') ? 'documents' : item.domain.includes('Forecasting') ? 'forecasting' : undefined}>
-        <div class="lab-index">{String(index + 1).padStart(2, '0')}</div><div class="lab-meta"><span>{item.status}</span><span>{item.year}</span></div><h2>{item.title}</h2><p>{item.description}</p><dl><div><dt>Why it matters</dt><dd>{item.why}</dd></div><div><dt>Limitation</dt><dd>{item.limitation}</dd></div></dl><div class="stack-list">{item.stack.map((tech) => <span>{tech}</span>)}</div><div class="lab-links">{item.caseStudy && <a href={item.caseStudy}>Case study →</a>}{item.href && <a href={item.href}>Repository ↗</a>}</div>
-      </article>)}
-    </div>
-  </div></section>
-  <script>
-    const search = document.querySelector<HTMLInputElement>('[data-lab-search]');
-    const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-domain]')];
-    const items = [...document.querySelectorAll<HTMLElement>('[data-lab-item]')];
-    const status = document.querySelector<HTMLElement>('[data-filter-status]');
-    let domain = 'all';
-    const update = () => {
-      const query = search?.value.trim().toLowerCase() ?? '';
-      let count = 0;
-      items.forEach((item) => {
-        const matchesDomain = domain === 'all' || item.dataset.domain === domain;
-        const matchesSearch = !query || item.dataset.search?.includes(query);
-        item.hidden = !(matchesDomain && matchesSearch);
-        if (!item.hidden) count += 1;
-      });
-      if (status) status.textContent = `${count} project${count === 1 ? '' : 's'}`;
-    };
-    buttons.forEach((button) => button.addEventListener('click', () => { domain = button.dataset.domain ?? 'all'; buttons.forEach((item) => item.classList.toggle('active', item === button)); update(); }));
-    search?.addEventListener('input', update);
-  </script>
+<Layout title="Project Lab — Shailesh Dudala" description="A proof-attached Project Lab across representation engineering, agent systems, predictive healthcare, interoperability, document intelligence, forecasting, scientific computing, and MLOps." canonicalPath="/lab/">
+  <span id="healthcare" class="legacy-fragment-anchor" aria-hidden="true"></span><span id="documents" class="legacy-fragment-anchor" aria-hidden="true"></span><span id="agentic" class="legacy-fragment-anchor" aria-hidden="true"></span><span id="forecasting" class="legacy-fragment-anchor" aria-hidden="true"></span>
+  <section class="v23-page-hero lab-v23-hero"><div class="shell"><p class="v23-kicker">PROJECT LAB / {projectInventory.length - 2} AUTHORED REPOSITORIES AUDITED</p><div><h1>A field of systems, not a shelf of cards.</h1><p>Open-source systems, experiments, and technical foundations organized by problem, artifact maturity, repository health, public proof, and explicit limitation.</p><p class="lab-featured-line"><strong>Featured proof:</strong> LLM Steering · Meta Harness · Readmission FHIR ML API · HL7 AI Challenge</p></div></div></section>
+  <section class="v23-section lab-workbench-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">Featured / interactive inspector</p><h2>Repository existence is not proof maturity.</h2></div><p>Search the inspected inventory, select a system, and keep its status and boundary in view.</p></div><div class="shell"><ProjectWorkbench /></div></section>
+  <section class="v23-section featured-dossiers"><div class="shell v23-section-heading"><div><p class="v23-kicker">Featured / {featuredProjects.length}</p><h2>Systems with the strongest public evidence.</h2></div><p>Featured does not mean production. It means the source, artifacts, and current limits make the engineering inspectable.</p></div><div class="shell dossier-stack">{featuredProjects.map((project,index)=><article><div class="dossier-number"><span>{String(index+1).padStart(2,'0')}</span><small>{project.category}</small></div><div><h3>{project.title}</h3><p>{project.proof}</p></div><dl><div><dt>Status</dt><dd>{project.status}</dd></div><div><dt>Limit</dt><dd>{project.limitation}</dd></div></dl><div class="dossier-links">{project.href&&<a href={project.href}>Open system ↗</a>}<a href={project.repository}>Repository ↗</a></div></article>)}</div></section>
+  <section class="v23-section explore-ledger-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">Explore / {exploreProjects.length}</p><h2>Substantive side paths and earlier systems.</h2></div><p>Red CI, absent tests, reference-only status, and historical framing remain visible.</p></div><div class="shell project-ledger">{exploreProjects.map((project,index)=><article><span>{String(index+1).padStart(2,'0')}</span><div><small>{project.category}</small><h3>{project.title}</h3></div><strong>{project.status}</strong><p>{project.proof}</p><p class="limit">{project.limitation}</p><a href={project.href??project.repository}>Inspect ↗</a></article>)}</div></section>
+  <section class="v23-section archive-ledger-section"><div class="shell"><details><summary><span>Archive / {archiveProjects.length}</span><strong>Historical learning, small utilities, and repositories not promoted as current systems</strong><i>Open inventory +</i></summary><div class="archive-ledger">{archiveProjects.map((project)=><article><div><small>{project.category}</small><h3>{project.title}</h3></div><p>{project.proof}</p><span>{project.status}</span><a href={project.repository}>Repository ↗</a></article>)}</div></details></div></section>
+  <section class="v23-inline-contact"><div class="shell"><p>Want the professional systems first?</p><a href="/work/">Explore Work →</a><a href="/research/">See the research behind the projects ↗</a></div></section>
 </Layout>
-

@@ -1,0 +1,26 @@
+---
+import { careerStages } from '../../data/v23';
+type Props = { compact?: boolean };
+const { compact = false } = Astro.props;
+---
+<section class:list={['v23-career-field',{compact}]} aria-labelledby={compact ? 'career-field-compact-title' : 'career-field-title'}>
+  <div class="career-field-topline"><span>CAREER INTELLIGENCE FIELD</span><strong>Scientific foundation → operational AI</strong></div>
+  <h2 id={compact ? 'career-field-compact-title' : 'career-field-title'} class="sr-only">Career progression from scientific computing to production agentic AI</h2>
+  <svg viewBox="0 0 1420 460" role="group" aria-labelledby="career-svg-title career-svg-desc">
+    <title id="career-svg-title">Shailesh Dudala career progression</title>
+    <desc id="career-svg-desc">Five connected stages: scientific foundations, predictive healthcare, product and MLOps, document intelligence, and production agentic AI.</desc>
+    <defs><linearGradient id="v23-career-gradient"><stop stop-color="#70e0c0"/><stop offset=".48" stop-color="#7aa8f8"/><stop offset="1" stop-color="#efb3ff"/></linearGradient></defs>
+    <path class="career-orbit" d="M70 330 C270 35 500 55 650 245 S1000 500 1350 115"/>
+    <path class="career-orbit secondary" d="M60 140 C280 430 500 430 720 235 S1090 15 1360 330"/>
+    <path class="career-signal" d="M100 330 C305 285 345 205 545 285 S810 360 960 222 S1195 175 1340 270"/>
+    {careerStages.map((stage,index)=>{
+      const points=[[105,330],[360,222],[585,300],[880,305],[1165,205]];
+      const [x,y]=points[index];
+      return <a href={`/experience/#${stage.id}`} class:list={['career-node',{current:index===careerStages.length-1}]}>
+        <g transform={`translate(${x} ${y})`}><circle class="node-core" r={index===careerStages.length-1?25:18}/><circle class="node-ring" r={index===careerStages.length-1?44:32}/><text class="node-number" y="-51" text-anchor="middle">{String(index+1).padStart(2,'0')}</text><text class="node-label" y={index%2===0?62:-72} text-anchor="middle">{stage.label}</text><text class="node-period" y={index%2===0?83:-51} text-anchor="middle">{stage.period}</text></g>
+      </a>;
+    })}
+  </svg>
+  <ol class="career-field-fallback">{careerStages.map((stage,index)=><li><a href={`/experience/#${stage.id}`}><span>{String(index+1).padStart(2,'0')}</span><strong>{stage.label}</strong><small>{stage.title}</small></a></li>)}</ol>
+  <p class="career-field-note"><strong>Current frontier:</strong> production claims and document agents. <span>The differentiator is the full arc behind them—not one framework or trend.</span></p>
+</section>

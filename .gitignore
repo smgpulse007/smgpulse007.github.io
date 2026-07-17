@@ -6,7 +6,9 @@ npm-debug.log*
 *preview*.log
 .baseline-preview.pid
 qa-screenshots/
-docs/screenshots/
+docs/screenshots/*
+!docs/screenshots/v2.3/
+!docs/screenshots/v2.3/**
 tmp/
 test-results/
 playwright-report/

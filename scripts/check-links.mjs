@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
-import { extractAttributeUrls, routeCandidates, stripQueryAndHash } from './validators.mjs';
+import { extractAttributeUrls, fetchExternalLinkStatus, routeCandidates, stripQueryAndHash } from './validators.mjs';
 
 const root = process.cwd();
 const dist = path.resolve(root, process.argv[2] ?? 'dist');
@@ -79,8 +79,8 @@ for (const filename of htmlFiles) {
 if (process.env.CHECK_EXTERNAL_LINKS === 'true') {
   for (const url of externalUrls) {
     try {
-      const response = await fetch(url, { method: 'HEAD', redirect: 'follow', signal: AbortSignal.timeout(12_000) });
-      if (response.status >= 400 && ![403, 405, 429, 999].includes(response.status)) failures.push(`external ${url}: HTTP ${response.status}`);
+      const status = await fetchExternalLinkStatus(url);
+      if (status >= 400 && ![403, 405, 429, 999].includes(status)) failures.push(`external ${url}: HTTP ${status}`);
     } catch (error) {
       failures.push(`external ${url}: ${error.message}`);
     }

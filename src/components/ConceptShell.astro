@@ -1,0 +1,66 @@
+---
+import Layout from './Layout.astro';
+
+type Props = { concept: 'observatory' | 'agent' | 'evolution' };
+const { concept } = Astro.props;
+
+const content = {
+  observatory: {
+    index: 'CONCEPT 01 / SYSTEMS OBSERVATORY',
+    title: 'Intelligence becomes a system.',
+    deck: 'A career map spanning scientific signals, predictive models, healthcare products, context engines, bounded agents, and execution harnesses.',
+  },
+  agent: {
+    index: 'CONCEPT 02 / AGENT OPERATING SYSTEM',
+    title: 'An agent begins with a system.',
+    deck: 'The current frontier, rendered as an inspectable claims-agent run with context, contracts, validation, exceptions, and reviewer authority.',
+  },
+  evolution: {
+    index: 'CONCEPT 03 / EVOLUTION ENGINE',
+    title: 'Signal becomes proof.',
+    deck: 'One continuous transformation from biomedical observation to bounded, evidence-gated agent systems.',
+  },
+}[concept];
+---
+
+<Layout title={`${content.title} — V2.2 concept`} description={content.deck} canonicalPath={`/concepts/${concept === 'agent' ? 'agent-system' : concept}/`} noIndex>
+  <section class:list={['concept-fold', `concept-${concept}`]}>
+    <div class="concept-topline"><span>{content.index}</span><a href="/">V2.2 / RETURN</a></div>
+    <div class="concept-copy">
+      <p>Shailesh Dudala · Senior Applied AI Engineer</p>
+      <h1>{content.title}</h1>
+      <div><p>{content.deck}</p><a href="#instrument">Enter the instrument <span aria-hidden="true">↓</span></a></div>
+    </div>
+    {concept === 'observatory' && (
+      <div class="concept-visual observatory-field" id="instrument" aria-label="Career systems observatory">
+        <svg viewBox="0 0 1200 460" role="img" aria-labelledby="obs-title obs-desc">
+          <title id="obs-title">Systems observatory career map</title><desc id="obs-desc">A signal travels through prediction, product, context, agent, and harness stages.</desc>
+          <path class="orbit orbit-a" d="M70 255 C210 80 410 78 550 230 S865 410 1130 170" />
+          <path class="orbit orbit-b" d="M90 335 C290 390 340 170 540 190 S810 160 1115 315" />
+          <path class="signal-line" d="M80 285 C235 230 330 285 460 225 S720 190 1120 245" />
+          {[
+            [90,285,'Signal','Biomedical data'],[300,255,'Prediction','Calibrated ML'],[475,220,'Product','Healthcare platform'],[650,205,'Context','Document intelligence'],[855,218,'Agent','Bounded claims loop'],[1110,245,'Harness','Proof + continuation']
+          ].map(([x,y,name,sub], i) => <g class:list={['obs-node', `node-${i}`]} transform={`translate(${x} ${y})`}><circle r={i === 5 ? 32 : 21}/><circle class="node-pulse" r={i === 5 ? 43 : 32}/><text y="-48">{name}</text><text class="node-sub" y="62">{sub}</text></g>)}
+        </svg>
+        <div class="concept-readout"><span>FIELD / 06 STAGES</span><strong>Current focus: context-engineered claims agents</strong><small>Move from evidence to bounded action with humans in authority.</small></div>
+      </div>
+    )}
+    {concept === 'agent' && (
+      <div class="concept-visual agent-console" id="instrument">
+        <div class="agent-core"><span>CLAIM EVENT / SYNTHETIC</span><strong>Context packet assembled</strong><div class="agent-ring"><i>Model</i><i>Context</i><i>Tools</i><i>State</i><b>Agent<br/>loop</b></div></div>
+        <ol>{['Event + packet','Intent classified','Evidence extracted','Contract invoked','Output validated','Exception routed','Reviewer authority','Trace closed'].map((step, i) => <li class:list={{ active: i < 5, authority: i === 6 }}><span>{String(i + 1).padStart(2,'0')}</span><strong>{step}</strong><small>{i === 6 ? 'Human owns the decision' : i === 5 ? 'Confidence gate' : 'Trace event'}</small></li>)}</ol>
+        <aside><span>AUTHORITY BOUNDARY</span><strong>Autonomy is bounded by contracts, validation, and explicit escalation.</strong></aside>
+      </div>
+    )}
+    {concept === 'evolution' && (
+      <div class="concept-visual evolution-engine" id="instrument">
+        <div class="evolution-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <ol>{[
+          ['01','Signal','Make the world observable'],['02','Prediction','Estimate uncertainty'],['03','Product','Turn insight into workflow'],['04','Context','Assemble what a model needs'],['05','Agent','Act inside a bounded loop'],['06','Harness','Prove, checkpoint, continue']
+        ].map(([n,title,desc],i) => <li><span>{n}</span><div><strong>{title}</strong><small>{desc}</small></div><i style={`--scale:${0.45 + i * .14}`}></i></li>)}</ol>
+        <p>BIOMEDICAL INFORMATICS <span>→</span> PREDICTIVE HEALTHCARE <span>→</span> AGENT SYSTEMS</p>
+      </div>
+    )}
+    <div class="concept-footer"><span>Browser prototype · noindex</span><span>Desktop / mobile / reduced-motion complete</span></div>
+  </section>
+</Layout>

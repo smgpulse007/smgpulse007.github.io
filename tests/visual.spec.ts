@@ -4,13 +4,17 @@ const routes: Record<string, string> = {
   home: '/',
   work: '/work/',
   experience: '/experience/',
-  lab: '/lab/',
+  projects: '/lab/',
+  research: '/research/',
   about: '/about/',
   resume: '/resume/',
   'case-claims': '/work/claims-intelligence/',
+  'case-predictive-healthcare': '/work/predictive-healthcare-ml/',
   'case-on-prem': '/work/on-prem-rag-ocr/',
-  'case-lets-talk-doc': '/work/lets-talk-doc/',
-  'case-llm-steering': '/work/llm-steering-lab/',
+  'case-healthcare-platform': '/work/healthcare-analytics-platform/',
+  recognition: '/recognition/',
+  'system-meta-harness': '/systems/meta-harness/',
+  'system-llm-steering': '/systems/llm-steering/',
 };
 
 for (const [name, route] of Object.entries(routes)) {

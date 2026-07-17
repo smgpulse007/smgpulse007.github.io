@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/v23/main.css';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import { profile } from '../data/profile';
@@ -50,14 +51,14 @@ const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
 ---
 
 <!doctype html>
-<html lang="en" data-evidence-mode="narrative">
+<html lang="en" data-visual-tier="reduced" data-motion-paused="false">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="robots" content={noIndex ? 'noindex,nofollow' : siteConfig.robots} />
-    <meta name="theme-color" content="#0a0d0c" />
+    <meta name="theme-color" content="#090b12" />
     <title>{title}</title>
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -75,17 +76,105 @@ const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={`${title} — Shailesh Dudala portfolio preview`} />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const reduceTransparency = window.matchMedia('(prefers-reduced-transparency: reduce)');
+        const largeViewport = window.matchMedia('(min-width: 1024px)');
+        const finePointer = window.matchMedia('(any-pointer: fine)');
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        let webgl2Available;
+
+        const supportsWebgl2 = () => {
+          if (webgl2Available !== undefined) return webgl2Available;
+          try {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('webgl2', {
+              alpha: false,
+              antialias: false,
+              powerPreference: 'high-performance',
+            });
+            webgl2Available = Boolean(context);
+            context?.getExtension('WEBGL_lose_context')?.loseContext();
+          } catch {
+            webgl2Available = false;
+          }
+          return webgl2Available;
+        };
+
+        const classify = () => {
+          const effectiveType = connection?.effectiveType ?? '';
+          const dataConstrained = Boolean(connection?.saveData) || effectiveType === 'slow-2g' || effectiveType === '2g';
+          if (reduceMotion.matches || dataConstrained) {
+            root.dataset.visualTier = 'reduced';
+            return;
+          }
+
+          const cores = Number(navigator.hardwareConcurrency || 0);
+          const memory = Number(navigator.deviceMemory || 0);
+          const highCapability = cores >= 8 && memory >= 8;
+          const enhancedReady = highCapability
+            && largeViewport.matches
+            && finePointer.matches
+            && !reduceTransparency.matches
+            && supportsWebgl2();
+          root.dataset.visualTier = enhancedReady ? 'enhanced' : 'standard';
+        };
+
+        try {
+          root.dataset.motionPaused = localStorage.getItem('portfolio:motion-paused') === 'true' ? 'true' : 'false';
+        } catch {
+          root.dataset.motionPaused = 'false';
+        }
+
+        classify();
+        [reduceMotion, reduceTransparency, largeViewport, finePointer].forEach((query) => query.addEventListener?.('change', classify));
+        connection?.addEventListener?.('change', classify);
+      })();
+    </script>
     {[...baseJsonLd, ...extraJsonLd].map((item) => (
       <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />
     ))}
   </head>
   <body>
     <Header />
+    <button class="visual-motion-control" type="button" data-motion-toggle aria-pressed="false" aria-label="Pause decorative motion">
+      <span class="visual-motion-control__mark" aria-hidden="true"></span>
+      <span data-motion-label>Pause motion</span>
+    </button>
     {siteConfig.isMirror && (
       <aside class="target-banner">Mirror copy · Canonical portfolio: <a href="https://shaileshdudala.com">shaileshdudala.com</a></aside>
     )}
     {siteConfig.isStaging && <aside class="target-banner">Hostinger staging · Not indexed</aside>}
     <main id="main-content"><slot /></main>
     <Footer />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const control = document.querySelector('[data-motion-toggle]');
+        const label = control?.querySelector('[data-motion-label]');
+        if (!(control instanceof HTMLButtonElement) || !label) return;
+
+        const render = () => {
+          const paused = root.dataset.motionPaused === 'true';
+          control.setAttribute('aria-pressed', String(paused));
+          control.setAttribute('aria-label', paused ? 'Resume decorative motion' : 'Pause decorative motion');
+          label.textContent = paused ? 'Resume motion' : 'Pause motion';
+        };
+
+        control.addEventListener('click', () => {
+          const paused = root.dataset.motionPaused !== 'true';
+          root.dataset.motionPaused = String(paused);
+          try {
+            localStorage.setItem('portfolio:motion-paused', String(paused));
+          } catch {
+            // The preference remains active for this page when storage is unavailable.
+          }
+          render();
+        });
+        render();
+      })();
+    </script>
   </body>
 </html>

@@ -8,6 +8,12 @@ export type ProjectType =
   | 'Historical project'
   | 'Archived experiment';
 
+export type FlagshipVisual =
+  | 'packet-trace'
+  | 'local-boundary'
+  | 'health-index'
+  | 'activation-steering';
+
 export type ImpactClaim = {
   id: string;
   value: string;
@@ -40,6 +46,11 @@ export type WorkItem = {
   eyebrow: string;
   lede: string;
   outcome: string;
+  executiveSummary: {
+    problem: string;
+    decision: string;
+    change: string;
+  };
   type: ProjectType;
   status: string;
   domain: string;
@@ -53,6 +64,7 @@ export type WorkItem = {
   technologies: string[];
   privacyBoundary: string;
   accent: 'jade' | 'cyan' | 'amber' | 'violet';
+  visual: FlagshipVisual;
   flow: string[];
   artifact: { label: string; code: string };
   glance: Array<{ label: string; value: string }>;

@@ -1,0 +1,33 @@
+---
+type Props = { expanded?: boolean };
+const { expanded = false } = Astro.props;
+const steps = [
+  ['Event arrives','Synthetic packet + workflow intent','intake'],
+  ['Intent classified','Request type and allowed route','context'],
+  ['Context assembled','Evidence, facts, policy, prior state','context'],
+  ['Node runs','Specialized extraction or reasoning','model'],
+  ['Tool invoked','Typed, allow-listed contract','tools'],
+  ['Output validated','Schema, rules, confidence, evidence','authority'],
+  ['Exception routed','Retry, fallback, or stop','authority'],
+  ['Reviewer decides','Human owns consequential authority','human'],
+  ['Trace closes','Cost, latency, failure, tool telemetry','ops'],
+];
+---
+<div class:list={['agent-trace-v22', expanded && 'expanded']} data-agent-trace tabindex="0" aria-label="Interactive synthetic claims-agent run">
+  <header><div><span>STATIC SYNTHETIC RUN / NO EMPLOYER DATA</span><h3>Claim event → bounded action</h3></div><div class="trace-controls"><button type="button" data-prev aria-label="Previous agent step">←</button><button type="button" data-play>Play</button><button type="button" data-next aria-label="Next agent step">→</button></div></header>
+  <div class="agent-trace-body">
+    <div class="agent-orbit" aria-hidden="true"><i class="orbit-model">MODEL</i><i class="orbit-context">CONTEXT</i><i class="orbit-tools">TOOLS</i><i class="orbit-state">STATE</i><b>AGENT<br/>LOOP</b></div>
+    <ol>{steps.map(([title,detail,kind],i) => <li class:list={[i===0&&'active', kind==='human'&&'human-step']} data-step={i} aria-current={i===0?'step':undefined}><span>{String(i+1).padStart(2,'0')}</span><div><strong>{title}</strong><small>{detail}</small></div><i>{kind}</i></li>)}</ol>
+    <aside><span>AUTHORITY</span><strong data-agent-state>{steps[0][0]}</strong><p data-agent-detail>{steps[0][1]}</p><small>Human review is an operating boundary—not a failure mode.</small></aside>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-agent-trace]').forEach((root) => {
+    const steps=[...root.querySelectorAll<HTMLElement>('[data-step]')]; let current=0; let timer:number|undefined;
+    const state=root.querySelector<HTMLElement>('[data-agent-state]'); const detail=root.querySelector<HTMLElement>('[data-agent-detail]');
+    const render=(next:number)=>{current=(next+steps.length)%steps.length;steps.forEach((step,i)=>{step.classList.toggle('active',i===current);if(i===current)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current')});if(state)state.textContent=steps[current].querySelector('strong')?.textContent??'';if(detail)detail.textContent=steps[current].querySelector('small')?.textContent??''};
+    root.querySelector('[data-prev]')?.addEventListener('click',()=>render(current-1));root.querySelector('[data-next]')?.addEventListener('click',()=>render(current+1));
+    root.querySelector('[data-play]')?.addEventListener('click',(event)=>{const button=event.currentTarget as HTMLButtonElement;if(timer){clearInterval(timer);timer=undefined;button.textContent='Play'}else{render(current+1);timer=window.setInterval(()=>render(current+1),1200);button.textContent='Pause'}});
+    root.addEventListener('keydown',(event)=>{if(event.key==='ArrowRight')render(current+1);if(event.key==='ArrowLeft')render(current-1)});
+  });
+</script>

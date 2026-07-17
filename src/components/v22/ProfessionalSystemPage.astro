@@ -1,0 +1,20 @@
+---
+import Layout from '../Layout.astro';
+import AgentTrace from './AgentTrace.astro';
+import { professionalSystems } from '../../data/observatory';
+type Props={slug:string};
+const {slug}=Astro.props;
+const system=professionalSystems.find((entry)=>entry.slug===slug)!;
+const architectures:{[key:string]:string[]}={
+  'predictive-ml':['Source + cohort','Feature lineage','Model comparison','Calibration','Threshold review','Monitoring'],
+  'healthcare-platform':['Program sources','Interoperability','Quality gates','Risk services','Decision surfaces','Operations'],
+  'document-intelligence':['Local intake','OCR + layout','Normalize','Retrieve evidence','Confidence gate','Reviewer'],
+};
+const layers=architectures[slug]??[];
+---
+<Layout title={`${system.title} — Shailesh Dudala`} description={system.built} canonicalPath={`/systems/${slug}/`}>
+  <section class={`system-detail-hero ${system.accent}`}><div class="shell"><div><span>PROFESSIONAL SYSTEM / {system.stage}</span><h1>{system.title}</h1></div><dl><div><dt>Problem</dt><dd>{system.problem}</dd></div><div><dt>Built</dt><dd>{system.built}</dd></div><div><dt>Changed</dt><dd>{system.changed}</dd></div><div><dt>Proof</dt><dd>{system.proof}</dd></div></dl></div></section>
+  <section class="v22-scene system-instrument-scene"><div class="shell scene-heading"><div><span>01 / SYSTEM TOPOLOGY</span><h2>{slug==='claims-agents'?'Context, loop, harness, and authority are different things.':'The operating path, not a technology list.'}</h2></div><p>Public-safe architecture. Synthetic artifacts only; no employer data, proprietary rules, production payloads, or confidential screenshots.</p></div><div class="shell">{slug==='claims-agents'?<AgentTrace expanded/>:<div class={`system-layer-map ${system.accent}`}>{layers.map((layer,i)=><article><span>{String(i+1).padStart(2,'0')}</span><i></i><strong>{layer}</strong><small>{i===layers.length-1?'Human-visible operating outcome':i===0?'Governed source boundary':'Typed contract + evidence'}</small></article>)}</div>}</div></section>
+  <section class="v22-scene authority-scene"><div class="shell authority-grid"><div><span>02 / FAILURE IS A STATE</span><h2>{slug==='predictive-ml'?'A score is useful only when its uncertainty is operational.':slug==='healthcare-platform'?'A platform earns trust at its boundaries.':slug==='document-intelligence'?'Retrieval is useful only when evidence remains inspectable.':'Autonomy ends where evidence or authority runs out.'}</h2></div><div><article><span>Observe</span><p>Every transition carries source, state, latency, and failure context.</p></article><article><span>Validate</span><p>Typed contracts and deterministic checks reject malformed or unsupported output.</p></article><article><span>Escalate</span><p>Uncertainty moves with a reason, evidence, and a clear human action.</p></article></div></div></section>
+  <section class="v22-contact"><div class="shell"><span>NEXT SYSTEM</span><h2>Inspect the evidence around the system.</h2><div><a class="signal-button" href="/systems/">All systems <span>↗</span></a><a href="/research/">Related research ↗</a><a href="/resume/">Public résumé ↗</a></div></div></section>
+</Layout>

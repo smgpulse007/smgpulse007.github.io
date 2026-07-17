@@ -1,104 +1,44 @@
 ---
 import Layout from '../components/Layout.astro';
-import FlightRecorder from '../components/FlightRecorder';
-import ImpactStrip from '../components/ImpactStrip.astro';
-import SectionIntro from '../components/SectionIntro.astro';
-import WorkFeature from '../components/WorkFeature.astro';
-import EvidenceToggle from '../components/EvidenceToggle.astro';
+import CareerField from '../components/v23/CareerField.astro';
+import ClaimsRun from '../components/v23/ClaimsRun.astro';
+import ProjectWorkbench from '../components/v23/ProjectWorkbench.astro';
 import { profile } from '../data/profile';
-import { featuredWork } from '../data/work';
-import { experienceEras } from '../data/experience';
+import { publicImpactClaims } from '../data/impactClaims';
+import { professionalCases, selectedEngagements, v23Identity } from '../data/v23';
 import { recognition } from '../data/recognition';
+const impactOrder=['claims-handling','backlog','closure','fwa','p4p'];
+const impact=impactOrder.map((id)=>publicImpactClaims.find((claim)=>claim.id===id)).filter(Boolean);
 ---
-
-<Layout title={profile.seoTitle} description={profile.seoDescription} canonicalPath="/">
-  <section class="hero-section">
-    <div class="shell hero-layout">
-      <div class="hero-copy">
-        <div class="hero-overline"><span>{profile.role}</span><span>Healthcare · Insurance</span></div>
-        <p class="hero-name">Shailesh Dudala</p>
-        <h1>I build AI systems that survive real operations.</h1>
-        <p class="hero-lede">From claim packets and clinical documents to HL7/FHIR events and human review queues, I turn messy, regulated data into validated, traceable workflows.</p>
-        <p class="hero-domains">Agentic AI <i>·</i> Document Intelligence <i>·</i> Healthcare &amp; Insurance <i>·</i> ML Platforms</p>
-        <div class="hero-actions">
-          <a class="button primary" href="/work/">Explore selected work</a>
-          <a class="button quiet" href={profile.resumePath}>Download résumé <span aria-hidden="true">↓</span></a>
-        </div>
-        <div class="hero-links">
-          <a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={`mailto:${profile.email}`}>Email ↗</a>
-        </div>
-      </div>
-      <div class="hero-instrument"><FlightRecorder client:visible /></div>
+<Layout title="Shailesh Dudala — Senior Applied AI / ML Engineer" description="Senior Applied AI / ML Engineer across production agentic AI, predictive healthcare, document intelligence, MLOps, and scientific computing." canonicalPath="/">
+  <section class="v23-home-hero">
+    <div class="v23-ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="shell v23-hero-grid">
+      <div class="v23-hero-copy"><p class="v23-kicker">{v23Identity.name} / {v23Identity.role}</p><h1>Intelligent systems, <em>after the demo.</em></h1><p class="v23-hero-thesis">{v23Identity.thesis}</p><p class="v23-supporting-line">{v23Identity.supportingLine}</p><div class="v23-hero-proof"><span><strong>7+ years</strong> healthcare + insurance</span><span><strong>4 flagship systems</strong> professional, public-safe cases</span><span><strong>7K · 20% · 18%</strong> governed workflow outcomes</span></div><div class="v23-actions"><a class="v23-button primary" href="/work/">Explore professional work <span>↗</span></a><a class="v23-button ghost" href="/experience/">Follow the career arc <span>↓</span></a></div><div class="v23-social"><a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a><a href="/resume/">Public résumé ↗</a></div></div>
+      <div class="v23-hero-instrument" aria-label="From uncertain signal to bounded action"><div class="instrument-orb"><span>SYSTEM / ONLINE</span><strong>Uncertain signal</strong><i></i><i></i><i></i><b>bounded<br/>action</b></div><ol>{['Observe','Predict','Deliver','Assemble context','Act','Review'].map((step,index)=><li class:list={{active:index===4,authority:index===5}}><span>{String(index+1).padStart(2,'0')}</span><strong>{step}</strong></li>)}</ol><p><span>CURRENT FRONTIER / 2026</span><strong>Production claims and document agents</strong><small>Typed state · tools · validation · exceptions · human authority</small></p></div>
     </div>
-    <div class="shell mode-row"><EvidenceToggle /></div>
+    <div class="shell v23-first-read"><div><span>ROLE</span><strong>Senior Applied AI / ML Engineer</strong></div><div><span>ARC</span><strong>Scientific computing → predictive ML → agentic AI</strong></div><div><span>OUTCOMES</span><strong>7K backlog · 20% closure · 18% waste</strong></div><div><span>EVIDENCE</span><strong>4 professional cases · 39 authored repositories</strong></div></div>
   </section>
 
-  <ImpactStrip />
+  <section class="v23-decision-gate" aria-labelledby="decision-gate-title"><div class="shell"><header><p class="v23-kicker">HIRING DECISION / THREE FLAGSHIP PROBLEMS</p><h2 id="decision-gate-title">The problem, the system decision, the documented change.</h2></header><div>{professionalCases.slice(0,3).map((item)=><article><span>{item.number} / {item.eyebrow}</span><h3>{item.title}</h3><p>{item.lede}</p><strong>{item.proof}</strong><a href={item.href}>Inspect the case <span>↗</span></a></article>)}</div><aside><p><strong>Role fit:</strong> senior applied AI / ML engineering across consequential workflows, product delivery, and accountable model operations.</p><nav aria-label="Hiring decision links"><a class="v23-button primary" href="/resume/">Open public résumé <span>↗</span></a><a class="v23-button ghost" href={`mailto:${profile.email}`}>Start a conversation <span>↗</span></a></nav></aside></div></section>
 
-  <section class="section" id="work">
-    <div class="shell">
-      <SectionIntro eyebrow="Selected work" title="Systems where the hard part begins after the model responds." body="These stories focus on contracts, validation, review paths, and operational controls—not a gallery of model demos." />
-      <div class="work-stack">
-        {featuredWork.map((item, index) => <WorkFeature item={item} index={index + 1} lead={index === 0} />)}
-      </div>
-      <a class="section-link" href="/work/">View every case study <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
+  <section class="v23-section career-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">01 / Career breadth</p><h2>The current work is stronger because of the systems that came before it.</h2></div><p>Scientific rigor became predictive healthcare, then product and MLOps, private document intelligence, and production agentic AI. Zoom out for continuity; zoom in for evidence.</p></div><div class="shell"><CareerField compact /></div></section>
 
-  <section class="section paper-section">
-    <div class="shell">
-      <SectionIntro eyebrow="How I build" title="Five habits that keep uncertainty visible." body="The same operating principles connect claims, clinical documents, predictive ML, and local-model research." />
-      <ol class="principles">
-        <li><span>01</span><div><h3>Contracts before prompts</h3><p>Typed inputs and outputs expose ambiguity before it reaches downstream work.</p><a href="/work/claims-intelligence/">Claims intelligence ↗</a></div></li>
-        <li><span>02</span><div><h3>Evaluation before automation</h3><p>Define failure modes, acceptance sets, and release gates before scaling volume.</p><a href="/work/llm-steering-lab/">LLM Steering Lab ↗</a></div></li>
-        <li><span>03</span><div><h3>Humans where risk remains</h3><p>Route uncertainty with a reason and evidence instead of hiding it behind confidence.</p><a href="/work/claims-intelligence/">Reviewer boundary ↗</a></div></li>
-        <li><span>04</span><div><h3>Local-first when data requires it</h3><p>Choose deployment boundaries around privacy, control, and operational ownership.</p><a href="/work/on-prem-rag-ocr/">On-prem review ↗</a></div></li>
-        <li><span>05</span><div><h3>Observability is part of the product</h3><p>Trace latency, cost, tool events, errors, routes, and outcomes from the start.</p><a href="/work/claims-intelligence/">Flight recorder ↗</a></div></li>
-      </ol>
-    </div>
-  </section>
+  <section class="v23-section frontier-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">02 / Current frontier</p><h2>An agent is a workflow with authority boundaries—not a prompt with tools.</h2></div><p>Current professional work focuses on claims and document automation. The public reconstruction shows the control architecture without exposing employer data, rules, or systems.</p></div><div class="shell"><ClaimsRun /></div></section>
 
-  <section class="section">
-    <div class="shell">
-      <SectionIntro eyebrow="Experience" title="Increasing scope, one throughline." body="Biomedical data became healthcare prediction, then analytics products, on-prem GenAI, and agentic insurance workflows." />
-      <div class="experience-river">
-        {experienceEras.map((era, index) => (
-          <article>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <div><p>{era.period}</p><h3>{era.theme}</h3><strong>{era.organization}</strong><p>{era.summary}</p></div>
-            <ul>{era.outcomes.slice(0, 2).map((outcome) => <li>{outcome}</li>)}</ul>
-          </article>
-        ))}
-      </div>
-      <a class="section-link" href="/experience/">Read the full experience story <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
+  <section class="v23-section professional-work-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">03 / Professional work</p><h2>Four systems. Four different uncertainty structures.</h2></div><p>Each case starts with the operating problem and follows the model into validation, delivery, human review, and measurable change.</p></div><div class="shell v23-case-editorial">{professionalCases.map((item)=><article class={`case-editorial-item accent-${item.accent}`}><div class="case-index"><span>{item.number}</span><small>{item.eyebrow}</small></div><div class="case-copy"><h3>{item.title}</h3><p>{item.lede}</p><ol>{item.system.map((step)=><li>{step}</li>)}</ol><a href={item.href}>Open deep case study <span>↗</span></a></div><aside><span>DOCUMENTED CHANGE</span><strong>{item.proof}</strong><p>{item.secondaryProof}</p></aside></article>)}</div><div class="shell v23-section-cta"><a href="/work/">View Work, selected engagements, and capability proof <span>→</span></a></div></section>
 
-  <section class="section recognition-section">
-    <div class="shell recognition-layout">
-      <div><p class="eyebrow">Recognition</p><h2>Team credit, project names, and evidence stay attached.</h2><p>Awards are supporting context—not a substitute for the engineering story.</p></div>
-      <div class="recognition-list">
-        {recognition.map((item) => <article><span>{item.attribution}</span><h3>{item.title}</h3><p>{item.project}</p><small>{item.evidence}</small>{'officialUrl' in item && <a href={item.officialUrl}>Official evidence ↗</a>}</article>)}
-      </div>
-    </div>
-  </section>
+  <section class="v23-section impact-section"><div class="shell v23-section-heading compact"><div><p class="v23-kicker">04 / Impact with context</p><h2>Measures stay attached to their workstreams.</h2></div><p>Grounded in the governed career record, public-safe, and qualified where scope matters.</p></div><div class="shell v23-impact-ribbon">{impact.map((claim)=>claim&&<article><span>{claim.context}</span><strong>{claim.value}</strong><h3>{claim.label}</h3>{claim.qualification&&<p>{claim.qualification}</p>}</article>)}</div></section>
 
-  <section class="section lab-teaser">
-    <div class="shell">
-      <SectionIntro eyebrow="Lab" title="Breadth, with the labels left on." body="Public implementations, research systems, and historical experiments show range without pretending every repository is a deployed system." />
-      <div class="domain-constellation">
-        <a href="/lab/#healthcare"><span>01</span><strong>Healthcare &amp; Interoperability</strong><small>FHIR · HL7 · predictive care</small></a>
-        <a href="/lab/#agentic"><span>02</span><strong>Agentic AI &amp; LLM Engineering</strong><small>steering · RAG · evaluation</small></a>
-        <a href="/lab/#documents"><span>03</span><strong>Document AI</strong><small>OCR · extraction · local inference</small></a>
-        <a href="/lab/#forecasting"><span>04</span><strong>Forecasting &amp; Quant</strong><small>backtests · calibration · research</small></a>
-      </div>
-    </div>
-  </section>
+  <section class="v23-section engagements-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">05 / Selected engagements</p><h2>Depth beyond the four flagships.</h2></div><p>Quality evidence, FWA, hospital analytics, provider data, and interoperability restore the breadth that a case-study-only portfolio can hide.</p></div><div class="shell engagement-ledger">{selectedEngagements.map((item,index)=><article><span>{String(index+1).padStart(2,'0')}</span><div><small>{item.context}</small><h3>{item.title}</h3></div><strong>{item.result}</strong><p>{item.capabilities.join(' · ')}</p></article>)}</div></section>
 
-  <section class="section contact-section" id="contact">
-    <div class="shell contact-layout">
-      <div><p class="eyebrow">Contact</p><h2>Building a workflow where an AI answer has to become a defensible action?</h2><p>Let’s talk about the architecture between those two points.</p></div>
-      <div class="contact-actions"><a class="button primary" href={`mailto:${profile.email}`}>Email Shailesh</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Résumé →</a></div>
-    </div>
-  </section>
+  <section class="v23-section project-preview-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">06 / Project Lab</p><h2>Open-source proof without flattening every repository into a success story.</h2></div><p>Inspect architecture, health, evidence, and limits. Featured projects are secondary to professional work and explicit about maturity.</p></div><div class="shell"><ProjectWorkbench compact /></div><div class="shell v23-section-cta"><a href="/lab/">Enter the complete Project Lab <span>→</span></a></div></section>
+
+  <section class="v23-section research-preview-section"><div class="shell research-preview-grid"><div><p class="v23-kicker">07 / Research</p><h2>The ideas behind the work.</h2><p>A curated path from calibrated predictive models and clinical quality to retrieval, agent loops, and representation engineering.</p><a class="v23-button ghost" href="/research/">Open Research <span>↗</span></a></div><div class="research-paths"><a href="/research/#predictive"><span>PATH 01</span><strong>Predictive ML</strong><small>Calibration · explainability · clinical-model quality</small></a><a href="/research/#retrieval"><span>PATH 02</span><strong>Retrieval + agents</strong><small>RAG · tool use · evaluation · authority</small></a><a href="/research/#behavior"><span>PATH 03</span><strong>Model behavior</strong><small>Representations · steering · reproducibility</small></a></div></div></section>
+
+  <section class="v23-section human-section"><div class="shell human-v23-grid"><div><p class="v23-kicker">08 / Human story</p><h2>Ambiguity is where the work begins.</h2></div><div><p>Biomedical informatics taught me that technically correct output can still fail when lineage, assumptions, and operating context are invisible.</p><p>That lesson now shapes how I lead across models, products, documents, agents, and the people accountable for the decision.</p><div><a href="/about/">About and working principles ↗</a><a href="/experience/">Complete experience ↗</a></div></div></div></section>
+
+  <section class="v23-section recognition-preview"><div class="shell"><div><p class="v23-kicker">09 / Recognition</p><h2>Official proof. Team credit intact.</h2></div><div>{recognition.slice(0,3).map((item)=><article><span>{item.attribution}</span><strong>{item.title}</strong><small>{item.project}</small></article>)}</div><a href="/recognition/">View recognition and source notes ↗</a></div></section>
+
+  <section class="v23-contact"><div class="shell"><p class="v23-kicker">10 / Contact</p><h2>Building an AI system where a model output has to become a defensible action?</h2><p>I work across the architecture between those two points.</p><div><a class="v23-button primary" href={`mailto:${profile.email}`}>Email Shailesh <span>↗</span></a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href="/resume/">Public résumé ↗</a></div></div></section>
 </Layout>

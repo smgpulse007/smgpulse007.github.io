@@ -1,21 +1,21 @@
 import type { APIRoute } from 'astro';
 import { profile } from '../data/profile';
-import { publicImpactClaims } from '../data/impactClaims';
-import { experienceEras } from '../data/experience';
-import { labItems } from '../data/lab';
+import { careerStages, professionalCases, projectInventory, v23Identity } from '../data/v23';
+import { researchItems } from '../data/research';
 import { recognition } from '../data/recognition';
-import { workItems } from '../data/work';
 
 export const GET: APIRoute = () => new Response(JSON.stringify({
+  schemaVersion: 'portfolio.v2.3',
   name: profile.name,
   role: profile.role,
-  positioning: profile.positioning,
-  links: { github: profile.github, linkedin: profile.linkedin, resumePage: '/resume/', resumePdf: profile.resumePath, resumePdfPublished: profile.resumeAvailable },
-  selectedExperience: experienceEras.map(({ period, organization, title, theme }) => ({ period, organization, title, theme })),
-  selectedProjects: workItems.map(({ slug, title, type, status, domain, role, repository, outcome }) => ({ slug, title, type, status, domain, role, repository, outcome })),
-  lab: labItems.map(({ title, status, domain, href, limitation }) => ({ title, status, domain, href, limitation })),
+  supportingLine: v23Identity.supportingLine,
+  proposition: v23Identity.thesis,
+  careerStages,
+  professionalSystems: professionalCases,
+  projects: { count: projectInventory.length, authoredRepositoryCount: projectInventory.filter((project) => project.tier !== 'surface').length, href: '/projects.json' },
+  research: { count: researchItems.length + 2, externalRecordCount: researchItems.length, authoredPublicationCount: 2, href: '/research.json' },
   recognition,
-  publicImpactClaims,
+  links: { github: profile.github, linkedin: profile.linkedin, resumePage: '/resume/', resumePdf: profile.resumePath, work: '/work/', experience: '/experience/', lab: '/lab/' },
   boundaries: profile.privacyNote,
-  lastUpdated: '2026-07-12',
+  lastUpdated: '2026-07-17',
 }, null, 2), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });

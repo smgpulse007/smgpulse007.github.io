@@ -1,0 +1,19 @@
+---
+import Layout from '../../components/Layout.astro';
+import '../../styles/v23/prototypes.css';
+---
+<Layout title="Signal Field — Portfolio V2.3 concept" description="A scientific-spatial V2.3 homepage direction." canonicalPath="/concepts/v23-signal-field/" noIndex>
+  <div class="v23-prototype signal-field-proto">
+    <div class="proto-shell proto-bar"><div class="proto-identity"><strong>Shailesh Dudala</strong><span>Senior Applied AI / ML Engineer</span></div><a href="/">V2.3 concept / return</a></div>
+    <section class="proto-shell field-hero">
+      <div><p class="proto-kicker">Direction 01 / Signal Field</p><h1>Signals become <em>systems people can trust.</em></h1><p class="field-intro">I build applied AI across the full operating arc—from biomedical data and predictive models to healthcare products, private document intelligence, and bounded agent workflows.</p></div>
+      <aside class="field-proof"><p class="proto-kicker">Professional proof / public-safe</p><strong>Model depth, product judgment, and accountable delivery in one career.</strong><dl><div><dt>Backlog</dt><dd>7K cases cleared</dd></div><div><dt>Measure closure</dt><dd>20% improvement</dd></div><div><dt>Programs</dt><dd>9 healthcare contexts</dd></div><div><dt>Current frontier</dt><dd>Claims agents</dd></div></dl></aside>
+    </section>
+    <section class="proto-shell career-field" aria-labelledby="career-field-title"><h2 id="career-field-title" class="sr-only">Career intelligence field</h2>
+      <svg viewBox="0 0 1400 540" role="img" aria-labelledby="signal-title signal-desc"><title id="signal-title">Career progression from scientific signals to bounded agent systems</title><desc id="signal-desc">Six connected career stages: signal, prediction, product, context, agent, and harness.</desc><defs><linearGradient id="careerGradient"><stop stop-color="#6ed8bc"/><stop offset=".55" stop-color="#79a8e8"/><stop offset="1" stop-color="#eafe85"/></linearGradient></defs>
+        <path class="orbit" d="M70 380 C270 30 530 70 650 285 S1000 510 1330 150"/><path class="orbit" d="M70 180 C300 470 490 450 695 235 S1070 10 1330 360"/><path class="path" d="M85 350 C280 300 325 220 500 290 S770 370 900 240 S1120 190 1310 285"/>
+        {[['Signal','Biomedical informatics',90,350],['Prediction','Clinical + statistical ML',330,245],['Product','Healthcare analytics',535,300],['Context','Local document AI',760,335],['Agent','Claims workflows',1010,220],['Harness','Evidence + authority',1300,285]].map(([name,sub,x,y],i)=><g class:list={['node',{current:i===4}]} transform={`translate(${x} ${y})`}><circle r={i===4?25:18}/><circle r={i===4?42:32}/><text x="0" y="-45" text-anchor="middle">{name}</text><text class="sub" x="0" y="55" text-anchor="middle">{sub}</text></g>)}
+      </svg><p class="field-caption"><strong>Reading model:</strong> zoom out for career continuity; zoom in for proof, failure modes, and the human authority boundary.</p>
+    </section>
+  </div>
+</Layout>

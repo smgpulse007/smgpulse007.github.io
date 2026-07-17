@@ -1,11 +1,11 @@
 ---
 import Layout from '../../components/Layout.astro';
-import SectionIntro from '../../components/SectionIntro.astro';
-import WorkFeature from '../../components/WorkFeature.astro';
-import { workItems } from '../../data/work';
+import { professionalCases, selectedEngagements, capabilityCrosswalk } from '../../data/v23';
 ---
-<Layout title="Selected Work — Shailesh Dudala" description="Engineering case studies across claims intelligence, local document AI, healthcare interoperability, and LLM research." canonicalPath="/work/">
-  <section class="page-hero"><div class="shell"><p class="eyebrow">Selected work</p><h1>Proof of judgment under real constraints.</h1><p>Four stories at different evidence boundaries: professional systems are sanitized, public code is linked, research is labeled, and team recognition stays attributed.</p></div></section>
-  <section class="section"><div class="shell"><SectionIntro eyebrow="Case studies" title="From context to failure modes, review boundaries, and outcomes." /><div class="work-stack">{workItems.map((item, index) => <WorkFeature item={item} index={index + 1} lead={index === 0} />)}</div></div></section>
+<Layout title="Professional Work — Shailesh Dudala" description="Deep professional case studies across production agentic claims automation, predictive healthcare ML, healthcare analytics platforms, and on-prem document intelligence." canonicalPath="/work/">
+  <section class="v23-page-hero work-v23-hero"><div class="shell"><p class="v23-kicker">WORK / PROFESSIONAL SYSTEMS</p><div><h1>The model is one part of the system.</h1><p>Four flagship cases follow the work from ambiguous data through modeling, validation, delivery, review, and measurable operational change.</p></div></div></section>
+  <section class="v23-work-index"><div class="shell v23-case-editorial">{professionalCases.map((item)=><article class={`case-editorial-item accent-${item.accent}`}><div class="case-index"><span>{item.number}</span><small>{item.eyebrow}</small></div><div class="case-copy"><h2>{item.title}</h2><p>{item.lede}</p><ol>{item.system.map((step)=><li>{step}</li>)}</ol><a href={item.href}>Read the complete case <span>↗</span></a></div><aside><span>DOCUMENTED CHANGE</span><strong>{item.proof}</strong><p>{item.secondaryProof}</p></aside></article>)}</div></section>
+  <section class="v23-section engagements-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">Selected engagements</p><h2>Additional systems that shaped the portfolio.</h2></div><p>Supporting work remains visible without competing with the four flagships.</p></div><div class="shell engagement-ledger">{selectedEngagements.map((item,index)=><article><span>{String(index+1).padStart(2,'0')}</span><div><small>{item.context}</small><h3>{item.title}</h3></div><strong>{item.result}</strong><p>{item.capabilities.join(' · ')}</p></article>)}</div></section>
+  <section class="v23-section capability-section"><div class="shell v23-section-heading"><div><p class="v23-kicker">Capability crosswalk</p><h2>Claims connect to inspectable proof.</h2></div><p>Recruiter-readable capabilities map to professional cases, experience, and public-safe projects rather than a detached keyword cloud.</p></div><div class="shell capability-crosswalk">{capabilityCrosswalk.map((item,index)=><article><span>{String(index+1).padStart(2,'0')}</span><h3>{item.capability}</h3><p>{item.proof}</p><ul>{item.surfaces.map((surface)=><li>{surface}</li>)}</ul></article>)}</div></section>
+  <section class="v23-inline-contact"><div class="shell"><p>Looking for the complete chronology?</p><a href="/experience/">Follow the experience arc →</a><a href="/resume/">Open the public résumé ↗</a></div></section>
 </Layout>
-

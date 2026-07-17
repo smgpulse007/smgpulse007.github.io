@@ -1,0 +1,17 @@
+---
+import Layout from '../../components/Layout.astro';
+import '../../styles/v23/prototypes.css';
+const cases=[
+  {title:'Production agentic claims automation',body:'Typed state, tool boundaries, validation, exception routing, reviewer authority, and operational telemetry for consequential document work.',metric:'≈90%',label:'lower handling effort in a measured workstream'},
+  {title:'Predictive healthcare ML',body:'Readmission, length-of-stay, utilization, quality, and FWA modeling—designed around calibration, workflow fit, and explicit limits.',metric:'18%',label:'transportation waste reduction'},
+  {title:'A healthcare analytics platform',body:'A 0-to-1 product spanning risk models, data pipelines, reporting, and care-manager workflows across nine programs.',metric:'≈$3M',label:'client P4P impact supported'},
+  {title:'Private document intelligence',body:'OCR, retrieval, local inference, citations, and human review inside the data boundary.',metric:'7K',label:'case backlog cleared'},
+];
+---
+<Layout title="Computational Editorial — Portfolio V2.3 concept" description="A professional case-led V2.3 homepage direction." canonicalPath="/concepts/v23-computational-editorial/" noIndex>
+  <div class="v23-prototype editorial-proto"><div class="proto-shell proto-bar"><div class="proto-identity"><strong>Shailesh Dudala</strong><span>Senior Applied AI / ML Engineer</span></div><a href="/">V2.3 concept / return</a></div>
+    <header class="proto-shell editorial-head"><div><p class="proto-kicker">Direction 02 / Computational Editorial</p><h1>AI, after the demo.</h1></div><div class="editorial-deck"><strong>Professional systems / healthcare + insurance</strong><p>I turn uncertain data and model behavior into systems that can be measured, reviewed, and operated. The work spans predictive ML, data platforms, document intelligence, and bounded agentic AI.</p></div></header>
+    <div class="proto-shell edition-line"><span>Portfolio V2.3</span><span>Career edition</span><span>Case-led / proof-attached</span></div>
+    <main class="proto-shell editorial-cases">{cases.map((item)=><article class="editorial-case"><h2>{item.title}</h2><div class="case-summary"><p>{item.body}</p><div class="case-metric"><strong>{item.metric}</strong><span>{item.label}</span></div></div></article>)}</main>
+  </div>
+</Layout>

@@ -1,0 +1,521 @@
+---
+import Layout from '../../components/Layout.astro';
+import { researchItems, researchClusters, type ResearchItem } from '../../data/research';
+import { authoredPublications } from '../../data/publications';
+import '../../styles/v23/research.css';
+
+type ResearchViewId = 'foundations' | 'applied' | 'frontier' | 'publications';
+
+type ResearchView = {
+  id: ResearchViewId;
+  index: string;
+  label: string;
+  shortLabel: string;
+  description: string;
+  question: string;
+  items: ResearchItem[];
+};
+
+const foundationIds = new Set([
+  'xgboost',
+  'shap',
+  'calibration',
+  'probabilities',
+  'rag',
+  'lost-middle',
+  'react',
+  'toolformer',
+  'rep-eng',
+  'smart-fhir',
+  'fhir-r4',
+  'fhir-review',
+]);
+
+const frontierIds = new Set([
+  'context-survey',
+  'ace',
+  'acdl',
+  'harness-engineering',
+  'nl-harnesses',
+  'meta-harness-paper',
+  'agentic-harness',
+  'code-harness',
+  'harness-bench',
+  'grep',
+  'why-rep',
+  'plasticity',
+]);
+
+const itemsFor = (view: Exclude<ResearchViewId, 'publications'>) => researchItems.filter((entry) => {
+  if (view === 'foundations') return foundationIds.has(entry.id);
+  if (view === 'frontier') return frontierIds.has(entry.id);
+  return !foundationIds.has(entry.id) && !frontierIds.has(entry.id);
+});
+
+const researchViews: ResearchView[] = [
+  {
+    id: 'foundations',
+    index: '01',
+    label: 'Foundations',
+    shortLabel: 'Foundation',
+    description: 'Field-shaping work across statistical learning, calibrated prediction, retrieval, tool use, representation engineering, and healthcare interoperability.',
+    question: 'What durable ideas shaped the work?',
+    items: itemsFor('foundations'),
+  },
+  {
+    id: 'applied',
+    index: '02',
+    label: 'Applied engineering',
+    shortLabel: 'Applied engineering',
+    description: 'Guidelines, evaluations, and benchmarks that influence how systems are documented, tested, constrained, and reviewed.',
+    question: 'What changes an engineering decision?',
+    items: itemsFor('applied'),
+  },
+  {
+    id: 'frontier',
+    index: '03',
+    label: 'Frontier watch',
+    shortLabel: 'Frontier watch',
+    description: 'Emerging work tracked for useful signals—not treated as settled practice. Preprints remain visibly separate from stable foundations.',
+    question: 'What is promising, recent, or still uncertain?',
+    items: itemsFor('frontier'),
+  },
+  {
+    id: 'publications',
+    index: '04',
+    label: 'My publications',
+    shortLabel: 'My publication',
+    description: 'Two authored records with publication metadata confirmed against publisher-hosted sources. Full text remains on the publisher archive.',
+    question: 'What can be attributed with confidence?',
+    items: [],
+  },
+];
+
+const projectPaths = [
+  {
+    id: 'predictive',
+    anchorId: 'predictive',
+    index: 'A',
+    label: 'Predictive ML',
+    question: 'How should a risk score be trained, calibrated, explained, and reported?',
+    consequence: 'Treat discrimination, probability quality, attribution, and reporting quality as separate engineering concerns.',
+    itemIds: ['xgboost', 'probabilities', 'calibration', 'shap', 'tripod-ai', 'probast-ai'],
+  },
+  {
+    id: 'retrieval-agents',
+    anchorId: 'retrieval',
+    index: 'B',
+    label: 'Retrieval + agents',
+    question: 'How should evidence enter a model loop, and how should tool behavior be evaluated?',
+    consequence: 'Keep retrieval quality, context placement, action contracts, and task evaluation observable rather than collapsing them into one score.',
+    itemIds: ['rag', 'lost-middle', 'ragas', 'self-rag', 'react', 'toolformer', 'tau-bench'],
+  },
+  {
+    id: 'model-behavior',
+    anchorId: 'behavior',
+    index: 'C',
+    label: 'Model behavior',
+    question: 'What can representation-level interventions reveal or change?',
+    consequence: 'Separate an observed output difference from an explanation of why the model changed.',
+    itemIds: ['rep-eng', 'plasticity', 'why-rep'],
+  },
+].map((path) => ({
+  ...path,
+  items: path.itemIds.map((id) => researchItems.find((entry) => entry.id === id)).filter((entry): entry is ResearchItem => Boolean(entry)),
+}));
+
+const statusLabels: Record<ResearchItem['status'], string> = {
+  conference: 'Conference record',
+  'peer-reviewed': 'Peer reviewed',
+  preprint: 'Preprint',
+  'reporting-guideline': 'Reporting guideline',
+  'technical-specification': 'Technical specification',
+};
+
+const categoryLabel = (view: ResearchView, entry: ResearchItem) => {
+  if (view.id === 'frontier') {
+    return entry.status === 'preprint'
+      ? 'Frontier watch · recent preprint'
+      : 'Frontier watch · emerging record';
+  }
+  return view.shortLabel;
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Research — Shailesh Dudala',
+  description: 'A curated implementation map connecting predictive ML, retrieval and agents, model behavior, and healthcare standards to engineering work.',
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: researchItems.length,
+    itemListElement: researchItems.map((entry, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: entry.title,
+      url: entry.source,
+    })),
+  },
+};
+---
+
+<Layout
+  title="Research — Shailesh Dudala"
+  description="A curated map of research translated into systems—from calibrated predictive models and healthcare standards to retrieval, agents, and model behavior."
+  canonicalPath="/research/"
+  jsonLd={structuredData}
+>
+  <div class="v23-research" data-research-root>
+    <header class="research-hero" aria-labelledby="research-title">
+      <div class="research-shell research-hero__grid">
+        <div class="research-hero__copy">
+          <p class="research-kicker"><span aria-hidden="true">R / 01</span> Curated implementation map</p>
+          <h1 id="research-title">Research translated <em>into systems.</em></h1>
+          <p class="research-hero__lede">A map of the papers, standards, and benchmarks that have shaped my work—from calibrated healthcare models and RAG to tool-using agents and representation engineering.</p>
+          <p class="research-boundary"><strong>Editorial boundary:</strong> external work is never presented as mine. Status labels distinguish stable foundations, practical guidance, and emerging research.</p>
+        </div>
+
+        <aside class="research-hero__readout" aria-label="Research collection overview">
+          <div class="research-readout__heading">
+            <span>Source set</span>
+            <strong>{researchItems.length}</strong>
+            <small>external records</small>
+          </div>
+          <dl>
+            {researchViews.map((view) => (
+              <div>
+                <dt><span aria-hidden="true">{view.index}</span>{view.label}</dt>
+                <dd>{view.id === 'publications' ? `${authoredPublications.length} verified` : view.items.length}</dd>
+              </div>
+            ))}
+          </dl>
+          <p>Dataset review marker · 14 July 2026</p>
+        </aside>
+      </div>
+
+      <div class="research-shell research-signal-line" aria-hidden="true">
+        <span>question</span><i></i><span>source</span><i></i><span>decision</span><i></i><span>system</span>
+      </div>
+    </header>
+
+    <section class="research-paths" aria-labelledby="paths-title">
+      <div class="research-shell">
+        <div class="research-section-heading">
+          <div>
+            <p class="research-kicker"><span aria-hidden="true">R / 02</span> Research behind the work</p>
+            <h2 id="paths-title">Start with an engineering question.</h2>
+          </div>
+          <p>Three project-first paths connect source material to a design consequence. Each source remains available in the complete atlas below.</p>
+        </div>
+
+        <div class="research-path-grid">
+          {projectPaths.map((path) => (
+            <article id={path.anchorId} class={`research-path research-path--${path.id}`}>
+              <header>
+                <span aria-hidden="true">PATH {path.index}</span>
+                <h3>{path.label}</h3>
+              </header>
+              <p class="research-path__question">{path.question}</p>
+              <div class="research-path__stack" aria-label={`${path.label} reading path`}>
+                {path.items.map((entry, index) => (
+                  <a href={`#research-${entry.id}`} data-research-jump>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <strong>{entry.title}</strong>
+                    <small>{entry.year} · {statusLabels[entry.status]}</small>
+                  </a>
+                ))}
+              </div>
+              <footer>
+                <span>Implementation consequence</span>
+                <p>{path.consequence}</p>
+              </footer>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="research-atlas" aria-labelledby="atlas-title">
+      <div class="research-shell">
+        <div class="research-section-heading research-section-heading--dark">
+          <div>
+            <p class="research-kicker"><span aria-hidden="true">R / 03</span> Research atlas</p>
+            <h2 id="atlas-title">Read by evidence maturity.</h2>
+          </div>
+          <p>The default view favors durable, cross-domain foundations. Recent context and harness work is available in Frontier watch, not allowed to dominate the opening view.</p>
+        </div>
+
+        <nav class="research-view-index" aria-label="Research view index">
+          {researchViews.map((view) => (
+            <a href={`#research-view-${view.id}`} data-view-link={view.id}>
+              <span>{view.index}</span>
+              <strong>{view.label}</strong>
+              <small>{view.question}</small>
+            </a>
+          ))}
+        </nav>
+
+        <div class="research-controls" data-enhanced-controls hidden>
+          <div class="research-tabs" role="tablist" aria-label="Choose a research view">
+            {researchViews.map((view, index) => (
+              <button
+                type="button"
+                role="tab"
+                id={`research-tab-${view.id}`}
+                aria-controls={`research-view-${view.id}`}
+                aria-selected={index === 0 ? 'true' : 'false'}
+                tabindex={index === 0 ? '0' : '-1'}
+                data-view-tab={view.id}
+                data-view-label={view.label}
+              >
+                <span aria-hidden="true">{view.index}</span>{view.label}
+              </button>
+            ))}
+          </div>
+
+          <div class="research-filters" aria-label="Filter the active research view">
+            <label>
+              <span>Cluster</span>
+              <select data-cluster-filter>
+                <option value="all">All clusters</option>
+                {researchClusters.map((cluster) => <option value={cluster}>{cluster}</option>)}
+              </select>
+            </label>
+            <label>
+              <span>Source status</span>
+              <select data-status-filter>
+                <option value="all">All statuses</option>
+                {Object.entries(statusLabels).map(([status, label]) => <option value={status}>{label}</option>)}
+              </select>
+            </label>
+            <button type="button" data-reset-filters>Reset filters</button>
+          </div>
+
+          <p class="research-result-count" aria-live="polite" data-result-count>{researchViews[0].items.length} records in Foundations</p>
+        </div>
+
+        <div class="research-view-stack">
+          {researchViews.map((view) => (
+            <section
+              class={`research-view research-view--${view.id}`}
+              id={`research-view-${view.id}`}
+              data-research-panel={view.id}
+              aria-labelledby={`research-view-heading-${view.id}`}
+            >
+              <header class="research-view__header">
+                <div>
+                  <span>{view.index} / {view.label}</span>
+                  <h3 id={`research-view-heading-${view.id}`}>{view.question}</h3>
+                </div>
+                <p>{view.description}</p>
+              </header>
+
+              {view.id === 'publications' ? (
+                <div class="authored-publications">
+                  {authoredPublications.map((publication, index) => (
+                    <article class="authored-record" id={`research-publication-${publication.id}`}>
+                      <header>
+                        <div class="authored-record__status">
+                          <span><i aria-hidden="true"></i>Authored publication</span>
+                          <strong>{publication.year}</strong>
+                        </div>
+                        <p>Verified author position · {publication.authorPosition}</p>
+                        <h4>{publication.title}</h4>
+                      </header>
+                      <p class="authored-record__authors">{publication.authors}</p>
+                      <p class="authored-record__summary">{publication.summary}</p>
+                      <dl>
+                        <div><dt>Venue</dt><dd>{publication.venue}</dd></div>
+                        <div><dt>Publisher</dt><dd>{publication.publisherName}</dd></div>
+                        <div><dt>Author position</dt><dd>Shailesh S. Dudala · {publication.authorPosition}</dd></div>
+                        <div><dt>Persistent ID</dt><dd>{publication.doi ? `DOI ${publication.doi.replace('https://doi.org/', '')}` : 'No journal DOI verified'}</dd></div>
+                      </dl>
+                      <footer>
+                        <div>
+                          <a href={publication.publisher}>Publisher {index === 0 ? 'page' : 'issue'} <span aria-hidden="true">↗</span></a>
+                          {publication.doi && <a href={publication.doi}>DOI <span aria-hidden="true">↗</span></a>}
+                          {publication.article && <a href={publication.article}>Article PDF on publisher archive <span aria-hidden="true">↗</span></a>}
+                        </div>
+                        <p>Bibliographic metadata only. No full text is hosted or reproduced here.</p>
+                      </footer>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <div class="research-records">
+                    {view.items.map((entry) => (
+                      <article
+                        class={`research-record research-record--${view.id}`}
+                        id={`research-${entry.id}`}
+                        tabindex="-1"
+                        data-research-record
+                        data-view={view.id}
+                        data-cluster={entry.cluster}
+                        data-status={entry.status}
+                      >
+                        <header>
+                          <div class="research-record__status">
+                            <span class="research-record__kind">{categoryLabel(view, entry)}</span>
+                            <span>{entry.year}</span>
+                          </div>
+                          <h4>{entry.title}</h4>
+                        </header>
+                        <p>{entry.summary}</p>
+                        <dl>
+                          <div><dt>Source</dt><dd>{entry.venue}</dd></div>
+                          <div><dt>Status</dt><dd>{statusLabels[entry.status]}</dd></div>
+                          <div><dt>Cluster</dt><dd>{entry.cluster}</dd></div>
+                        </dl>
+                        <footer>
+                          <div>
+                            <span>Appears in</span>
+                            <p>{entry.appearsIn.join(' · ')}</p>
+                          </div>
+                          <a href={entry.source} aria-label={`Open the primary source for ${entry.title}`}>Primary source <span aria-hidden="true">↗</span></a>
+                        </footer>
+                      </article>
+                    ))}
+                  </div>
+                  <p class="research-empty" data-empty-state hidden>No records in this view match both filters. Reset the filters or choose another view.</p>
+                </>
+              )}
+            </section>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <aside class="research-method" aria-labelledby="method-title">
+      <div class="research-shell research-method__grid">
+        <div>
+          <p class="research-kicker"><span aria-hidden="true">R / 04</span> Reading contract</p>
+          <h2 id="method-title">Source-aware by construction.</h2>
+        </div>
+        <div class="research-method__notes">
+          <article><span>01</span><p>Conference records, peer-reviewed work, preprints, guidelines, and specifications remain distinct labels.</p></article>
+          <article><span>02</span><p>Summaries are original implementation notes. No publisher figure, journal logo, long abstract, or PDF page is reproduced.</p></article>
+          <article><span>03</span><p>“Appears in” means the source informs or relates to that portfolio system. It does not claim a direct citation or implementation unless separately evidenced.</p></article>
+          <article><span>04</span><p>The external Meta-Harness paper is separate from Shailesh’s open-source Meta Harness project; no affiliation or derivation is implied.</p></article>
+        </div>
+      </div>
+    </aside>
+  </div>
+</Layout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-research-root]');
+
+  if (root) {
+    const controls = root.querySelector<HTMLElement>('[data-enhanced-controls]');
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-view-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-research-panel]')];
+    const records = [...root.querySelectorAll<HTMLElement>('[data-research-record]')];
+    const filters = root.querySelector<HTMLElement>('.research-filters');
+    const clusterFilter = root.querySelector<HTMLSelectElement>('[data-cluster-filter]');
+    const statusFilter = root.querySelector<HTMLSelectElement>('[data-status-filter]');
+    const resultCount = root.querySelector<HTMLElement>('[data-result-count]');
+    const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    let activeView = 'foundations';
+
+    document.documentElement.classList.add('research-js');
+    if (controls) controls.hidden = false;
+
+    const applyFilters = () => {
+      const cluster = clusterFilter?.value ?? 'all';
+      const status = statusFilter?.value ?? 'all';
+      const activePanel = panels.find((panel) => panel.dataset.researchPanel === activeView);
+      const activeRecords = records.filter((record) => record.dataset.view === activeView);
+      let visible = 0;
+
+      if (filters) filters.hidden = activeView === 'publications';
+
+      records.forEach((record) => {
+        const matchesCluster = cluster === 'all' || record.dataset.cluster === cluster;
+        const matchesStatus = status === 'all' || record.dataset.status === status;
+        record.hidden = !(matchesCluster && matchesStatus);
+        if (record.dataset.view === activeView && !record.hidden) visible += 1;
+      });
+
+      const empty = activePanel?.querySelector<HTMLElement>('[data-empty-state]');
+      if (empty) empty.hidden = visible !== 0;
+
+      const activeLabel = tabs.find((tab) => tab.dataset.viewTab === activeView)?.dataset.viewLabel ?? 'Research';
+      if (resultCount) {
+        resultCount.textContent = activeView === 'publications'
+          ? '2 verified authored publications'
+          : `${visible} of ${activeRecords.length} records in ${activeLabel}`;
+      }
+    };
+
+    const setView = (view: string, moveFocus = false) => {
+      const nextTab = tabs.find((tab) => tab.dataset.viewTab === view);
+      const nextPanel = panels.find((panel) => panel.dataset.researchPanel === view);
+      if (!nextTab || !nextPanel) return;
+
+      activeView = view;
+      tabs.forEach((tab) => {
+        const selected = tab === nextTab;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel !== nextPanel;
+        panel.setAttribute('role', 'tabpanel');
+        const owner = tabs.find((tab) => tab.dataset.viewTab === panel.dataset.researchPanel);
+        if (owner) panel.setAttribute('aria-labelledby', owner.id);
+      });
+      applyFilters();
+      if (moveFocus) nextTab.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => setView(tab.dataset.viewTab ?? 'foundations'));
+      tab.addEventListener('keydown', (event) => {
+        let nextIndex = index;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') nextIndex = 0;
+        else if (event.key === 'End') nextIndex = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        setView(tabs[nextIndex].dataset.viewTab ?? 'foundations', true);
+      });
+    });
+
+    root.querySelectorAll<HTMLAnchorElement>('[data-view-link]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const view = link.dataset.viewLink ?? 'foundations';
+        setView(view);
+        document.querySelector(`#research-view-${view}`)?.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+      });
+    });
+
+    root.querySelectorAll<HTMLAnchorElement>('[data-research-jump]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const target = root.querySelector<HTMLElement>(link.hash);
+        if (!target) return;
+        event.preventDefault();
+        if (clusterFilter) clusterFilter.value = 'all';
+        if (statusFilter) statusFilter.value = 'all';
+        setView(target.dataset.view ?? 'foundations');
+        requestAnimationFrame(() => {
+          target.focus({ preventScroll: true });
+          target.scrollIntoView({ behavior: scrollBehavior, block: 'center' });
+        });
+      });
+    });
+
+    clusterFilter?.addEventListener('change', applyFilters);
+    statusFilter?.addEventListener('change', applyFilters);
+    root.querySelector<HTMLButtonElement>('[data-reset-filters]')?.addEventListener('click', () => {
+      if (clusterFilter) clusterFilter.value = 'all';
+      if (statusFilter) statusFilter.value = 'all';
+      applyFilters();
+      clusterFilter?.focus();
+    });
+
+    setView(activeView);
+  }
+</script>

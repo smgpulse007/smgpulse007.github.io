@@ -1,16 +1,35 @@
 import type { APIRoute } from 'astro';
 import sharp from 'sharp';
-import { workItems } from '../../data/work';
+import { allV23WorkItems } from '../../data/v23Work';
 
 const cards = [
-  { slug: 'home', eyebrow: 'Senior Applied AI Engineer', title: 'AI systems that survive real operations.' },
-  { slug: 'work', eyebrow: 'Selected work', title: 'Proof of judgment under real constraints.' },
+  { slug: 'home', eyebrow: 'Senior Applied AI / ML Engineer', title: 'Intelligent systems, after the demo.' },
+  { slug: 'work', eyebrow: 'Professional work', title: 'Four systems. Four uncertainty structures.' },
   { slug: 'experience', eyebrow: 'Experience', title: 'From biomedical data to accountable AI workflows.' },
-  { slug: 'lab', eyebrow: 'Lab', title: 'Range, without category blur.' },
-  { slug: 'about', eyebrow: 'About', title: 'The space between a model and a system people can trust.' },
-  { slug: 'resume', eyebrow: 'Résumé', title: 'Shailesh Dudala · Senior Applied AI Engineer' },
+  { slug: 'lab', eyebrow: 'Project Lab', title: 'A field of systems, not a shelf of cards.' },
+  { slug: 'systems', eyebrow: 'Systems', title: 'The system around the model is the work.' },
+  { slug: 'evolution', eyebrow: 'Evolution', title: 'Signal becomes proof.' },
+  { slug: 'research', eyebrow: 'Research', title: 'The ideas behind the work.' },
+  { slug: 'systems-claims-agents', eyebrow: 'Current frontier', title: 'Context-engineered claims agents.' },
+  { slug: 'systems-predictive-ml', eyebrow: 'Professional system', title: 'Predictive healthcare ML.' },
+  { slug: 'systems-healthcare-platform', eyebrow: 'Professional system', title: 'Healthcare analytics platform.' },
+  { slug: 'systems-document-intelligence', eyebrow: 'Professional system', title: 'Local document intelligence.' },
+  { slug: 'systems-meta-harness', eyebrow: 'Open-source flagship', title: 'Phases, packets, proof, continuation.' },
+  { slug: 'systems-llm-steering', eyebrow: 'Open-source flagship', title: 'Model behavior becomes inspectable.' },
+  { slug: 'concepts-observatory', eyebrow: 'V2.2 concept 01', title: 'Systems Observatory.' },
+  { slug: 'concepts-agent-system', eyebrow: 'V2.2 concept 02', title: 'Agent Operating System.' },
+  { slug: 'concepts-evolution', eyebrow: 'V2.2 concept 03', title: 'Evolution Engine.' },
+  { slug: 'concepts-v23-signal-field', eyebrow: 'V2.3 concept 01', title: 'Signal Field.' },
+  { slug: 'concepts-v23-computational-editorial', eyebrow: 'V2.3 concept 02', title: 'Computational Editorial.' },
+  { slug: 'concepts-v23-living-career-atlas', eyebrow: 'V2.3 concept 03', title: 'Living Career Atlas.' },
+  { slug: 'concepts-v23-evidence-workbench', eyebrow: 'V2.3 Lab concept 01', title: 'Evidence Workbench.' },
+  { slug: 'concepts-v23-repository-constellation', eyebrow: 'V2.3 Lab concept 02', title: 'Repository Constellation.' },
+  { slug: 'recognition', eyebrow: 'Recognition', title: 'The award matters. The attribution matters too.' },
+  { slug: 'about', eyebrow: 'About', title: 'AI through the discipline of biomedical context.' },
+  { slug: 'resume', eyebrow: 'Résumé', title: 'Shailesh Dudala · Senior Applied AI / ML Engineer' },
+  { slug: 'contact', eyebrow: 'Contact', title: 'Bring the messy input and the operational constraint.' },
   { slug: '404', eyebrow: 'Trace ended', title: 'This route did not reach a valid state.' },
-  ...workItems.map((item) => ({ slug: `work-${item.slug}`, eyebrow: item.eyebrow, title: item.title })),
+  ...allV23WorkItems.map((item) => ({ slug: `work-${item.slug}`, eyebrow: item.eyebrow, title: item.title })),
 ];
 
 export function getStaticPaths() {

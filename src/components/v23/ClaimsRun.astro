@@ -1,0 +1,48 @@
+---
+const steps = [
+  { label:'Packet arrives', layer:'Input', detail:'Synthetic multi-document claim packet enters with provenance and page identity.' },
+  { label:'Intent + document types', layer:'Model + context', detail:'Classification selects a typed extraction contract and the allowed tool path.' },
+  { label:'Evidence assembled', layer:'Context', detail:'Source pages, policy context, and prior workflow state remain addressable.' },
+  { label:'Tools execute', layer:'Agent loop', detail:'Extraction and retrieval tools return structured outputs, errors, and citations.' },
+  { label:'Contract validated', layer:'Deterministic control', detail:'Schema, cross-field, and workflow rules reject an inconsistent service date.' },
+  { label:'Exception routed', layer:'Workflow', detail:'The case moves to a reviewer with the failed rule, evidence, and reason.' },
+  { label:'Human authority', layer:'Decision boundary', detail:'A person confirms or corrects the consequential field; the model cannot self-approve.' },
+  { label:'Trace closes', layer:'Observability', detail:'Contract version, events, latency, route, and final disposition become one audit record.' },
+];
+---
+<section class="v23-claims-run" data-claims-run aria-labelledby="claims-run-title">
+  <header><div><span>LIVE EXPLANATION / SYNTHETIC RUN</span><h3 id="claims-run-title">A claim packet becomes bounded action.</h3></div><div class="run-controls"><button type="button" data-run-prev aria-label="Previous step">←</button><button type="button" data-run-play>Play</button><button type="button" data-run-next aria-label="Next step">→</button></div></header>
+  <div class="run-stage"><div class="run-orbit" aria-hidden="true"><span>MODEL</span><span>CONTEXT</span><span>TOOLS</span><span>STATE</span><strong>AGENT<br/>LOOP</strong></div><div class="run-readout"><span data-run-layer>{steps[0].layer}</span><strong data-run-label>{steps[0].label}</strong><p data-run-detail>{steps[0].detail}</p><code data-run-code>{`{ state: "intake", authority: "workflow" }`}</code></div></div>
+  <ol>{steps.map((step,index)=><li class:list={{active:index===0,authority:index===6}} data-run-step={index}><button type="button"><span>{String(index+1).padStart(2,'0')}</span><strong>{step.label}</strong><small>{step.layer}</small></button></li>)}</ol>
+  <aside><span>AUTHORITY BOUNDARY</span><p>Models can propose and tools can execute inside a contract. People and deterministic workflow rules retain authority over consequential exceptions.</p></aside>
+  <noscript>
+    <section class="run-static-fallback" aria-labelledby="claims-run-static-title">
+      <h4 id="claims-run-static-title">Complete static claim-packet trace</h4>
+      <ol>{steps.map((step,index)=><li><span>{String(index+1).padStart(2,'0')} / {step.layer}</span><strong>{step.label}</strong><p>{step.detail}</p></li>)}</ol>
+    </section>
+  </noscript>
+</section>
+<style>
+  .run-static-fallback { margin-top: 1rem; padding: 1rem; border: 1px solid rgba(130,201,255,.22); background: #0b1017; }
+  .run-static-fallback h4 { margin: 0 0 1rem; font-size: 1rem; }
+  .run-static-fallback ol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin: 0; padding: 0; list-style: none; }
+  .run-static-fallback li { padding: .9rem; border: 1px solid rgba(205,219,232,.12); }
+  .run-static-fallback span,.run-static-fallback strong { display: block; }
+  .run-static-fallback span { color: #8ee6c0; font: 700 .68rem ui-monospace,monospace; }
+  .run-static-fallback p { margin: .45rem 0 0; }
+  @media (max-width: 640px) { .run-static-fallback ol { grid-template-columns: 1fr; } }
+</style>
+<script is:inline define:vars={{steps}}>
+  // @ts-nocheck
+  document.querySelectorAll('[data-claims-run]').forEach((root)=>{
+    const nodes=[...root.querySelectorAll('[data-run-step]')]; let index=0; let timer;
+    const write=(selector,value)=>{const node=root.querySelector(selector);if(node)node.textContent=value};
+    const render=(next)=>{index=(next+steps.length)%steps.length;nodes.forEach((node,i)=>node.classList.toggle('active',i===index));const step=steps[index];write('[data-run-layer]',step.layer);write('[data-run-label]',step.label);write('[data-run-detail]',step.detail);write('[data-run-code]',`{ step: ${index+1}, state: "${index===6?'reviewer_authority':index===7?'closed':'in_progress'}" }`)};
+    const stop=()=>{if(timer){clearInterval(timer);timer=undefined;write('[data-run-play]','Play')}};
+    root.querySelector('[data-run-prev]')?.addEventListener('click',()=>{stop();render(index-1)});
+    root.querySelector('[data-run-next]')?.addEventListener('click',()=>{stop();render(index+1)});
+    root.querySelector('[data-run-play]')?.addEventListener('click',(event)=>{if(timer){stop();return}event.currentTarget.textContent='Pause';timer=setInterval(()=>render(index+1),1500)});
+    nodes.forEach((node,i)=>node.querySelector('button')?.addEventListener('click',()=>{stop();render(i)}));
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+  });
+</script>

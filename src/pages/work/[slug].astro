@@ -1,14 +1,22 @@
 ---
 import Layout from '../../components/Layout.astro';
-import { workItems } from '../../data/work';
+import FlagshipVisual from '../../components/FlagshipVisual.astro';
+import CaseStudyInteraction from '../../components/v23/CaseStudyInteraction.astro';
+import { allV23WorkItems } from '../../data/v23Work';
 import type { WorkItem } from '../../data/types';
+import { evidenceAsset } from '../../data/projectEvidence';
 import { absoluteUrl } from '../../config/site';
 
 export function getStaticPaths() {
-  return workItems.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+  return allV23WorkItems.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 type Props = { item: WorkItem };
 const { item } = Astro.props;
+const publicType = item.type === 'Research lab' ? 'Public research build' : 'Professional work';
+const evidenceSummary = `${item.evidence.length} source notes · ${item.limitations.length} explicit limits`;
+const llmMedia = item.slug === 'llm-steering-lab'
+  ? [evidenceAsset('llm-activation-flow'), evidenceAsset('llm-hook-diagram')].filter(Boolean)
+  : [];
 const jsonLd = [
   {
     '@context': 'https://schema.org', '@type': item.repository ? 'SoftwareSourceCode' : 'CreativeWork',
@@ -25,21 +33,27 @@ const jsonLd = [
 ];
 ---
 <Layout title={item.seo.title} description={item.seo.description} canonicalPath={`/work/${item.slug}/`} type="article" jsonLd={jsonLd}>
-  <article class:list={['case-study', `accent-${item.accent}`]}>
-    <header class="case-hero"><div class="shell case-hero-grid">
-      <div><a class="back-link" href="/work/">← Selected work</a><p class="eyebrow">{item.eyebrow}</p><h1>{item.title}</h1><p class="case-lede">{item.lede}</p><div class="case-tags"><span>{item.type}</span><span>{item.status}</span></div></div>
-      <aside class="case-artifact"><div class="artifact-bar"><span>{item.artifact.label}</span><i>Synthetic / public-safe</i></div><pre><code>{item.artifact.code}</code></pre><ol>{item.flow.map((step) => <li>{step}</li>)}</ol></aside>
+  <article class:list={['case-study', 'v23-case-study', `accent-${item.accent}`, `case-${item.visual}`]}>
+    <header class="case-hero v23-case-hero"><div class="shell case-hero-grid">
+      <div class="case-hero-copy"><a class="back-link" href="/work/">← Selected work</a><p class="eyebrow">{item.eyebrow}</p><h1>{item.title}</h1><p class="case-lede">{item.lede}</p><dl class="case-hero-facts"><div><dt>Problem</dt><dd>{item.executiveSummary.problem}</dd></div><div><dt>Decision</dt><dd>{item.executiveSummary.decision}</dd></div><div><dt>Business / proof change</dt><dd>{item.executiveSummary.change}</dd></div><div><dt>Ownership</dt><dd>{item.role}</dd></div><div><dt>Scale / team</dt><dd>{item.teamContext}</dd></div><div><dt>Evidence</dt><dd>{evidenceSummary}</dd></div></dl><div class="case-tags"><span>{publicType}</span><span>{item.timeframe}</span></div></div>
+      <div class="v23-case-cover"><FlagshipVisual item={item} /><span>PUBLIC-SAFE RECONSTRUCTION</span><strong>{item.domain}</strong></div>
     </div></header>
-    <details class="case-mobile-nav"><summary>In this case study</summary><nav>{item.sections.map((section, index) => <a href={`#section-${index + 1}`}>{String(index + 1).padStart(2, '0')} {section.heading}</a>)}<a href="#evidence">E Evidence and limitations</a></nav></details>
-    <div class="shell case-body-grid">
-      <aside class="case-nav"><p>In this case study</p><nav>{item.sections.map((section, index) => <a href={`#section-${index + 1}`}>{String(index + 1).padStart(2, '0')} {section.heading}</a>)}</nav></aside>
-      <div class="case-main">
-        <section class="glance-grid" aria-label="At a glance">{item.glance.map((fact) => <div><span>{fact.label}</span><strong>{fact.value}</strong></div>)}</section>
-        <section class="outcome-callout"><span>One-sentence outcome</span><p>{item.outcome}</p></section>
-        {item.sections.map((section, index) => <section id={`section-${index + 1}`} class="case-section"><div class="section-number">{String(index + 1).padStart(2, '0')}</div><div><h2>{section.heading}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}</div></section>)}
-        <section class="case-section evidence-section" id="evidence"><div class="section-number">E</div><div><h2>Evidence and limitations</h2><div class="evidence-cards">{item.evidence.map((evidence) => <article><span>{evidence.classification}</span><h3>{evidence.label}</h3><p>{evidence.detail}</p>{evidence.href && <a href={evidence.href}>Open source ↗</a>}</article>)}</div><h3>Limitations</h3><ul>{item.limitations.map((limitation) => <li>{limitation}</li>)}</ul><p class="privacy-boundary">{item.privacyBoundary}</p></div></section>
-        <nav class="case-next" aria-label="Case study navigation"><a href="/work/">All work</a><a href="/experience/">Experience →</a></nav>
-      </div>
+
+    <div class="shell case-overview">
+      <section class="glance-grid" aria-label="90-second overview">{item.glance.map((fact) => <div><span>{fact.label}</span><strong>{fact.value}</strong></div>)}</section>
+      <section class="outcome-callout"><span>Result</span><p>{item.outcome}</p></section>
+      <nav class="case-toc" aria-label="Case study sections"><span>Deep dive</span>{item.sections.map((section, index) => <a href={`#section-${index + 1}`}>{String(index + 1).padStart(2, '0')} {section.heading}</a>)}<a href="#source-notes">Source notes</a></nav>
+    </div>
+
+    <div class="shell case-signature"><CaseStudyInteraction slug={item.slug} /></div>
+
+    <div class="shell case-main">
+      {item.sections.map((section, index) => <section id={`section-${index + 1}`} class="case-section"><div class="section-number">{String(index + 1).padStart(2, '0')}</div><div><h2>{section.heading}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}</div></section>)}
+
+      {llmMedia.length > 0 && <section class="case-section source-gallery"><div class="section-number">A</div><div><p class="eyebrow">Repository artifacts</p><h2>The intervention is visible in the checked-in design.</h2><div class="source-gallery-grid">{llmMedia.map((asset) => asset && <figure><img src={asset.path} alt={asset.alt} width="1400" height={asset.id === 'llm-hook-diagram' ? '420' : '560'} loading="lazy" /><figcaption>{asset.caption}</figcaption></figure>)}</div></div></section>}
+
+      <section class="case-section source-notes" id="source-notes"><div class="section-number">S</div><div><p class="eyebrow">Source notes</p><h2>What you can inspect—and what remains private.</h2><div class="evidence-cards">{item.evidence.map((evidence) => <article><h3>{evidence.label}</h3><p>{evidence.detail}</p>{evidence.href && <a href={evidence.href}>Open source ↗</a>}</article>)}</div><h3>Limits</h3><ul>{item.limitations.map((limitation) => <li>{limitation}</li>)}</ul><p class="privacy-boundary">{item.privacyBoundary}</p><details class="artifact-source"><summary>{item.artifact.label}</summary><pre><code>{item.artifact.code}</code></pre></details></div></section>
+      <nav class="case-next" aria-label="Case study navigation"><a href="/work/">All work</a><a href="/experience/">Experience →</a></nav>
     </div>
   </article>
 </Layout>

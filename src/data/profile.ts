@@ -1,10 +1,10 @@
 export const profile = {
   name: 'Shailesh Dudala',
-  role: 'Senior Applied AI Engineer',
+  role: 'Senior Applied AI / ML Engineer',
   email: 'shaileshdudala@icloud.com',
-  positioning: 'I build governed agentic AI, document intelligence, predictive ML, and execution harnesses for consequential workflows.',
-  seoTitle: 'Shailesh Dudala — Systems Observatory',
-  seoDescription: 'Senior Applied AI Engineer building predictive systems, context-engineered agents, document intelligence, and evidence-gated execution harnesses.',
+  positioning: 'I build production agentic AI, predictive ML, document intelligence, and MLOps systems for consequential healthcare and insurance workflows.',
+  seoTitle: 'Shailesh Dudala — Senior Applied AI / ML Engineer',
+  seoDescription: 'Senior Applied AI / ML Engineer across production agentic AI, predictive healthcare, document intelligence, MLOps, and scientific computing.',
   github: 'https://github.com/smgpulse007',
   linkedin: 'https://www.linkedin.com/in/ssdudala/',
   resumeAvailable: true,
@@ -14,9 +14,9 @@ export const profile = {
 } as const;
 
 export const navigation = [
-  { label: 'Systems', href: '/systems/' },
-  { label: 'Evolution', href: '/evolution/' },
-  { label: 'Lab', href: '/lab/' },
+  { label: 'Work', href: '/work/' },
+  { label: 'Experience', href: '/experience/' },
+  { label: 'Projects', href: '/lab/' },
   { label: 'Research', href: '/research/' },
   { label: 'About', href: '/about/' },
   { label: 'Résumé', href: '/resume/' },

@@ -1,14 +1,33 @@
 ---
 import Layout from '../components/Layout.astro';
-import EvolutionSpine from '../components/v22/EvolutionSpine.astro';
-import { education,certifications } from '../data/experience';
 import { profile } from '../data/profile';
-import { absoluteUrl } from '../config/site';
-const profilePageJsonLd={ '@context':'https://schema.org','@type':'ProfilePage',name:`About ${profile.name}`,url:absoluteUrl('/about/',true),mainEntity:{'@type':'Person',name:profile.name,jobTitle:profile.role,url:absoluteUrl('/',true),sameAs:[profile.github,profile.linkedin]} };
+import { v23Identity } from '../data/v23';
+const principles=[
+  ['Start with the decision','Define who acts, what evidence they need, and what authority the system can hold before choosing a model.'],
+  ['Keep uncertainty visible','Calibration, citations, failed rules, missing data, and reviewer disagreement belong in the product—not a hidden evaluation notebook.'],
+  ['Build the operating path','Data contracts, deployment, telemetry, fallback, and adoption are part of the model’s job description.'],
+  ['Prefer proof over theater','A green test, reproducible artifact, honest limit, or measured workflow change says more than a speculative architecture diagram.'],
+  ['Lead across boundaries','The useful work happens between domain experts, operations, data, engineering, product, security, and the people accountable for outcomes.'],
+];
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  name: 'About Shailesh Dudala',
+  description: 'How Shailesh Dudala approaches applied AI, predictive ML, document intelligence, MLOps, product leadership, and accountable agent systems.',
+  mainEntity: {
+    '@type': 'Person',
+    name: profile.name,
+    jobTitle: profile.role,
+    url: 'https://shaileshdudala.com/about/',
+    sameAs: [profile.github, profile.linkedin],
+  },
+};
 ---
-<Layout title="About — Shailesh Dudala" description="The human and technical path from biomedical informatics to predictive healthcare, products, context-engineered agents, and execution harnesses." canonicalPath="/about/" jsonLd={profilePageJsonLd}>
-  <section class="about-v22-hero"><div class="shell"><span>ABOUT / HUMAN ORIGIN</span><h1>Ambiguity is where the work begins.</h1><div><p>I started in biomedical informatics, where a technically correct result could still fail if lineage, assumptions, or clinical context were invisible.</p><p>That discipline became a way of working: learn the domain, find the missing abstraction, make uncertainty explicit, and move from prototype to an operating system people can trust.</p></div></div></section>
-  <section class="v22-scene"><div class="shell scene-heading"><div><span>THE THROUGHLINE</span><h2>The scope widened. The responsibility did too.</h2></div><p>Clinical data became predictive systems, healthcare products, local document intelligence, bounded agents, and the harness around long-running work.</p></div><div class="shell"><EvolutionSpine compact/></div></section>
-  <section class="v22-scene curiosity-field"><div class="shell"><div><span>CURIOSITY / NOT CATEGORY BLUR</span><h2>Different domains expose different failure modes.</h2><p>Healthcare tests lineage, interoperability, and consequential decisions. Insurance tests document ambiguity and workflow authority. Quant and sports forecasting test calibration and backtests. Model behavior tests causal restraint. Coding agents test scope, state, and proof.</p></div><div>{['Learn the domain','Frame the operating decision','Find the missing abstraction','Build the smallest truthful system','Measure failure before scale','Keep people in authority'].map((step,i)=><article><span>{String(i+1).padStart(2,'0')}</span><strong>{step}</strong></article>)}</div></div></section>
-  <section class="v22-scene credentials-v22"><div class="shell"><div><span>EDUCATION</span><ul>{education.map((entry)=><li>{entry}</li>)}</ul></div><div><span>CREDENTIALS</span><ul>{certifications.map((entry)=><li>{entry}</li>)}</ul></div></div></section>
+<Layout title="About — Shailesh Dudala" description="How Shailesh Dudala approaches applied AI, predictive ML, document intelligence, MLOps, product leadership, and accountable agent systems." canonicalPath="/about/" jsonLd={structuredData}>
+  <section class="v23-page-hero about-v23-hero"><div class="shell"><p class="v23-kicker">ABOUT / {v23Identity.name}</p><div><h1>I build at the boundary between model behavior and human consequence.</h1><p>{v23Identity.shortBio}</p></div></div></section>
+  <section class="v23-section about-origin"><div class="shell about-origin-grid"><div class="about-monogram" aria-hidden="true"><span>SD</span><i></i><i></i><i></i></div><div><p class="v23-kicker">Origin</p><h2>Biomedical informatics made ambiguity concrete.</h2><p>Clinical and scientific data taught me that a technically correct result can still fail when lineage, assumptions, timing, or operating context are invisible.</p><p>That lesson followed the work outward—from statistical models to healthcare products, local document systems, and agents whose actions need contracts, evidence, and explicit authority.</p><blockquote>“The goal is not to remove people from consequential work. It is to give them a better system for seeing, deciding, and learning.”</blockquote></div></div></section>
+  <section class="v23-section principles-v23"><div class="shell v23-section-heading"><div><p class="v23-kicker">Working principles</p><h2>How I turn uncertainty into delivery.</h2></div><p>These principles connect the whole portfolio without forcing every project into one technology taxonomy.</p></div><div class="shell principle-ledger">{principles.map(([title,body],index)=><article><span>{String(index+1).padStart(2,'0')}</span><h3>{title}</h3><p>{body}</p></article>)}</div></section>
+  <section class="v23-section leadership-v23"><div class="shell leadership-grid"><div><p class="v23-kicker">Leadership</p><h2>Translate, align, and leave a system others can operate.</h2></div><div><p>I work across strategy and implementation: clarifying the decision, shaping the data and model path, defining acceptance evidence, and helping teams own what ships.</p><ul><li>Frame ambiguous problems as testable operating contracts.</li><li>Connect model metrics to capacity, workflow, risk, and product decisions.</li><li>Make failure modes discussable across technical and non-technical teams.</li><li>Build public-safe explanations without exposing private systems or data.</li></ul></div></div></section>
+  <section class="v23-section about-now"><div class="shell"><p class="v23-kicker">Now</p><h2>Production agentic AI—grounded in the full applied-ML arc.</h2><p>Current work focuses on claims and document agents. Open source explores execution harnesses, representation engineering, healthcare interoperability, forecasting, and local AI. Those are supporting proof systems, not the whole identity.</p><div><a href="/work/">Professional work ↗</a><a href="/lab/">Project Lab ↗</a><a href="/research/">Research ↗</a></div></div></section>
+  <section class="v23-contact"><div class="shell"><p class="v23-kicker">Contact</p><h2>Have a consequential workflow that needs more than a model demo?</h2><p>Let’s talk about the architecture between evidence and action.</p><div><a class="v23-button primary" href={`mailto:${profile.email}`}>Email Shailesh ↗</a><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a></div></div></section>
 </Layout>

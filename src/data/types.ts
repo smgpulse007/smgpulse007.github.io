@@ -46,6 +46,11 @@ export type WorkItem = {
   eyebrow: string;
   lede: string;
   outcome: string;
+  executiveSummary: {
+    problem: string;
+    decision: string;
+    change: string;
+  };
   type: ProjectType;
   status: string;
   domain: string;

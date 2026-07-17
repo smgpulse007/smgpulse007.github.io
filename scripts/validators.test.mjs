@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   canonicalHref,
   extractAttributeUrls,
+  governedImpactClaimViolations,
   metaContent,
   privacyArtifactViolations,
   routeCandidates,
@@ -54,4 +55,26 @@ test('extracts canonical and robots metadata in either attribute order', () => {
 test('normalizes HTML to searchable visible text', () => {
   assert.equal(visibleText('<p>Let&#39;s <b>talk</b> &amp; build.</p>'), "Let's talk & build.");
   assert.equal(stripQueryAndHash('/work/?x=1#proof'), '/work/');
+});
+
+test('accepts the governed backlog and closure claims', () => {
+  const failures = governedImpactClaimViolations({
+    renderedHome: '<article><strong>7K</strong><p>case backlog cleared</p></article><article><strong>20%</strong><p>automated closure improvement</p></article>',
+    homeSource: '<strong>7K</strong><p>case backlog cleared</p><strong>20%</strong><p>automated closure improvement</p>',
+    claimSource: "value: '7K', label: 'case backlog cleared'\nvalue: '20%', label: 'automated closure improvement'",
+  });
+  assert.deepEqual(failures, []);
+});
+
+test('rejects the false documents-per-day claim and missing governed claims', () => {
+  const failures = governedImpactClaimViolations({
+    renderedHome: '<article><strong>7K</strong><p>documents/day</p></article>',
+    homeSource: '<strong>7K</strong><p>documents/day</p>',
+    claimSource: "value: '7K', label: 'documents/day'",
+  });
+  assert.ok(failures.some((failure) => failure.includes('dist/index.html: denied false claim')));
+  assert.ok(failures.some((failure) => failure.includes('src/pages/index.astro: denied false claim')));
+  assert.ok(failures.some((failure) => failure.includes('7k case backlog cleared')));
+  assert.ok(failures.some((failure) => failure.includes('20% automated closure improvement')));
+  assert.ok(failures.some((failure) => failure.includes('required governed value/label pair')));
 });

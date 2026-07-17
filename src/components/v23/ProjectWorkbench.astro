@@ -1,0 +1,33 @@
+---
+import { featuredProjects, exploreProjects } from '../../data/v23';
+type Props = { compact?: boolean };
+const { compact = false } = Astro.props;
+const projects = compact ? featuredProjects.slice(0,4) : [...featuredProjects, ...exploreProjects];
+const selected = projects[0];
+---
+<section class:list={['v23-project-workbench',{compact}]} data-project-workbench aria-labelledby={compact?'project-workbench-compact-title':'project-workbench-title'}>
+  <div class="workbench-chrome"><span>PROJECT LAB / EVIDENCE WORKBENCH</span><div><i></i><i></i><i></i></div></div>
+  <div class="workbench-layout"><nav aria-label="Select a public project"><label>Filter systems<input type="search" data-project-search placeholder="Project, proof, status" /></label><div data-project-list>{projects.map((project,index)=><button type="button" class:list={{active:index===0}} data-project-select data-search={`${project.title} ${project.category} ${project.status} ${project.proof}`.toLowerCase()} data-title={project.title} data-category={project.category} data-status={project.status} data-proof={project.proof} data-limit={project.limitation} data-repo={project.repository} data-href={project.href??''}><span>{project.category}</span><strong>{project.title}</strong><small>{project.status}</small></button>)}</div></nav>
+    <div class="workbench-system"><h2 id={compact?'project-workbench-compact-title':'project-workbench-title'}>Inspect the system behind the repository.</h2><div class="workbench-flow"><article><span>01</span><strong>Problem</strong><small>Why the project exists</small></article><article><span>02</span><strong>Built</strong><small>Architecture and artifacts</small></article><article><span>03</span><strong>Proof</strong><small>Tests, media, results, docs</small></article><article><span>04</span><strong>Limit</strong><small>What it does not establish</small></article></div><p>Repository existence is not proof maturity. The workbench keeps source, health, evidence, and limits adjacent.</p></div>
+    <aside aria-live="polite"><span data-project-category>{selected.category}</span><h3 data-project-title>{selected.title}</h3><p class="project-status" data-project-status>{selected.status}</p><dl><div><dt>Public proof</dt><dd data-project-proof>{selected.proof}</dd></div><div><dt>Limit</dt><dd data-project-limit>{selected.limitation}</dd></div></dl><div><a data-project-open href={selected.href??selected.repository}>Open project ↗</a><a data-project-repo href={selected.repository}>Repository ↗</a></div></aside>
+  </div>
+  <noscript>
+    <section class="project-static-fallback" aria-labelledby={compact?'project-static-compact-title':'project-static-title'}>
+      <h3 id={compact?'project-static-compact-title':'project-static-title'}>Static project evidence index</h3>
+      <p>JavaScript is unavailable. Every project remains inspectable below with its current public proof and limitation.</p>
+      <div>{projects.map((project)=><article><span>{project.category} · {project.status}</span><h4>{project.title}</h4><dl><div><dt>Public proof</dt><dd>{project.proof}</dd></div><div><dt>Limit</dt><dd>{project.limitation}</dd></div></dl><p><a href={project.href??project.repository}>Open project ↗</a> · <a href={project.repository}>Repository ↗</a></p></article>)}</div>
+    </section>
+  </noscript>
+</section>
+<style>
+  .project-static-fallback { margin-top: 1rem; padding: 1rem; border: 1px solid rgba(130,201,255,.22); background: #0b1017; }
+  .project-static-fallback > div { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .75rem; }
+  .project-static-fallback article { padding: 1rem; border: 1px solid rgba(205,219,232,.12); }
+  .project-static-fallback h4 { margin: .35rem 0 .8rem; }
+  .project-static-fallback span,.project-static-fallback dt { color: #8ee6c0; font: 700 .68rem ui-monospace,monospace; }
+  .project-static-fallback dd { margin: .2rem 0 .65rem; }
+  @media (max-width: 640px) { .project-static-fallback > div { grid-template-columns: 1fr; } }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-project-workbench]').forEach((root)=>{const buttons=[...root.querySelectorAll<HTMLElement>('[data-project-select]')];const write=(selector:string,value:string|undefined)=>{const node=root.querySelector(selector);if(node)node.textContent=value??''};const select=(button:HTMLElement)=>{buttons.forEach((item)=>item.classList.toggle('active',item===button));write('[data-project-category]',button.dataset.category);write('[data-project-title]',button.dataset.title);write('[data-project-status]',button.dataset.status);write('[data-project-proof]',button.dataset.proof);write('[data-project-limit]',button.dataset.limit);const open=root.querySelector<HTMLAnchorElement>('[data-project-open]');const repo=root.querySelector<HTMLAnchorElement>('[data-project-repo]');if(open)open.href=button.dataset.href||button.dataset.repo||'#';if(repo)repo.href=button.dataset.repo||'#'};buttons.forEach((button)=>button.addEventListener('click',()=>select(button)));root.querySelector<HTMLInputElement>('[data-project-search]')?.addEventListener('input',(event)=>{const query=(event.currentTarget as HTMLInputElement).value.trim().toLowerCase();buttons.forEach((button)=>button.hidden=Boolean(query&&!button.dataset.search?.includes(query)))});});
+</script>

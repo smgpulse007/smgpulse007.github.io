@@ -1,0 +1,23 @@
+---
+import Layout from '../../components/Layout.astro';
+import '../../styles/v23/prototypes.css';
+const nodes=[
+ {name:'LLM Steering',group:'Representation engineering',proof:'Green CI, tests, UI, research records',x:50,y:31,featured:true},
+ {name:'Meta Harness',group:'Agent systems',proof:'Schemas, CLI/MCP, proof ledger',x:71,y:45,featured:true},
+ {name:'FHIR ML API',group:'Predictive healthcare',proof:'Synthetic FHIR, explainability, green CI',x:28,y:43,featured:true},
+ {name:'HL7 AI Platform',group:'Interoperability',proof:'Architecture, demo package, team evidence',x:19,y:68},
+ {name:'AlphaQuant',group:'Agent research',proof:'Docker stack, architecture, demo media',x:82,y:68},
+ {name:'Ollama PoC',group:'Document AI',proof:'Local Docker demo and test scripts',x:55,y:72},
+ {name:'FreshTrack',group:'Document AI',proof:'Rich code and tests; CI currently red',x:38,y:79},
+ {name:'NFL Forecasting',group:'Historical forecasting',proof:'Backtests and self-evaluated metrics; archived',x:69,y:82},
+];
+---
+<Layout title="Repository Constellation — Portfolio V2.3 Lab concept" description="A spatial V2.3 Project Lab direction." canonicalPath="/concepts/v23-repository-constellation/" noIndex>
+  <div class="v23-prototype constellation-proto"><div class="proto-shell proto-bar"><div class="proto-identity"><strong>Shailesh Dudala</strong><span>Project Lab prototype</span></div><a href="/lab/">V2.3 concept / Lab</a></div>
+    <header class="proto-shell constellation-head"><div><p class="proto-kicker">Lab direction 02 / Repository Constellation</p><h1>A field of systems, not a shelf of cards.</h1></div><p>Projects group by shared methods and evidence. Spatial proximity shows relationships; the readout preserves maturity and limits.</p></header>
+    <section class="proto-shell repo-constellation" aria-label="Repository relationship map">{nodes.map((node)=><button class:list={['repo-node',{featured:node.featured}]} style={`--x:${node.x}%;--y:${node.y}%`} data-name={node.name} data-group={node.group} data-proof={node.proof}><span>{node.group}</span><strong>{node.name}</strong></button>)}<aside class="constellation-readout" aria-live="polite"><p data-repo-group>{nodes[0].group}</p><h2 data-repo-name>{nodes[0].name}</h2><span data-repo-proof>{nodes[0].proof}</span></aside></section>
+  </div>
+</Layout>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-name]').forEach((node)=>node.addEventListener('click',()=>{const write=(selector:string,value:string|undefined)=>{const target=document.querySelector(selector);if(target)target.textContent=value??''};write('[data-repo-name]',node.dataset.name);write('[data-repo-group]',node.dataset.group);write('[data-repo-proof]',node.dataset.proof)}));
+</script>

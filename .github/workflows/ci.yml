@@ -55,7 +55,15 @@ jobs:
         run: npm run build
 
       - name: Content and claim validation
-        run: npm run test:content
+        run: |
+          npm run test:content
+          npm run test:claims
+          npm run test:visual-tiers
+          npm run test:v23-evidence
+          npm run test:copy
+          npm run test:legacy
+          npm run test:media
+          npm run test:evidence
 
       - name: Internal link validation
         run: npm run test:links

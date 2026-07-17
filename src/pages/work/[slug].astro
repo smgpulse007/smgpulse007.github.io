@@ -1,17 +1,19 @@
 ---
 import Layout from '../../components/Layout.astro';
 import FlagshipVisual from '../../components/FlagshipVisual.astro';
-import { workItems } from '../../data/work';
+import CaseStudyInteraction from '../../components/v23/CaseStudyInteraction.astro';
+import { allV23WorkItems } from '../../data/v23Work';
 import type { WorkItem } from '../../data/types';
 import { evidenceAsset } from '../../data/projectEvidence';
 import { absoluteUrl } from '../../config/site';
 
 export function getStaticPaths() {
-  return workItems.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+  return allV23WorkItems.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 type Props = { item: WorkItem };
 const { item } = Astro.props;
 const publicType = item.type === 'Research lab' ? 'Public research build' : 'Professional work';
+const evidenceSummary = `${item.evidence.length} source notes · ${item.limitations.length} explicit limits`;
 const llmMedia = item.slug === 'llm-steering-lab'
   ? [evidenceAsset('llm-activation-flow'), evidenceAsset('llm-hook-diagram')].filter(Boolean)
   : [];
@@ -31,10 +33,10 @@ const jsonLd = [
 ];
 ---
 <Layout title={item.seo.title} description={item.seo.description} canonicalPath={`/work/${item.slug}/`} type="article" jsonLd={jsonLd}>
-  <article class:list={['case-study', `accent-${item.accent}`, `case-${item.visual}`]}>
-    <header class="case-hero"><div class="shell case-hero-grid">
-      <div class="case-hero-copy"><a class="back-link" href="/work/">← Selected work</a><p class="eyebrow">{item.eyebrow}</p><h1>{item.title}</h1><p class="case-lede">{item.lede}</p><div class="case-tags"><span>{publicType}</span><span>{item.timeframe}</span></div></div>
-      <FlagshipVisual item={item} />
+  <article class:list={['case-study', 'v23-case-study', `accent-${item.accent}`, `case-${item.visual}`]}>
+    <header class="case-hero v23-case-hero"><div class="shell case-hero-grid">
+      <div class="case-hero-copy"><a class="back-link" href="/work/">← Selected work</a><p class="eyebrow">{item.eyebrow}</p><h1>{item.title}</h1><p class="case-lede">{item.lede}</p><dl class="case-hero-facts"><div><dt>Problem</dt><dd>{item.executiveSummary.problem}</dd></div><div><dt>Decision</dt><dd>{item.executiveSummary.decision}</dd></div><div><dt>Business / proof change</dt><dd>{item.executiveSummary.change}</dd></div><div><dt>Ownership</dt><dd>{item.role}</dd></div><div><dt>Scale / team</dt><dd>{item.teamContext}</dd></div><div><dt>Evidence</dt><dd>{evidenceSummary}</dd></div></dl><div class="case-tags"><span>{publicType}</span><span>{item.timeframe}</span></div></div>
+      <div class="v23-case-cover"><FlagshipVisual item={item} /><span>PUBLIC-SAFE RECONSTRUCTION</span><strong>{item.domain}</strong></div>
     </div></header>
 
     <div class="shell case-overview">
@@ -42,6 +44,8 @@ const jsonLd = [
       <section class="outcome-callout"><span>Result</span><p>{item.outcome}</p></section>
       <nav class="case-toc" aria-label="Case study sections"><span>Deep dive</span>{item.sections.map((section, index) => <a href={`#section-${index + 1}`}>{String(index + 1).padStart(2, '0')} {section.heading}</a>)}<a href="#source-notes">Source notes</a></nav>
     </div>
+
+    <div class="shell case-signature"><CaseStudyInteraction slug={item.slug} /></div>
 
     <div class="shell case-main">
       {item.sections.map((section, index) => <section id={`section-${index + 1}`} class="case-section"><div class="section-number">{String(index + 1).padStart(2, '0')}</div><div><h2>{section.heading}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}</div></section>)}

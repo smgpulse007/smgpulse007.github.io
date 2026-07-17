@@ -2,24 +2,17 @@ import { expect, test, type Page } from '@playwright/test';
 
 const essentialRoutes = [
   '/',
-  '/systems/',
-  '/evolution/',
-  '/research/',
   '/work/',
   '/experience/',
   '/lab/',
-  '/recognition/',
+  '/research/',
   '/about/',
   '/resume/',
-  '/contact/',
   '/work/claims-intelligence/',
-  '/work/on-prem-rag-ocr/',
+  '/work/predictive-healthcare-ml/',
   '/work/healthcare-analytics-platform/',
-  '/work/llm-steering-lab/',
-  '/systems/claims-agents/',
-  '/systems/meta-harness/',
-  '/systems/llm-steering/',
-];
+  '/work/on-prem-rag-ocr/',
+] as const;
 
 function requireBaseUrl(baseURL: string | undefined) {
   if (!baseURL) throw new Error('Playwright baseURL is required for live-mode validation.');
@@ -32,7 +25,13 @@ async function horizontalOverflow(page: Page) {
   );
 }
 
-test('essential routes retain complete content with JavaScript disabled', async ({ browser, baseURL }) => {
+function motionIsEffectivelyDisabled(values: string[]) {
+  return values.every((list) =>
+    list.split(',').every((value) => value.trim() === '0s' || Number.parseFloat(value) <= 0.00001),
+  );
+}
+
+test('essential V2.3 routes retain complete semantic content with JavaScript disabled', async ({ browser, baseURL }) => {
   const context = await browser.newContext({
     baseURL: requireBaseUrl(baseURL),
     javaScriptEnabled: false,
@@ -48,24 +47,91 @@ test('essential routes retain complete content with JavaScript disabled', async 
     expect(await horizontalOverflow(page), `${route} no-JavaScript overflow`).toBeLessThanOrEqual(1);
   }
 
+  await page.goto('/');
+  await expect(page.locator('.v23-career-field svg[role="group"]')).toHaveCount(1);
+  await expect(page.locator('.v23-career-field svg a')).toHaveCount(5);
+  await expect(page.locator('[data-claims-run] [data-run-step]')).toHaveCount(8);
+  await expect(page.locator('[data-claims-run]')).toContainText('Human authority');
+  await expect(page.locator('[data-project-workbench] [data-project-select]')).toHaveCount(4);
+  await expect(page.locator('[data-project-title]')).not.toBeEmpty();
+
+  const staticRun = page.locator('.run-static-fallback');
+  await expect(staticRun).toBeVisible();
+  await expect(staticRun).toContainText('Human authority');
+  await expect(staticRun).toContainText('the model cannot self-approve');
+
+  const staticProjects = page.locator('.project-static-fallback');
+  await expect(staticProjects).toBeVisible();
+  const staticMetaHarness = staticProjects.locator('article').filter({ hasText: 'Meta Harness' });
+  await expect(staticMetaHarness).toContainText('Schemas, CLI/MCP, proof ledger, integrations, examples, docs');
+  await expect(staticMetaHarness).toContainText('Source-installed and pre-1.0; correctness is not guaranteed');
+
+  const menu = page.locator('.mobile-nav');
+  await menu.locator('summary').click();
+  await expect(menu).toHaveAttribute('open', '');
+  await expect(menu.getByRole('link', { name: 'Work', exact: true })).toBeVisible();
+
+  await page.goto('/research/');
+  await expect(page.locator('[data-enhanced-controls]')).toBeHidden();
+  await expect(page.locator('[data-research-panel]')).toHaveCount(4);
+  for (const view of ['foundations', 'applied', 'frontier', 'publications']) {
+    await expect(page.locator(`[data-research-panel="${view}"]`)).toBeVisible();
+  }
+  await expect(page.locator('[data-research-record]')).toHaveCount(35);
+  await expect(page.locator('.authored-record')).toHaveCount(2);
+
   await context.close();
 });
 
-test('reduced-motion mode preserves controls and suppresses observatory motion', async ({ page }) => {
+test('reduced-motion mode preserves V2.3 controls and suppresses decorative motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
-  await expect(page.locator('.agent-trace-v22')).toBeVisible();
-  const durations = await page.locator('.hero-signal').evaluate((element) => {
-    const style = getComputedStyle(element);
-    return [style.animationDuration, style.transitionDuration];
+  const motionDurations = await page.locator('.v23-home-hero').evaluate((element) => {
+    const targets = [element, ...element.querySelectorAll<HTMLElement>('.v23-ambient i, .instrument-orb i')];
+    return targets.flatMap((target) => {
+      const style = getComputedStyle(target);
+      return [style.animationDuration, style.transitionDuration];
+    });
   });
-  expect(durations.every((value) => value === '0s' || Number.parseFloat(value) <= 0.00001)).toBe(true);
+  expect(motionIsEffectivelyDisabled(motionDurations)).toBe(true);
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
+  await expect(page.locator('html')).toHaveAttribute('data-visual-tier', 'reduced');
+  await expect(page.locator('[data-motion-toggle]')).toBeHidden();
+
+  const run = page.locator('[data-claims-run]');
+  await run.getByRole('button', { name: 'Next step' }).click();
+  await expect(run.locator('[data-run-label]')).toHaveText('Intent + document types');
 });
 
-test('keyboard-only navigation reaches skip, navigation, and trace controls', async ({ page, browserName }) => {
+test('motion-pause control pauses decorative animation and persists the preference', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('html')).toHaveAttribute('data-visual-tier', /^(standard|enhanced)$/);
+
+  const control = page.locator('[data-motion-toggle]');
+  await expect(control).toBeVisible();
+  await expect(control).toHaveAttribute('aria-pressed', 'false');
+  await expect(control).toHaveAccessibleName('Pause decorative motion');
+
+  await control.click();
+  await expect(page.locator('html')).toHaveAttribute('data-motion-paused', 'true');
+  await expect(control).toHaveAttribute('aria-pressed', 'true');
+  await expect(control).toHaveAccessibleName('Resume decorative motion');
+  expect(
+    await page.locator('.v23-ambient i').first().evaluate((element) => getComputedStyle(element).animationPlayState),
+  ).toBe('paused');
+
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expect(page.locator('html')).toHaveAttribute('data-motion-paused', 'true');
+  await expect(page.locator('[data-motion-toggle]')).toHaveAccessibleName('Resume decorative motion');
+
+  await page.locator('[data-motion-toggle]').click();
+  await expect(page.locator('html')).toHaveAttribute('data-motion-paused', 'false');
+});
+
+test('keyboard-only navigation reaches skip, mobile navigation, and claims controls', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
@@ -84,28 +150,72 @@ test('keyboard-only navigation reaches skip, navigation, and trace controls', as
   await menu.focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('.mobile-nav')).toHaveAttribute('open', '');
+  await expect(page.locator('.mobile-nav').getByRole('link', { name: 'Work', exact: true })).toBeVisible();
 
-  const trace = page.locator('.agent-trace-v22');
-  await trace.scrollIntoViewIfNeeded();
-  await trace.focus();
-  await page.keyboard.press('ArrowRight');
-  await expect(trace.locator('li[aria-current="step"]')).toContainText('Intent classified');
+  await page.locator('.mobile-nav summary').press('Enter');
+  const next = page.locator('[data-claims-run]').getByRole('button', { name: 'Next step' });
+  await next.scrollIntoViewIfNeeded();
+  await next.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('[data-run-label]')).toHaveText('Intent + document types');
 });
 
-test('forced-colors mode retains essential content and controls', async ({ page }, testInfo) => {
+test('forced-colors mode retains V2.3 meaning, borders, and controls', async ({ page }, testInfo) => {
   await page.emulateMedia({ forcedColors: 'active' });
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
-  await expect(page.locator('h1')).toBeVisible();
-  await expect(page.locator('.agent-trace-v22')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Next agent step' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: /Intelligent systems/i })).toBeVisible();
+  await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
+  await expect(page.locator('.v23-career-field')).toBeVisible();
+  await expect(page.locator('[data-claims-run]')).toBeVisible();
+  await expect(page.locator('[data-claims-run]').getByRole('button', { name: 'Next step' })).toBeVisible();
+  const borderWidth = await page.locator('[data-claims-run]').evaluate(
+    (element) => getComputedStyle(element).borderTopWidth,
+  );
+  expect(Number.parseFloat(borderWidth)).toBeGreaterThan(0);
   expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
 
   const screenshot = testInfo.outputPath('forced-colors-home.png');
   await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
   await testInfo.attach('forced-colors-home', { path: screenshot, contentType: 'image/png' });
+});
+
+test('WebGL initialization failure leaves the static-first experience complete', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({
+    baseURL: requireBaseUrl(baseURL),
+    viewport: { width: 1280, height: 800 },
+  });
+  await context.addInitScript(() => {
+    const originalGetContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function getContext(
+      this: HTMLCanvasElement,
+      contextId: string,
+      ...args: unknown[]
+    ) {
+      if (['webgl', 'webgl2', 'experimental-webgl'].includes(contextId)) return null;
+      return originalGetContext.call(this, contextId as '2d', ...args as []);
+    } as typeof HTMLCanvasElement.prototype.getContext;
+    Object.defineProperty(window, 'WebGLRenderingContext', { configurable: true, value: undefined });
+    Object.defineProperty(window, 'WebGL2RenderingContext', { configurable: true, value: undefined });
+  });
+
+  const page = await context.newPage();
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/', { waitUntil: 'networkidle' });
+
+  await expect(page.locator('html')).toHaveAttribute('data-visual-tier', 'standard');
+  await expect(page.getByRole('heading', { level: 1, name: /Intelligent systems/i })).toBeVisible();
+  await expect(page.locator('.v23-career-field')).toContainText('Production agentic AI');
+  await expect(page.locator('[data-claims-run]')).toContainText('Human authority');
+  await expect(page.locator('[data-project-workbench]')).toBeVisible();
+  await page.locator('[data-claims-run]').getByRole('button', { name: 'Next step' }).click();
+  await expect(page.locator('[data-run-label]')).toHaveText('Intent + document types');
+  expect(errors).toEqual([]);
+
+  await context.close();
 });
 
 test('200% zoom-equivalent reflow remains usable at 320 CSS pixels', async ({ page }, testInfo) => {
@@ -136,7 +246,7 @@ test('cold-cache navigation returns complete server-rendered content', async ({ 
   const response = await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(response?.status()).toBe(200);
-  await expect(page.locator('h1')).toContainText(/Intelligence/i);
+  await expect(page.locator('h1')).toContainText(/Intelligent systems/i);
   await expect(page.locator('main')).toContainText('7K');
   await context.close();
 });

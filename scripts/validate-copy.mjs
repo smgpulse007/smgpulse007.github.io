@@ -58,15 +58,15 @@ for (const filename of htmlFiles) {
 
 const home = visibleText(fs.readFileSync(path.join(dist, 'index.html'), 'utf8'));
 for (const phrase of [
-  'Senior Applied AI Engineer',
-  'Intelligence becomes a system.',
-  'Signal → Prediction → Product → Context → Agent → Harness',
-  'An agent does not begin with a prompt. It begins with a system.',
-  'The ideas behind the systems.',
-]) if (!home.includes(phrase)) failures.push(`home: required V2.1 copy is missing: ${phrase}`);
+  'Senior Applied AI / ML Engineer',
+  'Intelligent systems, after the demo.',
+  'Production agentic claims automation',
+  'Predictive healthcare ML',
+  'The ideas behind the work.',
+]) if (!home.includes(phrase)) failures.push(`home: required V2.3 copy is missing: ${phrase}`);
 
 const about = visibleText(fs.readFileSync(path.join(dist, 'about', 'index.html'), 'utf8'));
-if (!/biomedical informatics/i.test(about) || !/ambiguity is where the work begins/i.test(about)) failures.push('about: professional origin story is incomplete');
+if (!/biomedical informatics/i.test(about) || !/ambiguity concrete/i.test(about) || !/leadership/i.test(about)) failures.push('about: V2.3 origin and leadership story is incomplete');
 
 if (failures.length) {
   console.error(`Copy validation failed with ${failures.length} issue(s):`);
@@ -74,4 +74,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Copy validation passed: ${htmlFiles.length} rendered pages, V2.2 systems narrative, natural evidence language, origin story, PII/path guards, and Builder denylist.`);
+console.log(`Copy validation passed: ${htmlFiles.length} rendered pages, V2.3 professional narrative, natural evidence language, origin and leadership story, PII/path guards, and Builder denylist.`);

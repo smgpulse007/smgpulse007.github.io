@@ -105,7 +105,7 @@ if (fs.existsSync(resumeArtifact)) {
     const extracted = await extractPdfText(resumeArtifact);
     publicResumeText = extracted.text;
     if (extracted.pages !== 1) fail(`public resume: expected one intentional page, found ${extracted.pages}`);
-    if (!/Shailesh Dudala/i.test(publicResumeText) || !/Senior Applied AI Engineer/i.test(publicResumeText)) fail('public resume: ATS text extraction is missing the identity or target role');
+    if (!/Shailesh Dudala/i.test(publicResumeText) || !/Senior Applied AI \/ ML Engineer/i.test(publicResumeText)) fail('public resume: ATS text extraction is missing the V2.3 identity or target role');
     const bannedCategories = [
       { name: 'phone number', pattern: /(?:\+?1[ .-]?)?\(?\d{3}\)?[ .-]\d{3}[ .-]\d{4}/ },
       { name: 'prohibited business-line figure', pattern: /\$?26\s*(?:B|billion)\b/ },
@@ -229,8 +229,8 @@ const portfolioPath = path.join(dist, 'portfolio.json');
 if (fs.existsSync(portfolioPath)) {
   try {
     const portfolio = JSON.parse(fs.readFileSync(portfolioPath, 'utf8'));
-    if (portfolio.role !== 'Senior Applied AI Engineer') fail('portfolio.json: canonical role is incorrect');
-    if (portfolio.schemaVersion !== 'systems-observatory.v2.2') fail('portfolio.json: V2.2 schema version is missing');
+    if (portfolio.role !== 'Senior Applied AI / ML Engineer') fail('portfolio.json: canonical V2.3 role is incorrect');
+    if (portfolio.schemaVersion !== 'portfolio.v2.3') fail('portfolio.json: V2.3 schema version is missing');
     if (!Array.isArray(portfolio.professionalSystems) || portfolio.professionalSystems.length !== 4) fail('portfolio.json: expected four professional systems');
     if (portfolio.research?.count < 30) fail('portfolio.json: research atlas count is incomplete');
   } catch (error) {
@@ -249,7 +249,7 @@ if (fs.existsSync(resumePage)) {
   if (pdfLinks.length !== 1 || pdfLinks[0] !== `/${publicResumePath}`) fail('resume/index.html: expected exactly one canonical public resume PDF link');
 }
 
-for (const slug of ['claims-intelligence', 'on-prem-rag-ocr', 'healthcare-analytics-platform', 'llm-steering-lab']) {
+for (const slug of ['claims-intelligence', 'predictive-healthcare-ml', 'on-prem-rag-ocr', 'healthcare-analytics-platform', 'llm-steering-lab']) {
   const filename = path.join(dist, 'work', slug, 'index.html');
   if (!fs.existsSync(filename)) continue;
   const html = fs.readFileSync(filename, 'utf8');

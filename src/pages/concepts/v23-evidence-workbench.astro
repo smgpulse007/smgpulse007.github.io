@@ -1,0 +1,25 @@
+---
+import Layout from '../../components/Layout.astro';
+import '../../styles/v23/prototypes.css';
+const projects=[
+ {key:'steering',label:'LLM Steering',status:'Green CI · maintained',problem:'Inspect and compare representation-level model interventions.',proof:'Tests, Pages, UI, checked-in outputs',limit:'Research workbench; effects are model- and prompt-specific.'},
+ {key:'harness',label:'Meta Harness',status:'Pre-1.0 · 14 green checks',problem:'Keep large agent work scoped, proven, and resumable.',proof:'Schemas, CLI/MCP, proof ledger, docs',limit:'Source-installed and pre-1.0; correctness is not guaranteed.'},
+ {key:'readmission',label:'FHIR ML API',status:'Green CI · synthetic demo',problem:'Show a public-safe predictive healthcare API contract.',proof:'Synthetic FHIR, explainability, tests, Docker',limit:'Deterministic demo scorer; not clinically validated.'},
+ {key:'alpha',label:'AlphaQuant',status:'Demo · no CI',problem:'Test agent orchestration and evidence synthesis in a time-sensitive domain.',proof:'Docker stack, architecture, media',limit:'Engineering research only; not a trading product.'},
+];
+---
+<Layout title="Evidence Workbench — Portfolio V2.3 Lab concept" description="An evidence-inspector V2.3 Project Lab direction." canonicalPath="/concepts/v23-evidence-workbench/" noIndex>
+  <div class="v23-prototype workbench-proto"><div class="proto-shell proto-bar"><div class="proto-identity"><strong>Shailesh Dudala</strong><span>Project Lab prototype</span></div><a href="/lab/">V2.3 concept / Lab</a></div>
+    <header class="proto-shell workbench-head"><div><p class="proto-kicker">Lab direction 01 / Evidence Workbench</p><h1>Inspect the work, not the card.</h1></div><p>A repository browser organized by problem, artifact maturity, proof, and limitation. Every selection changes the system view and evidence readout.</p></header>
+    <section class="proto-shell project-workbench" aria-label="Project evidence workbench"><nav class="workbench-nav" aria-label="Select project"><p>Systems / 04</p>{projects.map((p,i)=><button type="button" class:list={{active:i===0}} data-project={p.key}>{p.label}</button>)}</nav>
+      <div class="workbench-canvas"><div class="system-path"><article><span>01 / INPUT</span><strong>Repository + artifacts</strong><small>Source, docs, results, media</small></article><article><span>02 / CONTRACT</span><strong>Claim boundaries</strong><small>What the work establishes</small></article><article><span>03 / PROOF</span><strong>Tests + evidence</strong><small>Current public signals</small></article><article><span>04 / LIMIT</span><strong>What remains unproven</strong><small>Status stays visible</small></article></div></div>
+      <aside class="inspector" aria-live="polite"><p>Selected system</p><h2 data-inspector-title>{projects[0].label}</h2><span class="status" data-inspector-status>{projects[0].status}</span><dl><div><dt>Problem</dt><dd data-inspector-problem>{projects[0].problem}</dd></div><div><dt>Proof</dt><dd data-inspector-proof>{projects[0].proof}</dd></div><div><dt>Limit</dt><dd data-inspector-limit>{projects[0].limit}</dd></div></dl></aside>
+    </section>
+  </div>
+</Layout>
+<script is:inline define:vars={{projects}}>
+  const buttons=[...document.querySelectorAll('[data-project]')];
+  const byKey=Object.fromEntries(projects.map((project)=>[project.key,project]));
+  const write=(selector,value)=>{const node=document.querySelector(selector);if(node)node.textContent=value};
+  buttons.forEach((button)=>button.addEventListener('click',()=>{const project=byKey[button.dataset.project];if(!project)return;buttons.forEach((item)=>item.classList.toggle('active',item===button));write('[data-inspector-title]',project.label);write('[data-inspector-status]',project.status);write('[data-inspector-problem]',project.problem);write('[data-inspector-proof]',project.proof);write('[data-inspector-limit]',project.limit)}));
+</script>

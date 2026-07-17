@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   canonicalHref,
   extractAttributeUrls,
+  fetchExternalLinkStatus,
   governedImpactClaimViolations,
   metaContent,
   privacyArtifactViolations,
@@ -12,6 +13,68 @@ import {
   visibleText,
   zeroMetricPlaceholders,
 } from './validators.mjs';
+
+test('identifies external link checks and retries servers that reject HEAD', async () => {
+  const calls = [];
+  const statuses = [415, 206];
+  let cancelledBodies = 0;
+  const fetchImpl = async (url, options) => {
+    calls.push({ url, ...options });
+    return {
+      status: statuses.shift(),
+      body: { cancel: async () => { cancelledBodies += 1; } },
+    };
+  };
+
+  const status = await fetchExternalLinkStatus('https://publisher.example/article.pdf', { fetchImpl, timeoutMs: 50 });
+
+  assert.equal(status, 206);
+  assert.deepEqual(calls.map((call) => call.method), ['HEAD', 'GET']);
+  assert.equal(calls[0].headers['User-Agent'], 'PortfolioLinkValidator/1.0 (+https://github.com/smgpulse007/smgpulse007.github.io)');
+  assert.equal(calls[1].headers.Range, 'bytes=0-0');
+  assert.equal(cancelledBodies, 2);
+});
+
+test('does not download an external URL when HEAD succeeds', async () => {
+  const calls = [];
+  const fetchImpl = async (url, options) => {
+    calls.push({ url, ...options });
+    return { status: 200, body: null };
+  };
+
+  assert.equal(await fetchExternalLinkStatus('https://publisher.example/', { fetchImpl, timeoutMs: 50 }), 200);
+  assert.deepEqual(calls.map((call) => call.method), ['HEAD']);
+});
+
+test('preserves definitive external failures without an unnecessary GET', async () => {
+  const calls = [];
+  const fetchImpl = async (url, options) => {
+    calls.push({ url, ...options });
+    return { status: 404, body: null };
+  };
+
+  assert.equal(await fetchExternalLinkStatus('https://publisher.example/missing', { fetchImpl, timeoutMs: 50 }), 404);
+  assert.deepEqual(calls.map((call) => call.method), ['HEAD']);
+});
+
+test('reports a failed ranged GET after a method-specific HEAD rejection', async () => {
+  const statuses = [415, 404];
+  const fetchImpl = async () => ({ status: statuses.shift(), body: null });
+
+  assert.equal(await fetchExternalLinkStatus('https://publisher.example/missing.pdf', { fetchImpl, timeoutMs: 50 }), 404);
+});
+
+test('retries a HEAD transport failure with a bounded GET', async () => {
+  const methods = [];
+  const fetchImpl = async (_url, options) => {
+    methods.push(options.method);
+    if (options.method === 'HEAD') throw new TypeError('fetch failed');
+    return { status: 206, body: null };
+  };
+
+  assert.equal(await fetchExternalLinkStatus('https://publisher.example/article.pdf', { fetchImpl, timeoutMs: 50 }), 206);
+  assert.deepEqual(methods, ['HEAD', 'GET']);
+});
 
 test('extracts local link attributes without inventing URLs', () => {
   const html = '<a href="/work/#proof">Work</a><img src="/assets/proof.svg"><meta content="/ignored">';

@@ -1,5 +1,44 @@
 import path from 'node:path';
 
+const externalLinkHeaders = {
+  Accept: 'text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8',
+  'User-Agent': 'PortfolioLinkValidator/1.0 (+https://github.com/smgpulse007/smgpulse007.github.io)',
+};
+
+async function cancelResponseBody(response) {
+  if (response?.body && typeof response.body.cancel === 'function') await response.body.cancel();
+}
+
+export async function fetchExternalLinkStatus(url, { fetchImpl = globalThis.fetch, timeoutMs = 12_000 } = {}) {
+  const request = (method, headers = externalLinkHeaders) => fetchImpl(url, {
+    method,
+    headers,
+    redirect: 'follow',
+    signal: AbortSignal.timeout(timeoutMs),
+  });
+
+  const requestRange = async () => {
+    const getResponse = await request('GET', { ...externalLinkHeaders, Range: 'bytes=0-0' });
+    await cancelResponseBody(getResponse);
+    return getResponse.status;
+  };
+
+  let headResponse;
+  try {
+    headResponse = await request('HEAD');
+  } catch {
+    return requestRange();
+  }
+
+  if (![405, 415, 501].includes(headResponse.status)) {
+    await cancelResponseBody(headResponse);
+    return headResponse.status;
+  }
+
+  await cancelResponseBody(headResponse);
+  return requestRange();
+}
+
 export function stripQueryAndHash(value) {
   return value.split('#', 1)[0].split('?', 1)[0];
 }

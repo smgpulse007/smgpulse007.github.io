@@ -40,7 +40,8 @@ test('essential V2.3 routes retain complete semantic content with JavaScript dis
   const page = await context.newPage();
 
   for (const route of essentialRoutes) {
-    const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
+    // Without scripts, DOMContentLoaded can precede remote stylesheet loading.
+    const response = await page.goto(route, { waitUntil: 'load' });
     expect(response?.status(), `${route} status without JavaScript`).toBe(200);
     await expect(page.locator('h1'), `${route} H1 without JavaScript`).toHaveCount(1);
     await expect(page.locator('main'), `${route} main content without JavaScript`).not.toBeEmpty();

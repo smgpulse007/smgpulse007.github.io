@@ -1,0 +1,18 @@
+---
+const cases = [
+  { title:'Customer support de-escalation', layer:18, coefficient:20, prompt:'A customer says: “My package arrived damaged and I need a replacement before Friday.” Reply in two sentences.', baseline:'I am so sorry to hear that your package arrived damaged. I can certainly help you arrange for a replacement; could you please provide your order number so I can look into this immediately?', steered:'I am so sorry to hear that your package arrived damaged; I can certainly help you arrange a replacement right away. Please provide your order number so I can process this for you immediately.' },
+  { title:'Encouraging tutoring explanations', layer:18, coefficient:18, prompt:'A student says: “I do not get why dividing by a fraction means multiplying by its reciprocal.” Reply in two sentences.', baseline:'Think of dividing by a fraction as asking how many times this smaller piece fits into the whole. Multiplying by the reciprocal flips the fraction and turns division into multiplication.', steered:'Think of dividing by a fraction as asking, “How many of this fraction fit into the other number?” Flipping the divisor expresses the inverse relationship needed to answer that question.' },
+  { title:'Risk-aware launch recommendations', layer:18, coefficient:18, prompt:'Recommend whether to roll out a billing feature after only a small internal beta.', baseline:'Given the small internal beta, I recommend a phased rollout starting with a small segment before a full launch.', steered:'Proceed with a phased rollout to a small segment, monitor performance, and gather real-world feedback before a full launch.' },
+];
+---
+<div class="latent-lens" data-latent-lens>
+  <header><div><span>CHECKED-IN ARTIFACT / GEMMA 4 E2B</span><h3>Latent Lens</h3></div><label>Use case<select data-lens-select>{cases.map((entry,i)=><option value={i}>{entry.title}</option>)}</select></label></header>
+  <div class="lens-grid">
+    <div class="layer-instrument" aria-label="Model layer 18 selected"><span>LAYER STACK</span>{Array.from({length:12},(_,i)=><i class:list={{active:i===7}}><b>{i===7?'18':String(i*3).padStart(2,'0')}</b></i>)}<p>POST HOOK · ALL TOKENS</p></div>
+    <div class="lens-outputs"><p class="lens-prompt"><span>PROMPT</span><strong data-lens-prompt>{cases[0].prompt}</strong></p><div><article><span>BASELINE</span><p data-lens-baseline>{cases[0].baseline}</p></article><article><span>ACTIVATION STEERED</span><p data-lens-steered>{cases[0].steered}</p></article></div></div>
+    <aside><span>VECTOR METADATA</span><dl><div><dt>Layer</dt><dd data-lens-layer>{cases[0].layer}</dd></div><div><dt>Coefficient</dt><dd data-lens-coefficient>{cases[0].coefficient}</dd></div><div><dt>Norm</dt><dd>1.0</dd></div><div><dt>Delta</dt><dd>Detected</dd></div></dl><small>Real checked-in outputs; static comparison. No model call occurs here.</small></aside>
+  </div>
+</div>
+<script is:inline define:vars={{ cases }}>
+  document.querySelectorAll('[data-latent-lens]').forEach((root)=>root.querySelector('select')?.addEventListener('change',(event)=>{const entry=cases[Number(event.target.value)];const set=(selector,value)=>{const node=root.querySelector(selector);if(node)node.textContent=value};set('[data-lens-prompt]',entry.prompt);set('[data-lens-baseline]',entry.baseline);set('[data-lens-steered]',entry.steered);set('[data-lens-layer]',String(entry.layer));set('[data-lens-coefficient]',String(entry.coefficient))}));
+</script>

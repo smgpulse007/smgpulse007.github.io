@@ -1,22 +1,27 @@
 ---
-import { publicImpactClaims } from '../data/impactClaims';
-const claims = publicImpactClaims.slice(0, 5);
+import { impactClaims } from '../data/impactClaims';
+
+const outcomeCopy = {
+  backlog: { label: 'case backlog cleared', context: 'Local review workflow' },
+  'review-time': { label: 'faster review', context: 'Measured document-review workstream' },
+  closure: { label: 'automated closure improvement', context: 'Quality-measure evidence workflow' },
+  p4p: { label: 'client P4P impact supported', context: 'Multi-program healthcare analytics delivery' },
+} as const;
+const claims = ['backlog', 'review-time', 'closure', 'p4p'].map((id) => impactClaims.find((claim) => claim.id === id)).filter(Boolean);
 ---
 <section class="impact-strip" aria-labelledby="impact-title">
   <div class="shell">
-    <div class="impact-heading">
-      <h2 id="impact-title">Selected outcomes across healthcare, insurance, and analytics delivery</h2>
-      <span>Résumé-supported · scoped by context</span>
-    </div>
+    <div class="impact-heading"><p class="eyebrow">Selected outcomes</p><h2 id="impact-title">Measured where the work met operations.</h2></div>
     <div class="impact-grid">
-      {claims.map((claim) => (
+      {claims.map((claim) => claim && (
         <article>
           <strong>{claim.value}</strong>
-          <h3>{claim.label}</h3>
-          <p>{claim.context}</p>
-          {claim.qualification && <small>{claim.qualification}</small>}
+          <h3>{outcomeCopy[claim.id as keyof typeof outcomeCopy].label}</h3>
+          <p>{outcomeCopy[claim.id as keyof typeof outcomeCopy].context}</p>
+          <details><summary>Context</summary><p>{claim.context} {claim.qualification}</p></details>
         </article>
       ))}
     </div>
+    <p class="impact-note">Selected outcomes from scoped engagements. Open a case study for context and source notes.</p>
   </div>
 </section>

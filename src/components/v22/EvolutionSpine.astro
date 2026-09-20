@@ -1,0 +1,11 @@
+---
+import { evolutionStages } from '../../data/observatory';
+type Props = { compact?: boolean };
+const { compact = false } = Astro.props;
+---
+<ol class:list={['evolution-spine', compact && 'compact']} aria-label="Career evolution from Signal to Harness">
+  {evolutionStages.map((stage,i) => <li id={compact ? undefined : stage.id}>
+    <div class="evolution-index"><span>{stage.index}</span><i style={`--stage:${i+1}`}></i></div>
+    <div class="evolution-copy"><small>{stage.era}</small><h3>{stage.name}</h3><strong>{stage.line}</strong>{!compact && <p>{stage.detail}</p>}</div>
+  </li>)}
+</ol>

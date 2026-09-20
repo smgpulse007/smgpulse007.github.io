@@ -1,0 +1,273 @@
+---
+import Layout from '../../components/Layout.astro';
+import { publicImpactClaims } from '../../data/impactClaims';
+import '../../styles/v23/concept-atlas.css';
+
+const impact = Object.fromEntries(
+  publicImpactClaims.map((claim) => [claim.id, claim]),
+) as Record<string, (typeof publicImpactClaims)[number]>;
+
+const stages = [
+  {
+    index: '01',
+    id: 'signal',
+    name: 'Signal',
+    era: 'FOUNDATIONS',
+    title: 'Make the source legible.',
+    description:
+      'Biomedical informatics, clinical data, provider records, and hospital analytics established the first rule: lineage and operating context have to be visible before a result can be trusted.',
+    proof: 'Analytics across 142 hospitals · 100K+ provider records validated',
+    href: '/about/',
+  },
+  {
+    index: '02',
+    id: 'prediction',
+    name: 'Prediction',
+    era: 'MODELS',
+    title: 'Turn uncertainty into a useful priority.',
+    description:
+      'Risk models, utilization forecasting, and explainable anomaly features translated noisy healthcare events into signals that operations teams could inspect and act on.',
+    proof: `${impact.fwa.value} ${impact.fwa.label}`,
+    href: '/systems/predictive-ml/',
+  },
+  {
+    index: '03',
+    id: 'product',
+    name: 'Product',
+    era: 'WORKFLOWS',
+    title: 'Move the model into the work.',
+    description:
+      'A 0-to-1 healthcare analytics platform joined models, care gaps, embedded reporting, and delivery into one operating product—not a collection of disconnected outputs.',
+    proof: `${impact.revenue.value} ${impact.revenue.label} · ${impact.p4p.value} ${impact.p4p.label}`,
+    href: '/systems/healthcare-platform/',
+  },
+  {
+    index: '04',
+    id: 'context',
+    name: 'Context',
+    era: 'EVIDENCE',
+    title: 'Bring the right evidence to the decision.',
+    description:
+      'Private RAG, OCR, structured extraction, measure rules, and review queues made document intelligence useful inside regulated boundaries while keeping uncertainty inspectable.',
+    proof: `${impact.backlog.value} ${impact.backlog.label} · ≈${impact['review-time'].value} ${impact['review-time'].label}`,
+    href: '/systems/document-intelligence/',
+  },
+  {
+    index: '05',
+    id: 'agent',
+    name: 'Agent',
+    era: 'BOUNDED ACTION',
+    title: 'Let the system act, within explicit authority.',
+    description:
+      'Claims-support agents assemble evidence, validate structured state, route exceptions, and record their trace. People retain consequential workflow authority.',
+    proof: `${impact.closure.value} ${impact.closure.label}`,
+    href: '/systems/claims-agents/',
+  },
+  {
+    index: '06',
+    id: 'harness',
+    name: 'Harness',
+    era: 'EXECUTION PROOF',
+    title: 'Make autonomous work reviewable.',
+    description:
+      'Execution harnesses turn large specifications into phases, checkpoints, proof packets, review gates, and safe continuation—so progress remains inspectable after the prompt ends.',
+    proof: 'Read-only-first · evidence-gated · human-reviewed',
+    href: '/systems/meta-harness/',
+  },
+] as const;
+---
+
+<Layout
+  title="Living Career Atlas — Shailesh Dudala"
+  description="A no-index Portfolio V2.3 concept mapping Shailesh Dudala’s applied AI and ML career from signal to execution harness."
+  canonicalPath="/concepts/v23-living-career-atlas/"
+  noIndex
+>
+  <article class="atlas-page">
+    <header class="atlas-hero" aria-labelledby="atlas-title">
+      <div class="atlas-coordinate-bar" aria-hidden="true">
+        <span>40.7128° N</span>
+        <span>CAREER SYSTEM / V2.3</span>
+        <span>74.0060° W</span>
+      </div>
+
+      <div class="atlas-hero-grid">
+        <div class="atlas-intro">
+          <p class="atlas-kicker"><span>SHAILESH DUDALA</span> / PROFESSIONAL FIELD MAP</p>
+          <h1 id="atlas-title">Senior Applied<br /><em>AI / ML Engineer</em></h1>
+          <p class="atlas-thesis">
+            I build applied intelligence that moves from noisy evidence to defensible action—across predictive ML,
+            healthcare analytics, document systems, bounded agents, and the harnesses that make execution reviewable.
+          </p>
+          <div class="atlas-actions">
+            <a class="atlas-action atlas-action-primary" href="#career-arc">Trace the career arc <span aria-hidden="true">↓</span></a>
+            <a class="atlas-action" href="/systems/">Open professional systems <span aria-hidden="true">↗</span></a>
+          </div>
+          <dl class="atlas-legend" aria-label="Atlas legend">
+            <div><dt><i class="legend-mark line"></i> Route</dt><dd>Increasing system responsibility</dd></div>
+            <div><dt><i class="legend-mark point"></i> Coordinate</dt><dd>A professional operating stage</dd></div>
+            <div><dt><i class="legend-mark field"></i> Field</dt><dd>Evidence and human authority</dd></div>
+          </dl>
+        </div>
+
+        <figure class="atlas-map" aria-labelledby="atlas-map-title atlas-map-caption">
+          <svg viewBox="0 0 920 650" role="img">
+            <title id="atlas-map-title">Career route from signal to execution harness</title>
+            <desc>
+              Six coordinates form a rising route: Signal, Prediction, Product, Context, Agent, and Harness.
+            </desc>
+            <defs>
+              <linearGradient id="atlasRoute" x1="0" x2="1">
+                <stop offset="0" stop-color="#e74d3c" />
+                <stop offset="0.52" stop-color="#4d67f7" />
+                <stop offset="1" stop-color="#a8d94f" />
+              </linearGradient>
+              <pattern id="atlasGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1" />
+              </pattern>
+            </defs>
+            <rect class="map-grid" x="0" y="0" width="920" height="650" fill="url(#atlasGrid)" />
+            <path class="topography topo-one" d="M-30 503C104 412 174 539 289 459S498 402 587 317s132-57 207-149 156-46 176-4" />
+            <path class="topography topo-two" d="M-26 543C111 451 183 577 300 500s206-55 302-148 125-49 208-140 143-34 171-2" />
+            <path class="topography topo-three" d="M-22 581C119 489 199 613 316 541s205-55 301-145 127-49 214-136 139-28 168 8" />
+            <path class="map-route map-route-base" d="M96 526C180 467 198 493 284 447S395 360 472 388s117-113 197-99 84-125 166-144" />
+            <path class="map-route map-route-signal" d="M96 526C180 467 198 493 284 447S395 360 472 388s117-113 197-99 84-125 166-144" />
+
+            <g class="map-node node-signal" transform="translate(96 526)">
+              <circle class="node-halo" r="28" /><circle class="node-core" r="8" />
+              <text x="0" y="-42"><tspan>01</tspan><tspan x="0" dy="17">SIGNAL</tspan></text>
+            </g>
+            <g class="map-node node-prediction" transform="translate(284 447)">
+              <circle class="node-halo" r="28" /><circle class="node-core" r="8" />
+              <text x="0" y="48"><tspan>02</tspan><tspan x="0" dy="17">PREDICTION</tspan></text>
+            </g>
+            <g class="map-node node-product" transform="translate(472 388)">
+              <circle class="node-halo" r="28" /><circle class="node-core" r="8" />
+              <text x="0" y="-42"><tspan>03</tspan><tspan x="0" dy="17">PRODUCT</tspan></text>
+            </g>
+            <g class="map-node node-context" transform="translate(669 289)">
+              <circle class="node-halo" r="28" /><circle class="node-core" r="8" />
+              <text x="0" y="48"><tspan>04</tspan><tspan x="0" dy="17">CONTEXT</tspan></text>
+            </g>
+            <g class="map-node node-agent" transform="translate(758 222)">
+              <circle class="node-halo" r="28" /><circle class="node-core" r="8" />
+              <text x="-46" y="-34"><tspan>05</tspan><tspan x="-46" dy="17">AGENT</tspan></text>
+            </g>
+            <g class="map-node node-harness" transform="translate(835 145)">
+              <circle class="node-halo" r="38" /><circle class="node-core" r="11" />
+              <text x="-56" y="-44"><tspan>06</tspan><tspan x="-56" dy="17">HARNESS</tspan></text>
+            </g>
+
+            <g class="map-annotation" transform="translate(500 545)">
+              <line x1="0" y1="0" x2="188" y2="0" />
+              <text x="0" y="-12">SYSTEM RESPONSIBILITY</text>
+              <text x="188" y="-12" text-anchor="end">INCREASES →</text>
+            </g>
+            <g class="map-compass" transform="translate(815 555)">
+              <circle r="48" /><path d="M0-37L8 0 0 37-8 0Z" />
+              <text x="0" y="-57">H</text><text x="0" y="70">S</text>
+              <text x="57" y="4">A</text><text x="-57" y="4">M</text>
+            </g>
+          </svg>
+          <figcaption id="atlas-map-caption">
+            <span>ROUTE 01—06</span>
+            Models remain in the system. Each stage adds context, workflow, authority boundaries, and proof.
+          </figcaption>
+        </figure>
+      </div>
+
+      <nav class="atlas-route-index" aria-label="Career atlas coordinates">
+        <ol>
+          {stages.map((stage) => (
+            <li>
+              <a href={`#${stage.id}`}>
+                <span>{stage.index}</span>
+                <strong>{stage.name}</strong>
+                <small>{stage.era}</small>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </header>
+
+    <section class="atlas-impact" aria-labelledby="atlas-impact-title">
+      <div class="atlas-section-label">
+        <span>SELECTED PUBLIC-SAFE OUTCOMES</span>
+        <span>MEASURED / QUALIFIED / CONTEXTUAL</span>
+      </div>
+      <div class="atlas-impact-grid">
+        <div>
+          <p class="atlas-eyebrow">EVIDENCE FIELD</p>
+          <h2 id="atlas-impact-title">Coordinates need proof.</h2>
+          <p>Metrics stay attached to the workstream that produced them. They are evidence markers—not decorative scale.</p>
+        </div>
+        {[impact.backlog, impact['review-time'], impact.closure, impact.fwa].map((claim, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')} / {claim.evidenceStatus.replace('-', ' ')}</span>
+            <strong>{claim.id === 'review-time' ? `≈${claim.value}` : claim.value}</strong>
+            <h3>{claim.label}</h3>
+            <p>{claim.context} {claim.qualification}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="career-arc" class="atlas-arc" aria-labelledby="atlas-arc-title">
+      <div class="atlas-arc-heading">
+        <div>
+          <p class="atlas-eyebrow">THE LIVING CAREER ATLAS</p>
+          <h2 id="atlas-arc-title">Six stages.<br />One operating question.</h2>
+        </div>
+        <p>
+          What evidence does a person need, what can the system own, and what happens when reality does not fit?
+        </p>
+      </div>
+
+      <ol class="atlas-stage-list">
+        {stages.map((stage) => (
+          <li id={stage.id} class={`atlas-stage stage-${stage.id}`}>
+            <div class="stage-coordinate" aria-hidden="true">
+              <span>{stage.index}</span>
+              <i></i>
+              <small>{stage.era}</small>
+            </div>
+            <article>
+              <header>
+                <p>{stage.name}</p>
+                <h3>{stage.title}</h3>
+              </header>
+              <p>{stage.description}</p>
+              <footer>
+                <span>{stage.proof}</span>
+                <a href={stage.href}>Inspect the system <span aria-hidden="true">↗</span></a>
+              </footer>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="atlas-authority" aria-labelledby="atlas-authority-title">
+      <div class="authority-orbit" aria-hidden="true">
+        <i></i><i></i><i></i>
+        <span>HUMAN<br />AUTHORITY</span>
+      </div>
+      <div>
+        <p class="atlas-eyebrow">THE CONSTANT COORDINATE</p>
+        <h2 id="atlas-authority-title">The system grows more capable.<br />Accountability does not disappear.</h2>
+        <p>
+          The route from model to harness is not a story about removing people. It is a story about making evidence,
+          uncertainty, exceptions, and authority visible enough for people to make better consequential decisions.
+        </p>
+        <a class="atlas-action atlas-action-primary" href="/contact/">Discuss a consequential AI system <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <aside class="atlas-concept-note" aria-label="Concept status">
+      <span>V2.3 CONCEPT ROUTE</span>
+      <p>Living Career Atlas · static-first · no-index · public evidence only</p>
+      <a href="/">Return to the current portfolio <span aria-hidden="true">↗</span></a>
+    </aside>
+  </article>
+</Layout>

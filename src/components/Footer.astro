@@ -1,21 +1,5 @@
 ---
-import { navigation, profile } from '../data/profile';
+import { profile } from '../data/profile';
+import { ArrowUpRight, Pause } from 'lucide-react';
 ---
-
-<footer class="site-footer">
-  <div class="shell footer-grid">
-    <div>
-      <a class="footer-brand" href="/">{profile.name}</a>
-      <p>{profile.privacyNote}</p>
-    </div>
-    <nav aria-label="Footer navigation">
-      {navigation.slice(0, 5).map((item) => <a href={item.href}>{item.label}</a>)}
-      <a href={profile.github}>GitHub ↗</a>
-      <a href={profile.linkedin}>LinkedIn ↗</a>
-    </nav>
-  </div>
-  <div class="shell footer-meta">
-    <span>Astro · Static by default</span>
-    <span>© {new Date().getFullYear()} Shailesh Dudala</span>
-  </div>
-</footer>
+<footer class="site-footer"><div class="shell footer-grid"><div><a class="footer-brand" href="/">Shailesh Dudala<span>.</span></a><p>Applied AI. Considered engineering.</p></div><nav aria-label="Footer navigation"><a href={`mailto:${profile.email}`}>Email <ArrowUpRight size={14} aria-hidden="true"/></a><a href={profile.linkedin}>LinkedIn <ArrowUpRight size={14} aria-hidden="true"/></a><a href={profile.github}>GitHub <ArrowUpRight size={14} aria-hidden="true"/></a><a href="/recognition/">Recognition <ArrowUpRight size={14} aria-hidden="true"/></a></nav></div><div class="shell footer-meta"><span>© {new Date().getFullYear()} Shailesh Dudala</span><small>{profile.privacyNote}</small><button class="visual-motion-control" type="button" data-motion-toggle aria-pressed="false" aria-label="Pause decorative motion" title="Pause decorative motion"><Pause size={13} aria-hidden="true"/><span data-motion-label>Pause motion</span></button></div></footer>

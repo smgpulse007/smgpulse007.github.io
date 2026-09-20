@@ -10,7 +10,7 @@ on:
       target_ref:
         description: Branch or full commit SHA deployed to staging
         required: true
-        default: codex/portfolio-v2-hostinger
+        default: codex/portfolio-v2.3-creative-expansion
         type: string
       expected_sha:
         description: Optional full deployed SHA to verify against the checkout

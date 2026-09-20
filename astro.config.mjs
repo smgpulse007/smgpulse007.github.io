@@ -54,6 +54,8 @@ const compatibilityPrefixes = [
   '/quant-forecasting/',
   '/research-archive/',
   '/systems/',
+  '/my-ai-app-library/',
+  '/work/lets-talk-doc/',
 ];
 
 export default defineConfig({

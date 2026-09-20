@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.12 <25",
+    "node": ">=22.19 <25",
     "npm": ">=10"
   },
   "scripts": {
@@ -14,6 +14,13 @@
     "check": "astro check",
     "test": "node --test scripts/*.test.mjs",
     "test:content": "node scripts/validate-content.mjs",
+    "test:claims": "node scripts/validate-claims.mjs",
+    "test:visual-tiers": "node scripts/validate-visual-tiers.mjs",
+    "test:v23-evidence": "node scripts/validate-v23-evidence.mjs",
+    "test:copy": "node scripts/validate-copy.mjs",
+    "test:legacy": "node scripts/validate-legacy.mjs",
+    "test:media": "node scripts/validate-media.mjs",
+    "test:evidence": "node scripts/validate-evidence.mjs",
     "test:secrets": "node scripts/scan-secrets.mjs",
     "test:links": "node scripts/check-links.mjs dist",
     "test:targets": "node scripts/validate-targets.mjs",
@@ -22,6 +29,7 @@
     "test:a11y": "playwright test tests/accessibility.spec.ts --project=chromium",
     "test:a11y:all": "playwright test tests/accessibility.spec.ts --project=chromium --project=firefox --project=webkit",
     "test:live-modes": "playwright test tests/live-modes.spec.ts --project=chromium --project=firefox --project=webkit",
+    "test:editorial": "playwright test tests/editorial.spec.ts --project=chromium --project=firefox --project=webkit",
     "test:visual": "playwright test tests/visual.spec.ts",
     "screenshots": "npm run screenshots:pass1 && npm run screenshots:pass2 && npm run screenshots:pass3 && npm run screenshots:pass4 && npm run screenshots:pass5",
     "screenshots:pass1": "node scripts/run-visual-qa.mjs pass-1-identity-hierarchy",
@@ -29,18 +37,18 @@
     "screenshots:pass3": "node scripts/run-visual-qa.mjs pass-3-editorial-depth",
     "screenshots:pass4": "node scripts/run-visual-qa.mjs pass-4-craft-microdetail",
     "screenshots:pass5": "node scripts/run-visual-qa.mjs pass-5-restraint-memorability",
-    "validate": "npm run test:secrets && npm run check && npm run test && npm run build && npm run test:content && npm run test:links && npm run test:targets && npm run test:a11y && npm run test:e2e"
+    "validate": "npm run test:secrets && npm run check && npm run test && npm run test:visual-tiers && npm run build && npm run test:content && npm run test:claims && npm run test:v23-evidence && npm run test:copy && npm run test:legacy && npm run test:links && npm run test:targets && npm run test:media && npm run test:evidence && npm run test:a11y && npm run test:e2e && npm run test:editorial"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.1",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.0.6",
+    "astro": "^7.2.8",
     "autoprefixer": "^10.4.22",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.23.0",
     "motion": "^12.42.2",
-    "postcss": "^8.5.6",
+    "postcss": "^8.5.23",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwind-merge": "^3.6.0",
@@ -51,8 +59,8 @@
     "@astrojs/check": "^0.9.9",
     "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.61.1",
-    "pdfjs-dist": "^6.1.200",
-    "sharp": "^0.34.5",
+    "pdfjs-dist": "^6.2.108",
+    "sharp": "^0.35.4",
     "typescript": "^6.0.3"
   }
 }

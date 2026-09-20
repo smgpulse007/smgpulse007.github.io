@@ -1,5 +1,44 @@
 import path from 'node:path';
 
+const externalLinkHeaders = {
+  Accept: 'text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8',
+  'User-Agent': 'PortfolioLinkValidator/1.0 (+https://github.com/smgpulse007/smgpulse007.github.io)',
+};
+
+async function cancelResponseBody(response) {
+  if (response?.body && typeof response.body.cancel === 'function') await response.body.cancel();
+}
+
+export async function fetchExternalLinkStatus(url, { fetchImpl = globalThis.fetch, timeoutMs = 12_000 } = {}) {
+  const request = (method, headers = externalLinkHeaders) => fetchImpl(url, {
+    method,
+    headers,
+    redirect: 'follow',
+    signal: AbortSignal.timeout(timeoutMs),
+  });
+
+  const requestRange = async () => {
+    const getResponse = await request('GET', { ...externalLinkHeaders, Range: 'bytes=0-0' });
+    await cancelResponseBody(getResponse);
+    return getResponse.status;
+  };
+
+  let headResponse;
+  try {
+    headResponse = await request('HEAD');
+  } catch {
+    return requestRange();
+  }
+
+  if (![405, 415, 501].includes(headResponse.status)) {
+    await cancelResponseBody(headResponse);
+    return headResponse.status;
+  }
+
+  await cancelResponseBody(headResponse);
+  return requestRange();
+}
+
 export function stripQueryAndHash(value) {
   return value.split('#', 1)[0].split('?', 1)[0];
 }
@@ -38,6 +77,40 @@ export function visibleText(html) {
     .replace(/&apos;|&#39;/gi, "'")
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+export function governedImpactClaimViolations({ renderedHome = '', homeSource = '', claimSource = '' }) {
+  const failures = [];
+  const normalize = (value) => value.toLowerCase().replace(/[\u2010-\u2015]/g, '-').replace(/\s*\/\s*/g, '/').replace(/\s+/g, ' ').trim();
+  const renderedText = normalize(visibleText(renderedHome));
+  const sources = [
+    ['src/pages/index.astro', normalize(visibleText(homeSource))],
+    ['src/data/impactClaims.ts', normalize(claimSource)],
+  ];
+
+  for (const [label, text] of [['dist/index.html', renderedText], ...sources]) {
+    if (text.includes('7k documents/day')) failures.push(`${label}: denied false claim: 7K documents/day`);
+  }
+
+  for (const phrase of ['7k case backlog cleared', '20% automated closure improvement']) {
+    if (!renderedText.includes(phrase)) failures.push(`dist/index.html: required governed claim is missing: ${phrase}`);
+  }
+
+  const governedSourcePairs = [
+    {
+      label: '7K case backlog cleared',
+      pattern: /value:\s*['"]7k['"][\s\S]{0,240}?label:\s*['"]case backlog cleared['"]/i,
+    },
+    {
+      label: '20% automated closure improvement',
+      pattern: /value:\s*['"]20%['"][\s\S]{0,240}?label:\s*['"]automated closure improvement['"]/i,
+    },
+  ];
+  for (const { label, pattern } of governedSourcePairs) {
+    if (!pattern.test(claimSource)) failures.push(`src/data/impactClaims.ts: required governed value/label pair is missing: ${label}`);
+  }
+
+  return failures;
 }
 
 export function zeroMetricPlaceholders(html) {

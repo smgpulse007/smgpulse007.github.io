@@ -2,6 +2,20 @@ import type { ImpactClaim } from './types';
 
 export const impactClaims: ImpactClaim[] = [
   {
+    id: 'claims-handling', value: '≈90%', label: 'lower document-handling effort',
+    context: 'Measured claim-packet workflow in the current insurance engagement.',
+    role: 'Designed applied AI workflow architecture, validation, exception routing, and observability.',
+    evidenceStatus: 'resume-supported', publicationStatus: 'qualified', sourceLabel: 'Latest résumé',
+    qualification: 'Approximate result in one measured workstream; distinct from the payer review-time result.',
+  },
+  {
+    id: 'time-payable', value: '≈50%', label: 'shorter time-to-payable',
+    context: 'Supported claim-packet workstream in the current insurance engagement.',
+    role: 'Applied AI engineering across document processing, workflow controls, and review handoff.',
+    evidenceStatus: 'resume-supported', publicationStatus: 'qualified', sourceLabel: 'Latest résumé',
+    qualification: 'Approximate result in a supported workstream; not an enterprise-wide claim.',
+  },
+  {
     id: 'backlog', value: '7K', label: 'case backlog cleared',
     context: 'On-premises compliance review workstream in a healthcare payer environment.',
     role: 'Led the local RAG, OCR, retrieval, and reviewer-workflow implementation.',

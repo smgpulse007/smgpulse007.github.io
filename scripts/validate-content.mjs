@@ -46,11 +46,19 @@ const requiredArtifacts = [
   'index.html',
   '404.html',
   'work/index.html',
+  'systems/index.html',
+  'evolution/index.html',
   'experience/index.html',
   'lab/index.html',
+  'research/index.html',
+  'recognition/index.html',
   'about/index.html',
   'resume/index.html',
+  'contact/index.html',
   'portfolio.json',
+  'systems.json',
+  'research.json',
+  'project-evidence.json',
   'llms.txt',
   'build.json',
   'robots.txt',
@@ -96,8 +104,8 @@ if (fs.existsSync(resumeArtifact)) {
   try {
     const extracted = await extractPdfText(resumeArtifact);
     publicResumeText = extracted.text;
-    if (extracted.pages < 1 || extracted.pages > 2) fail(`public resume: expected one or two pages, found ${extracted.pages}`);
-    if (!/Shailesh Dudala/i.test(publicResumeText) || !/Senior Applied AI Engineer/i.test(publicResumeText)) fail('public resume: ATS text extraction is missing the identity or target role');
+    if (extracted.pages !== 1) fail(`public resume: expected one intentional page, found ${extracted.pages}`);
+    if (!/Shailesh Dudala/i.test(publicResumeText) || !/Senior Applied AI \/ ML Engineer/i.test(publicResumeText)) fail('public resume: ATS text extraction is missing the V2.3 identity or target role');
     const bannedCategories = [
       { name: 'phone number', pattern: /(?:\+?1[ .-]?)?\(?\d{3}\)?[ .-]\d{3}[ .-]\d{4}/ },
       { name: 'prohibited business-line figure', pattern: /\$?26\s*(?:B|billion)\b/ },
@@ -112,7 +120,7 @@ if (fs.existsSync(resumeArtifact)) {
 }
 
 const ogDirectory = path.join(dist, 'og');
-for (const slug of ['home', 'work', 'experience', 'lab', 'about', 'resume', 'work-claims-intelligence', 'work-on-prem-rag-ocr', 'work-lets-talk-doc', 'work-llm-steering-lab']) {
+for (const slug of ['home', 'systems', 'evolution', 'lab', 'research', 'recognition', 'about', 'resume', 'contact', 'systems-claims-agents', 'systems-predictive-ml', 'systems-healthcare-platform', 'systems-document-intelligence', 'systems-meta-harness', 'systems-llm-steering']) {
   const filename = path.join(ogDirectory, `${slug}.png`);
   if (!fs.existsSync(filename)) {
     fail(`social preview: missing ${slug} card`);
@@ -128,15 +136,20 @@ for (const slug of ['home', 'work', 'experience', 'lab', 'about', 'resume', 'wor
 
 const primaryPages = [
   'index.html',
-  'work/index.html',
-  'experience/index.html',
+  'systems/index.html',
+  'evolution/index.html',
   'lab/index.html',
+  'research/index.html',
+  'recognition/index.html',
   'about/index.html',
   'resume/index.html',
-  'work/claims-intelligence/index.html',
-  'work/on-prem-rag-ocr/index.html',
-  'work/lets-talk-doc/index.html',
-  'work/llm-steering-lab/index.html',
+  'contact/index.html',
+  'systems/claims-agents/index.html',
+  'systems/predictive-ml/index.html',
+  'systems/healthcare-platform/index.html',
+  'systems/document-intelligence/index.html',
+  'systems/meta-harness/index.html',
+  'systems/llm-steering/index.html',
 ];
 
 for (const relativePath of primaryPages) {
@@ -216,12 +229,10 @@ const portfolioPath = path.join(dist, 'portfolio.json');
 if (fs.existsSync(portfolioPath)) {
   try {
     const portfolio = JSON.parse(fs.readFileSync(portfolioPath, 'utf8'));
-    if (portfolio.role !== 'Senior Applied AI Engineer') fail('portfolio.json: canonical role is incorrect');
-    if (!Array.isArray(portfolio.selectedProjects) || portfolio.selectedProjects.length < 3) fail('portfolio.json: fewer than three selected projects');
-    for (const claim of portfolio.publicImpactClaims ?? []) {
-      if (!['approved', 'qualified'].includes(claim.publicationStatus)) fail(`portfolio.json: non-public claim rendered: ${claim.id ?? claim.label}`);
-      if (!claim.context || !claim.role || !claim.evidenceStatus) fail(`portfolio.json: incomplete claim provenance: ${claim.id ?? claim.label}`);
-    }
+    if (portfolio.role !== 'Senior Applied AI / ML Engineer') fail('portfolio.json: canonical V2.3 role is incorrect');
+    if (portfolio.schemaVersion !== 'portfolio.v2.3') fail('portfolio.json: V2.3 schema version is missing');
+    if (!Array.isArray(portfolio.professionalSystems) || portfolio.professionalSystems.length !== 4) fail('portfolio.json: expected four professional systems');
+    if (portfolio.research?.count < 30) fail('portfolio.json: research atlas count is incomplete');
   } catch (error) {
     fail(`portfolio.json: invalid JSON (${error.message})`);
   }
@@ -238,7 +249,7 @@ if (fs.existsSync(resumePage)) {
   if (pdfLinks.length !== 1 || pdfLinks[0] !== `/${publicResumePath}`) fail('resume/index.html: expected exactly one canonical public resume PDF link');
 }
 
-for (const slug of ['claims-intelligence', 'on-prem-rag-ocr', 'lets-talk-doc', 'llm-steering-lab']) {
+for (const slug of ['claims-intelligence', 'predictive-healthcare-ml', 'on-prem-rag-ocr', 'healthcare-analytics-platform', 'llm-steering-lab']) {
   const filename = path.join(dist, 'work', slug, 'index.html');
   if (!fs.existsSync(filename)) continue;
   const html = fs.readFileSync(filename, 'utf8');

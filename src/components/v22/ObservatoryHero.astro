@@ -1,0 +1,38 @@
+---
+import { evolutionStages } from '../../data/observatory';
+---
+<section class="v22-hero" aria-labelledby="v22-title">
+  <div class="v22-hero-grid shell">
+    <div class="v22-hero-copy">
+      <p class="instrument-label">SYSTEMS OBSERVATORY / SHAILESH DUDALA / Senior Applied AI Engineer</p>
+      <h1 id="v22-title">Intelligence<br/><em>becomes</em> a system.</h1>
+      <p class="v22-thesis">I build the path from uncertain signals to bounded, observable action—across predictive healthcare, document intelligence, context-engineered agents, and execution harnesses.</p>
+      <div class="v22-actions"><a class="signal-button" href="/systems/">Explore the systems <span>↗</span></a><a href="/evolution/">Follow the evolution</a></div>
+    </div>
+    <div class="v22-status" aria-label="Current professional focus">
+      <span>CURRENT FRONTIER / 2026</span>
+      <strong>Context-engineered claims agents</strong>
+      <p>Model + context + tools + typed state + authority.</p>
+      <div><i></i> Systems online · evidence visible</div>
+    </div>
+  </div>
+  <div class="v22-observatory shell">
+    <svg viewBox="0 0 1280 460" role="group" aria-labelledby="hero-map-title hero-map-desc">
+      <title id="hero-map-title">Career evolution systems map</title>
+      <desc id="hero-map-desc">Six connected stages progress from Signal to Prediction, Product, Context, Agent, and Harness.</desc>
+      <defs><linearGradient id="signalGradient"><stop stop-color="#62c9ed"/><stop offset=".75" stop-color="#c9ff63"/><stop offset="1" stop-color="#ff826e"/></linearGradient></defs>
+      <path class="field-orbit orbit-one" d="M45 290 C230 70 410 85 595 248 S920 430 1235 165"/>
+      <path class="field-orbit orbit-two" d="M80 365 C310 440 365 165 590 190 S900 150 1200 340"/>
+      <path class="hero-signal" d="M55 314 C220 235 340 300 485 232 S765 190 1218 256"/>
+      {evolutionStages.map((stage,i) => {
+        const points = [[65,310],[290,272],[500,226],[710,204],[950,218],[1210,255]];
+        const [x,y]=points[i];
+        return <a href={`/evolution/#${stage.id}`} aria-label={`${stage.name}: ${stage.line}`}><g class:list={['hero-node', i === 5 && 'current']} transform={`translate(${x} ${y})`}><circle class="hero-node-ring" r={i===5?44:31}/><circle r={i===5?28:17}/><text class="node-index" y="-58">{stage.index}</text><text class="node-name" y="-38">{stage.name}</text><text class="node-era" y="61">{stage.era}</text></g></a>
+      })}
+    </svg>
+    <ol class="hero-stage-list">
+      {evolutionStages.map((stage) => <li><span>{stage.index}</span><div><strong>{stage.name}</strong><small>{stage.line}</small></div></li>)}
+    </ol>
+    <p class="observatory-caption"><span>CAREER FIELD / SIX STAGES</span><strong>Breadth is not a detour. It is one system learning to carry more authority.</strong></p>
+  </div>
+</section>

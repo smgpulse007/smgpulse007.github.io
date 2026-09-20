@@ -6,12 +6,33 @@ const routes = [
   '/work/',
   '/experience/',
   '/lab/',
+  '/lab/alphaquant/',
+  '/lab/chatwithwiki-azure-ml/',
+  '/lab/freshtrack-ai-module/',
+  '/lab/hl7-ai-reference-platform/',
+  '/lab/hospital-readmission-fhir-api/',
+  '/lab/llm-steering/',
+  '/lab/local-document-ai/',
+  '/lab/nfl-forecasting-archive/',
+  '/404.html',
+  '/research/',
   '/about/',
   '/resume/',
+  '/contact/',
   '/work/claims-intelligence/',
+  '/work/predictive-healthcare-ml/',
   '/work/on-prem-rag-ocr/',
-  '/work/lets-talk-doc/',
+  '/work/healthcare-analytics-platform/',
+  '/recognition/',
+  '/systems/',
+  '/evolution/',
+  '/systems/healthcare-platform/',
+  '/systems/document-intelligence/',
   '/work/llm-steering-lab/',
+  '/systems/claims-agents/',
+  '/systems/predictive-ml/',
+  '/systems/meta-harness/',
+  '/systems/llm-steering/',
 ];
 
 for (const route of routes) {
@@ -24,6 +45,15 @@ for (const route of routes) {
       body: Buffer.from(JSON.stringify(results, null, 2)),
       contentType: 'application/json',
     });
-    expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
+    const summary = results.violations.map((violation) => ({
+      id: violation.id,
+      impact: violation.impact,
+      nodes: violation.nodes.map((node) => ({
+        target: node.target,
+        html: node.html,
+        data: node.any[0]?.data ?? null,
+      })),
+    }));
+    expect(results.violations.length, JSON.stringify(summary, null, 2)).toBe(0);
   });
 }

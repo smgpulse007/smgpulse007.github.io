@@ -1,0 +1,22 @@
+---
+const stages = [
+  { name:'Ingest specification', file:'docs/implementation_spec.md', body:'REQ-001 and REQ-002 enter the phase compiler.' },
+  { name:'Compile phase', file:'phase_manifest.yaml', body:'phase_001 · acceptance: Python tests pass · side effects: default' },
+  { name:'Expand slice', file:'slice_plan.yaml', body:'Allowed: src/**, tests/**, docs/** · forbidden: .git/**, .secrets/**' },
+  { name:'Open packet', file:'phase_001_slice_001.packet.yaml', body:'Owner, changed files, proof statements, risks, and blockers.' },
+  { name:'Run gate', file:'proof.json', body:'Claim status: static_verified · required evidence path attached.' },
+  { name:'Checkpoint', file:'checkpoint.md', body:'Status: pass_with_risks · simulation is not release proof.' },
+  { name:'Continue or stop', file:'next_action.yaml', body:'auto_continue_allowed: false · allowed_next_transition: stop' },
+];
+---
+<div class="harness-chamber" data-harness-chamber>
+  <header><div><span>INTERACTIVE PROTOCOL WALKTHROUGH</span><h3>Execution Chamber</h3></div><p>Static simulation from real repository examples. No coding agent is running in this browser.</p></header>
+  <div class="chamber-grid">
+    <ol>{stages.map((stage,i)=><li><button type="button" class:list={{active:i===0}} data-harness-step={i}><span>{String(i+1).padStart(2,'0')}</span><strong>{stage.name}</strong></button></li>)}</ol>
+    <div class="artifact-window"><div><i></i><i></i><i></i><span data-harness-file>{stages[0].file}</span></div><pre><code data-harness-body>{stages[0].body}</code></pre><footer><span>PROOF LEDGER / BOUNDED SCOPE</span><strong data-harness-status>SPECIFICATION INGESTED</strong></footer></div>
+    <aside><span>SAFETY DEFAULT</span><strong>Read-only first.</strong><p>External side effects require explicit approval. Adapter support varies. The harness does not guarantee correctness or autonomy.</p><a href="https://github.com/smgpulse007/meta-harness">Inspect repository ↗</a></aside>
+  </div>
+</div>
+<script is:inline define:vars={{ stages }}>
+  document.querySelectorAll('[data-harness-chamber]').forEach((root)=>{root.querySelectorAll('[data-harness-step]').forEach((button)=>button.addEventListener('click',()=>{const index=Number(button.dataset.harnessStep);root.querySelectorAll('[data-harness-step]').forEach((item)=>item.classList.toggle('active',item===button));const file=root.querySelector('[data-harness-file]');const body=root.querySelector('[data-harness-body]');const status=root.querySelector('[data-harness-status]');if(file)file.textContent=stages[index].file;if(body)body.textContent=stages[index].body;if(status)status.textContent=stages[index].name.toUpperCase()}))});
+</script>

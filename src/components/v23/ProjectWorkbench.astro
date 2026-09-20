@@ -1,0 +1,76 @@
+---
+import { featuredProjects, exploreProjects } from '../../data/v23';
+import { ArrowUpRight } from 'lucide-react';
+type Props = { compact?: boolean };
+const { compact = false } = Astro.props;
+const projects = compact ? featuredProjects.slice(0,4) : [...featuredProjects, ...exploreProjects];
+const selected = projects[0];
+const mediaFor = (project: typeof selected) => project.slug === 'llm-steering'
+  ? '/assets/case-studies/llm-steering/screenshots/workbench-still.webp'
+  : project.media ?? '';
+---
+<section class:list={['v23-project-workbench',{compact}]} data-project-workbench aria-label="Public project explorer">
+  <div class="workbench-chrome"><span>Project explorer</span><span>Repository snapshot · July 2026</span></div>
+  <div class="workbench-layout">
+    <nav aria-label="Select a public project">
+      <label>Filter systems<input type="search" data-project-search placeholder="Name, subject, or technology" /></label>
+      <p class="project-result-count" data-project-count role="status">{projects.length} projects</p>
+      <div data-project-list>{projects.map((project,index)=><button type="button" class:list={{active:index===0}} aria-pressed={index === 0} data-project-select data-search={`${project.title} ${project.category} ${project.status} ${project.proof}`.toLowerCase()} data-title={project.title} data-category={project.category} data-status={project.status} data-proof={project.proof} data-limit={project.limitation} data-repo={project.repository} data-href={project.href??''} data-media={mediaFor(project)}><span>{project.category}</span><strong>{project.title}</strong><small>{project.status}</small></button>)}</div>
+      <p class="project-empty" data-project-empty hidden>No projects match this search. Try another name or topic.</p>
+    </nav>
+    <aside data-project-detail aria-live="polite">
+      <span data-project-category>{selected.category}</span><h2 data-project-title>{selected.title}</h2>
+      <p class="project-status" data-project-status>{selected.status}</p>
+      <img class="project-preview-media" data-project-media src={mediaFor(selected)} alt={`${selected.title} repository artifact`} width="800" height="450" loading="lazy" />
+      <dl><div><dt>In the repository</dt><dd data-project-proof>{selected.proof}</dd></div><div><dt>Scope &amp; limitations</dt><dd data-project-limit>{selected.limitation}</dd></div></dl>
+      <div><a data-project-open href={selected.href??selected.repository}>Open project <ArrowUpRight size={15} aria-hidden="true"/></a><a data-project-repo href={selected.repository}>View on GitHub <ArrowUpRight size={15} aria-hidden="true"/></a></div>
+    </aside>
+  </div>
+  <noscript>
+    <section class="project-static-fallback" aria-labelledby={compact?'project-static-compact-title':'project-static-title'}>
+      <h3 id={compact?'project-static-compact-title':'project-static-title'}>Project directory</h3>
+      <div>{projects.map((project)=><article><span>{project.category} · {project.status}</span><h4>{project.title}</h4><dl><div><dt>Public proof</dt><dd>{project.proof}</dd></div><div><dt>Limit</dt><dd>{project.limitation}</dd></div></dl><p><a href={project.href??project.repository}>Open project</a> · <a href={project.repository}>Repository</a></p></article>)}</div>
+    </section>
+  </noscript>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-project-workbench]').forEach(root => {
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-project-select]')];
+    const detail = root.querySelector<HTMLElement>('[data-project-detail]')!;
+    const media = root.querySelector<HTMLImageElement>('[data-project-media]')!;
+    const write = (selector: string, value: string | undefined) => {
+      const node = root.querySelector(selector);
+      if (node) node.textContent = value ?? '';
+    };
+    const select = (button: HTMLButtonElement) => {
+      buttons.forEach(item => {
+        item.classList.toggle('active', item === button);
+        item.setAttribute('aria-pressed', String(item === button));
+      });
+      for (const key of ['category', 'title', 'status', 'proof', 'limit']) {
+        write(`[data-project-${key}]`, button.dataset[key]);
+      }
+      const open = root.querySelector<HTMLAnchorElement>('[data-project-open]')!;
+      const repo = root.querySelector<HTMLAnchorElement>('[data-project-repo]')!;
+      open.href = button.dataset.href || button.dataset.repo!;
+      repo.href = button.dataset.repo!;
+      media.hidden = !button.dataset.media;
+      if (button.dataset.media) {
+        media.src = button.dataset.media;
+        media.alt = `${button.dataset.title} repository artifact`;
+      } else {
+        media.removeAttribute('src');
+      }
+    };
+    buttons.forEach(button => button.addEventListener('click', () => select(button)));
+    root.querySelector<HTMLInputElement>('[data-project-search]')?.addEventListener('input', event => {
+      const query = (event.currentTarget as HTMLInputElement).value.trim().toLowerCase();
+      buttons.forEach(button => { button.hidden = Boolean(query && !button.dataset.search?.includes(query)); });
+      const visible = buttons.filter(button => !button.hidden);
+      write('[data-project-count]', `${visible.length} ${visible.length === 1 ? 'project' : 'projects'}`);
+      root.querySelector<HTMLElement>('[data-project-empty]')!.hidden = visible.length > 0;
+      detail.hidden = visible.length === 0;
+      if (visible.length && !visible.some(button => button.classList.contains('active'))) select(visible[0]);
+    });
+  });
+</script>

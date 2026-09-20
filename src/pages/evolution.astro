@@ -1,0 +1,10 @@
+---
+import Layout from '../components/Layout.astro';
+import EvolutionSpine from '../components/v22/EvolutionSpine.astro';
+import { evolutionStages, professionalSystems } from '../data/observatory';
+---
+<Layout title="Evolution — Shailesh Dudala" description="The career evolution from biomedical signals and predictive models to products, context, bounded agents, and execution harnesses." canonicalPath="/evolution/">
+  <section class="evolution-hero"><div class="shell"><span>EVOLUTION / SIX OPERATING STAGES</span><h1>Signal becomes proof.</h1><p>The tools changed. The operating question stayed: what can this system know, what can it own, and what must remain visible to a person?</p></div></section>
+  <section class="v22-scene evolution-page-scene"><div class="shell"><EvolutionSpine/></div></section>
+  <section class="v22-scene evolution-crosswalk"><div class="shell scene-heading"><div><span>SYSTEM CROSSWALK</span><h2>Each stage adds a new kind of responsibility.</h2></div><p>The work does not abandon modeling. It gives models context, workflow, authority boundaries, and proof.</p></div><div class="shell evolution-cross-grid">{evolutionStages.map((stage)=><article><span>{stage.index}</span><h3>{stage.name}</h3><strong>{stage.line}</strong><p>{stage.detail}</p><ul>{professionalSystems.filter((system)=>system.stage===stage.name).map((system)=><li><a href={system.href}>{system.title} ↗</a></li>)}</ul></article>)}</div></section>
+</Layout>

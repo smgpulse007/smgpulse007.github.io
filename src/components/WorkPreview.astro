@@ -1,0 +1,27 @@
+---
+import { FileText, Check, ArrowRight, Database, Layers, ShieldCheck, GitBranch } from 'lucide-react';
+type Props = { kind: string };
+const { kind } = Astro.props;
+---
+<div class={`work-preview preview-${kind}`} aria-hidden="true">
+  {kind === 'claims-intelligence' && <>
+    <div class="preview-topline"><span><GitBranch size={14}/> Claims workflow</span><span>Synthetic reconstruction</span></div>
+    <div class="preview-claims"><div class="preview-doc"><FileText size={24}/><strong>Claim packet</strong><i></i><i></i><i></i><small>Source documents</small></div><ArrowRight className="preview-arrow" size={22}/><div class="preview-contract"><span>EXTRACT / VALIDATE</span><code>document_type: claim<br/>source_pages: [4, 5]<br/>validation: review_required</code><div><ShieldCheck size={16}/><strong>Human review</strong><span>01</span></div></div></div>
+    <div class="preview-bottomline"><span>Typed extraction</span><span>Validation</span><span>Reviewer authority</span></div>
+  </>}
+  {kind === 'predictive-healthcare-ml' && <>
+    <div class="preview-topline"><span><Layers size={14}/> Model evaluation</span><span>Evaluation framework</span></div>
+    <div class="preview-models"><div><span>Evaluate beyond accuracy.</span><strong>Prediction<br/><em>with context.</em></strong></div><dl><div><dt>Discrimination</dt><dd>Rank risk</dd></div><div><dt>Calibration</dt><dd>Trust probabilities</dd></div><div><dt>Explainability</dt><dd>Understand drivers</dd></div><div><dt>Workflow fit</dt><dd>Support a decision</dd></div></dl></div>
+    <div class="preview-bottomline"><span>Readmission</span><span>Utilization</span><span>Quality &amp; FWA</span></div>
+  </>}
+  {kind === 'healthcare-analytics-platform' && <>
+    <div class="preview-topline"><span><Database size={14}/> Healthcare analytics</span><span>System reconstruction</span></div>
+    <div class="preview-platform"><div class="preview-platform-core"><span>ONE PLATFORM</span><strong>9</strong><span>healthcare programs</span></div><div class="preview-platform-stack">{['Program data','Reusable features','Risk models','Care-manager workflows'].map((step,index)=><div><span>0{index+1}</span><strong>{step}</strong><Check size={14}/></div>)}</div></div>
+    <div class="preview-bottomline"><span>Data engineering</span><span>MLOps</span><span>Product delivery</span></div>
+  </>}
+  {kind === 'on-prem-rag-ocr' && <>
+    <div class="preview-topline"><span><ShieldCheck size={14}/> Local document intelligence</span><span>Synthetic reconstruction</span></div>
+    <div class="preview-retrieval"><div class="preview-page"><span>Source document / p. 04</span><i></i><i></i><mark>Supporting evidence</mark><i></i><i></i></div><div class="preview-answer"><span>RETRIEVAL + REVIEW</span><strong>Answers that lead<br/>back to the source.</strong><div><FileText size={14}/><span>Page 04</span><span>Page 05</span></div><small>Inside the data boundary <ShieldCheck size={13}/></small></div></div>
+    <div class="preview-bottomline"><span>OCR</span><span>Local inference</span><span>Citations &amp; review</span></div>
+  </>}
+</div>

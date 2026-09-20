@@ -1,0 +1,27 @@
+---
+import { ArrowUpRight } from 'lucide-react';
+import { careerStages } from '../../data/v23';
+type Props = { compact?: boolean };
+const { compact = false } = Astro.props;
+const titleId = compact ? 'career-field-compact-title' : 'career-field-title';
+---
+<section class:list={['v23-career-field', { compact }]} aria-labelledby={titleId}>
+  <header class="career-heading">
+    <div><p class="v23-kicker">Career progression</p><h2 id={titleId}>A foundation that compounds.</h2></div>
+    <p>Scientific computing, healthcare products, and accountable AI.</p>
+  </header>
+  <ol class="career-timeline" aria-label="Scientific foundations to production agentic AI">
+    {careerStages.map((stage, index) => (
+      <li class:list={{ current: index === careerStages.length - 1 }}>
+        <a href={`/experience/#${stage.id}`}>
+          <span class="career-period">{stage.period}</span>
+          <span class="career-track" aria-hidden="true"><i></i><span>{String(index + 1).padStart(2, '0')}</span></span>
+          <strong class="career-label">{stage.label}</strong>
+          <span class="career-context">{stage.organization}</span>
+          <ArrowUpRight className="career-link-icon" size={16} aria-hidden="true" />
+        </a>
+      </li>
+    ))}
+  </ol>
+  <p class="career-field-note"><span>Today</span> Claims and document agents with explicit validation, evaluation, and human authority.</p>
+</section>

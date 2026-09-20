@@ -7,24 +7,23 @@ The product has one source and design system with two release surfaces:
 - [`shaileshdudala.com`](https://shaileshdudala.com) on Hostinger as the canonical production site;
 - [`smgpulse007.github.io`](https://smgpulse007.github.io) as a no-index static mirror built from the same release.
 
-Production remains the verified Portfolio V2 release from `main` at
-`1ae06ad45315baffaef6d1564aae0da4d4051a53` and annotated tag
-`portfolio-v2.0.0`. The canonical Hostinger site, isolated Hostinger staging
-origin, and GitHub Pages mirror all expose that same build identity. Production
-is `index,follow`; the mirror remains `noindex,follow`, uses production
-canonicals, publishes no sitemap, and has no custom domain. Later documentation-
-only closeout commits may advance `main`; the immutable tag and live
-`/build.json` identify the deployed runtime release.
+The editorial refresh is deployed from `main` release
+`b258345e18ad99682fe3952a603a37e7b6557caf`, tagged `portfolio-v2.3.0`.
+The canonical Hostinger site and GitHub Pages mirror expose the same release
+identity. Production is `index,follow`; the mirror is `noindex,follow`, uses
+production canonicals, publishes no sitemap, and has no custom domain.
+Documentation-only closeout commits may advance `main`; the immutable tag and
+live `/build.json` identify the deployed application release.
 
-Portfolio V2.3 is an isolated staging-review branch at
-`codex/portfolio-v2.3-creative-expansion`. It restores the full career arc,
-professional case-study depth, Project Lab, balanced Research, working design
-prototypes, and a privacy-cleared public résumé. It must remain no-index and
-unmerged until the exact production authorization phrase is supplied.
+The owner-approved release includes the full career arc, refined timelines,
+professional case studies, Project Lab, Research, and a privacy-cleared public
+resume. Historical staging sites remain no-index and preserved. See the
+[production receipt](docs/EDITORIAL_PRODUCTION_RELEASE.md) and the requested
+[homepage presentation assessment](docs/HOMEPAGE_PRESENTATION_ASSESSMENT.md).
 
 ## Primary routes
 
-- `/` — professional identity, career intelligence field, claims run, flagship cases, outcomes, Project Lab and Research previews
+- `/` — name-led introduction, selected professional work, qualified outcomes, real project artifacts, and contact
 - `/work/` and `/work/[slug]/` — four professional flagships plus compatibility case routes
 - `/experience/` — exact chronology, career stages, methods, outcomes, education, and credentials
 - `/lab/` — evidence workbench over the audited authored-repository inventory

@@ -1,11 +1,13 @@
 # Hostinger Rollback Runbook
 
 Status: production rollback controls reconciled and ready
-Last reviewed: 2026-07-13
+Last reviewed: 2026-09-20
+
+Current production is the [editorial release](EDITORIAL_PRODUCTION_RELEASE.md), commit `b258345e18ad99682fe3952a603a37e7b6557caf`. Its fresh pre-cutover backup is `tmp/production-root_20260919_205842.zip`, SHA-256 `7D4EBDF7C864712C508B743870EE88835CB9CED769AC897B33583297C9FE1F8E`. All 76 files were checksum-verified against the July release. The table below identifies that rollback destination, not current production.
 
 Rollback protects the live portfolio, domain registration, and Hostinger email. Do not improvise DNS edits, broad-restore a DNS snapshot, or edit generated application files directly in Hostinger.
 
-## Current known-good state
+## Known-Good Rollback Destination
 
 | Item | Verified state |
 | --- | --- |

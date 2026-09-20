@@ -1,12 +1,12 @@
 # Deployment Guide
 
-Last reviewed: 2026-07-13
+Last reviewed: 2026-09-20
 
 ## Current phase
 
-Portfolio V2 is live at `https://shaileshdudala.com` from `main` release `1ae06ad45315baffaef6d1564aae0da4d4051a53`, tagged `portfolio-v2.0.0`. The isolated Hostinger staging origin and `https://smgpulse007.github.io` mirror expose the same SHA. Production is canonical and indexable; the mirror is `noindex,follow`, uses production canonicals, publishes no sitemap, and has no custom domain.
+The editorial refresh is live at `https://shaileshdudala.com` from release `b258345e18ad99682fe3952a603a37e7b6557caf`. See [Editorial Production Release](EDITORIAL_PRODUCTION_RELEASE.md) for the current deployment, mirror, checks, and fresh rollback archive. Production is canonical and indexable; the mirror uses production canonicals and `noindex,follow`, publishes no sitemap, and has no custom domain.
 
-## Completed release record
+## Historical July Release Record
 
 | Surface or artifact | Verified result |
 | --- | --- |

@@ -1,5 +1,7 @@
 # Hostinger Production Cutover Runbook
 
+Current release: the September 20, 2026 UTC [editorial production cutover](EDITORIAL_PRODUCTION_RELEASE.md). The record below describes the historical July platform migration. The editorial cutover only replaced static files; it did not recreate the website or modify DNS/email.
+
 Status: production cutover complete and verified
 Completed: 2026-07-13
 

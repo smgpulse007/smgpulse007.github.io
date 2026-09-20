@@ -1,5 +1,7 @@
 # Hostinger Production Inventory
 
+Current application inventory: [Editorial Production Release](EDITORIAL_PRODUCTION_RELEASE.md), September 20, 2026 UTC. Live source is `b258345e18ad99682fe3952a603a37e7b6557caf`, with 132 files and unchanged protected DNS/email records. The July platform baseline below is retained for historical recovery context.
+
 Status: production cutover complete; protected domain, DNS, email, TLS, and hosting state verified
 Baseline captured: 2026-07-13 04:13-04:26 UTC
 Post-cutover reconciliation: 2026-07-13

@@ -36,8 +36,9 @@ for (const tier of ['enhanced', 'standard', 'reduced']) {
 }
 requirePattern(styles, /html\[data-visual-tier=['"]reduced['"]\][\s\S]{0,1600}?animation:\s*none\s*!important/i, 'Reduced tier must disable CSS animation.');
 requirePattern(styles, /html\[data-visual-tier=['"]reduced['"]\][\s\S]{0,2200}?backdrop-filter:\s*none/i, 'Reduced tier must remove costly backdrop filters.');
-requirePattern(styles, /html\[data-visual-tier=['"]reduced['"]\]\s+\.v23-career-field\s+svg\s*\{\s*display:\s*none/i, 'Reduced tier must replace the career SVG with its semantic fallback.');
-requirePattern(styles, /html\[data-visual-tier=['"]reduced['"]\]\s+\.career-field-fallback\s*\{\s*display:\s*grid/i, 'Reduced tier must expose the career list fallback.');
+const career = read(path.join(root, 'src', 'components', 'v23', 'CareerField.astro'));
+requirePattern(career, /<ol class="career-timeline" aria-label=/, 'Career progression must use a semantic list in every visual tier.');
+requirePattern(career, /href=\{`\/experience\/#\$\{stage.id\}`\}/, 'Every career stage must remain a native deep link without JavaScript.');
 requirePattern(styles, /html\[data-motion-paused=['"]true['"]\][\s\S]{0,260}?animation-play-state:\s*paused\s*!important/i, 'Motion control must pause continuous CSS animation.');
 requirePattern(styles, /@media\s*\(prefers-reduced-motion:\s*reduce\)/i, 'V2.3 styles must include a reduced-motion media fallback.');
 requirePattern(styles, /@media\s*\(forced-colors:\s*active\)/i, 'V2.3 styles must include a forced-colors fallback.');

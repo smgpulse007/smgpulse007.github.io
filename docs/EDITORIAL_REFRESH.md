@@ -62,6 +62,25 @@ The new editorial interaction checks also run in GitHub CI. Automated accessibil
 
 Review captures: [desktop home](editorial-refresh/home-desktop.png), [mobile home](editorial-refresh/home-mobile.png), [project explorer](editorial-refresh/projects-desktop.png), and [mobile research](editorial-refresh/research-mobile.png).
 
+## Page-by-page refinement
+
+Follow-up starting point: `a529069e3d83a9553d89eeb4663783edee90d5d3`. The user requested elegant timelines and visualizations, refinement of every page, and deployment without another review cycle.
+
+- Rebuilt the career visualization as a semantic five-stage timeline, with aligned dates, restrained markers, and a vertical tablet/mobile layout. Removed the oversized SVG, intersecting dates, decorative waves, and duplicated fallback content.
+- Corrected career deep links: each stage now reaches the corresponding role rather than the reverse-chronological row at the same array index.
+- Replaced the claims orbit with a compact workflow-boundary diagram and readable step controls. Selection is announced with `aria-pressed`; the readout is a polite live region.
+- Replaced the nine-program radial layout with an aligned, responsive selection grid. Refined model comparisons, document evidence, evolution stages, system layers, and legacy interactive tools.
+- Unified project-detail pages, older system pages, calls to action, and the 404 page with the current typography, spacing, and colors. Historical no-index concept studies remain historical studies.
+- Added the missing screen-reader-only utility and regression coverage for timeline labels, role targets, every program selection, and every claims step at narrow widths.
+
+Completed browser verification: **347 passed**, no failures, skips, or flaky tests. This includes 285 functional/accessibility checks across Chromium, Firefox, and WebKit, plus 62 desktop/mobile visual captures covering all **31 public content pages**, including project details and 404. The timeline is additionally checked at widths 320, 390, 768, 1024, 1440, and 2560; diagram controls at 320, 390, 768, and 1440.
+
+The first refinement pass caught a 320px program-label overflow and insufficient contrast on workflow numbers; both were corrected before the passing suite. Isolated diagram screenshots hide fixed site navigation during capture; full-page captures retain the real navigation. This prevents screenshot stitching from painting the fixed header over a tall diagram.
+
+The complete `npm run validate` also passed after the refinement, including all 31 automated accessibility routes, 49 Chromium end-to-end checks, 15 three-engine editorial checks, source/content/evidence validation, 1,075 local references, and all four deployment-target contracts. The final screenshot-only rerun passed all 62 captures after correcting isolated screenshot handling.
+
+Refinement captures: [career desktop](editorial-refresh/career-desktop.png), [career mobile](editorial-refresh/career-mobile.png), [claims workflow](editorial-refresh/claims-workflow.png), and [program map mobile](editorial-refresh/program-map-mobile.png).
+
 ## Deployment boundary and recovery
 
 Hostinger authentication was restored using a fresh task-local MCP connection and the user's corrected Windows credential. Codex and the other running agents were not restarted. Never put credentials in this repository, this report, or chat.

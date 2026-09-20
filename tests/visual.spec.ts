@@ -5,9 +5,26 @@ const routes: Record<string, string> = {
   work: '/work/',
   experience: '/experience/',
   projects: '/lab/',
+  'project-alphaquant': '/lab/alphaquant/',
+  'project-wiki': '/lab/chatwithwiki-azure-ml/',
+  'project-freshtrack': '/lab/freshtrack-ai-module/',
+  'project-hl7': '/lab/hl7-ai-reference-platform/',
+  'project-readmission': '/lab/hospital-readmission-fhir-api/',
+  'project-steering': '/lab/llm-steering/',
+  'project-documents': '/lab/local-document-ai/',
+  'project-forecasting': '/lab/nfl-forecasting-archive/',
+  'not-found': '/404.html',
   research: '/research/',
   about: '/about/',
   resume: '/resume/',
+  contact: '/contact/',
+  evolution: '/evolution/',
+  systems: '/systems/',
+  'case-llm': '/work/llm-steering-lab/',
+  'system-claims': '/systems/claims-agents/',
+  'system-predictive': '/systems/predictive-ml/',
+  'system-platform': '/systems/healthcare-platform/',
+  'system-documents': '/systems/document-intelligence/',
   'case-claims': '/work/claims-intelligence/',
   'case-predictive-healthcare': '/work/predictive-healthcare-ml/',
   'case-on-prem': '/work/on-prem-rag-ocr/',
@@ -34,5 +51,13 @@ for (const [name, route] of Object.entries(routes)) {
     const filename = testInfo.outputPath(`${name}.png`);
     await page.screenshot({ path: filename, fullPage: true, animations: 'disabled', caret: 'hide' });
     await testInfo.attach(`${name}-${testInfo.project.name}`, { path: filename, contentType: 'image/png' });
+    for (const [index, diagram] of (await page.locator('.v23-career-field, .case-instrument, .v23-claims-run, .evolution-spine, .system-layer-map').all()).entries()) {
+      await diagram.screenshot({
+        path: testInfo.outputPath(`${name}-diagram-${index}.png`),
+        animations: 'disabled',
+        // Fixed navigation belongs to viewport captures, not isolated diagrams.
+        style: '.site-header, .skip-link { visibility: hidden !important; }',
+      });
+    }
   });
 }

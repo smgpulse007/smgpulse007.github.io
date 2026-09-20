@@ -226,10 +226,10 @@ test.describe('homepage V2.3 interactions and server-rendered evidence', () => {
   test('career field exposes the full scientific-to-agentic progression', async ({ page }) => {
     await page.goto('/experience/');
     const field = page.locator('.v23-career-field');
-    const careerMap = field.locator('svg[role="group"]');
+    const careerMap = field.getByRole('list', { name: 'Scientific foundations to production agentic AI' });
     await expect(careerMap).toBeVisible();
-    await expect(careerMap).toHaveAttribute('aria-labelledby', 'career-svg-title career-svg-desc');
-    await expect(field.locator('svg a')).toHaveCount(5);
+    await expect(careerMap.getByRole('link')).toHaveCount(5);
+    await expect(careerMap.locator('.career-period')).toHaveText(['Foundation', '2020 — 2021', '2021 — 2023', '2023 — 2025', '2026 — present']);
     await expect(field).toContainText('Scientific foundation');
     await expect(field).toContainText('Production agentic AI');
     await expect(field.locator('a[href="/experience/#agent"]').first()).toHaveCount(1);

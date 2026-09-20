@@ -49,8 +49,8 @@ test('essential V2.3 routes retain complete semantic content with JavaScript dis
   }
 
   await page.goto('/experience/');
-  await expect(page.locator('.v23-career-field svg[role="group"]')).toHaveCount(1);
-  await expect(page.locator('.v23-career-field svg a')).toHaveCount(5);
+  await expect(page.locator('.career-timeline')).toBeVisible();
+  await expect(page.locator('.career-timeline a')).toHaveCount(5);
   await page.goto('/work/claims-intelligence/');
   await expect(page.locator('[data-claims-run] [data-run-step]')).toHaveCount(8);
   await expect(page.locator('[data-claims-run]')).toContainText('Human authority');

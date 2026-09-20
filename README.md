@@ -37,7 +37,7 @@ Historical routes under `/projects/`, `/systems/`, `/professional-systems/`, and
 
 ## Local development
 
-Requires Node.js 24 LTS (the package contract also accepts compatible Node 22.12+ releases).
+Requires Node.js 24 LTS (the package contract also accepts compatible Node 22.19+ releases).
 
 ```bash
 npm ci

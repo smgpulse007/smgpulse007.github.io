@@ -31,11 +31,21 @@ Professional project previews are explicitly labeled synthetic/system reconstruc
 
 `src/styles/editorial.css` is the current visual layer over the retained historical styles. Historical components remain available for compatibility routes and interactive evidence. The data manifests retain their existing V2.3 schema version because their content contract has not changed.
 
+## Architecture
+
+Astro 7 generates static HTML and JSON from TypeScript content modules and checked-in assets. The frontend uses custom responsive CSS, Lucide icons, and targeted TypeScript interactions; React 19 remains in the existing component toolchain. Sharp generates social images. Hostinger serves the build output directly, with no application server, database, runtime API, or private credentials shipped to visitors. Email contact is a mail link, not a server-side form.
+
+Node 24 LTS is the recommended build/test runtime. The dependency refresh resolves Astro 7.3.3, Sharp 0.35.4, PDF.js 6.3.289, and PostCSS 8.5.28, along with patched transitive dependencies. The Windows system Node installation was not changed; this work uses Codex's bundled Node 24.19.0.
+
+GitHub's initial dependency audit reported 12 inherited findings. Patched dependencies were installed without `--force`; the resulting npm audit reports zero vulnerabilities. The relevant image-processing advisories are [Astro GHSA-26w7-cxv4-gfx2](https://github.com/advisories/GHSA-26w7-cxv4-gfx2) and [Sharp GHSA-rgj7-g3m4-5g8c](https://github.com/advisories/GHSA-rgj7-g3m4-5g8c). This is dependency-audit evidence, not an exhaustive application security audit.
+
 ## Verification
 
 The required gates are `npm run validate` and the three-engine Playwright suite, including `tests/editorial.spec.ts`. The latter adds search recovery, visible selection, mobile dismissal/focus, actual image loading, first-screen content, and responsive overflow assertions.
 
 Initial QA caught and corrected inherited dark-theme contrast failures, a reduced-motion control override, and the accidentally removed LLM comparison. Testing against Astro's development server also exposed its toolbar headings and build-only social-image routes; acceptance testing uses the static production build instead.
+
+The hosted no-JavaScript check waits for the load event before measuring layout, because DOMContentLoaded can precede remote CSS loading when scripts are disabled. The newer Astro preview is explicitly kept in the foreground for Playwright via `--ignore-lock`.
 
 Verified on 2026-09-19 (America/New_York):
 

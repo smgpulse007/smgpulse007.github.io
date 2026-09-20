@@ -52,9 +52,9 @@ Verified on 2026-09-19 (America/New_York):
 | Check | Result |
 | --- | --- |
 | `npm run validate` | Passed, including 13 validator unit tests, Astro checks, 54-page build, content/claims/evidence/privacy gates, local links, four deployment-target contracts, accessibility, end-to-end, and editorial tests |
-| Accessibility + end-to-end + browser modes + editorial suite | 243 passed across Chromium, Firefox, and WebKit; no skipped or flaky tests |
-| Editorial + desktop/mobile visual pass | 37 passed |
-| Final desktop/mobile screenshot pass after lazy-image capture fix | 28 passed |
+| Final patched-stack browser suite | 271 passed: 243 accessibility, end-to-end, browser-mode, and editorial checks across Chromium/Firefox/WebKit, plus 28 desktop/mobile screenshots; no skipped or flaky tests |
+| Final hosted Chromium suite | 81 passed against the deployed HTTPS site, including source revision, noindex/canonical metadata, image loading, no-JavaScript layout, and controls |
+| Dependency audit | Zero reported npm audit vulnerabilities |
 | Local link validation | 1,080 references across 54 HTML files; 83 external URLs inventoried, not re-audited locally |
 | Media budget | Validator passed; 59.7 KB gzip across shipped JavaScript |
 
@@ -66,6 +66,15 @@ Review captures: [desktop home](editorial-refresh/home-desktop.png), [mobile hom
 
 Hostinger authentication was restored using a fresh task-local MCP connection and the user's corrected Windows credential. Codex and the other running agents were not restarted. Never put credentials in this repository, this report, or chat.
 
-The isolated preview allocated for this revision is `https://paleturquoise-loris-684693.hostingersite.com/`. Deployment and live smoke verification are pending in this source checkpoint. The previous staging site is preserved for comparison. Production cutover still requires the repository's explicit approval gate.
+The isolated preview is live at [the Hostinger staging site](https://paleturquoise-loris-684693.hostingersite.com/). The previous staging site is preserved for comparison. Production cutover still requires the repository's explicit approval gate.
+
+- Deployed code revision: `be38424335a4144a45b4616e0da4dc41b0dd9fc4`.
+- Build time: `2026-09-20T00:26:51.220Z`.
+- [Live build identity](https://paleturquoise-loris-684693.hostingersite.com/build.json): verified matching revision and `hostinger-staging` target over HTTPS.
+- Archive: `tmp/dist_20260920_002652.zip`, 5,901,511 bytes, 132 entries, with `index.html` and `.htaccess` at the archive root.
+- Archive SHA-256: `16A7F256420E278C8859298594EE783339B4043103F1F3BAD91A725EDCDB4AC6`.
+- [Draft PR #5](https://github.com/smgpulse007/smgpulse007.github.io/pull/5) is stacked on the existing V2.3 branch; it does not merge or deploy production.
+- GitHub CI was still running its external-link validation at handoff. The local and hosted results above are completed, not inferred from CI.
+- The subsequent documentation-only receipt commit does not change deployed application code.
 
 For local preview, use `npm run dev -- --host 127.0.0.1 --port 4381`. For release verification, use the built output with `npm run preview`. Rollback means redeploying the previously accepted artifact; no production rollback is needed for this unshipped branch.

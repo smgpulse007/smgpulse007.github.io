@@ -87,11 +87,13 @@ Hostinger authentication was restored using a fresh task-local MCP connection an
 
 The isolated preview is live at [the Hostinger staging site](https://paleturquoise-loris-684693.hostingersite.com/). The previous staging site is preserved for comparison. Production cutover still requires the repository's explicit approval gate.
 
-- Deployed code revision: `be38424335a4144a45b4616e0da4dc41b0dd9fc4`.
-- Build time: `2026-09-20T00:26:51.220Z`.
+- Deployed refinement revision: `43ac9fc651ae115037215d641a752866f8623b0f`.
+- Build time: `2026-09-20T00:44:00.792Z`.
 - [Live build identity](https://paleturquoise-loris-684693.hostingersite.com/build.json): verified matching revision and `hostinger-staging` target over HTTPS.
-- Archive: `tmp/dist_20260920_002652.zip`, 5,901,511 bytes, 132 entries, with `index.html` and `.htaccess` at the archive root.
-- Archive SHA-256: `16A7F256420E278C8859298594EE783339B4043103F1F3BAD91A725EDCDB4AC6`.
+- Archive: `tmp/dist_20260920_004411.zip`, 5,904,550 bytes, 132 entries, with `index.html` and `.htaccess` at the archive root.
+- Archive SHA-256: `011AD138535C44F0E92A20887F98D743CACC94DED4FB29771FAFBFDDA74AA798`.
+- Post-deployment Chromium verification: **95 passed**, no failures, skips, or flaky tests. Hosted revision, canonical/noindex metadata, controls, accessibility, mobile layouts, and no-JavaScript behavior were verified. A cached in-app tab initially showed the previous HTML; a normal reload fetched the new timeline and corrected role targets.
+- The previous preview artifact `tmp/dist_20260920_002652.zip` at revision `be38424335a4144a45b4616e0da4dc41b0dd9fc4` remains available for rollback.
 - [Draft PR #5](https://github.com/smgpulse007/smgpulse007.github.io/pull/5) is stacked on the existing V2.3 branch; it does not merge or deploy production.
 - GitHub CI was still running its external-link validation at handoff. The local and hosted results above are completed, not inferred from CI.
 - The subsequent documentation-only receipt commit does not change deployed application code.

@@ -86,8 +86,8 @@ const requiredHomePhrases = [
   'document intelligence',
   'mlops',
   'healthcare &amp; insurance',
-  'hiring decision / three flagship problems',
-  'the problem, the system decision, the documented change',
+  'selected work',
+  'built around real problems',
   'case backlog cleared',
   'automated closure improvement',
 ];
@@ -95,8 +95,10 @@ for (const phrase of requiredHomePhrases) {
   if (!home.includes(phrase)) fail(`homepage is missing required professional-first phrase: ${phrase}`);
 }
 if (home.includes('7k documents/day')) fail('homepage contains the denied 7K documents/day claim');
-const titlePosition = home.indexOf('senior applied ai / ml engineer');
-const projectPosition = home.indexOf('open-source');
+// Compare visible content order, not metadata descriptions in the document head.
+const homeMain = home.slice(home.indexOf('<main'));
+const titlePosition = homeMain.indexOf('senior applied ai / ml engineer');
+const projectPosition = homeMain.indexOf('open-source');
 if (titlePosition < 0 || (projectPosition >= 0 && projectPosition < titlePosition)) {
   fail('homepage must establish the professional identity before open-source project framing');
 }

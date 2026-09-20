@@ -21,6 +21,13 @@ for (const [name, route] of Object.entries(routes)) {
   test(`${name} screenshot`, async ({ page }, testInfo) => {
     await page.goto(route, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
+    for (const image of await page.locator('main img').all()) {
+      if (!await image.isVisible()) continue;
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(() => image.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true);
+    }
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, `${route} overflow in ${testInfo.project.name}`).toBeLessThanOrEqual(1);
 

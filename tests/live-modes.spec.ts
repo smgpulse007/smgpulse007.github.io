@@ -47,19 +47,20 @@ test('essential V2.3 routes retain complete semantic content with JavaScript dis
     expect(await horizontalOverflow(page), `${route} no-JavaScript overflow`).toBeLessThanOrEqual(1);
   }
 
-  await page.goto('/');
+  await page.goto('/experience/');
   await expect(page.locator('.v23-career-field svg[role="group"]')).toHaveCount(1);
   await expect(page.locator('.v23-career-field svg a')).toHaveCount(5);
+  await page.goto('/work/claims-intelligence/');
   await expect(page.locator('[data-claims-run] [data-run-step]')).toHaveCount(8);
   await expect(page.locator('[data-claims-run]')).toContainText('Human authority');
-  await expect(page.locator('[data-project-workbench] [data-project-select]')).toHaveCount(4);
-  await expect(page.locator('[data-project-title]')).not.toBeEmpty();
+
 
   const staticRun = page.locator('.run-static-fallback');
   await expect(staticRun).toBeVisible();
   await expect(staticRun).toContainText('Human authority');
   await expect(staticRun).toContainText('the model cannot self-approve');
 
+  await page.goto('/lab/');
   const staticProjects = page.locator('.project-static-fallback');
   await expect(staticProjects).toBeVisible();
   const staticMetaHarness = staticProjects.locator('article').filter({ hasText: 'Meta Harness' });
@@ -89,8 +90,8 @@ test('reduced-motion mode preserves V2.3 controls and suppresses decorative moti
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
-  const motionDurations = await page.locator('.v23-home-hero').evaluate((element) => {
-    const targets = [element, ...element.querySelectorAll<HTMLElement>('.v23-ambient i, .instrument-orb i')];
+  const motionDurations = await page.locator('.folio-hero').evaluate((element) => {
+    const targets = [element, ...element.querySelectorAll<HTMLElement>('*')];
     return targets.flatMap((target) => {
       const style = getComputedStyle(target);
       return [style.animationDuration, style.transitionDuration];
@@ -101,6 +102,7 @@ test('reduced-motion mode preserves V2.3 controls and suppresses decorative moti
   await expect(page.locator('html')).toHaveAttribute('data-visual-tier', 'reduced');
   await expect(page.locator('[data-motion-toggle]')).toBeHidden();
 
+  await page.goto('/work/claims-intelligence/');
   const run = page.locator('[data-claims-run]');
   await run.getByRole('button', { name: 'Next step' }).click();
   await expect(run.locator('[data-run-label]')).toHaveText('Intent + document types');
@@ -120,7 +122,7 @@ test('motion-pause control pauses decorative animation and persists the preferen
   await expect(control).toHaveAttribute('aria-pressed', 'true');
   await expect(control).toHaveAccessibleName('Resume decorative motion');
   expect(
-    await page.locator('.v23-ambient i').first().evaluate((element) => getComputedStyle(element).animationPlayState),
+    await page.locator('.folio-hero').evaluate((element) => getComputedStyle(element).animationPlayState),
   ).toBe('paused');
 
   await page.reload({ waitUntil: 'domcontentloaded' });
@@ -153,6 +155,7 @@ test('keyboard-only navigation reaches skip, mobile navigation, and claims contr
   await expect(page.locator('.mobile-nav').getByRole('link', { name: 'Work', exact: true })).toBeVisible();
 
   await page.locator('.mobile-nav summary').press('Enter');
+  await page.goto('/work/claims-intelligence/');
   const next = page.locator('[data-claims-run]').getByRole('button', { name: 'Next step' });
   await next.scrollIntoViewIfNeeded();
   await next.focus();
@@ -166,9 +169,10 @@ test('forced-colors mode retains V2.3 meaning, borders, and controls', async ({ 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
-  await expect(page.getByRole('heading', { level: 1, name: /Intelligent systems/i })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: /Shailesh Dudala/i })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
-  await expect(page.locator('.v23-career-field')).toBeVisible();
+  await expect(page.locator('.folio-work-grid')).toBeVisible();
+  await page.goto('/work/claims-intelligence/');
   await expect(page.locator('[data-claims-run]')).toBeVisible();
   await expect(page.locator('[data-claims-run]').getByRole('button', { name: 'Next step' })).toBeVisible();
   const borderWidth = await page.locator('[data-claims-run]').evaluate(
@@ -207,10 +211,10 @@ test('WebGL initialization failure leaves the static-first experience complete',
   await page.goto('/', { waitUntil: 'networkidle' });
 
   await expect(page.locator('html')).toHaveAttribute('data-visual-tier', 'standard');
-  await expect(page.getByRole('heading', { level: 1, name: /Intelligent systems/i })).toBeVisible();
-  await expect(page.locator('.v23-career-field')).toContainText('Production agentic AI');
+  await expect(page.getByRole('heading', { level: 1, name: /Shailesh Dudala/i })).toBeVisible();
+  await expect(page.locator('.folio-work-grid')).toBeVisible();
+  await page.goto('/work/claims-intelligence/');
   await expect(page.locator('[data-claims-run]')).toContainText('Human authority');
-  await expect(page.locator('[data-project-workbench]')).toBeVisible();
   await page.locator('[data-claims-run]').getByRole('button', { name: 'Next step' }).click();
   await expect(page.locator('[data-run-label]')).toHaveText('Intent + document types');
   expect(errors).toEqual([]);
@@ -246,7 +250,7 @@ test('cold-cache navigation returns complete server-rendered content', async ({ 
   const response = await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   expect(response?.status()).toBe(200);
-  await expect(page.locator('h1')).toContainText(/Intelligent systems/i);
+  await expect(page.locator('h1')).toContainText(/Shailesh Dudala/i);
   await expect(page.locator('main')).toContainText('7K');
   await context.close();
 });

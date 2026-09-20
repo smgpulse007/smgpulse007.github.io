@@ -3,13 +3,13 @@ import sharp from 'sharp';
 import { allV23WorkItems } from '../../data/v23Work';
 
 const cards = [
-  { slug: 'home', eyebrow: 'Senior Applied AI / ML Engineer', title: 'Intelligent systems, after the demo.' },
-  { slug: 'work', eyebrow: 'Professional work', title: 'Four systems. Four uncertainty structures.' },
+  { slug: 'home', eyebrow: 'Senior Applied AI / ML Engineer', title: 'Shailesh Dudala.' },
+  { slug: 'work', eyebrow: 'Professional work', title: 'Selected work.' },
   { slug: 'experience', eyebrow: 'Experience', title: 'From biomedical data to accountable AI workflows.' },
-  { slug: 'lab', eyebrow: 'Project Lab', title: 'A field of systems, not a shelf of cards.' },
+  { slug: 'lab', eyebrow: 'Open-source engineering', title: 'Projects & experiments.' },
   { slug: 'systems', eyebrow: 'Systems', title: 'The system around the model is the work.' },
   { slug: 'evolution', eyebrow: 'Evolution', title: 'Signal becomes proof.' },
-  { slug: 'research', eyebrow: 'Research', title: 'The ideas behind the work.' },
+  { slug: 'research', eyebrow: 'Research', title: 'Research & reading.' },
   { slug: 'systems-claims-agents', eyebrow: 'Current frontier', title: 'Context-engineered claims agents.' },
   { slug: 'systems-predictive-ml', eyebrow: 'Professional system', title: 'Predictive healthcare ML.' },
   { slug: 'systems-healthcare-platform', eyebrow: 'Professional system', title: 'Healthcare analytics platform.' },
@@ -24,10 +24,10 @@ const cards = [
   { slug: 'concepts-v23-living-career-atlas', eyebrow: 'V2.3 concept 03', title: 'Living Career Atlas.' },
   { slug: 'concepts-v23-evidence-workbench', eyebrow: 'V2.3 Lab concept 01', title: 'Evidence Workbench.' },
   { slug: 'concepts-v23-repository-constellation', eyebrow: 'V2.3 Lab concept 02', title: 'Repository Constellation.' },
-  { slug: 'recognition', eyebrow: 'Recognition', title: 'The award matters. The attribution matters too.' },
+  { slug: 'recognition', eyebrow: 'Team achievements', title: 'Recognition.' },
   { slug: 'about', eyebrow: 'About', title: 'AI through the discipline of biomedical context.' },
   { slug: 'resume', eyebrow: 'Résumé', title: 'Shailesh Dudala · Senior Applied AI / ML Engineer' },
-  { slug: 'contact', eyebrow: 'Contact', title: 'Bring the messy input and the operational constraint.' },
+  { slug: 'contact', eyebrow: 'Contact', title: "Let's talk." },
   { slug: '404', eyebrow: 'Trace ended', title: 'This route did not reach a valid state.' },
   ...allV23WorkItems.map((item) => ({ slug: `work-${item.slug}`, eyebrow: item.eyebrow, title: item.title })),
 ];
@@ -51,12 +51,13 @@ export const GET: APIRoute = async ({ props }) => {
   const eyebrow = escapeXml(card.eyebrow);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">${title}</title><desc id="desc">Shailesh Dudala portfolio social card</desc>
-  <rect width="1200" height="630" fill="#080b0a"/><path d="M0 1h1200" stroke="#7dd9aa"/><circle cx="1054" cy="102" r="310" fill="#7dd9aa" opacity=".04"/>
-  <g fill="none" stroke="#25302a"><path d="M760 180h320v250H760z"/><path d="M760 240h320M760 300h320M760 360h320M840 180v250M920 180v250M1000 180v250"/></g>
-  <text x="84" y="112" fill="#7dd9aa" font-family="ui-monospace,monospace" font-size="18" letter-spacing="3">${eyebrow.toUpperCase()}</text>
-  <text fill="#f8f6ef" font-family="Arial,sans-serif" font-size="60" font-weight="700" letter-spacing="-2">${titleLines}</text>
-  <text x="84" y="550" fill="#a7afa8" font-family="Arial,sans-serif" font-size="22">Shailesh Dudala · shaileshdudala.com</text>
-  <circle cx="1080" cy="540" r="31" fill="none" stroke="#7dd9aa"/><text x="1080" y="547" text-anchor="middle" fill="#7dd9aa" font-family="ui-monospace,monospace" font-size="15">SD</text>
+  <rect width="1200" height="630" fill="#fafaf8"/>
+  <path d="M84 492h1032" stroke="#dcded7"/>
+  <rect x="84" y="82" width="7" height="7" fill="#ad452f"/>
+  <text x="106" y="93" fill="#646761" font-family="Arial,sans-serif" font-size="21" letter-spacing="0">${eyebrow}</text>
+  <text fill="#242522" font-family="${card.slug === 'home' ? 'Georgia,serif' : 'Arial,sans-serif'}" font-size="${card.slug === 'home' ? 84 : 60}" font-weight="400" letter-spacing="0">${titleLines}</text>
+  <text x="84" y="550" fill="#646761" font-family="Arial,sans-serif" font-size="22">Shailesh Dudala · shaileshdudala.com</text>
+  <text x="1044" y="553" fill="#ad452f" font-family="Georgia,serif" font-size="48" font-style="italic" font-weight="700">sd.</text>
   </svg>`;
   const png = await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable' } });

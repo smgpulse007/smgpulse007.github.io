@@ -85,6 +85,9 @@ jobs:
       - name: Browser-mode release checks
         run: npm run test:live-modes
 
+      - name: Editorial interaction and image checks
+        run: npm run test:editorial
+
       - name: Final ten-viewport, three-engine screenshot set
         run: npm run screenshots:pass5
 

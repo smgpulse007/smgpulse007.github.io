@@ -219,12 +219,12 @@ test.describe('homepage V2.3 interactions and server-rendered evidence', () => {
     const values = [...html.matchAll(/<strong>(.*?)<\/strong>/g)]
       .map((match) => match[1].replace(/<!--.*?-->/g, '').replace(/<[^>]+>/g, '').trim());
     expect(values).toEqual(expect.arrayContaining(['7K', '20%', '≈$3M']));
-    expect(values.some((value) => value === '≈90%')).toBe(true);
+    expect(values.some((value) => value.includes('≈90% lower handling effort'))).toBe(true);
     expect(values).not.toEqual(expect.arrayContaining(['0K', '0%', '$0M']));
   });
 
   test('career field exposes the full scientific-to-agentic progression', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/experience/');
     const field = page.locator('.v23-career-field');
     const careerMap = field.locator('svg[role="group"]');
     await expect(careerMap).toBeVisible();
@@ -236,7 +236,7 @@ test.describe('homepage V2.3 interactions and server-rendered evidence', () => {
   });
 
   test('claims run supports direct, previous, next, and play/pause controls', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/work/claims-intelligence/');
     const run = page.locator('[data-claims-run]');
     await expect(run.locator('[data-run-step]')).toHaveCount(8);
     await expect(run.locator('[data-run-label]')).toHaveText('Packet arrives');

@@ -59,10 +59,10 @@ for (const filename of htmlFiles) {
 const home = visibleText(fs.readFileSync(path.join(dist, 'index.html'), 'utf8'));
 for (const phrase of [
   'Senior Applied AI / ML Engineer',
-  'Intelligent systems, after the demo.',
-  'Production agentic claims automation',
-  'Predictive healthcare ML',
-  'The ideas behind the work.',
+  'Shailesh Dudala.',
+  'Claims, made actionable.',
+  'Better predictions. Better care.',
+  'A closer look at the engineering.',
 ]) if (!home.includes(phrase)) failures.push(`home: required V2.3 copy is missing: ${phrase}`);
 
 const about = visibleText(fs.readFileSync(path.join(dist, 'about', 'index.html'), 'utf8'));

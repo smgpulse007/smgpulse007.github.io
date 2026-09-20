@@ -8,7 +8,7 @@ const stylesDirectory = path.join(root, 'src', 'styles', 'v23');
 const failures = [];
 
 const read = (filename) => fs.readFileSync(filename, 'utf8');
-const layout = read(layoutPath);
+const layout = read(layoutPath) + '\n' + read(path.join(root, 'src', 'components', 'Footer.astro'));
 const styles = fs.readdirSync(stylesDirectory)
   .filter((name) => name.endsWith('.css'))
   .map((name) => read(path.join(stylesDirectory, name)))

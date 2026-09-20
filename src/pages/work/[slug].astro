@@ -36,7 +36,7 @@ const jsonLd = [
   <article class:list={['case-study', 'v23-case-study', `accent-${item.accent}`, `case-${item.visual}`]}>
     <header class="case-hero v23-case-hero"><div class="shell case-hero-grid">
       <div class="case-hero-copy"><a class="back-link" href="/work/">← Selected work</a><p class="eyebrow">{item.eyebrow}</p><h1>{item.title}</h1><p class="case-lede">{item.lede}</p><dl class="case-hero-facts"><div><dt>Problem</dt><dd>{item.executiveSummary.problem}</dd></div><div><dt>Decision</dt><dd>{item.executiveSummary.decision}</dd></div><div><dt>Business / proof change</dt><dd>{item.executiveSummary.change}</dd></div><div><dt>Ownership</dt><dd>{item.role}</dd></div><div><dt>Scale / team</dt><dd>{item.teamContext}</dd></div><div><dt>Evidence</dt><dd>{evidenceSummary}</dd></div></dl><div class="case-tags"><span>{publicType}</span><span>{item.timeframe}</span></div></div>
-      <div class="v23-case-cover"><FlagshipVisual item={item} /><span>PUBLIC-SAFE RECONSTRUCTION</span><strong>{item.domain}</strong></div>
+
     </div></header>
 
     <div class="shell case-overview">
@@ -48,6 +48,7 @@ const jsonLd = [
     <div class="shell case-signature"><CaseStudyInteraction slug={item.slug} /></div>
 
     <div class="shell case-main">
+      {item.slug === 'llm-steering-lab' && <section class="case-section"><div class="section-number">A</div><div><h2>A checked-in comparison</h2><FlagshipVisual item={item} /></div></section>}
       {item.sections.map((section, index) => <section id={`section-${index + 1}`} class="case-section"><div class="section-number">{String(index + 1).padStart(2, '0')}</div><div><h2>{section.heading}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}</div></section>)}
 
       {llmMedia.length > 0 && <section class="case-section source-gallery"><div class="section-number">A</div><div><p class="eyebrow">Repository artifacts</p><h2>The intervention is visible in the checked-in design.</h2><div class="source-gallery-grid">{llmMedia.map((asset) => asset && <figure><img src={asset.path} alt={asset.alt} width="1400" height={asset.id === 'llm-hook-diagram' ? '420' : '560'} loading="lazy" /><figcaption>{asset.caption}</figcaption></figure>)}</div></div></section>}

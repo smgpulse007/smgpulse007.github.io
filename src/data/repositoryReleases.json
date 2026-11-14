@@ -1,0 +1,269 @@
+{
+  "llm-steering": {
+    "status": "Research workbench · release CI passed",
+    "proof": "Paired-seed sampling, saved experiment replay, 93 passing tests and one CUDA skip; static learning site.",
+    "limitation": "Live inference needs the local API and model. Static preview text is illustrative; GPU/model-quality claims are not established.",
+    "scope": "93 passing CPU/control tests; one CUDA skip; web builds and Pages checks.",
+    "demoUrl": "https://smgpulse007.github.io/llm-steering/",
+    "quickstart": "python -m pip install -e .\nllm-steering demo",
+    "verifiedAt": "2026-11-14",
+    "commit": "0825e3d50cf9b75a7b1cea0f67c67d80a5e15e2c",
+    "commitUrl": "https://github.com/smgpulse007/llm-steering/commit/0825e3d50cf9b75a7b1cea0f67c67d80a5e15e2c",
+    "checks": [
+      {
+        "name": "ci",
+        "url": "https://github.com/smgpulse007/llm-steering/actions/runs/43557532491",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/llm-steering/actions/runs/43557532491"
+  },
+  "meta-harness": {
+    "status": "Pre-1.0 · release checks passed",
+    "proof": "CLI/MCP workflow with explicit initialization guards, typed schemas, bounded evidence and 44 passing tests.",
+    "limitation": "Source-installed, pre-1.0 tooling. Fake-adapter smoke does not establish native-agent implementation.",
+    "scope": "44 tests, schema and integration checks, package dry run, dependency audit and docs build.",
+    "demoUrl": "https://smgpulse007.github.io/meta-harness/",
+    "verifiedAt": "2026-11-14",
+    "commit": "5b59f47cc92799f6cf9c26cf1657137cd2cb3ba5",
+    "commitUrl": "https://github.com/smgpulse007/meta-harness/commit/5b59f47cc92799f6cf9c26cf1657137cd2cb3ba5",
+    "checks": [
+      {
+        "name": "Dependency Audit",
+        "url": "https://github.com/smgpulse007/meta-harness/actions/runs/43565049326",
+        "conclusion": "success"
+      },
+      {
+        "name": "Schema Check",
+        "url": "https://github.com/smgpulse007/meta-harness/actions/runs/43565049362",
+        "conclusion": "success"
+      },
+      {
+        "name": "Integration Smoke",
+        "url": "https://github.com/smgpulse007/meta-harness/actions/runs/43565049345",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package Dry Run",
+        "url": "https://github.com/smgpulse007/meta-harness/actions/runs/43565049298",
+        "conclusion": "success"
+      },
+      {
+        "name": "CI",
+        "url": "https://github.com/smgpulse007/meta-harness/actions/runs/43565049307",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL",
+        "url": "https://github.com/smgpulse007/meta-harness/actions/runs/43565049406",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/meta-harness/actions/runs/43565049326"
+  },
+  "hospital-readmission-fhir-ml-api": {
+    "status": "Synthetic API · release CI passed",
+    "proof": "FastAPI demo with index-inpatient feature selection, hand-set linear/sigmoid scoring and 13 passing tests.",
+    "limitation": "No trained XGBoost model or clinical validation. Patient/time scoping requires further hardening; use supplied synthetic fixtures.",
+    "scope": "13 synthetic API and feature tests; not clinical validation.",
+    "verifiedAt": "2026-11-14",
+    "commit": "d11a26b1f4dfe937a936a4335d3dea7009b4c26b",
+    "commitUrl": "https://github.com/smgpulse007/hospital-readmission-fhir-ml-api/commit/d11a26b1f4dfe937a936a4335d3dea7009b4c26b",
+    "checks": [
+      {
+        "name": "CI",
+        "url": "https://github.com/smgpulse007/hospital-readmission-fhir-ml-api/actions/runs/43556092028",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/hospital-readmission-fhir-ml-api/actions/runs/43556092028"
+  },
+  "hl7-ai-challenge": {
+    "status": "Synthetic workflow · release CI passed",
+    "proof": "Runnable care-gap review with six fictional members, simulated outreach, closure receipts, export and 11 HTTP tests.",
+    "limitation": "Local synthetic workflow, separate from Let's Talk Doc. Full historical Python/RabbitMQ/model stack remains unverified.",
+    "scope": "11 HTTP tests; Windows/Linux CI; demo and historical UI builds; local browser checks.",
+    "verifiedAt": "2026-11-14",
+    "commit": "dbb5ed4f5abee03b8bf7b0bb24b293cee6489002",
+    "commitUrl": "https://github.com/smgpulse007/hl7-ai-challenge/commit/dbb5ed4f5abee03b8bf7b0bb24b293cee6489002",
+    "checks": [
+      {
+        "name": "Synthetic workflow",
+        "url": "https://github.com/smgpulse007/hl7-ai-challenge/actions/runs/43563513778",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/hl7-ai-challenge/actions/runs/43563513778"
+  },
+  "AlphaQuant": {
+    "status": "Offline evidence tool · release CI passed",
+    "proof": "Dependency-free citation-coverage checker and JSON CLI with 15 passing tests and a reproducible terminal demo.",
+    "limitation": "No public frontend implementation or live market/model execution. Host counts do not prove source truth or independence; no trading operation.",
+    "scope": "15 offline tests, real CLI subprocesses and a network-blocked synthetic pipeline.",
+    "verifiedAt": "2026-11-14",
+    "commit": "08666aad56258550656cdcbad9ce58cf91f7bfc6",
+    "commitUrl": "https://github.com/smgpulse007/AlphaQuant/commit/08666aad56258550656cdcbad9ce58cf91f7bfc6",
+    "checks": [
+      {
+        "name": "Offline evidence checks",
+        "url": "https://github.com/smgpulse007/AlphaQuant/actions/runs/43565069616",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/AlphaQuant/actions/runs/43565069616",
+    "quickstart": "python -m scripts.evidence_demo"
+  },
+  "ollama_poc": {
+    "status": "Offline evaluator · release CI passed",
+    "proof": "Structured-extraction regression checker with exact decimal comparison, missing/extra-field detection and 19 tests.",
+    "limitation": "Hand-written fixtures are not model outputs. The legacy PDF/Ollama UI requires separate runtime validation.",
+    "scope": "19 offline evaluation tests on Python 3.10/3.13; no model accuracy claim.",
+    "quickstart": "python examples/eval/demo.py",
+    "verifiedAt": "2026-11-14",
+    "commit": "bdc7ccaf04d5e8e527c51a271d3ee2cadfb2719a",
+    "commitUrl": "https://github.com/smgpulse007/ollama_poc/commit/bdc7ccaf04d5e8e527c51a271d3ee2cadfb2719a",
+    "checks": [
+      {
+        "name": "Offline extraction evaluation",
+        "url": "https://github.com/smgpulse007/ollama_poc/actions/runs/43555799847",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/ollama_poc/actions/runs/43555799847"
+  },
+  "AICocktailAssistant": {
+    "status": "Prototype · browser verified",
+    "proof": "Ingredient-based binary-cosine recommendation app; local engine smoke and a real hosted query verified.",
+    "limitation": "No GitHub Actions workflow or established reuse license. Hosted availability may change.",
+    "scope": "Local Python install/engine smoke and browser query; no CI workflow.",
+    "demoUrl": "https://aicocktailassistant.streamlit.app/",
+    "verifiedAt": "2026-11-14",
+    "commit": "45fc715d6a8a8488dfb6a9ea87211394344f9bf8",
+    "commitUrl": "https://github.com/smgpulse007/AICocktailAssistant/commit/45fc715d6a8a8488dfb6a9ea87211394344f9bf8",
+    "checks": [],
+    "validationUrl": "https://github.com/smgpulse007/AICocktailAssistant/pull/2"
+  },
+  "ChatWithWiki_AzureML": {
+    "status": "Evidence retrieval CLI · release CI passed",
+    "proof": "Bounded Wikipedia retrieval with canonical citations, revision IDs, explicit failures and 40 offline tests.",
+    "limitation": "The CLI retrieves evidence; it does not prove answer quality or a deployed Azure service.",
+    "scope": "40 tests across Windows/Linux and Python 3.11/3.13; one bounded live Wikipedia query.",
+    "verifiedAt": "2026-11-14",
+    "commit": "699c11fb4a415ad915075ea411e5042d4e4ae0b4",
+    "commitUrl": "https://github.com/smgpulse007/ChatWithWiki_AzureML/commit/699c11fb4a415ad915075ea411e5042d4e4ae0b4",
+    "checks": [
+      {
+        "name": "Wikipedia evidence retrieval",
+        "url": "https://github.com/smgpulse007/ChatWithWiki_AzureML/actions/runs/43571932423",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/ChatWithWiki_AzureML/actions/runs/43571932423"
+  },
+  "FreshTrackAIModule": {
+    "status": "Receipt review demo · release CI passed",
+    "proof": "OCR-backed receipt review, synthetic fixture, inspection and JSON export; 24 tests and a real Tesseract CI smoke.",
+    "limitation": "Synthetic demo, not production accuracy evidence. Application verified locally; no hosted app is claimed.",
+    "scope": "24 offline tests; actual Tesseract extraction in CI; browser export checked.",
+    "verifiedAt": "2026-11-14",
+    "commit": "cfc5248d3fa6858fac6087e15c6f6e38f44b7af3",
+    "commitUrl": "https://github.com/smgpulse007/FreshTrackAIModule/commit/cfc5248d3fa6858fac6087e15c6f6e38f44b7af3",
+    "checks": [
+      {
+        "name": "Receipt API CI",
+        "url": "https://github.com/smgpulse007/FreshTrackAIModule/actions/runs/43554915772",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/FreshTrackAIModule/actions/runs/43554915772"
+  },
+  "neetcode-gpt": {
+    "status": "Foundation exercises · release CI passed",
+    "proof": "Working foundation-package imports, original gradient-descent walkthrough and five regression tests.",
+    "limitation": "GPT training and generation are not implemented. Original exercise is preserved.",
+    "scope": "Five import/exercise regressions and the documented gradient-descent example.",
+    "verifiedAt": "2026-11-14",
+    "commit": "22496d7cd12751e512adc7e3599ce8c092a1af04",
+    "commitUrl": "https://github.com/smgpulse007/neetcode-gpt/commit/22496d7cd12751e512adc7e3599ce8c092a1af04",
+    "checks": [
+      {
+        "name": "Foundation exercises",
+        "url": "https://github.com/smgpulse007/neetcode-gpt/actions/runs/43557424258",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/neetcode-gpt/actions/runs/43557424258"
+  },
+  "faissNNSearch": {
+    "status": "Exact search tool · release CI passed",
+    "proof": "Reusable CPU FAISS search, custom IDs, cosine/L2/inner-product semantics, bounded JSON CLI and 22 tests.",
+    "limitation": "Exact CPU search example; no approximate-search, GPU or scale benchmark claim.",
+    "scope": "22 real FAISS/NumPy and CLI tests; three metrics checked against independent calculations.",
+    "tier": "explore",
+    "verifiedAt": "2026-11-14",
+    "commit": "9f33c5e2271d7d3106378814526969e27dde92c3",
+    "commitUrl": "https://github.com/smgpulse007/faissNNSearch/commit/9f33c5e2271d7d3106378814526969e27dde92c3",
+    "checks": [
+      {
+        "name": "Exact vector search",
+        "url": "https://github.com/smgpulse007/faissNNSearch/actions/runs/43568521636",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/faissNNSearch/actions/runs/43568521636"
+  },
+  "getweights_tfidf": {
+    "status": "Sparse ranking utility · release CI passed",
+    "proof": "Single-row sparse term ranking, duplicate aggregation, deterministic ties and 13 tests.",
+    "limitation": "Small utility, not an embedding model. No established repository license.",
+    "scope": "13 tests including real SciPy sparse matrices and arrays.",
+    "tier": "explore",
+    "verifiedAt": "2026-11-14",
+    "commit": "02e6f81156c10db71e18a12c0ae343fb58598a2c",
+    "commitUrl": "https://github.com/smgpulse007/getweights_tfidf/commit/02e6f81156c10db71e18a12c0ae343fb58598a2c",
+    "checks": [
+      {
+        "name": "tests",
+        "url": "https://github.com/smgpulse007/getweights_tfidf/actions/runs/43554347735",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/getweights_tfidf/actions/runs/43554347735"
+  },
+  "ML_Templates": {
+    "status": "Runnable ML baseline · release CI passed",
+    "proof": "Mixed-type tabular baseline with fold-local preprocessing, training-only tuning, untouched holdout evaluation and 16 tests.",
+    "limitation": "Synthetic demonstration; historical reference templates have separate assumptions. No real-world model result implied.",
+    "scope": "16 actual-fit/CLI tests, including fold membership and holdout perturbation checks.",
+    "tier": "explore",
+    "verifiedAt": "2026-11-14",
+    "commit": "4dd5c771ea6b22669c49010ccc745ca101669462",
+    "commitUrl": "https://github.com/smgpulse007/ML_Templates/commit/4dd5c771ea6b22669c49010ccc745ca101669462",
+    "checks": [
+      {
+        "name": "Runnable tabular baseline",
+        "url": "https://github.com/smgpulse007/ML_Templates/actions/runs/43568537942",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/ML_Templates/actions/runs/43568537942"
+  },
+  "healthcare-ai-awards": {
+    "status": "Live showcase · release CI passed",
+    "proof": "Two distinct team awards with official evidence, full credits, authentic UI recording and a four-stage illustrative explorer.",
+    "limitation": "New showcase, not the historical winning applications. No clinical model, patient data or EHR connection.",
+    "scope": "11 Node tests and six browser cases; public Pages interaction verified.",
+    "demoUrl": "https://smgpulse007.github.io/healthcare-ai-awards/",
+    "verifiedAt": "2026-11-14",
+    "commit": "75ceae3d5145336f17e96040d08866d9cb1a8221",
+    "commitUrl": "https://github.com/smgpulse007/healthcare-ai-awards/commit/75ceae3d5145336f17e96040d08866d9cb1a8221",
+    "checks": [
+      {
+        "name": "Checks",
+        "url": "https://github.com/smgpulse007/healthcare-ai-awards/actions/runs/43606138599",
+        "conclusion": "success"
+      }
+    ],
+    "validationUrl": "https://github.com/smgpulse007/healthcare-ai-awards/actions/runs/43606138599"
+  }
+}

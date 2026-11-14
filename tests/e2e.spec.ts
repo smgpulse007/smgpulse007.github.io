@@ -136,8 +136,8 @@ test.describe('static route and metadata contract', () => {
     await expect(projectsResponse).toBeOK();
     const projects = await projectsResponse.json();
     expect(projects.version).toBe('2.3');
-    expect(projects.count).toBe(41);
-    expect(projects.authoredRepositoryCount).toBe(39);
+    expect(projects.count).toBe(42);
+    expect(projects.authoredRepositoryCount).toBe(40);
 
     const researchResponse = await request.get('/research.json');
     await expect(researchResponse).toBeOK();

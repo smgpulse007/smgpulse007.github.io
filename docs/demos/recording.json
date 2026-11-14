@@ -1,0 +1,34 @@
+{
+  "capturedAt": "2026-11-14",
+  "source": "Actual local browser captures of the portfolio evidence refresh",
+  "page": "/lab/",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "imageSize": [
+    1425,
+    990
+  ],
+  "steps": [
+    "Filter AlphaQuant",
+    "Filter FreshTrack",
+    "Filter ChatWithWiki"
+  ],
+  "frameDurationMs": 3000,
+  "editing": "Frames assembled into GIF without labels, overlays or synthetic UI; GIF palette conversion only.",
+  "frames": [
+    {
+      "file": "project-lab-alpha.png",
+      "sha256": "8b58274c63759571e6b1fee21b3902d472ebd99dc83c342574d86bf643cbdf07"
+    },
+    {
+      "file": "project-lab-freshtrack.png",
+      "sha256": "0ffee35a57037f56e9ad5183e60a7b3bb9f659ad463ddd4d77ea6ecceef276aa"
+    },
+    {
+      "file": "project-lab-wiki.png",
+      "sha256": "2e6843eb9bd8234683b5a69bce3ae734b747cd6ecec56763b89c6f6f2f752831"
+    }
+  ]
+}

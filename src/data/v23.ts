@@ -1,3 +1,5 @@
+import { releaseFor, type RepositoryRelease } from './repositoryRelease';
+
 export const v23Identity = {
   name: 'Shailesh Dudala',
   role: 'Senior Applied AI / ML Engineer',
@@ -105,25 +107,27 @@ export type ProjectTier = 'surface' | 'featured' | 'explore' | 'archive';
 export type ProjectRecord = {
   slug: string; title: string; repository: string; tier: ProjectTier; category: string;
   status: string; proof: string; limitation: string; href?: string; media?: string;
+  reviewedAt?: string; release?: RepositoryRelease;
 };
 
 const repo = (name: string) => `https://github.com/smgpulse007/${name}`;
 
-export const projectInventory: ProjectRecord[] = [
+const originalProjectInventory: ProjectRecord[] = [
   { slug:'profile', title:'GitHub profile', repository:repo('smgpulse007'), tier:'surface', category:'Portfolio', status:'Maintained', proof:'Public profile gateway, README, media', limitation:'Navigation surface, not a project system.' },
   { slug:'portfolio', title:'Portfolio source and release system', repository:repo('smgpulse007.github.io'), tier:'surface', category:'Portfolio', status:'Maintained · CI', proof:'Astro source, tests, accessibility, staging and release workflows', limitation:'The repository proves delivery practice; visual claims remain version-specific.' },
   { slug:'llm-steering', title:'LLM Steering', repository:repo('llm-steering'), tier:'featured', category:'Representation engineering', status:'Maintained · green CI · Pages', proof:'Tests, workbench UI, research records, checked-in outputs, demos', limitation:'Research workbench; effects vary by model, layer, prompt, and coefficient.', href:'/systems/llm-steering/', media:'/assets/case-studies/llm-steering/diagrams/activation-steering-flow.svg' },
   { slug:'meta-harness', title:'Meta Harness', repository:repo('meta-harness'), tier:'featured', category:'Agent systems', status:'Pre-1.0 · 14 green checks', proof:'Schemas, CLI/MCP, proof ledger, integrations, examples, docs', limitation:'Source-installed and pre-1.0; correctness is not guaranteed.', href:'/systems/meta-harness/' },
   { slug:'hospital-readmission-fhir-ml-api', title:'Hospital Readmission FHIR ML API', repository:repo('hospital-readmission-fhir-ml-api'), tier:'featured', category:'Predictive healthcare', status:'Maintained · green CI', proof:'Synthetic FHIR, explainability, tests, docs, Docker', limitation:'Deterministic demo model; not clinically validated.', href:'/lab/hospital-readmission-fhir-api/' },
-  { slug:'hl7-ai-challenge', title:'HL7 AI Challenge Platform', repository:repo('hl7-ai-challenge'), tier:'featured', category:'Healthcare interoperability', status:'Public challenge system · no conventional CI', proof:'Architecture, demo package, event-driven services, test scripts', limitation:'Synthetic/reference platform; scenario metrics are assumptions.', href:'/lab/hl7-ai-reference-platform/', media:'/assets/case-studies/hl7/diagrams/architecture-high-level.png' },
-  { slug:'alphaquant', title:'AlphaQuant', repository:repo('AlphaQuant'), tier:'featured', category:'Agent research', status:'Engineering demo · no CI', proof:'Docker stack, multi-service architecture, terminal and UI media', limitation:'Research and engineering demo; not a trading product.', href:'/lab/alphaquant/', media:'/assets/case-studies/alphaquant/screenshots/ui-screenshot.png' },
-  { slug:'ollama-poc', title:'Local Document AI / Ollama PoC', repository:repo('ollama_poc'), tier:'featured', category:'Document intelligence', status:'Public PoC · no CI', proof:'Docker, local inference path, sample workflow and test scripts', limitation:'Synthetic/sample-document proof; OCR and model support are bounded.', href:'/lab/local-document-ai/' },
+  { slug:'hl7-ai-challenge', title:'HL7 AI Challenge Platform', repository:repo('hl7-ai-challenge'), tier:'featured', category:'Healthcare interoperability', status:'Historical architecture; release evidence below', proof:'Architecture, demo package, event-driven services, test scripts', limitation:'Synthetic/reference platform; scenario metrics are assumptions.', href:'/lab/hl7-ai-reference-platform/', media:'/assets/case-studies/hl7/diagrams/architecture-high-level.png' },
+  { slug:'alphaquant', title:'AlphaQuant', repository:repo('AlphaQuant'), tier:'featured', category:'Evidence tooling', status:'Offline evidence tool', proof:'Offline citation checks and synthetic examples', limitation:'Citation coverage is not source verification or investment guidance.', href:'/lab/alphaquant/' },
+  { slug:'ollama-poc', title:'Local Document AI / Ollama PoC', repository:repo('ollama_poc'), tier:'featured', category:'Document intelligence', status:'Historical PoC; release evidence below', proof:'Docker, local inference path, sample workflow and test scripts', limitation:'Synthetic/sample-document proof; OCR and model support are bounded.', href:'/lab/local-document-ai/' },
+  { slug:'healthcare-ai-awards', title:'Healthcare AI Awards', repository:repo('healthcare-ai-awards'), tier:'explore', category:'Healthcare interoperability', status:'Live showcase', proof:'Official recognition and an illustrative explorer', limitation:'Historical awards and the new showcase are distinct.', href:'https://smgpulse007.github.io/healthcare-ai-awards/', media:'/assets/case-studies/awards/showcase-desktop.jpg' },
   { slug:'ai-cocktail', title:'AI Cocktail Assistant', repository:repo('AICocktailAssistant'), tier:'explore', category:'Applied AI', status:'Prototype', proof:'Public app and homepage', limitation:'Prototype-level evidence.' },
   { slug:'azure-los', title:'Azure LOS Prediction', repository:repo('AzureLOSPrediction'), tier:'explore', category:'Predictive healthcare', status:'Historical notebook', proof:'LOS regression on Microsoft toy data', limitation:'No CI or detected license.' },
   { slug:'chatgpt-local', title:'ChatGPT Local', repository:repo('chatgpt-local'), tier:'explore', category:'Local AI', status:'Experiment', proof:'Local/containerized implementation', limitation:'Limited validation evidence.' },
   { slug:'chatwithwiki', title:'ChatWithWiki Azure ML', repository:repo('ChatWithWiki_AzureML'), tier:'explore', category:'Retrieval', status:'Prompt Flow demo', proof:'Azure Prompt Flow RAG implementation and README', limitation:'No tests, CI, or detected license.', href:'/lab/chatwithwiki-azure-ml/' },
   { slug:'docker-py', title:'Docker Python App', repository:repo('DockerPyApp'), tier:'explore', category:'Infrastructure', status:'Learning experiment', proof:'Container and Kubernetes implementation', limitation:'Minimal project depth.' },
-  { slug:'freshtrack', title:'FreshTrack AI Module', repository:repo('FreshTrackAIModule'), tier:'explore', category:'Document intelligence', status:'CI currently red', proof:'Rich API, tests, Docker, docs, synthetic sample', limitation:'Default-tip test, security, and build checks are failing.', href:'/lab/freshtrack-ai-module/' },
+  { slug:'freshtrack', title:'FreshTrack AI Module', repository:repo('FreshTrackAIModule'), tier:'explore', category:'Document intelligence', status:'Historical July snapshot; refreshed release evidence below', proof:'Rich API, tests, Docker, docs, synthetic sample', limitation:'July audit finding; superseded by the linked November release checks.', href:'/lab/freshtrack-ai-module/' },
   { slug:'hedis-dashboard', title:'HEDIS Dashboard', repository:repo('HEDIS-Dashboard'), tier:'explore', category:'Healthcare analytics', status:'Prototype', proof:'Streamlit surface', limitation:'README is template-like; no CI or tests.' },
   { slug:'hnsc-viz', title:'HNSC Visualization', repository:repo('hnsc_viz'), tier:'explore', category:'Scientific computing', status:'Historical visualization', proof:'Authentic slide-image activation visualization', limitation:'Small research example.' },
   { slug:'medication', title:'Medication Recommendation', repository:repo('MedicationRecommendation'), tier:'explore', category:'Predictive healthcare', status:'Experiment', proof:'Public implementation and README', limitation:'No maturity or clinical-validity claim.' },
@@ -152,6 +156,11 @@ export const projectInventory: ProjectRecord[] = [
   { slug:'vllm', title:'vLLM Experiment', repository:repo('vLLM'), tier:'archive', category:'Local AI', status:'Historical', proof:'Serving experiment', limitation:'Not the upstream vLLM project and not promoted as such.' },
   { slug:'webbot', title:'Webbot Reference', repository:repo('webbotRef'), tier:'archive', category:'Automation', status:'Historical', proof:'Automation reference implementation', limitation:'Reference artifact.' },
 ];
+
+export const projectInventory: ProjectRecord[] = originalProjectInventory.map((project) => {
+  const release = releaseFor(project.repository);
+  return release ? { ...project, status: release.status, proof: release.proof, limitation: release.limitation, tier: release.tier ?? project.tier, reviewedAt: release.verifiedAt, release } : { ...project, reviewedAt: '2026-07-17' };
+});
 
 export const labProjects = projectInventory.filter((project) => project.tier !== 'surface');
 export const featuredProjects = labProjects.filter((project) => project.tier === 'featured');

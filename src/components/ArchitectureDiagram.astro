@@ -66,15 +66,15 @@ const diagrams: Record<DiagramVariant, Diagram> = {
     footer: ['Local-first', 'reviewable output', 'no committed private docs', 'regulated workflow pattern'],
   },
   alphaquant: {
-    title: 'Agentic research stack with storage fabric',
-    description: 'A local-first agentic system with separate ingestion, memory, planning, verification, and Fusion report surfaces.',
+    title: 'Offline citation-coverage gate',
+    description: 'Inspect structured report evidence without retrieving sources or running a model.',
     zones: [
-      { label: 'Signal Ingestion', tone: 'cyan', nodes: ['market signals', 'macro context', 'public research'] },
-      { label: 'Storage Fabric', tone: 'green', nodes: ['Postgres', 'Redis', 'Qdrant', 'MinIO', 'OpenSearch'] },
-      { label: 'Agent Core', tone: 'violet', nodes: ['planner', 'tool calls', 'state graph', 'Ollama'] },
-      { label: 'Verification', tone: 'amber', nodes: ['rules', 'citations', 'Fusion report', 'API/UI'] },
+      { label: 'Input', tone: 'cyan', nodes: ['local JSON', 'size and nesting bounds'] },
+      { label: 'Claims', tone: 'green', nodes: ['supported sections', 'nonempty claims'] },
+      { label: 'Coverage', tone: 'violet', nodes: ['normalized hosts', 'missing citations'] },
+      { label: 'Audit', tone: 'amber', nodes: ['per-item findings', 'CLI exit status'] },
     ],
-    footer: ['Docker-first', 'local-first', 'not financial advice', 'structured reports'],
+    footer: ['Offline', 'synthetic walkthrough', 'not fact checking', 'no trading'],
   },
   nfl: {
     title: 'Forecasting and backtesting pipeline',

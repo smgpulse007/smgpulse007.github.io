@@ -27,8 +27,8 @@ export const evidenceItems: EvidenceItem[] = [
   {
     label: 'AlphaQuant',
     route: '/projects/agentic-alpha-engine/',
-    artifact: 'UI demo, terminal demo, and storage/verification architecture',
-    boundary: 'Engineering demo only; not financial, investment, or trading advice.',
+    artifact: 'Tested offline citation checker, real terminal walkthrough and explicitly historical UI artifacts',
+    boundary: 'No public frontend implementation or live market/model execution; coverage is not source verification.',
   },
   {
     label: 'NFL forecasting',

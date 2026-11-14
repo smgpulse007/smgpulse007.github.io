@@ -309,7 +309,7 @@ test('Project Lab workbench filters and selects inspectable project evidence', a
   const metaHarness = workbench.getByRole('button', { name: /Meta Harness/ });
   await metaHarness.click();
   await expect(workbench.locator('[data-project-title]')).toHaveText('Meta Harness');
-  await expect(workbench.locator('[data-project-status]')).toContainText('14 green checks');
+  await expect(workbench.locator('[data-project-status]')).toContainText('release checks passed');
   await expect(workbench.locator('[data-project-open]')).toHaveAttribute('href', '/systems/meta-harness/');
 
   await workbench.getByRole('searchbox', { name: 'Filter systems' }).clear();

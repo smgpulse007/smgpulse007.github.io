@@ -97,7 +97,7 @@ export const projects: Project[] = [
       'Expose model-card and example-schema endpoints for inspectability.',
     ],
     modelDesign: [
-      'XGBoost-style risk-scoring pattern with transparent feature names.',
+      'Hand-set linear weights followed by a logistic sigmoid; not a trained XGBoost model.',
       'Feature groups cover demographics, utilization, comorbidity, medication, lab, discharge, and procedure signals.',
       'Output is API-friendly: risk probability, risk band, and contribution details.',
     ],
@@ -213,36 +213,62 @@ export const projects: Project[] = [
     architectureVariant: 'document-ai',
   },
   {
-    slug: 'agentic-alpha-engine',
-    title: 'Agentic Alpha Engine',
-    shortTitle: 'AlphaQuant',
-    domain: 'Agentic market intelligence / quant research',
-    categories: ['Quant / Finance', 'Agentic AI', 'MLOps / Infrastructure'],
-    maturity: 'flagship',
-    tier: 'featured',
-    featured: true,
-    statusNote: 'Engineering demo; not investment advice',
-    summary:
-      'Local-first agentic market intelligence workbench with public-signal ingestion, retrieval/storage services, planner agents, verification rules, structured reports, and Docker architecture.',
-    problem:
-      'Research workflows need ingestion boundaries, storage, retrieval, planning, verification, state, and report contracts before any conclusion is trusted.',
-    systemOverview:
-      'Finance-like public data is used as the domain for broader agentic-system architecture: adapters collect evidence, services persist it, agents plan tool calls, verification constrains outputs, and structured reports flow to API/UI layers.',
-    architectureSummary:
-      'Public market/macro data -> ingestion adapters -> normalization -> vector/object/search stores -> agent planner -> tool calls -> verification -> structured report/API/UI.',
-    workflow: ['Collect public signals.', 'Normalize and persist artifacts.', 'Coordinate retrieval and tools with an agent planner.', 'Run verification before structured reporting.'],
-    modelDesign: ['Planner, tools, retrieval, state, and verification are separated.', 'Postgres, Redis, Qdrant, MinIO, and OpenSearch represent distinct memory responsibilities.', 'Local inference avoids implying live trading automation.'],
-    validation: ['Python source and scripts compile.', 'Runtime paths depend on local service availability.', 'README limits financial interpretation.'],
-    deployment: ['FastAPI API and worker entry points.', 'Docker Compose local research stack.', 'Separated state, storage, and retrieval services.'],
-    safetyNote: 'Research/engineering demo only. Not financial advice, investment advice, or live trading.',
-    employerValue: ['Agentic workflow orchestration.', 'Stateful multi-service architecture.', 'Quant breadth with responsible-use boundaries.'],
-    whatIBuilt: ['API and worker entry points.', 'Agent orchestration and verification.', 'Storage/retrieval adapters.', 'Public non-advice framing.'],
-    techStack: ['FastAPI', 'Docker', 'Postgres', 'Redis', 'Qdrant', 'MinIO', 'OpenSearch', 'Ollama'],
-    metrics: [{ value: 'agents', label: 'planner + tools' }, { value: '5', label: 'storage/retrieval layers' }, { value: 'verify', label: 'guarded synthesis' }],
-    image: '/assets/project-alphaquant.svg',
-    githubUrl: 'https://github.com/smgpulse007/AlphaQuant',
-    caseStudyUrl: '/projects/agentic-alpha-engine/',
-    architectureVariant: 'alphaquant',
+    "slug": "agentic-alpha-engine",
+    "title": "AlphaQuant Citation Coverage",
+    "shortTitle": "AlphaQuant",
+    "domain": "Offline research evaluation",
+    "categories": [
+      "Quant / Finance",
+      "Agentic AI",
+      "MLOps / Infrastructure"
+    ],
+    "maturity": "polished demo",
+    "tier": "featured",
+    "featured": true,
+    "statusNote": "Offline checker; verified release CI",
+    "summary": "Dependency-free citation-coverage gate and JSON CLI for structured research reports, with explicit failure reports and 15 tests.",
+    "problem": "Reports can omit evidence, repeat one citation host or silently accept empty results.",
+    "systemOverview": "The checker validates bounded JSON, walks claim-bearing sections, normalizes citation hosts and returns per-item coverage findings.",
+    "architectureSummary": "Local structured report -> bounded JSON validation -> claim and citation traversal -> hostname coverage -> audit and exit status.",
+    "workflow": [
+      "Read a local report.",
+      "Validate supported claim sections.",
+      "Count distinct normalized citation hosts.",
+      "Inspect findings and use exit status in an evaluation loop."
+    ],
+    "modelDesign": [
+      "No model is called by the checker.",
+      "The retained pipeline uses synthetic placeholders.",
+      "Coverage does not establish source truth or publisher independence."
+    ],
+    "validation": [
+      "15 passing offline tests at commit 08666aad.",
+      "CLI, malformed-input and network-blocked fixture checks."
+    ],
+    "deployment": [
+      "Python 3.11+, no package install or network required for the checker.",
+      "No public frontend implementation or live service deployment is claimed."
+    ],
+    "safetyNote": "Synthetic engineering tool. No market feed, model execution, order placement or investment-performance claim.",
+    "employerValue": [
+      "Explicit evaluation boundaries.",
+      "Deterministic failure handling and usable CLI contracts."
+    ],
+    "whatIBuilt": [
+      "Citation-coverage gate.",
+      "Bounded report CLI and tests.",
+      "Synthetic pipeline and real terminal walkthrough."
+    ],
+    "techStack": [
+      "Python",
+      "JSON",
+      "unittest",
+      "CLI"
+    ],
+    "image": "/assets/project-alphaquant.svg",
+    "githubUrl": "https://github.com/smgpulse007/AlphaQuant",
+    "caseStudyUrl": "/lab/alphaquant/",
+    "architectureVariant": "alphaquant"
   },
   {
     slug: 'nfl-sports-forecasting',

@@ -10,26 +10,26 @@ const mediaFor = (project: typeof selected) => project.slug === 'llm-steering'
   : project.media ?? '';
 ---
 <section class:list={['v23-project-workbench',{compact}]} data-project-workbench aria-label="Public project explorer">
-  <div class="workbench-chrome"><span>Project explorer</span><span>Repository snapshot · July 2026</span></div>
+  <div class="workbench-chrome"><span>Project explorer</span><span>Dated repository evidence · November 2026</span></div>
   <div class="workbench-layout">
     <nav aria-label="Select a public project">
       <label>Filter systems<input type="search" data-project-search placeholder="Name, subject, or technology" /></label>
       <p class="project-result-count" data-project-count role="status">{projects.length} projects</p>
-      <div data-project-list>{projects.map((project,index)=><button type="button" class:list={{active:index===0}} aria-pressed={index === 0} data-project-select data-search={`${project.title} ${project.category} ${project.status} ${project.proof}`.toLowerCase()} data-title={project.title} data-category={project.category} data-status={project.status} data-proof={project.proof} data-limit={project.limitation} data-repo={project.repository} data-href={project.href??''} data-media={mediaFor(project)}><span>{project.category}</span><strong>{project.title}</strong><small>{project.status}</small></button>)}</div>
+      <div data-project-list>{projects.map((project,index)=><button type="button" class:list={{active:index===0}} aria-pressed={index === 0} data-project-select data-search={`${project.title} ${project.category} ${project.status} ${project.proof}`.toLowerCase()} data-title={project.title} data-category={project.category} data-status={project.status} data-proof={project.proof} data-limit={project.limitation} data-repo={project.repository} data-href={project.href??''} data-media={mediaFor(project)} data-reviewed={project.reviewedAt} data-verification={project.release?.validationUrl??''} data-commit={project.release?.commitUrl??''} data-demo={project.release?.demoUrl??''}><span>{project.category}</span><strong>{project.title}</strong><small>{project.status}</small></button>)}</div>
       <p class="project-empty" data-project-empty hidden>No projects match this search. Try another name or topic.</p>
     </nav>
     <aside data-project-detail aria-live="polite">
       <span data-project-category>{selected.category}</span><h2 data-project-title>{selected.title}</h2>
-      <p class="project-status" data-project-status>{selected.status}</p>
+      <p class="project-status" data-project-status>{selected.status}</p><p class="project-review-date">Reviewed <time data-project-reviewed datetime={selected.reviewedAt}>{selected.reviewedAt}</time>. <span data-project-review-note>{selected.release ? 'Verification applies to the linked release.' : 'Historical inventory entry; no current release verification.'}</span></p>
       <img class="project-preview-media" data-project-media src={mediaFor(selected)} alt={`${selected.title} repository artifact`} width="800" height="450" loading="lazy" />
       <dl><div><dt>In the repository</dt><dd data-project-proof>{selected.proof}</dd></div><div><dt>Scope &amp; limitations</dt><dd data-project-limit>{selected.limitation}</dd></div></dl>
-      <div><a data-project-open href={selected.href??selected.repository}>Open project <ArrowUpRight size={15} aria-hidden="true"/></a><a data-project-repo href={selected.repository}>View on GitHub <ArrowUpRight size={15} aria-hidden="true"/></a></div>
+      <div><a data-project-open href={selected.href??selected.repository}>Open project <ArrowUpRight size={15} aria-hidden="true"/></a><a data-project-repo href={selected.repository}>View on GitHub <ArrowUpRight size={15} aria-hidden="true"/></a><a data-project-verification href={selected.release?.validationUrl} hidden={!selected.release}>Verification ↗</a><a data-project-commit href={selected.release?.commitUrl} hidden={!selected.release}>Release source ↗</a><a data-project-demo href={selected.release?.demoUrl} hidden={!selected.release?.demoUrl}>Public demo / docs ↗</a></div>
     </aside>
   </div>
   <noscript>
     <section class="project-static-fallback" aria-labelledby={compact?'project-static-compact-title':'project-static-title'}>
       <h3 id={compact?'project-static-compact-title':'project-static-title'}>Project directory</h3>
-      <div>{projects.map((project)=><article><span>{project.category} · {project.status}</span><h4>{project.title}</h4><dl><div><dt>Public proof</dt><dd>{project.proof}</dd></div><div><dt>Limit</dt><dd>{project.limitation}</dd></div></dl><p><a href={project.href??project.repository}>Open project</a> · <a href={project.repository}>Repository</a></p></article>)}</div>
+      <div>{projects.map((project)=><article><span>{project.category} · {project.status}</span><h4>{project.title}</h4><p>Reviewed {project.reviewedAt}.{project.release && <> <a href={project.release.validationUrl}>Verification</a> · <a href={project.release.commitUrl}>Release source</a></>}</p><dl><div><dt>Public proof</dt><dd>{project.proof}</dd></div><div><dt>Limit</dt><dd>{project.limitation}</dd></div></dl><p><a href={project.href??project.repository}>Open project</a> · <a href={project.repository}>Repository</a></p></article>)}</div>
     </section>
   </noscript>
 </section>
@@ -54,6 +54,17 @@ const mediaFor = (project: typeof selected) => project.slug === 'llm-steering'
       const repo = root.querySelector<HTMLAnchorElement>('[data-project-repo]')!;
       open.href = button.dataset.href || button.dataset.repo!;
       repo.href = button.dataset.repo!;
+      const reviewed = root.querySelector<HTMLTimeElement>('[data-project-reviewed]')!;
+      reviewed.textContent = button.dataset.reviewed ?? '';
+      reviewed.dateTime = button.dataset.reviewed ?? '';
+      write('[data-project-review-note]', button.dataset.verification ? 'Verification applies to the linked release.' : 'Historical inventory entry; no current release verification.');
+      for (const key of ['verification', 'commit', 'demo']) {
+        const link = root.querySelector<HTMLAnchorElement>(`[data-project-${key}]`)!;
+        const href = button.dataset[key];
+        link.hidden = !href;
+        if (href) link.href = href;
+        else link.removeAttribute('href');
+      }
       media.hidden = !button.dataset.media;
       if (button.dataset.media) {
         media.src = button.dataset.media;

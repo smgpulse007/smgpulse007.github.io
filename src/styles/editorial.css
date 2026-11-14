@@ -262,6 +262,9 @@ html.editorial {
 .editorial .project-status { color: #435e3c; border: 0; background: #e5ebdf; font: 11px/1.5 var(--v23-display); }
 .project-preview-media { width: 100%; max-height: 240px; object-fit: contain; background: #e8ece8; margin: 18px 0; padding: 14px; }
 .project-preview-media[hidden] { display: none; }
+.editorial .workbench-layout > aside a[hidden] { display: none; }
+.editorial .project-review-date { color: var(--folio-muted); font-size: 12px; line-height: 1.6; }
+.editorial .release-evidence pre { padding: 18px; background: #eef1e8; overflow-x: auto; font-size: 13px; }
 .project-empty { padding: 20px; color: var(--folio-muted); font-size: 13px; }
 .project-result-count { margin: 0; color: var(--folio-muted); font-size: 10px; padding: 0 18px 12px; }
 .editorial .dossier-stack article { grid-template-columns: 100px 1fr 1fr 120px; gap: 24px; padding: 30px 0; }

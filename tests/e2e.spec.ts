@@ -136,8 +136,8 @@ test.describe('static route and metadata contract', () => {
     await expect(projectsResponse).toBeOK();
     const projects = await projectsResponse.json();
     expect(projects.version).toBe('2.3');
-    expect(projects.count).toBe(41);
-    expect(projects.authoredRepositoryCount).toBe(39);
+    expect(projects.count).toBe(42);
+    expect(projects.authoredRepositoryCount).toBe(40);
 
     const researchResponse = await request.get('/research.json');
     await expect(researchResponse).toBeOK();
@@ -309,7 +309,7 @@ test('Project Lab workbench filters and selects inspectable project evidence', a
   const metaHarness = workbench.getByRole('button', { name: /Meta Harness/ });
   await metaHarness.click();
   await expect(workbench.locator('[data-project-title]')).toHaveText('Meta Harness');
-  await expect(workbench.locator('[data-project-status]')).toContainText('14 green checks');
+  await expect(workbench.locator('[data-project-status]')).toContainText('release checks passed');
   await expect(workbench.locator('[data-project-open]')).toHaveAttribute('href', '/systems/meta-harness/');
 
   await workbench.getByRole('searchbox', { name: 'Filter systems' }).clear();

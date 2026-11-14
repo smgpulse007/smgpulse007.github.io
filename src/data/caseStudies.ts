@@ -155,42 +155,75 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
     ],
   },
   'agentic-alpha-engine': {
-    slug: 'agentic-alpha-engine',
-    thesis: 'Local-first agentic market-intelligence workbench with ingestion, storage fabric, planner agents, verification, and structured Fusion reports.',
-    systemType: 'Agentic research infrastructure',
-    primaryUsers: 'AI platform engineers, research analysts, agent workflow reviewers',
-    artifactMaturity: 'Docker-first local research stack',
-    atAGlance: [
-      { label: 'Orchestration', value: 'Planner, tool calls, workflow state, verification' },
-      { label: 'Storage fabric', value: 'Postgres, Redis, Qdrant, MinIO, OpenSearch' },
-      { label: 'Inference', value: 'Ollama/local model experimentation' },
+    "slug": "agentic-alpha-engine",
+    "thesis": "Check citation coverage before a structured research report moves downstream.",
+    "systemType": "Offline evidence evaluation",
+    "primaryUsers": "Engineers evaluating structured research outputs",
+    "artifactMaturity": "Tested Python CLI",
+    "atAGlance": [
+      {
+        "label": "Runtime",
+        "value": "Python standard library; offline"
+      },
+      {
+        "label": "Contract",
+        "value": "Bounded JSON input, explicit findings and exit codes"
+      },
+      {
+        "label": "Boundary",
+        "value": "Hostname coverage, not fact checking"
+      }
     ],
-    proofStrip: [
-      { label: 'Repo assets', value: 'Terminal demo, UI demo, UI screenshot' },
-      { label: 'Report shape', value: 'Structured Fusion reports' },
-      { label: 'Responsible use', value: 'Engineering demo, not financial advice' },
+    "proofStrip": [
+      {
+        "label": "Tests",
+        "value": "15 passing cases at the recorded release"
+      },
+      {
+        "label": "Demo",
+        "value": "Real synthetic terminal walkthrough"
+      },
+      {
+        "label": "UI media",
+        "value": "Historical; frontend source is not in the public tree"
+      }
     ],
-    walkthrough: [
-      { title: 'Signal ingestion', body: 'Public market and macro signals move through explicit ingestion adapters so source boundaries are inspectable.' },
-      { title: 'Normalization and memory', body: 'Evidence lands in relational, vector, object, cache, and search layers for different retrieval needs.' },
-      { title: 'Agent planner', body: 'The planner coordinates tool use, state, retrieval, and synthesis instead of relying on one free-form prompt.' },
-      { title: 'Verification and Fusion report', body: 'Structured outputs are constrained by verification rules before being promoted to report/API/UI surfaces.' },
+    "walkthrough": [
+      {
+        "title": "Read a report",
+        "body": "Reject unreadable, oversized or malformed input."
+      },
+      {
+        "title": "Inspect evidence coverage",
+        "body": "Detect missing citations, repeated hosts and empty claim-bearing sections."
+      },
+      {
+        "title": "Return an audit",
+        "body": "Use per-item warnings and exit status in an evaluation loop."
+      }
     ],
-    decisions: [
-      { title: 'Use finance as an architecture testbed', body: 'The domain forces evidence, retrieval, time sensitivity, and report discipline without implying trading automation.' },
-      { title: 'Separate memory responsibilities', body: 'Postgres, Redis, Qdrant, MinIO, and OpenSearch make state and retrieval responsibilities explicit.' },
-      { title: 'Keep it local-first', body: 'Docker and Ollama keep the stack inspectable and reproducible on a developer machine.' },
+    "decisions": [
+      {
+        "title": "Keep the checker offline",
+        "body": "Coverage checks do not need credentials or live research feeds."
+      },
+      {
+        "title": "Make the limit explicit",
+        "body": "Two hosts do not establish two independent publishers or factual support."
+      }
     ],
-    validationNotes: [
-      'Planner, tools, memory, verification, and reports are separated so failure points can be inspected.',
-      'Storage layers have distinct responsibilities instead of being presented as interchangeable infrastructure.',
-      'Finance-like examples are framed as architecture evidence, not trading automation or investment advice.',
+    "validationNotes": [
+      "The current fixture pipeline performs no model calls or trades.",
+      "Historical UI assets remain context, not a runnable public frontend."
     ],
-    artifacts: [
-      { title: 'AlphaQuant UI demo', type: 'gif', src: '/assets/case-studies/alphaquant/screenshots/ui-demo.gif', alt: 'AlphaQuant UI demo GIF' },
-      { title: 'Terminal setup demo', type: 'gif', src: '/assets/case-studies/alphaquant/screenshots/terminal-demo.gif', alt: 'AlphaQuant terminal setup demo GIF' },
-      { title: 'Workbench screenshot', type: 'image', src: '/assets/case-studies/alphaquant/screenshots/ui-screenshot.png', alt: 'AlphaQuant UI screenshot' },
-    ],
+    "artifacts": [
+      {
+        "title": "Historical interface artifact",
+        "type": "image",
+        "src": "/assets/case-studies/alphaquant/screenshots/ui-screenshot.png",
+        "alt": "Historical AlphaQuant UI; the public source has no frontend implementation."
+      }
+    ]
   },
   'nfl-sports-forecasting': {
     slug: 'nfl-sports-forecasting',

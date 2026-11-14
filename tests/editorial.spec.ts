@@ -70,6 +70,52 @@ test('project search maintains a visible selection and recovers from no results'
   await expect(page.locator('[data-project-select][aria-pressed="true"]')).toHaveCount(1);
 });
 
+test('project selection keeps dated verification and source links with the selected repository', async ({ page, request }) => {
+  const manifest = await (await request.get('/projects.json')).json();
+  const alpha = manifest.projects.find((item: { slug: string }) => item.slug === 'alphaquant');
+  expect(alpha.release.commit).toBe('08666aad56258550656cdcbad9ce58cf91f7bfc6');
+  expect(alpha.release.checks.every((check: { conclusion: string }) => check.conclusion === 'success')).toBe(true);
+  await page.goto('/lab/');
+  await page.locator('[data-project-search]').fill('AlphaQuant');
+  await expect(page.locator('[data-project-proof]')).toHaveText(alpha.proof);
+  await expect(page.locator('[data-project-reviewed]')).toHaveText('2026-11-14');
+  await expect(page.locator('[data-project-verification]')).toHaveAttribute('href', alpha.release.validationUrl);
+  await expect(page.locator('[data-project-commit]')).toHaveAttribute('href', alpha.release.commitUrl);
+  await expect(page.locator('[data-project-demo]')).toBeHidden();
+  await page.locator('[data-project-search]').fill('Azure LOS');
+  await expect(page.locator('[data-project-reviewed]')).toHaveText('2026-07-17');
+  await expect(page.locator('[data-project-verification]')).toBeHidden();
+  await expect(page.locator('[data-project-commit]')).toBeHidden();
+  await page.locator('[data-project-search]').fill('Healthcare AI Awards');
+  await expect(page.locator('[data-project-demo]')).toHaveAttribute('href', 'https://smgpulse007.github.io/healthcare-ai-awards/');
+  const awards = manifest.projects.find((item: { slug: string }) => item.slug === 'healthcare-ai-awards');
+  await expect(page.locator('[data-project-verification]')).toHaveAttribute('href', awards.release.validationUrl);
+  await expect(page.locator('[data-project-commit]')).toHaveAttribute('href', awards.release.commitUrl);
+  await page.locator('[data-project-search]').fill('Azure LOS');
+  for (const key of ['verification', 'commit', 'demo']) {
+    await expect(page.locator(`[data-project-${key}]`)).toBeHidden();
+    await expect(page.locator(`[data-project-${key}]`)).not.toHaveAttribute('href');
+  }
+  await expect(page.locator('[data-project-review-note]')).toContainText('Historical inventory entry');
+});
+
+test('release evidence remains available without JavaScript', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
+  const page = await context.newPage();
+  try {
+    await page.goto('/lab/');
+    const fallback = page.locator('.project-static-fallback');
+    const alpha = fallback.locator('article').filter({ has: page.getByRole('heading', { name: 'AlphaQuant', exact: true }) });
+    await expect(alpha.getByRole('link', { name: 'Release source', exact: true })).toHaveAttribute('href', 'https://github.com/smgpulse007/AlphaQuant/commit/08666aad56258550656cdcbad9ce58cf91f7bfc6');
+    await expect(alpha.getByRole('link', { name: 'Verification', exact: true })).toBeVisible();
+    const historical = fallback.locator('article').filter({ has: page.getByRole('heading', { name: 'Azure LOS Prediction', exact: true }) });
+    await expect(historical).toContainText('2026-07-17');
+    await expect(historical.getByRole('link', { name: 'Verification', exact: true })).toHaveCount(0);
+  } finally {
+    await context.close();
+  }
+});
+
 test('mobile navigation closes with Escape and after navigation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');

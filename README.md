@@ -36,6 +36,13 @@ Historical routes under `/projects/`, `/systems/`, `/professional-systems/`, and
 
 ## Local development
 
+![Actual Project Lab interaction: select a repository and inspect its dated source and verification links](docs/demos/project-lab-demo.gif)
+
+The recording shows the local November 2026 evidence refresh. Each updated
+repository links to a specific tested commit; historical entries retain their
+earlier review date. See [the refresh record](docs/REPOSITORY_EVIDENCE_REFRESH.md)
+for scope and validation. This recording does not establish a production deployment.
+
 Requires Node.js 24 LTS (the package contract also accepts compatible Node 22.19+ releases).
 
 ```bash

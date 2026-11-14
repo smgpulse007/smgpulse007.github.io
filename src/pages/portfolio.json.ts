@@ -17,5 +17,5 @@ export const GET: APIRoute = () => new Response(JSON.stringify({
   recognition,
   links: { github: profile.github, linkedin: profile.linkedin, resumePage: '/resume/', resumePdf: profile.resumePath, work: '/work/', experience: '/experience/', lab: '/lab/' },
   boundaries: profile.privacyNote,
-  lastUpdated: '2026-07-17',
+  lastUpdated: '2026-11-14',
 }, null, 2), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });

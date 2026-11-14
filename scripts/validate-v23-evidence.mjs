@@ -31,10 +31,10 @@ const countBy = (items, key) => items.reduce((counts, item) => {
 const projects = readJson('dist/projects.json');
 const projectItems = Array.isArray(projects.projects) ? projects.projects : [];
 if (projects.version !== '2.3') fail('projects.json must identify V2.3');
-if (projects.count !== 41 || projectItems.length !== 41) fail(`project manifest must contain 41 records; received ${projectItems.length}`);
-if (projects.authoredRepositoryCount !== 39) fail(`project manifest must identify 39 authored repositories; received ${projects.authoredRepositoryCount}`);
+if (projects.count !== 42 || projectItems.length !== 42) fail(`project manifest must contain 42 records; received ${projectItems.length}`);
+if (projects.authoredRepositoryCount !== 40) fail(`project manifest must identify 40 authored repositories; received ${projects.authoredRepositoryCount}`);
 
-const expectedTiers = { surface: 2, featured: 6, explore: 16, archive: 17 };
+const expectedTiers = { surface: 2, featured: 6, explore: 20, archive: 14 };
 const actualTiers = countBy(projectItems, 'tier');
 for (const [tier, expected] of Object.entries(expectedTiers)) {
   if (actualTiers[tier] !== expected) fail(`project tier ${tier} must contain ${expected} records; received ${actualTiers[tier] ?? 0}`);
@@ -144,4 +144,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('V2.3 evidence validation passed: 41 project records (2/6/16/17), 35 external research records (12/11/12), 2 attributed publications, professional-first copy, checked-in media, complete no-JS widget fallbacks, noindex prototypes, and four structured professional cases.');
+console.log('V2.3 evidence validation passed: 42 project records (2/6/20/14), 35 external research records (12/11/12), 2 attributed publications, professional-first copy, checked-in media, complete no-JS widget fallbacks, noindex prototypes, and four structured professional cases.');

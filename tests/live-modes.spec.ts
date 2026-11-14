@@ -65,8 +65,9 @@ test('essential V2.3 routes retain complete semantic content with JavaScript dis
   const staticProjects = page.locator('.project-static-fallback');
   await expect(staticProjects).toBeVisible();
   const staticMetaHarness = staticProjects.locator('article').filter({ hasText: 'Meta Harness' });
-  await expect(staticMetaHarness).toContainText('Schemas, CLI/MCP, proof ledger, integrations, examples, docs');
-  await expect(staticMetaHarness).toContainText('Source-installed and pre-1.0; correctness is not guaranteed');
+  await expect(staticMetaHarness).toContainText('CLI/MCP workflow with explicit initialization guards');
+  await expect(staticMetaHarness).toContainText('Source-installed, pre-1.0 tooling');
+  await expect(staticMetaHarness).toContainText('Fake-adapter smoke does not establish native-agent implementation');
 
   const menu = page.locator('.mobile-nav');
   await menu.locator('summary').click();

@@ -13,7 +13,7 @@ const originalNodes=[
  {name:'NFL Forecasting',group:'Historical forecasting',proof:'Backtests and self-evaluated metrics; archived',x:69,y:82},
 ];
 const slugs: Record<string,string> = {'LLM Steering':'llm-steering','Meta Harness':'meta-harness','FHIR ML API':'hospital-readmission-fhir-ml-api','HL7 AI Platform':'hl7-ai-challenge','AlphaQuant':'alphaquant','Ollama PoC':'ollama-poc','FreshTrack':'freshtrack','NFL Forecasting':'nfl-forecasting'};
-const nodes=originalNodes.map(node=>({...node,proof:projectInventory.find(item=>item.slug===slugs[node.name])!.proof}));
+const nodes=originalNodes.map(node=>{const current=projectInventory.find(item=>item.slug===slugs[node.name])!;return {...node,group:current.category,proof:current.proof};});
 ---
 <Layout title="Repository Constellation — Portfolio V2.3 Lab concept" description="A spatial V2.3 Project Lab direction." canonicalPath="/concepts/v23-repository-constellation/" noIndex>
   <div class="v23-prototype constellation-proto"><div class="proto-shell proto-bar"><div class="proto-identity"><strong>Shailesh Dudala</strong><span>Project Lab prototype</span></div><a href="/lab/">V2.3 concept / Lab</a></div>

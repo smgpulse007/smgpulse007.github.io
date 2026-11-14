@@ -88,7 +88,32 @@ test('project selection keeps dated verification and source links with the selec
   await expect(page.locator('[data-project-commit]')).toBeHidden();
   await page.locator('[data-project-search]').fill('Healthcare AI Awards');
   await expect(page.locator('[data-project-demo]')).toHaveAttribute('href', 'https://smgpulse007.github.io/healthcare-ai-awards/');
-  await expect(page.locator('[data-project-verification]')).toBeVisible();
+  const awards = manifest.projects.find((item: { slug: string }) => item.slug === 'healthcare-ai-awards');
+  await expect(page.locator('[data-project-verification]')).toHaveAttribute('href', awards.release.validationUrl);
+  await expect(page.locator('[data-project-commit]')).toHaveAttribute('href', awards.release.commitUrl);
+  await page.locator('[data-project-search]').fill('Azure LOS');
+  for (const key of ['verification', 'commit', 'demo']) {
+    await expect(page.locator(`[data-project-${key}]`)).toBeHidden();
+    await expect(page.locator(`[data-project-${key}]`)).not.toHaveAttribute('href');
+  }
+  await expect(page.locator('[data-project-review-note]')).toContainText('Historical inventory entry');
+});
+
+test('release evidence remains available without JavaScript', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
+  const page = await context.newPage();
+  try {
+    await page.goto('/lab/');
+    const fallback = page.locator('.project-static-fallback');
+    const alpha = fallback.locator('article').filter({ has: page.getByRole('heading', { name: 'AlphaQuant', exact: true }) });
+    await expect(alpha.getByRole('link', { name: 'Release source', exact: true })).toHaveAttribute('href', 'https://github.com/smgpulse007/AlphaQuant/commit/08666aad56258550656cdcbad9ce58cf91f7bfc6');
+    await expect(alpha.getByRole('link', { name: 'Verification', exact: true })).toBeVisible();
+    const historical = fallback.locator('article').filter({ has: page.getByRole('heading', { name: 'Azure LOS Prediction', exact: true }) });
+    await expect(historical).toContainText('2026-07-17');
+    await expect(historical.getByRole('link', { name: 'Verification', exact: true })).toHaveCount(0);
+  } finally {
+    await context.close();
+  }
 });
 
 test('mobile navigation closes with Escape and after navigation', async ({ page }) => {

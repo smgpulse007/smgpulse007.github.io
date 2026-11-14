@@ -42,6 +42,9 @@ absence of vulnerabilities.
   execution is recorded by the pull request's CI, separately from local checks.
 - The README GIF consists of three actual browser states. Its capture dimensions,
   frame hashes and processing description are in `demos/recording.json`.
+- Independent source review identified a remaining HL7 architecture overstatement
+  and stale AlphaQuant taxonomy on older concept pages; both are corrected. It
+  also prompted checks for stale-link removal and release links without JavaScript.
 
 ## Publication
 
